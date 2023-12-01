@@ -1,0 +1,43 @@
+{
+  "name": "@dinstack/ui",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./*": {
+      "default": "./build/ui/*.js",
+      "types": "./build/ui/*.d.ts"
+    },
+    "./configs/tailwind.config": "./configs/tailwind.config.ts",
+    "./styles/globals.css": "./styles/globals.css"
+  },
+  "scripts": {
+    "build": "tsc --build && tsc-alias",
+    "ui:add": "pnpx shadcn-ui@latest add -y"
+  },
+  "devDependencies": {
+    "@dinstack/tsconfig": "workspace:^",
+    "@types/react": "^18.2.24"
+  },
+  "dependencies": {
+    "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-checkbox": "^1.0.4",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-hover-card": "^1.0.7",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-scroll-area": "^1.0.5",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "cmdk": "^0.2.0",
+    "lucide-react": "^0.276.0",
+    "react-in-viewport": "1.0.0-alpha.30",
+    "tailwind-merge": "^1.14.0",
+    "tailwind-scrollbar": "^3.0.5",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

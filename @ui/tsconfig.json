@@ -1,0 +1,10 @@
+{
+  "extends": "@dinstack/tsconfig/react.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "paths": {
+      "@ui/*": ["./*"]
+    }
+  },
+  "exclude": ["build", "configs/tailwind.config.ts"]
+}

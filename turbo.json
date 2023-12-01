@@ -1,0 +1,25 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env*", "**/.dev*"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "preview": {
+      "persistent": true
+    },
+    "deploy:preview": {
+      "dependsOn": ["^build"]
+    },
+    "deploy:production": {
+      "dependsOn": ["^build"]
+    }
+  }
+}

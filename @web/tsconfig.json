@@ -1,0 +1,17 @@
+{
+  "extends": "@dinstack/tsconfig/react.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@web/*": ["./*"]
+    },
+    "noEmit": true
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,11 @@
+{
+  "extends": "@dinstack/tsconfig/worker.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "paths": {
+      "@api/*": ["./*"]
+    }
+  },
+  "exclude": ["drizzle.config.ts", "scripts", "build"],
+  "references": []
+}

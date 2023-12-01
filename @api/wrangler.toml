@@ -1,0 +1,38 @@
+name = "dinstack-api"
+main = "worker.ts"
+compatibility_date = "2023-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+[placement]
+mode = "smart"
+
+# ------------------------------------------------------------------------------------------------------------
+
+[env.local.vars]
+WORKER_ENV = "development"
+WEB_URL = "http://localhost:3000"
+
+# ------------------------------------------------------------------------------------------------------------
+
+# [env.preview.route]
+# pattern = "preview.api.dinstack.ai"
+# custom_domain = true
+
+[env.preview.vars]
+WORKER_ENV = "development"
+WEB_URL = "https://preview.dinstack.ai"
+
+# ------------------------------------------------------------------------------------------------------------
+
+[env.production]
+logpush = true
+
+# [env.production.route]
+# pattern = "api.dinstack.ai"
+# custom_domain = true
+
+[env.production.vars]
+WORKER_ENV = "production"
+WEB_URL = "https://app.dinstack.ai"
+
+# ------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,13 @@
+{
+  "name": "@dinstack/tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20230922.0",
+    "@types/node": "^20.8.0"
+  },
+  "devDependencies": {
+    "@total-typescript/ts-reset": "^0.5.1"
+  }
+}
