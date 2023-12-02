@@ -15,8 +15,7 @@
     "ui:add": "pnpx shadcn-ui@latest add -y"
   },
   "devDependencies": {
-    "@dinstack/tsconfig": "workspace:^",
-    "@types/react": "^18.2.24"
+    "@dinstack/tsconfig": "workspace:^"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",

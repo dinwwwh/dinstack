@@ -1,6 +1,8 @@
 {
   "extends": "@dinstack/tsconfig/react.json",
   "compilerOptions": {
+    "composite": false,
+    "declarationMap": false,
     "outDir": "build",
     "plugins": [
       {
