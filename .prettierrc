@@ -3,5 +3,5 @@
   "semi": false,
   "singleQuote": true,
   "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
-  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-astro"]
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }
