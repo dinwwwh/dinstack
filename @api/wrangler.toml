@@ -14,12 +14,12 @@ WEB_URL = "http://localhost:3000"
 # ------------------------------------------------------------------------------------------------------------
 
 # [env.preview.route]
-# pattern = "preview.api.dinstack.ai"
+# pattern = "preview.api.example.com"
 # custom_domain = true
 
 [env.preview.vars]
 WORKER_ENV = "development"
-WEB_URL = "https://preview.dinstack.ai"
+WEB_URL = "https://preview.example.com"
 
 # ------------------------------------------------------------------------------------------------------------
 
@@ -27,11 +27,11 @@ WEB_URL = "https://preview.dinstack.ai"
 logpush = true
 
 # [env.production.route]
-# pattern = "api.dinstack.ai"
+# pattern = "api.example.com"
 # custom_domain = true
 
 [env.production.vars]
 WORKER_ENV = "production"
-WEB_URL = "https://app.dinstack.ai"
+WEB_URL = "https://app.example.com"
 
 # ------------------------------------------------------------------------------------------------------------

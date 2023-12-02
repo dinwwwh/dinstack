@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
     "preview": "next build && pnpx serve@latest out",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "deploy:preview": "env-cmd -f .env.preview next build && wrangler pages deploy --project-name=dinstack-web-preview --branch=main ./dist",
+    "deploy:production": "env-cmd -f .env.production next build && wrangler pages deploy --project-name=dinstack-web-production --branch=main ./dist"
   },
   "dependencies": {
     "@dinstack/ui": "workspace:^",
