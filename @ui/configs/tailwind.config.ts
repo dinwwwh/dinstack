@@ -12,7 +12,7 @@ export default {
     './providers/**/*.*',
     './stores/**/*.*',
     './lib/**/*.*',
-    resolve(__dirname, './ui/**/*.*'),
+    resolve(__dirname, '../ui/**/*.*'),
   ],
   theme: {
     container: {

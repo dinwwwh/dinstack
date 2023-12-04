@@ -1,5 +1,2 @@
 packages:
-  - '@api'
-  - '@tsconfig'
-  - '@ui'
-  - '@web'
+  - '@*'

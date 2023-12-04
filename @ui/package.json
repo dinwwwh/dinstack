@@ -4,7 +4,10 @@
   "private": true,
   "exports": {
     "./*": {
-      "default": "./build/ui/*.js",
+      "import": [
+        "./build/ui/*.js",
+        "./build/ui/*.jsx"
+      ],
       "types": "./build/ui/*.d.ts"
     },
     "./configs/tailwind.config": "./configs/tailwind.config.ts",
@@ -12,7 +15,8 @@
   },
   "scripts": {
     "build": "tsc --build && tsc-alias",
-    "ui:add": "pnpx shadcn-ui@latest add -y"
+    "ui:add": "pnpx shadcn-ui@latest add -y",
+    "postui:add": "pnpm run build"
   },
   "devDependencies": {
     "@dinstack/tsconfig": "workspace:^"
