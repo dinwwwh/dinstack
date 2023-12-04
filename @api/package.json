@@ -24,8 +24,10 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.6.0",
     "@trpc/server": "^10.44.1",
+    "arctic": "^0.3.6",
     "drizzle-orm": "^0.29.1",
     "lodash-es": "^4.17.21",
+    "oslo": "^0.23.2",
     "superjson": "^2.2.1",
     "ts-expect": "^1.3.0",
     "ts-pattern": "^5.0.5",

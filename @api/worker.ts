@@ -27,7 +27,7 @@ export default {
         endpoint: '/trpc',
         req: request,
         router: appRouter,
-        createContext: () => context,
+        createContext: () => ({ ...context, request }),
         onError({ error }) {
           if (error.code === 'INTERNAL_SERVER_ERROR') console.error(error)
         },
