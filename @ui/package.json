@@ -10,6 +10,13 @@
       ],
       "types": "./build/ui/*.d.ts"
     },
+    "./icons/*": {
+      "import": [
+        "./build/icons/*.js",
+        "./build/icons/*.jsx"
+      ],
+      "types": "./build/icons/*.d.ts"
+    },
     "./configs/tailwind.config": "./configs/tailwind.config.ts",
     "./styles/globals.css": "./styles/globals.css"
   },

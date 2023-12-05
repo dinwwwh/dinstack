@@ -38,6 +38,6 @@ export function createValidateAuthJwtFn({ env }: { env: Env }) {
 
 export function createAuthGoogle({ env }: { env: Env }) {
   return new Google(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, env.GOOGLE_REDIRECT_URL, {
-    scope: ['user:email'],
+    scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
   })
 }
