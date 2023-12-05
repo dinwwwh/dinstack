@@ -23,8 +23,8 @@ type Unauthed = {
 type State = {
   state: string | null
   codeVerifier: string | null
-  setState: (state: string) => void
-  setCodeVerifier: (codeVerifier: string) => void
+  setState: (state: string | null) => void
+  setCodeVerifier: (codeVerifier: string | null) => void
 }
 
 export const useAuthStore = create(

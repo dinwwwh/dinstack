@@ -1,26 +1,38 @@
 'use client'
 
-import { useAuthStore, useUnauthedStore } from '@web/app/stores/auth'
+import { useAuthStore } from '@web/app/stores/auth'
+import { useHistoryStore } from '@web/app/stores/history'
 import { LoginScreen } from '@web/components/login-screen'
 import { api } from '@web/lib/api'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export default function Page() {
-  const navigateToPreviousPage = () => {
-    // TODO:
-    router.push('/')
-  }
+  const historyStore = useHistoryStore()
+  const router = useRouter()
+
+  const navigateToPreviousPage = useCallback(() => {
+    if (historyStore.previousPathname && !historyStore.previousPathname.includes('/auth')) {
+      router.push(`${historyStore.previousPathname}?${historyStore.previousSearchParams}`)
+    } else {
+      router.push('/dash')
+    }
+  }, [historyStore, router])
 
   const auth = useAuthStore()
-  const router = useRouter()
   const searchParams = useSearchParams()
   const mutation = api.auth.google.validate.useMutation({
     onSuccess(data) {
       if (!auth.user) {
         auth.setAuth(data.auth)
+        navigateToPreviousPage()
       }
+
       navigateToPreviousPage()
+    },
+    onSettled() {
+      auth.setState(null)
+      auth.setCodeVerifier(null)
     },
   })
 
@@ -41,7 +53,7 @@ export default function Page() {
       code,
       codeVerifier,
     })
-  }, [])
+  }, [auth, mutation, navigateToPreviousPage, searchParams])
 
   return (
     <div className="fixed inset-0 z-50">
