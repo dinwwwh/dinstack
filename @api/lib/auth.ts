@@ -1,5 +1,5 @@
-import { Env } from '@api/env'
-import { GitHub } from 'arctic'
+import type { Env } from '@api/env'
+import { Google } from 'arctic'
 import { TimeSpan } from 'oslo'
 import { createJWT, validateJWT } from 'oslo/jwt'
 import { z } from 'zod'
@@ -8,7 +8,7 @@ export const AUTH_JWT_ALGORITHM = 'HS256'
 
 export const authJwtPayloadSchema = z.object({
   user: z.object({
-    id: z.string().ulid(),
+    id: z.string().uuid(),
   }),
 })
 
@@ -36,8 +36,8 @@ export function createValidateAuthJwtFn({ env }: { env: Env }) {
   }
 }
 
-export function createAuthGithub({ env }: { env: Env }) {
-  return new GitHub(env.GITHUB_CLIENT_ID, env.GITHUB_CLIENT_SECRET, {
+export function createAuthGoogle({ env }: { env: Env }) {
+  return new Google(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, env.GOOGLE_REDIRECT_URL, {
     scope: ['user:email'],
   })
 }

@@ -1,6 +1,6 @@
 import { router } from '@api/trpc'
-import { authGithubRouter } from './github'
+import { authGoogleRouter } from './google'
 
 export const authRouter = router({
-  github: authGithubRouter,
+  google: authGoogleRouter,
 })

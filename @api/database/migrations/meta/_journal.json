@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1701756647510,
+      "tag": "0000_freezing_runaways",
+      "breakpoints": true
+    }
+  ]
+}

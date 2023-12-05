@@ -16,13 +16,16 @@ export const authedProcedure = procedure.use(
     const bearer = ctx.request.headers.get('Authorization')
     if (!bearer) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
     const token = bearer.replace(/^Bearer /, '')
-    const auth = await ctx.validateAuthJwt(token)
-    if (!auth) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+    const authData = await ctx.auth.validateJwt(token)
+    if (!authData) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
 
     return next({
       ctx: {
         ...ctx,
-        auth,
+        auth: {
+          ...ctx.auth,
+          user: authData.user,
+        },
       },
     })
   }),
