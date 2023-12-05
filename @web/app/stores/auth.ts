@@ -20,20 +20,36 @@ type Unauthed = {
   setAuth: (authed: { user: User; jwt: string }) => void
 }
 
+type State = {
+  state: string | null
+  codeVerifier: string | null
+  setState: (state: string) => void
+  setCodeVerifier: (codeVerifier: string) => void
+}
+
 export const useAuthStore = create(
   persist<
-    (Authed | Unauthed) & {
-      reset: () => void
-    }
+    (Authed | Unauthed) &
+      State & {
+        reset: () => void
+      }
   >(
     (set) => ({
       user: null,
       jwt: null,
+      state: null,
+      codeVerifier: null,
       setAuth(auth) {
         set(() => auth)
       },
+      setState(state) {
+        set(() => ({ state }))
+      },
+      setCodeVerifier(codeVerifier) {
+        set(() => ({ codeVerifier }))
+      },
       reset() {
-        set(() => ({ user: null, jwt: null }))
+        set(() => ({ user: null, jwt: null, state: null, codeVerifier: null }))
       },
     }),
     {

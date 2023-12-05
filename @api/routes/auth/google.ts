@@ -10,7 +10,7 @@ export const authGoogleRouter = router({
     const codeVerifier = generateCodeVerifier()
     const url = await ctx.auth.google.createAuthorizationURL(state, codeVerifier)
 
-    return { url }
+    return { url, state, codeVerifier }
   }),
   validate: procedure
     .input(

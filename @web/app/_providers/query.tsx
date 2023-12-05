@@ -6,8 +6,10 @@ import { env } from '@web/env'
 import { api } from '@web/lib/api'
 import { useMemo } from 'react'
 import SuperJSON from 'superjson'
+import { useAuthStore } from '../stores/auth'
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
+  const auth = useAuthStore()
   const queryClient = useMemo(
     () =>
       new QueryClient({
@@ -27,12 +29,16 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             async headers() {
               const headers: Record<string, string> = {}
 
+              if (auth.user) {
+                headers['Authorization'] = `Bearer ${auth.jwt}`
+              }
+
               return headers
             },
           }),
         ],
       }),
-    [],
+    [auth],
   )
 
   return (
