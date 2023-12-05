@@ -53,7 +53,8 @@ export default function Page() {
       code,
       codeVerifier,
     })
-  }, [auth, mutation, navigateToPreviousPage, searchParams])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="fixed inset-0 z-50">

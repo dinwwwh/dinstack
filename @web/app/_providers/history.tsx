@@ -8,15 +8,14 @@ import { useHistoryStore } from '../stores/history'
 export function HistoryProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() as Route
   const searchParams = useSearchParams()
-  const historyStore = useHistoryStore()
 
   useEffect(() => {
-    historyStore.setPreviousPathname(pathname)
-  }, [pathname, historyStore])
+    useHistoryStore.getState().setPreviousPathname(pathname)
+  }, [pathname])
 
   useEffect(() => {
-    historyStore.setPreviousSearchParams(searchParams.toString())
-  }, [searchParams, historyStore])
+    useHistoryStore.getState().setPreviousSearchParams(searchParams.toString())
+  }, [searchParams])
 
   return <>{children}</>
 }
