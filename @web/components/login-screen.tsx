@@ -5,10 +5,14 @@ import { Google } from '@dinstack/ui/icons/google'
 import { Input } from '@dinstack/ui/input'
 import { Label } from '@dinstack/ui/label'
 import { useAuthStore } from '@web/app/stores/auth'
-import { api } from '@web/lib/api'
-import { Loader2 } from 'lucide-react'
+import { useHistoryStore } from '@web/app/stores/history'
+import { ApiOutputs, api } from '@web/lib/api'
+import { ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { useId } from 'react'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useId, useState } from 'react'
+import OTPInput from 'react-otp-input'
+import { match } from 'ts-pattern'
 
 type Props = {
   isLoadingGoogle?: boolean
@@ -16,15 +20,31 @@ type Props = {
 
 export function LoginScreen(props: Props) {
   const auth = useAuthStore()
-  const emailId = useId()
+  const [step, setStep] = useState<'send-otp' | 'validate-otp'>('send-otp')
+  const [email, setEmail] = useState('')
+  const historyStore = useHistoryStore()
+  const router = useRouter()
 
-  const authGoogle = api.auth.google.loginUrl.useMutation({
-    onSuccess: (data) => {
-      auth.setState(data.state)
-      auth.setCodeVerifier(data.codeVerifier)
-      window.location.href = data.url.toString()
-    },
-  })
+  const navigateToPreviousPage = useCallback(() => {
+    if (historyStore.previousPathname && !historyStore.previousPathname.includes('/auth')) {
+      router.push(`${historyStore.previousPathname}?${historyStore.previousSearchParams}`)
+    } else {
+      router.push('/dash')
+    }
+  }, [historyStore, router])
+
+  useEffect(() => {
+    if (
+      !historyStore.previousLoginEmail ||
+      !historyStore.previousLoginEmailAt ||
+      historyStore.previousLoginEmailAt < Date.now() - 60 * 1000 * 5
+    ) {
+      return
+    }
+
+    setEmail(historyStore.previousLoginEmail)
+    setStep('validate-otp')
+  }, [])
 
   return (
     <section className="flex min-h-full">
@@ -35,24 +55,44 @@ export function LoginScreen(props: Props) {
               <img className="h-10 w-auto" src="/logo.svg" alt="Your Company" />
             </Link>
             <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
-            <p className="mt-2 text-sm leading-6">One Step Login</p>
+            <p className="mt-2 text-sm leading-6">
+              {match(step)
+                .with('send-otp', () => 'One Step Login')
+                .with('validate-otp', () => 'We have sent you an OTP to your email address')
+                .exhaustive()}
+            </p>
           </div>
 
           <div className="mt-10">
-            <div>
-              <form action="#" method="POST" className="space-y-6">
-                <div>
-                  <Label htmlFor={emailId}>Email address</Label>
-                  <div className="mt-2">
-                    <Input id={emailId} name="email" />
-                  </div>
-                </div>
+            {match(step)
+              .with('send-otp', () => (
+                <SendOtpForm
+                  onSuccess={(data) => {
+                    setEmail(data.email)
+                    historyStore.setPreviousLoginEmail(data.email)
+                    historyStore.setPreviousLoginEmailAt(Date.now())
+                    setStep('validate-otp')
+                  }}
+                />
+              ))
+              .with('validate-otp', () => (
+                <ValidateOtpForm
+                  email={email}
+                  onSuccess={(data) => {
+                    if (!auth.user) {
+                      auth.setAuth(data.auth)
+                    }
 
-                <div>
-                  <Button className="w-full">Continue</Button>
-                </div>
-              </form>
-            </div>
+                    historyStore.setPreviousLoginEmail(null)
+                    historyStore.setPreviousLoginEmailAt(null)
+                    navigateToPreviousPage()
+                  }}
+                  onBack={() => {
+                    setStep('send-otp')
+                  }}
+                />
+              ))
+              .exhaustive()}
 
             <div className="mt-10">
               <div className="relative">
@@ -63,22 +103,8 @@ export function LoginScreen(props: Props) {
                   <span className="bg-background px-6 text-muted-foreground text-sm">Or continue with</span>
                 </div>
               </div>
-
               <div className="mt-6">
-                <Button
-                  variant={'secondary'}
-                  type="button"
-                  className="w-full"
-                  disabled={authGoogle.isLoading || props.isLoadingGoogle}
-                  onClick={() => authGoogle.mutate()}
-                >
-                  {authGoogle.isLoading || props.isLoadingGoogle ? (
-                    <Loader2 size={20} className="animate-spin" />
-                  ) : (
-                    <Google size={20} />
-                  )}
-                  <span className="ml-2 text-sm font-semibold leading-6">Google</span>
-                </Button>
+                <LoginWithGoogleButton {...props} />
               </div>
             </div>
           </div>
@@ -88,5 +114,148 @@ export function LoginScreen(props: Props) {
         <img className="absolute inset-0 h-full w-full object-cover" src="/login-bg.avif" alt="" />
       </div>
     </section>
+  )
+}
+
+function SendOtpForm(props: { onSuccess?: ({ email }: { email: string }) => void }) {
+  const emailId = useId()
+  const [email, setEmail] = useState('')
+  const mutation = api.auth.email.sendOtp.useMutation({
+    onSuccess() {
+      props.onSuccess?.({ email })
+    },
+  })
+
+  return (
+    <form
+      className="space-y-6"
+      onSubmit={(e) => {
+        e.preventDefault()
+
+        mutation.mutate({ email })
+      }}
+    >
+      <div>
+        <Label htmlFor={emailId}>Email address</Label>
+        <div className="mt-2">
+          <Input
+            id={emailId}
+            name="email"
+            required
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <div>
+        <Button className="w-full" disabled={mutation.isLoading}>
+          Continue
+          {mutation.isLoading ? (
+            <Loader2 size={16} className="animate-spin ml-2" />
+          ) : (
+            <ArrowRight size={16} className="ml-2" />
+          )}
+        </Button>
+      </div>
+    </form>
+  )
+}
+
+function ValidateOtpForm(props: {
+  email: string
+  onSuccess?: (data: ApiOutputs['auth']['email']['validateOtp']) => void
+  onBack?: () => void
+}) {
+  const [otp, setOtp] = useState<string>('')
+  const sendOtpMutation = api.auth.email.sendOtp.useMutation()
+  const mutation = api.auth.email.validateOtp.useMutation({
+    onSuccess(data) {
+      props.onSuccess?.(data)
+    },
+  })
+
+  return (
+    <form
+      className="space-y-5"
+      onSubmit={(e) => {
+        e.preventDefault()
+        mutation.mutate({ otp, email: props.email })
+      }}
+    >
+      <div>
+        <Label>OTP</Label>
+        <div className="mt-2">
+          <OTPInput
+            containerStyle={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+            value={otp.toUpperCase()}
+            onChange={setOtp}
+            numInputs={6}
+            renderInput={(props) => <Input {...props} className="p-0 !w-12 h-16" required />}
+          />
+        </div>
+      </div>
+
+      <div className="flex gap-3">
+        <Button variant="secondary" type="button" onClick={() => props.onBack?.()} className="w-full">
+          <ArrowLeft size={16} className="mr-2" /> Back
+        </Button>
+        <Button className="w-full" disabled={mutation.isLoading}>
+          Continue
+          {mutation.isLoading ? (
+            <Loader2 size={16} className="animate-spin ml-2" />
+          ) : (
+            <ArrowRight size={16} className="ml-2" />
+          )}
+        </Button>
+      </div>
+
+      <div className="mt-3">
+        <Button
+          disabled={sendOtpMutation.isLoading}
+          variant="ghost"
+          className="w-full text-muted-foreground"
+          type="button"
+          onClick={() => {
+            sendOtpMutation.mutate({ email: props.email })
+          }}
+        >
+          Resend OTP
+          {sendOtpMutation.isLoading && <Loader2 size={16} className="animate-spin ml-2" />}
+        </Button>
+      </div>
+    </form>
+  )
+}
+
+function LoginWithGoogleButton(props: Props) {
+  const auth = useAuthStore()
+  const authGoogle = api.auth.google.loginUrl.useMutation({
+    onSuccess: (data) => {
+      auth.setState(data.state)
+      auth.setCodeVerifier(data.codeVerifier)
+      window.location.href = data.url.toString()
+    },
+  })
+
+  return (
+    <Button
+      variant={'secondary'}
+      type="button"
+      className="w-full"
+      disabled={authGoogle.isLoading || props.isLoadingGoogle}
+      onClick={() => authGoogle.mutate()}
+    >
+      {authGoogle.isLoading || props.isLoadingGoogle ? (
+        <Loader2 size={16} className="animate-spin" />
+      ) : (
+        <Google size={16} />
+      )}
+      <span className="ml-2 text-sm font-semibold leading-6">Google</span>
+    </Button>
   )
 }

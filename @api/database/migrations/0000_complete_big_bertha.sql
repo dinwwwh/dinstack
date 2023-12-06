@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "pg_uuidv7";
+
 CREATE TABLE IF NOT EXISTS "user_login_otps" (
 	"user_id" uuid PRIMARY KEY NOT NULL,
 	"code" varchar(6) NOT NULL,

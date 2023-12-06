@@ -19,6 +19,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
     [],
   )
 
+  // TODO: toast on errors
   const trpcClient = useMemo(
     () =>
       api.createClient({

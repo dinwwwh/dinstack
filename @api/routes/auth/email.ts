@@ -2,7 +2,7 @@ import { UserLoginOtps, Users } from '@api/database/schema'
 import { generateFallbackAvatarUrl } from '@api/lib/utils'
 import { procedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
-import { lte } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { alphabet, generateRandomString } from 'oslo/random'
 import { z } from 'zod'
 
@@ -14,6 +14,8 @@ export const authEmailRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      // TODO: rate limit 2 times per hour
+
       const [user] = await ctx.db
         .insert(Users)
         .values({
@@ -21,7 +23,12 @@ export const authEmailRouter = router({
           avatarUrl: generateFallbackAvatarUrl({ name: '', email: input.email }),
           name: input.email.split('@')[0]!,
         })
-        .onConflictDoNothing()
+        .onConflictDoUpdate({
+          target: Users.email,
+          set: {
+            email: input.email,
+          },
+        })
         .returning()
 
       if (!user) {
@@ -32,7 +39,7 @@ export const authEmailRouter = router({
       }
 
       const newOtp = generateRandomString(6, alphabet('a-z', '0-9'))
-      const [otp] = await ctx.db
+      await ctx.db
         .insert(UserLoginOtps)
         .values({
           userId: user.id,
@@ -44,20 +51,9 @@ export const authEmailRouter = router({
             code: newOtp,
             expiresAt: new Date(Date.now() + 1000 * 60 * 5),
           },
-          where: lte(UserLoginOtps.expiresAt, new Date(Date.now() - 1000 * 60)),
         })
-        .returning()
 
-      if (!otp) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to create OTP',
-        })
-      }
-
-      if (otp.code === newOtp) {
-        // TODO: Send email
-      }
+      // TODO: Send email
     }),
   validateOtp: procedure
     .input(
@@ -67,6 +63,8 @@ export const authEmailRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      // TODO: rate limit 10 times per 5 minutes
+
       const user = await ctx.db.query.Users.findFirst({
         with: {
           loginOtp: true,
@@ -82,6 +80,12 @@ export const authEmailRouter = router({
           message: 'Invalid OTP',
         })
       }
+
+      ctx.ec.waitUntil(
+        (async () => {
+          await ctx.db.delete(UserLoginOtps).where(eq(UserLoginOtps.userId, user.id))
+        })(),
+      )
 
       const jwt = await ctx.auth.createJwt({ user: { id: user.id } })
 
