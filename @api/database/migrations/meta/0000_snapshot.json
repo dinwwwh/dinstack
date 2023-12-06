@@ -1,9 +1,54 @@
 {
-  "id": "9558f0ba-a677-4e6f-9611-ed69e195871c",
+  "id": "203b607f-e416-4a49-8909-d6f918e79161",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
+    "user_login_otps": {
+      "name": "user_login_otps",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(6)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expired_at": {
+          "name": "expired_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_login_otps_user_id_users_id_fk": {
+          "name": "user_login_otps_user_id_users_id_fk",
+          "tableFrom": "user_login_otps",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "users": {
       "name": "users",
       "schema": "",
@@ -23,7 +68,7 @@
         },
         "email": {
           "name": "email",
-          "type": "citext",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
         },

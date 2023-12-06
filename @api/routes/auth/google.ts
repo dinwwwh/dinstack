@@ -31,7 +31,7 @@ export const authGoogleRouter = router({
         .insert(Users)
         .values({
           name: userGoogle.name,
-          email: userGoogle.email,
+          email: userGoogle.email.toLocaleLowerCase(),
           avatarUrl: userGoogle.picture,
         })
         .onConflictDoUpdate({
