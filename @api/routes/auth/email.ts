@@ -1,4 +1,5 @@
 import { UserLoginOtps, Users } from '@api/database/schema'
+import { generateLoginEmail } from '@api/emails/login'
 import { generateFallbackAvatarUrl } from '@api/lib/utils'
 import { procedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
@@ -38,22 +39,31 @@ export const authEmailRouter = router({
         })
       }
 
-      const newOtp = generateRandomString(6, alphabet('a-z', '0-9'))
-      await ctx.db
-        .insert(UserLoginOtps)
-        .values({
-          userId: user.id,
-          code: newOtp,
-        })
-        .onConflictDoUpdate({
-          target: UserLoginOtps.userId,
-          set: {
-            code: newOtp,
-            expiresAt: new Date(Date.now() + 1000 * 60 * 5),
-          },
-        })
+      ctx.ec.waitUntil(
+        (async () => {
+          const newOtp = generateRandomString(6, alphabet('a-z', '0-9'))
+          await ctx.db
+            .insert(UserLoginOtps)
+            .values({
+              userId: user.id,
+              code: newOtp,
+            })
+            .onConflictDoUpdate({
+              target: UserLoginOtps.userId,
+              set: {
+                code: newOtp,
+                expiresAt: new Date(Date.now() + 1000 * 60 * 5),
+              },
+            })
 
-      // TODO: Send email
+          const { subject, html } = generateLoginEmail({ otp: newOtp.toUpperCase() })
+          await ctx.email.send({
+            to: [input.email],
+            subject,
+            html,
+          })
+        })(),
+      )
     }),
   validateOtp: procedure
     .input(

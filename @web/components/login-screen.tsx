@@ -6,7 +6,8 @@ import { Input } from '@dinstack/ui/input'
 import { Label } from '@dinstack/ui/label'
 import { useAuthStore } from '@web/app/stores/auth'
 import { useHistoryStore } from '@web/app/stores/history'
-import { ApiOutputs, api } from '@web/lib/api'
+import type { ApiOutputs } from '@web/lib/api'
+import { api } from '@web/lib/api'
 import { ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -44,6 +45,8 @@ export function LoginScreen(props: Props) {
 
     setEmail(historyStore.previousLoginEmail)
     setStep('validate-otp')
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

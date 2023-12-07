@@ -8,6 +8,8 @@ export const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
   GOOGLE_REDIRECT_URL: z.string().url(),
+  RESEND_API_KEY: z.string(),
+  RESEND_FROM: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>
