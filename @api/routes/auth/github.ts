@@ -1,7 +1,8 @@
 import { OauthAccounts, Users } from '@api/database/schema'
 import { procedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
-import { GitHubUser, generateState } from 'arctic'
+import type { GitHubUser } from 'arctic'
+import { generateState } from 'arctic'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
