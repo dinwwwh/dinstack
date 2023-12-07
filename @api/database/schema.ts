@@ -1,5 +1,5 @@
 import { relations, sql } from 'drizzle-orm'
-import { pgTable, varchar, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { pgTable, varchar, timestamp, uuid, primaryKey } from 'drizzle-orm/pg-core'
 
 export const Users = pgTable('users', {
   id: uuid('id')
@@ -11,10 +11,33 @@ export const Users = pgTable('users', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
-export const UserRelations = relations(Users, ({ one }) => ({
+export const UserRelations = relations(Users, ({ one, many }) => ({
+  OauthAccountRelations: many(OauthAccounts),
   loginOtp: one(UserLoginOtps, {
     fields: [Users.id],
     references: [UserLoginOtps.userId],
+  }),
+}))
+
+export const OauthAccounts = pgTable(
+  'oauth_accounts',
+  {
+    provider: varchar('provider', { length: 255 }).notNull().$type<'github' | 'google'>(),
+    providerUserId: varchar('provider_user_id', { length: 255 }).notNull(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => Users.id),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.provider, t.providerUserId] }),
+  }),
+)
+
+export const OauthAccountRelations = relations(OauthAccounts, ({ one }) => ({
+  user: one(Users, {
+    fields: [OauthAccounts.userId],
+    references: [Users.id],
   }),
 }))
 
