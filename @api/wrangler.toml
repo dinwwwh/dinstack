@@ -10,6 +10,7 @@ mode = "smart"
 [env.local.vars]
 WORKER_ENV = "development"
 WEB_URL = "http://localhost:3000"
+GOOGLE_REDIRECT_URL = "http://localhost:3000/auth/google"
 
 # ------------------------------------------------------------------------------------------------------------
 
@@ -20,6 +21,7 @@ WEB_URL = "http://localhost:3000"
 [env.preview.vars]
 WORKER_ENV = "development"
 WEB_URL = "https://preview.example.com"
+GOOGLE_REDIRECT_URL = "https://preview.example.com/auth/google"
 
 # ------------------------------------------------------------------------------------------------------------
 
@@ -32,6 +34,7 @@ logpush = true
 
 [env.production.vars]
 WORKER_ENV = "production"
-WEB_URL = "https://app.example.com"
+WEB_URL = "https://example.com"
+GOOGLE_REDIRECT_URL = "https://example.com/auth/google"
 
 # ------------------------------------------------------------------------------------------------------------
