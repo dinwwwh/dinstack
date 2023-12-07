@@ -1,5 +1,5 @@
 import type { Env } from './env'
-import { createAuthGoogle, createCreateAuthJwtFn, createValidateAuthJwtFn } from './lib/auth'
+import { createAuthGithub, createAuthGoogle, createCreateAuthJwtFn, createValidateAuthJwtFn } from './lib/auth'
 import { createDb } from './lib/db'
 import { createSendEmailFn } from './lib/email'
 
@@ -8,6 +8,7 @@ export function createContext({ env, ec, request }: { env: Env; ec: ExecutionCon
   const createAuthJwt = createCreateAuthJwtFn({ env })
   const validateAuthJwt = createValidateAuthJwtFn({ env })
   const authGoogle = createAuthGoogle({ env })
+  const authGithub = createAuthGithub({ env })
   const sendEmail = createSendEmailFn({ env })
 
   return {
@@ -20,6 +21,7 @@ export function createContext({ env, ec, request }: { env: Env; ec: ExecutionCon
     },
     auth: {
       google: authGoogle,
+      github: authGithub,
       createJwt: createAuthJwt,
       validateJwt: validateAuthJwt,
     },

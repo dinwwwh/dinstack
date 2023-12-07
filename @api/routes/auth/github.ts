@@ -1,41 +1,46 @@
 import { OauthAccounts, Users } from '@api/database/schema'
 import { procedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
-import { generateState, generateCodeVerifier } from 'arctic'
+import { GitHubUser, generateState } from 'arctic'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
-export const authGoogleRouter = router({
+export const authGithubRouter = router({
   loginUrl: procedure.mutation(async ({ ctx }) => {
     const state = generateState()
-    const codeVerifier = generateCodeVerifier()
-    const url = await ctx.auth.google.createAuthorizationURL(state, codeVerifier)
+    const url = await ctx.auth.github.createAuthorizationURL(state)
 
-    return { url, state, codeVerifier }
+    return { url, state }
   }),
   validate: procedure
     .input(
       z.object({
         code: z.string(),
-        codeVerifier: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const tokens = await ctx.auth.google.validateAuthorizationCode(input.code, input.codeVerifier)
-      const userGoogle = await ctx.auth.google.getUser(tokens.accessToken)
+      const tokens = await ctx.auth.github.validateAuthorizationCode(input.code)
+      // TODO: use arctic
+      // const userGithub = await ctx.auth.github.getUser(tokens.accessToken)
 
-      if (!userGoogle.email) throw new TRPCError({ code: 'BAD_REQUEST', message: 'Google account has no email' })
-      if (!userGoogle.email_verified)
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Google account email is not verified' })
+      const userGithub = (await fetch('https://api.github.com/user', {
+        headers: {
+          Authorization: `Bearer ${tokens.accessToken}`,
+          'user-agent': 'arctic',
+        },
+      }).then((res) => res.json())) as GitHubUser
 
-      const googleUserId = userGoogle.sub
-      const googleEmail = userGoogle.email.toLocaleLowerCase()
-      const googleName = userGoogle.name
-      const googleAvatarUrl = userGoogle.picture
+      if (!userGithub.email)
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Please make sure your Github account has an email' })
+
+      const githubUserId = userGithub.id.toString()
+      const githubEmail = userGithub.email.toLocaleLowerCase()
+      const githubName = userGithub.name || userGithub.login
+      const githubAvatarUrl = userGithub.avatar_url
 
       const oauthAccount = await ctx.db.query.OauthAccounts.findFirst({
         where(t, { eq, and }) {
-          return and(eq(t.provider, 'google'), eq(t.providerUserId, googleUserId))
+          return and(eq(t.provider, 'github'), eq(t.providerUserId, githubUserId))
         },
       })
 
@@ -45,36 +50,36 @@ export const authGoogleRouter = router({
             await ctx.db
               .update(Users)
               .set({
-                name: googleName,
-                avatarUrl: googleAvatarUrl,
+                name: githubName,
+                avatarUrl: githubAvatarUrl,
               })
-              .where(eq(Users.id, oauthAccount.userId))
+              .where(eq(Users.id, githubUserId))
           })(),
         )
 
         return {
           auth: {
             user: {
-              id: oauthAccount.userId,
-              name: googleName,
-              email: googleEmail,
-              avatarUrl: googleAvatarUrl,
+              id: githubUserId,
+              name: githubName,
+              email: githubEmail,
+              avatarUrl: githubAvatarUrl,
             },
-            jwt: await ctx.auth.createJwt({ user: { id: oauthAccount.userId } }),
+            jwt: await ctx.auth.createJwt({ user: { id: githubUserId } }),
           },
         }
       }
 
       const userByEmail = await ctx.db.query.Users.findFirst({
         where(t, { eq }) {
-          return eq(t.email, googleEmail)
+          return eq(t.email, githubEmail)
         },
       })
 
       if (userByEmail) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'Please login with your email and link to your Google account first',
+          message: 'Please login with your email and link to your Github account first',
         })
       }
 
@@ -82,9 +87,9 @@ export const authGoogleRouter = router({
         const [user] = await trx
           .insert(Users)
           .values({
-            email: googleEmail,
-            name: userGoogle.name,
-            avatarUrl: userGoogle.picture,
+            email: githubEmail,
+            name: githubName,
+            avatarUrl: githubAvatarUrl,
           })
           .returning()
 
@@ -93,8 +98,8 @@ export const authGoogleRouter = router({
         }
 
         await trx.insert(OauthAccounts).values({
-          provider: 'google',
-          providerUserId: googleUserId,
+          provider: 'github',
+          providerUserId: githubUserId,
           userId: user.id,
         })
 

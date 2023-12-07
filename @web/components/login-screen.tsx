@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@dinstack/ui/button'
+import { Github } from '@dinstack/ui/icons/github'
 import { Google } from '@dinstack/ui/icons/google'
 import { Input } from '@dinstack/ui/input'
 import { Label } from '@dinstack/ui/label'
@@ -17,6 +18,7 @@ import { match } from 'ts-pattern'
 
 type Props = {
   isLoadingGoogle?: boolean
+  isLoadingGithub?: boolean
 }
 
 export function LoginScreen(props: Props) {
@@ -106,8 +108,9 @@ export function LoginScreen(props: Props) {
                   <span className="bg-background px-6 text-muted-foreground text-sm">Or continue with</span>
                 </div>
               </div>
-              <div className="mt-6">
-                <LoginWithGoogleButton {...props} />
+              <div className="mt-6 space-y-4">
+                <LoginWithGoogleButton isLoading={props.isLoadingGoogle} />
+                <LoginWithGithubButton isLoading={props.isLoadingGithub} />
               </div>
             </div>
           </div>
@@ -235,7 +238,7 @@ function ValidateOtpForm(props: {
   )
 }
 
-function LoginWithGoogleButton(props: Props) {
+function LoginWithGoogleButton(props: { isLoading?: boolean }) {
   const auth = useAuthStore()
   const authGoogle = api.auth.google.loginUrl.useMutation({
     onSuccess: (data) => {
@@ -250,15 +253,34 @@ function LoginWithGoogleButton(props: Props) {
       variant={'secondary'}
       type="button"
       className="w-full"
-      disabled={authGoogle.isLoading || props.isLoadingGoogle}
+      disabled={authGoogle.isLoading || props.isLoading}
       onClick={() => authGoogle.mutate()}
     >
-      {authGoogle.isLoading || props.isLoadingGoogle ? (
-        <Loader2 size={16} className="animate-spin" />
-      ) : (
-        <Google size={16} />
-      )}
+      {authGoogle.isLoading || props.isLoading ? <Loader2 size={16} className="animate-spin" /> : <Google size={16} />}
       <span className="ml-2 text-sm font-semibold leading-6">Google</span>
+    </Button>
+  )
+}
+
+function LoginWithGithubButton(props: { isLoading?: boolean }) {
+  const auth = useAuthStore()
+  const authGoogle = api.auth.github.loginUrl.useMutation({
+    onSuccess: (data) => {
+      auth.setState(data.state)
+      window.location.href = data.url.toString()
+    },
+  })
+
+  return (
+    <Button
+      variant={'secondary'}
+      type="button"
+      className="w-full"
+      disabled={authGoogle.isLoading || props.isLoading}
+      onClick={() => authGoogle.mutate()}
+    >
+      {authGoogle.isLoading || props.isLoading ? <Loader2 size={16} className="animate-spin" /> : <Github size={16} />}
+      <span className="ml-2 text-sm font-semibold leading-6">Github</span>
     </Button>
   )
 }
