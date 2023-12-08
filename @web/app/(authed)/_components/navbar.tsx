@@ -4,6 +4,8 @@ import { Button } from '@dinstack/ui/button'
 import { ScrollArea } from '@dinstack/ui/scroll-area'
 import { Skeleton } from '@dinstack/ui/skeleton'
 import { DashboardIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { match } from 'ts-pattern'
 
 type Props = {
@@ -14,31 +16,25 @@ const menuItems = [
   {
     Icon: DashboardIcon,
     label: 'Dashboard',
+    href: '/dash',
   },
   {
     Icon: DashboardIcon,
     label: 'Dashboard2',
-  },
-  {
-    Icon: DashboardIcon,
-    label: 'Dashboard3',
-  },
-  {
-    Icon: DashboardIcon,
-    label: 'Dashboard4',
-  },
-  {
-    Icon: DashboardIcon,
-    label: 'Dashboard5',
+    href: '/dash2',
   },
 ]
 
 export function Navbar({ size = 'default' }: Props) {
+  const pathname = usePathname()
+
+  const isActiveLink = (href: string) => `${pathname}/`.startsWith(`${href}/`)
+
   return (
     <div className="flex flex-col h-full">
       {match(size)
         .with('default', () => (
-          <Button type="button" variant={'ghost'} size={'lg'} className="w-full justify-start px-3">
+          <Button type="button" variant={'ghost'} size={'icon'} className="w-full justify-start px-1">
             <Skeleton className="h-8 w-8 mr-3" />
             <Skeleton className="h-6 w-36" />
           </Button>
@@ -55,16 +51,25 @@ export function Navbar({ size = 'default' }: Props) {
           {match(size)
             .with('default', () =>
               menuItems.map((item) => (
-                <Button key={item.label} type="button" variant={'ghost'} className="w-full justify-start px-3">
-                  <item.Icon className="h-4 w-4 mr-3" />
-                  {item.label}
+                <Button
+                  key={item.href}
+                  variant={isActiveLink(item.href) ? 'secondary' : 'ghost'}
+                  className="w-full justify-start px-3"
+                  asChild
+                >
+                  <Link href={item.href}>
+                    <item.Icon className="h-4 w-4 mr-3" />
+                    {item.label}
+                  </Link>
                 </Button>
               )),
             )
             .with('icon', () =>
               menuItems.map((item) => (
-                <Button key={item.label} type="button" variant={'ghost'} size={'icon'}>
-                  <item.Icon className="h-4 w-4" />
+                <Button key={item.href} variant={isActiveLink(item.href) ? 'secondary' : 'ghost'} size={'icon'} asChild>
+                  <Link href={item.href}>
+                    <item.Icon className="h-4 w-4" />
+                  </Link>
                 </Button>
               )),
             )
@@ -74,7 +79,11 @@ export function Navbar({ size = 'default' }: Props) {
 
       <div className="flex flex-col gap-4">
         {match(size)
-          .with('default', () => <Skeleton className="h-6 w-full" />)
+          .with('default', () => (
+            <div className="px-1">
+              <Skeleton className="h-6 w-full" />
+            </div>
+          ))
           .with('icon', () => (
             <Button type="button" variant={'ghost'} size={'icon'}>
               <Skeleton className="h-6 w-6" />
@@ -84,8 +93,8 @@ export function Navbar({ size = 'default' }: Props) {
 
         {match(size)
           .with('default', () => (
-            <Button type="button" variant={'ghost'} size={'lg'} className="w-full justify-start px-3">
-              <Skeleton className="h-8 w-8 mr-3 rounded-full" />
+            <Button type="button" variant={'ghost'} size={'icon'} className="w-full justify-start px-1">
+              <Skeleton className="h-8 w-8 mr-3" />
               <Skeleton className="h-6 w-36" />
             </Button>
           ))
