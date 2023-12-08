@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { HistoryProvider } from './_providers/history'
 import { QueryProvider } from './_providers/query'
+import { ThemeProvider } from './_providers/theme'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,12 +17,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${inter.className} h-screen`}>
-        <HistoryProvider>
-          <QueryProvider>
-            {children}
-            <Toaster />
-          </QueryProvider>
-        </HistoryProvider>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <HistoryProvider>
+            <QueryProvider>
+              {children}
+              <Toaster />
+            </QueryProvider>
+          </HistoryProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

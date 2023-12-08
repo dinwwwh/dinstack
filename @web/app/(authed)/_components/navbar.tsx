@@ -4,6 +4,7 @@ import { Button } from '@dinstack/ui/button'
 import { ScrollArea } from '@dinstack/ui/scroll-area'
 import { Skeleton } from '@dinstack/ui/skeleton'
 import { DashboardIcon } from '@radix-ui/react-icons'
+import { ThemeToggle } from '@web/components/theme-toggle'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { match } from 'ts-pattern'
@@ -35,13 +36,13 @@ export function Navbar({ size = 'default' }: Props) {
       {match(size)
         .with('default', () => (
           <Button type="button" variant={'ghost'} size={'icon'} className="w-full justify-start px-1">
-            <Skeleton className="h-8 w-8 mr-3" />
+            <Skeleton className="h-9 w-9 mr-3" />
             <Skeleton className="h-6 w-36" />
           </Button>
         ))
         .with('icon', () => (
           <Button type="button" variant={'ghost'} size={'icon'}>
-            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-9 w-9" />
           </Button>
         ))
         .exhaustive()}
@@ -81,26 +82,22 @@ export function Navbar({ size = 'default' }: Props) {
         {match(size)
           .with('default', () => (
             <div className="px-1">
-              <Skeleton className="h-6 w-full" />
+              <ThemeToggle />
             </div>
           ))
-          .with('icon', () => (
-            <Button type="button" variant={'ghost'} size={'icon'}>
-              <Skeleton className="h-6 w-6" />
-            </Button>
-          ))
+          .with('icon', () => <ThemeToggle />)
           .exhaustive()}
 
         {match(size)
           .with('default', () => (
             <Button type="button" variant={'ghost'} size={'icon'} className="w-full justify-start px-1">
-              <Skeleton className="h-8 w-8 mr-3" />
+              <Skeleton className="h-9 w-9 mr-3" />
               <Skeleton className="h-6 w-36" />
             </Button>
           ))
           .with('icon', () => (
             <Button type="button" variant={'ghost'} size={'icon'}>
-              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-9 w-9" />
             </Button>
           ))
           .exhaustive()}
