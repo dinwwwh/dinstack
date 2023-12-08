@@ -1,3 +1,12 @@
+'use client'
+
+import { ScrollArea } from '@dinstack/ui/scroll-area'
+
 export default function Page() {
-  return <div>dash</div>
+  return (
+    <ScrollArea className="h-full">
+      <div className="h-screen bg-red-200"></div>
+      <div className="h-screen bg-green-200"></div>
+    </ScrollArea>
+  )
 }
