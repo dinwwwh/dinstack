@@ -17,6 +17,10 @@
       ],
       "types": "./build/icons/*.d.ts"
     },
+    "./lib/*": {
+      "import": "./build/lib/*.js",
+      "types": "./build/lib/*.d.ts"
+    },
     "./configs/tailwind.config": "./configs/tailwind.config.ts",
     "./styles/globals.css": "./styles/globals.css"
   },
