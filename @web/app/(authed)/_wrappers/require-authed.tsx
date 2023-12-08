@@ -1,7 +1,7 @@
 'use client'
 
-import { useAuthStore } from '@web/app/stores/auth'
 import { LoginScreen } from '@web/components/login-screen'
+import { useAuthStore } from '@web/stores/auth'
 
 export function RequireAuthedWrapper({ children }: { children: React.ReactNode }) {
   const auth = useAuthStore()

@@ -1,9 +1,9 @@
 'use client'
 
-import { useAuthStore } from '@web/app/stores/auth'
-import { useHistoryStore } from '@web/app/stores/history'
 import { LoginScreen } from '@web/components/login-screen'
 import { api } from '@web/lib/api'
+import { useAuthStore } from '@web/stores/auth'
+import { useHistoryStore } from '@web/stores/history'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
 
