@@ -34,6 +34,7 @@ export const useHistoryStore = create(
     {
       name: 'history-store',
       version: 0,
+      skipHydration: true,
     },
   ),
 )
