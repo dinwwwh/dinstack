@@ -1,8 +1,7 @@
 'use client'
 
 import { Button } from '@dinstack/ui/button'
-import { cn } from '@dinstack/ui/lib/utils'
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@dinstack/ui/sheet'
+import { Sheet, SheetContent, SheetTrigger } from '@dinstack/ui/sheet'
 import { Skeleton } from '@dinstack/ui/skeleton'
 import { CaretLeftIcon, CaretRightIcon, HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { motion } from 'framer-motion'
