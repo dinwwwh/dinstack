@@ -74,4 +74,10 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  [data-radix-scroll-area-viewport] > div:first-child {
+    /* fix "Wide tables are wider than parent div" */
+    table-layout: fixed;
+    width: 100%;
+  }
 }
