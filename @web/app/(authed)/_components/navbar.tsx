@@ -9,7 +9,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 type Props = {
-  size?: 'default' | 'icon'
+  onNavigate?: () => void
 }
 
 const menuItems = [
@@ -25,7 +25,7 @@ const menuItems = [
   },
 ]
 
-export function Navbar({ size = 'default' }: Props) {
+export function Navbar(props: Props) {
   const pathname = usePathname()
 
   const isActiveLink = (href: string) => `${pathname}/`.startsWith(`${href}/`)
@@ -46,6 +46,7 @@ export function Navbar({ size = 'default' }: Props) {
               className="justify-start p-2.5 w-full"
               size="icon"
               asChild
+              onClick={props.onNavigate}
             >
               <Link href={item.href}>
                 <item.Icon className="h-4 w-4 mr-3 flex-shrink-0" />
