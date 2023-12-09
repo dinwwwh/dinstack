@@ -4,19 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "preview": "next build && pnpx serve@latest out",
+    "preview": "next build && pnpm dlx serve@latest out",
     "typecheck": "tsc --noEmit",
     "deploy:preview": "env-cmd -f .env.preview next build && wrangler pages deploy --project-name=dinstack-web-preview --branch=main ./dist",
     "deploy:production": "env-cmd -f .env.production next build && wrangler pages deploy --project-name=dinstack-web-production --branch=main ./dist"
   },
   "dependencies": {
     "@dinstack/ui": "workspace:^",
+    "@radix-ui/react-icons": "^1.3.0",
     "@t3-oss/env-nextjs": "^0.7.1",
     "@tanstack/react-query": "4",
     "@trpc/client": "^10.44.1",
     "@trpc/react-query": "^10.44.1",
-    "lucide-react": "^0.276.0",
+    "framer-motion": "^10.16.16",
     "next": "14.0.3",
+    "next-themes": "^0.2.1",
     "oslo": "^0.23.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

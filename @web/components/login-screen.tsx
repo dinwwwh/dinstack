@@ -1,15 +1,14 @@
 'use client'
 
 import { Button } from '@dinstack/ui/button'
-import { Github } from '@dinstack/ui/icons/github'
-import { Google } from '@dinstack/ui/icons/google'
+import { GoogleLogoIcon } from '@dinstack/ui/icons/google-logo'
 import { Input } from '@dinstack/ui/input'
 import { Label } from '@dinstack/ui/label'
-import { useAuthStore } from '@web/app/stores/auth'
-import { useHistoryStore } from '@web/app/stores/history'
+import { ArrowLeftIcon, ArrowRightIcon, ReloadIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
-import { ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
+import { useAuthStore } from '@web/stores/auth'
+import { useHistoryStore } from '@web/stores/history'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useId, useState } from 'react'
@@ -134,7 +133,7 @@ function SendOtpForm(props: { onSuccess?: ({ email }: { email: string }) => void
 
   return (
     <form
-      className="space-y-6"
+      className="space-y-4"
       onSubmit={(e) => {
         e.preventDefault()
 
@@ -159,9 +158,9 @@ function SendOtpForm(props: { onSuccess?: ({ email }: { email: string }) => void
         <Button className="w-full" disabled={mutation.isLoading}>
           Continue
           {mutation.isLoading ? (
-            <Loader2 size={16} className="animate-spin ml-2" />
+            <ReloadIcon className="w-4 h-4 animate-spin ml-2" />
           ) : (
-            <ArrowRight size={16} className="ml-2" />
+            <ArrowRightIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
@@ -208,14 +207,14 @@ function ValidateOtpForm(props: {
 
       <div className="flex gap-3">
         <Button variant="secondary" type="button" onClick={() => props.onBack?.()} className="w-full">
-          <ArrowLeft size={16} className="mr-2" /> Back
+          <ArrowLeftIcon className="w-4 h-4 mr-2" /> Back
         </Button>
         <Button className="w-full" disabled={mutation.isLoading}>
           Continue
           {mutation.isLoading ? (
-            <Loader2 size={16} className="animate-spin ml-2" />
+            <ReloadIcon className="w-4 h-4 animate-spin ml-2" />
           ) : (
-            <ArrowRight size={16} className="ml-2" />
+            <ArrowRightIcon className="w-4 h-4 ml-2" />
           )}
         </Button>
       </div>
@@ -231,7 +230,7 @@ function ValidateOtpForm(props: {
           }}
         >
           Resend OTP
-          {sendOtpMutation.isLoading && <Loader2 size={16} className="animate-spin ml-2" />}
+          {sendOtpMutation.isLoading && <ReloadIcon className="w-4 h-4 animate-spin ml-2" />}
         </Button>
       </div>
     </form>
@@ -256,7 +255,11 @@ function LoginWithGoogleButton(props: { isLoading?: boolean }) {
       disabled={authGoogle.isLoading || props.isLoading}
       onClick={() => authGoogle.mutate()}
     >
-      {authGoogle.isLoading || props.isLoading ? <Loader2 size={16} className="animate-spin" /> : <Google size={16} />}
+      {authGoogle.isLoading || props.isLoading ? (
+        <ReloadIcon className="w-4 h-4 animate-spin" />
+      ) : (
+        <GoogleLogoIcon className="w-[18px] h-[18px]" />
+      )}
       <span className="ml-2 text-sm font-semibold leading-6">Google</span>
     </Button>
   )
@@ -279,7 +282,11 @@ function LoginWithGithubButton(props: { isLoading?: boolean }) {
       disabled={authGoogle.isLoading || props.isLoading}
       onClick={() => authGoogle.mutate()}
     >
-      {authGoogle.isLoading || props.isLoading ? <Loader2 size={16} className="animate-spin" /> : <Github size={16} />}
+      {authGoogle.isLoading || props.isLoading ? (
+        <ReloadIcon className="w-4 h-4 animate-spin" />
+      ) : (
+        <GitHubLogoIcon className="w-4 h-4" />
+      )}
       <span className="ml-2 text-sm font-semibold leading-6">Github</span>
     </Button>
   )

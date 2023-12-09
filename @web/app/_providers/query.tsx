@@ -5,9 +5,9 @@ import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@ta
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { env } from '@web/env'
 import { api } from '@web/lib/api'
+import { useAuthStore } from '@web/stores/auth'
 import { useMemo } from 'react'
 import SuperJSON from 'superjson'
-import { useAuthStore } from '../stores/auth'
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
   const auth = useAuthStore()

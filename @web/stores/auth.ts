@@ -54,6 +54,7 @@ export const useAuthStore = create(
     }),
     {
       name: 'auth-store',
+      skipHydration: true,
       version: 0,
       onRehydrateStorage: () => {
         return (state) => {

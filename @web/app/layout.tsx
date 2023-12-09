@@ -1,9 +1,12 @@
+import { ScrollArea } from '@dinstack/ui/scroll-area'
 import '@dinstack/ui/styles/globals.css'
 import { Toaster } from '@dinstack/ui/toaster'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { HistoryProvider } from './_providers/history'
 import { QueryProvider } from './_providers/query'
+import { StoresProvider } from './_providers/stores'
+import { ThemeProvider } from './_providers/theme'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,14 +17,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <HistoryProvider>
-          <QueryProvider>
-            {children}
-            <Toaster />
-          </QueryProvider>
-        </HistoryProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className}`} suppressHydrationWarning>
+        <StoresProvider>
+          <ThemeProvider attribute="class" defaultTheme="system">
+            <HistoryProvider>
+              <QueryProvider>
+                <ScrollArea>
+                  <div className="h-screen">{children}</div>
+                </ScrollArea>
+                <Toaster />
+              </QueryProvider>
+            </HistoryProvider>
+          </ThemeProvider>
+        </StoresProvider>
       </body>
     </html>
   )
