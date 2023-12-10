@@ -1,3 +1,4 @@
+import { organizationMembersRoles } from '@api/database/schema'
 import type { Env } from '@api/env'
 import { GitHub, Google } from 'arctic'
 import { TimeSpan } from 'oslo'
@@ -10,13 +11,19 @@ export const authJwtPayloadSchema = z.object({
   user: z.object({
     id: z.string().uuid(),
   }),
+  organizationMember: z.object({
+    role: z.enum(organizationMembersRoles.enumValues),
+    organization: z.object({
+      id: z.string().uuid(),
+    }),
+  }),
 })
 
 export function createCreateAuthJwtFn({ env }: { env: Env }) {
   return async (payload: z.infer<typeof authJwtPayloadSchema>) => {
     const key = new TextEncoder().encode(env.AUTH_SECRET)
 
-    return createJWT(AUTH_JWT_ALGORITHM, key, payload, {
+    return createJWT(AUTH_JWT_ALGORITHM, key, authJwtPayloadSchema.parse(payload), {
       expiresIn: new TimeSpan(30, 'd'),
       includeIssuedTimestamp: true,
     })

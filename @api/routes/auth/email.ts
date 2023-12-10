@@ -1,11 +1,13 @@
-import { UserLoginOtps, Users } from '@api/database/schema'
+import { EmailOtps } from '@api/database/schema'
 import { generateLoginEmail } from '@api/emails/login'
+import { createUser } from '@api/lib/db'
 import { generateFallbackAvatarUrl } from '@api/lib/utils'
 import { procedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { alphabet, generateRandomString } from 'oslo/random'
 import { z } from 'zod'
+import { authOutputSchema } from './_lib/output'
 
 export const authEmailRouter = router({
   sendOtp: procedure
@@ -17,45 +19,23 @@ export const authEmailRouter = router({
     .mutation(async ({ ctx, input }) => {
       // TODO: rate limit 2 times per hour
 
-      const [user] = await ctx.db
-        .insert(Users)
+      const newOtp = generateRandomString(6, alphabet('a-z', '0-9'))
+
+      await ctx.db
+        .insert(EmailOtps)
         .values({
+          code: newOtp,
           email: input.email,
-          avatarUrl: generateFallbackAvatarUrl({ name: '', email: input.email }),
-          name: input.email.split('@')[0]!,
         })
         .onConflictDoUpdate({
-          target: Users.email,
+          target: EmailOtps.email,
           set: {
-            email: input.email,
+            code: newOtp,
           },
         })
-        .returning()
-
-      if (!user) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to create user',
-        })
-      }
 
       ctx.ec.waitUntil(
         (async () => {
-          const newOtp = generateRandomString(6, alphabet('a-z', '0-9'))
-          await ctx.db
-            .insert(UserLoginOtps)
-            .values({
-              userId: user.id,
-              code: newOtp,
-            })
-            .onConflictDoUpdate({
-              target: UserLoginOtps.userId,
-              set: {
-                code: newOtp,
-                expiresAt: new Date(Date.now() + 1000 * 60 * 5),
-              },
-            })
-
           const { subject, html } = generateLoginEmail({ otp: newOtp.toUpperCase() })
           await ctx.email.send({
             to: [input.email],
@@ -72,19 +52,17 @@ export const authEmailRouter = router({
         otp: z.string().length(6).toLowerCase(),
       }),
     )
+    .output(authOutputSchema)
     .mutation(async ({ ctx, input }) => {
       // TODO: rate limit 10 times per 5 minutes
 
-      const user = await ctx.db.query.Users.findFirst({
-        with: {
-          loginOtp: true,
-        },
+      const emailOtp = await ctx.db.query.EmailOtps.findFirst({
         where(t, { eq }) {
           return eq(t.email, input.email)
         },
       })
 
-      if (!user || !user.loginOtp || user.loginOtp.code !== input.otp || user.loginOtp.expiresAt < new Date()) {
+      if (!emailOtp || emailOtp.code !== input.otp || emailOtp.expiresAt < new Date()) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'Invalid OTP',
@@ -93,21 +71,67 @@ export const authEmailRouter = router({
 
       ctx.ec.waitUntil(
         (async () => {
-          await ctx.db.delete(UserLoginOtps).where(eq(UserLoginOtps.userId, user.id))
+          await ctx.db.delete(EmailOtps).where(eq(EmailOtps.email, input.email))
         })(),
       )
 
-      const jwt = await ctx.auth.createJwt({ user: { id: user.id } })
+      const existingUser = await ctx.db.query.Users.findFirst({
+        with: {
+          organizationMembers: {
+            with: {
+              organization: true,
+            },
+            limit: 1,
+          },
+        },
+        where(t, { eq }) {
+          return eq(t.email, input.email)
+        },
+      })
+
+      if (existingUser) {
+        const organizationMember = existingUser.organizationMembers[0]
+
+        if (!organizationMember) {
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: 'Failed to find organization member',
+          })
+        }
+
+        return {
+          auth: {
+            user: existingUser,
+            organizationMember,
+            jwt: await ctx.auth.createJwt({
+              user: existingUser,
+              organizationMember,
+            }),
+          },
+        }
+      }
+
+      const userName = input.email.split('@')[0] || 'Unknown'
+      const { user, organizationMember } = await createUser({
+        db: ctx.db,
+        user: {
+          avatarUrl: generateFallbackAvatarUrl({
+            name: userName,
+            email: input.email,
+          }),
+          email: input.email,
+          name: userName,
+        },
+      })
 
       return {
         auth: {
-          user: {
-            id: user.id,
-            name: user.name,
-            avatarUrl: user.avatarUrl,
-            email: user.email,
-          },
-          jwt,
+          user: user,
+          organizationMember,
+          jwt: await ctx.auth.createJwt({
+            user,
+            organizationMember,
+          }),
         },
       }
     }),
