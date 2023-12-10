@@ -3,7 +3,8 @@ import { Input } from '@dinstack/ui/input'
 import { Label } from '@dinstack/ui/label'
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@dinstack/ui/sheet'
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { ApiOutputs, api } from '@web/lib/api'
+import type { ApiOutputs } from '@web/lib/api'
+import { api } from '@web/lib/api'
 import { useId, useRef } from 'react'
 
 type Props = React.ComponentPropsWithoutRef<typeof Sheet> & {

@@ -28,7 +28,6 @@ type Unauthed = {
   user: null
   jwt: null
   organizationMember: null
-  setAuth: (authed: { user: User; jwt: string }) => void
 }
 
 type State = {
@@ -42,6 +41,7 @@ export const useAuthStore = create(
   persist<
     (Authed | Unauthed) &
       State & {
+        setAuth: (authed: { user: User; organizationMember: OrganizationMember; jwt: string }) => void
         reset: () => void
       }
   >(

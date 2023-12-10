@@ -15,6 +15,7 @@ import {
 import { ScrollArea } from '@dinstack/ui/scroll-area'
 import { SheetTrigger } from '@dinstack/ui/sheet'
 import { Skeleton } from '@dinstack/ui/skeleton'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { api } from '@web/lib/api'
 import { useAuthedStore } from '@web/stores/auth'
 import { useEffect, useState } from 'react'
@@ -91,14 +92,17 @@ function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void })
       >
         <div className="space-y-2 py-2">
           <WorkspaceListItem
-            name={currentOrgName}
-            logoUrl={currentOrgLogoUrl}
-            numberMembers={{
-              number: detailQuery.data?.organization.members.length,
-              status: detailQuery.status,
+            organization={{
+              id: auth.organizationMember.organization.id,
+              name: currentOrgName,
+              logoUrl: currentOrgLogoUrl,
+              numberMembers: {
+                number: detailQuery.data?.organization.members.length,
+                status: detailQuery.status,
+              },
             }}
             disabled
-            onClick={() => onOpenChange(false)}
+            onSuccess={() => onOpenChange(false)}
           />
 
           {match(listQuery)
@@ -113,20 +117,21 @@ function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void })
             ))
             .with({ status: 'error' }, () => '')
             .with({ status: 'success' }, (query) => {
-              return query.data.pages.map((page, i) => {
+              return query.data.pages.map((page) => {
                 return page.items
                   .filter((item) => item.id !== auth.organizationMember.organization.id)
                   .map((item) => {
                     return (
                       <WorkspaceListItem
                         key={item.id}
-                        name={item.name}
-                        logoUrl={item.logoUrl}
-                        numberMembers={{
-                          number: item.members.length,
-                          status: 'success',
+                        organization={{
+                          ...item,
+                          numberMembers: {
+                            number: item.members.length,
+                            status: 'success',
+                          },
                         }}
-                        onClick={() => onOpenChange(false)}
+                        onSuccess={() => onOpenChange(false)}
                       />
                     )
                   })
@@ -140,15 +145,28 @@ function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void })
 }
 
 function WorkspaceListItem(props: {
-  name: string
-  logoUrl: string
-  onClick: () => void
-  numberMembers: {
-    number?: number
-    status: 'loading' | 'error' | 'success'
+  organization: {
+    id: string
+    name: string
+    logoUrl: string
+    numberMembers: {
+      number?: number
+      status: 'loading' | 'error' | 'success'
+    }
   }
+  onSuccess?: () => void
   disabled?: boolean
 }) {
+  const auth = useAuthedStore()
+  const utils = api.useUtils()
+  const mutation = api.auth.organization.switch.useMutation({
+    onSuccess(data) {
+      auth.setAuth(data.auth)
+      utils.invalidate()
+      props.onSuccess?.()
+    },
+  })
+
   return (
     <div className="flex gap-2 pl-2">
       <Button
@@ -156,13 +174,23 @@ function WorkspaceListItem(props: {
         className="flex-1 justify-start"
         size={'icon'}
         variant={'ghost'}
-        onClick={props.onClick}
+        onClick={() => {
+          mutation.mutate({
+            organizationId: props.organization.id,
+          })
+        }}
         disabled={props.disabled}
       >
-        <img src={props.logoUrl} className="h-9 w-9 mr-2 rounded-md" alt={props.name} />
+        {mutation.isLoading ? (
+          <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center mr-2">
+            <ReloadIcon className="h-4 w-4 text-muted-foreground animate-spin" />
+          </div>
+        ) : (
+          <img src={props.organization.logoUrl} className="h-9 w-9 mr-2 rounded-md" alt={props.organization.name} />
+        )}
         <div className="flex flex-col items-start">
-          <span>{props.name}</span>
-          {match(props.numberMembers)
+          <span>{props.organization.name}</span>
+          {match(props.organization.numberMembers)
             .with({ status: 'loading' }, () => <Skeleton className="h-4 w-20" />)
             .with({ status: 'error' }, () => '')
             .with({ status: 'success' }, (data) => (
