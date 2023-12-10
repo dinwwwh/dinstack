@@ -13,9 +13,7 @@ export const authJwtPayloadSchema = z.object({
   }),
   organizationMember: z.object({
     role: z.enum(organizationMembersRoles.enumValues),
-    organization: z.object({
-      id: z.string().uuid(),
-    }),
+    organizationId: z.string().uuid(),
   }),
 })
 

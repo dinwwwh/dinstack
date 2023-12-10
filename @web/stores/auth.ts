@@ -9,14 +9,25 @@ type User = {
   email: string
 }
 
+type OrganizationMember = {
+  role: 'admin' | 'member'
+  organization: {
+    id: string
+    name: string
+    logoUrl: string
+  }
+}
+
 type Authed = {
   user: User
+  organizationMember: OrganizationMember
   jwt: string
 }
 
 type Unauthed = {
   user: null
   jwt: null
+  organizationMember: null
   setAuth: (authed: { user: User; jwt: string }) => void
 }
 
@@ -36,6 +47,7 @@ export const useAuthStore = create(
   >(
     (set) => ({
       user: null,
+      organizationMember: null,
       jwt: null,
       state: null,
       codeVerifier: null,
