@@ -1,4 +1,3 @@
-import { useAtom } from 'jotai'
 import { z } from 'zod'
 import { atomWithLocalStorage } from './_helpers'
 
