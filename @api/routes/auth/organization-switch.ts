@@ -12,5 +12,8 @@ export const authOrganizationSwitchRoute = authProcedure
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    await ctx.db.update(Sessions).set({ organizationId: input.organization.id }).where(eq(Sessions.id, ctx.session.id))
+    await ctx.db
+      .update(Sessions)
+      .set({ organizationId: input.organization.id })
+      .where(eq(Sessions.id, ctx.auth.session.id))
   })

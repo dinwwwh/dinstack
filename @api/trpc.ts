@@ -39,7 +39,10 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
   return next({
     ctx: {
       ...ctx,
-      session,
+      auth: {
+        ...ctx.auth,
+        session,
+      },
     },
   })
 })

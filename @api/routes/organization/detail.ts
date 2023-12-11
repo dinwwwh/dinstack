@@ -29,7 +29,7 @@ export const organizationDetailRoute = authProcedure
       })
     }
 
-    if (organization.members.find((member) => member.userId === ctx.session.userId) === undefined) {
+    if (organization.members.find((member) => member.userId === ctx.auth.session.userId) === undefined) {
       throw new TRPCError({
         code: 'FORBIDDEN',
         message: 'You are not a member of this organization',
