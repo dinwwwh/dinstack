@@ -1,10 +1,11 @@
 'use client'
 
+import { authAtom } from '@web/atoms/auth'
 import { LoginScreen } from '@web/components/login-screen'
-import { useAuthStore } from '@web/stores/auth'
+import { useAtom } from 'jotai'
 
 export function RequireAuthedWrapper({ children }: { children: React.ReactNode }) {
-  const auth = useAuthStore()
+  const [auth] = useAtom(authAtom)
 
   if (!auth.user) {
     return (

@@ -1,11 +1,12 @@
 'use client'
 
 import { Button } from '@dinstack/ui/button'
-import { useLocalStorage } from '@dinstack/ui/hooks/use-local-storage'
 import { Sheet, SheetContent, SheetTrigger } from '@dinstack/ui/sheet'
 import { Skeleton } from '@dinstack/ui/skeleton'
 import { CaretLeftIcon, CaretRightIcon, HamburgerMenuIcon } from '@radix-ui/react-icons'
+import { sidebarSizeHistoryAtom } from '@web/atoms/history'
 import { motion } from 'framer-motion'
+import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { match } from 'ts-pattern'
 import { Navbar } from './_components/navbar'
@@ -46,7 +47,7 @@ function SmallScreenNavbar() {
 }
 
 function LargeScreenNavbar() {
-  const [sidebarSize, setSidebarSize] = useLocalStorage<'default' | 'icon'>('sidebar-size', 'default')
+  const [sidebarSize, setSidebarSize] = useAtom(sidebarSizeHistoryAtom)
 
   return (
     <div className="h-full p-4 pb-6 relative z-10 hidden md:block bg-border/10 border-r  border-border/50">

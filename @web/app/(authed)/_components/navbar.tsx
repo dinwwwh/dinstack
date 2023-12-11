@@ -5,10 +5,10 @@ import { DropdownMenuTrigger } from '@dinstack/ui/dropdown-menu'
 import { ScrollArea } from '@dinstack/ui/scroll-area'
 import { Skeleton } from '@dinstack/ui/skeleton'
 import { CaretDownIcon, DashboardIcon } from '@radix-ui/react-icons'
+import { useAuthedAtom } from '@web/atoms/auth'
 import { ProfileDropdownMenu } from '@web/components/profile-dropdown-menu'
 import { ThemeToggle } from '@web/components/theme-toggle'
 import { api } from '@web/lib/api'
-import { useAuthedStore } from '@web/stores/auth'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { match } from 'ts-pattern'
@@ -74,7 +74,7 @@ export function Navbar(props: Props) {
 }
 
 function ProfileButton() {
-  const auth = useAuthedStore()
+  const [auth] = useAuthedAtom()
 
   const query = api.organization.detail.useQuery({
     organizationId: auth.organizationMember.organization.id,

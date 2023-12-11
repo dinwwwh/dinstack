@@ -26,11 +26,13 @@ export const authEmailRouter = router({
         .values({
           code: newOtp,
           email: input.email,
+          expiresAt: new Date(Date.now() + 1000 * 60 * 5),
         })
         .onConflictDoUpdate({
           target: EmailOtps.email,
           set: {
             code: newOtp,
+            expiresAt: new Date(Date.now() + 1000 * 60 * 5),
           },
         })
 
