@@ -1,9 +1,9 @@
 import { OrganizationMembers } from '@api/database/schema'
-import { authedProcedure } from '@api/trpc'
+import { authProcedure } from '@api/trpc'
 import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
 
-export const organizationListRoute = authedProcedure
+export const organizationListRoute = authProcedure
   .input(
     z.object({
       limit: z.number().int().positive().max(20).default(10),

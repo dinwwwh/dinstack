@@ -1,10 +1,10 @@
 import { OrganizationMembers, Organizations } from '@api/database/schema'
 import { generateFallbackLogoUrl } from '@api/lib/utils'
-import { authedProcedure } from '@api/trpc'
+import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
-export const organizationCreateRoute = authedProcedure
+export const organizationCreateRoute = authProcedure
   .input(
     z.object({
       organization: z.object({

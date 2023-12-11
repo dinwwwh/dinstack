@@ -1,7 +1,7 @@
-import { authedProcedure } from '@api/trpc'
+import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 
-export const authInfosRoute = authedProcedure.query(async ({ ctx }) => {
+export const authInfosRoute = authProcedure.query(async ({ ctx }) => {
   const session = await ctx.db.query.Sessions.findFirst({
     where(t, { eq }) {
       return eq(t.id, ctx.session.id)

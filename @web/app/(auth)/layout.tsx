@@ -10,17 +10,17 @@ import { Button } from '@ui/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@ui/ui/sheet'
 import { Skeleton } from '@ui/ui/skeleton'
 import { Navbar } from './_components/navbar'
-import { RequireAuthedWrapper } from './_wrappers/require-authed'
+import { RequireAuthWrapper } from './_wrappers/require-auth'
 
-export default function AuthedLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <RequireAuthedWrapper>
+    <RequireAuthWrapper>
       <div className="md:h-full md:flex">
         <SmallScreenNavbar />
         <LargeScreenNavbar />
         <div className="md:flex-1 md:h-full">{children}</div>
       </div>
-    </RequireAuthedWrapper>
+    </RequireAuthWrapper>
   )
 }
 

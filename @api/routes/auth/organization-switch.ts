@@ -1,9 +1,9 @@
 import { Sessions } from '@api/database/schema'
-import { authedProcedure } from '@api/trpc'
+import { authProcedure } from '@api/trpc'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
-export const authOrganizationSwitchRoute = authedProcedure
+export const authOrganizationSwitchRoute = authProcedure
   .input(
     z.object({
       organization: z.object({

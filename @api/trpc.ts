@@ -11,7 +11,7 @@ export const router = t.router
 
 export const procedure = t.procedure
 
-const authedMiddleware = middleware(async ({ ctx, next }) => {
+const authMiddleware = middleware(async ({ ctx, next }) => {
   const bearer = ctx.request.headers.get('Authorization')
   if (!bearer) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
   const sessionId = bearer.replace(/^Bearer /, '')
@@ -44,4 +44,4 @@ const authedMiddleware = middleware(async ({ ctx, next }) => {
   })
 })
 
-export const authedProcedure = procedure.use(authedMiddleware)
+export const authProcedure = procedure.use(authMiddleware)

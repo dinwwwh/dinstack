@@ -1,8 +1,8 @@
-import { authedProcedure } from '@api/trpc'
+import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
-export const organizationDetailRoute = authedProcedure
+export const organizationDetailRoute = authProcedure
   .input(
     z.object({
       organizationId: z.string().uuid(),
