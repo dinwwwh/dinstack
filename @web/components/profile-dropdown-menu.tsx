@@ -62,7 +62,6 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
             <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
           </DropdownMenuItem>
           <CreateOrganizationDropdownMenuItem />
-          <DropdownMenuSeparator />
           <LogoutDropdownMenuItem />
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
