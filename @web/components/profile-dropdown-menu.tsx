@@ -1,5 +1,5 @@
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { sessionAtom } from '@web/atoms/auth'
+import { authAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
@@ -215,8 +215,8 @@ function WorkspaceListItem(props: {
 }
 
 function LogoutDropdownMenuItem() {
-  const [, setSession] = useAtom(sessionAtom)
-  return <DropdownMenuItem onClick={() => setSession(RESET)}>Log out</DropdownMenuItem>
+  const [, setAuth] = useAtom(authAtom)
+  return <DropdownMenuItem onClick={() => setAuth(RESET)}>Log out</DropdownMenuItem>
 }
 
 function CreateOrganizationDropdownMenuItem() {

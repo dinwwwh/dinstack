@@ -1,6 +1,6 @@
 'use client'
 
-import { codeVerifierAtom, sessionAtom, stateAtom } from '@web/atoms/auth'
+import { codeVerifierAtom, authAtom, stateAtom } from '@web/atoms/auth'
 import { LoginScreen } from '@web/components/login-screen'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
@@ -11,7 +11,7 @@ import { useIsRendered } from '@ui/hooks/use-is-rendered'
 
 export default function Page() {
   const router = useRouter()
-  const [, setSession] = useAtom(sessionAtom)
+  const [, setAuth] = useAtom(authAtom)
   const [oldState, setOldState] = useAtom(stateAtom)
   const [codeVerifier, setCodeVerifier] = useAtom(codeVerifierAtom)
   const isRendered = useIsRendered()
@@ -24,7 +24,7 @@ export default function Page() {
   const searchParams = useSearchParams()
   const mutation = api.auth.google.validate.useMutation({
     onSuccess(data) {
-      setSession(data.session)
+      setAuth(data.auth)
       navigateToPreviousPage()
     },
     onSettled() {

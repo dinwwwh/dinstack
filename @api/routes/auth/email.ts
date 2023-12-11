@@ -103,7 +103,9 @@ export const authEmailRouter = router({
         }
 
         return {
-          session: await createSession({ ctx, organizationMember }),
+          auth: {
+            session: await createSession({ ctx, organizationMember }),
+          },
         }
       }
 
@@ -121,7 +123,9 @@ export const authEmailRouter = router({
       })
 
       return {
-        session: await createSession({ ctx, organizationMember }),
+        auth: {
+          session: await createSession({ ctx, organizationMember }),
+        },
       }
     }),
 })

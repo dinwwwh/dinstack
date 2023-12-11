@@ -1,11 +1,13 @@
 import { z } from 'zod'
 import { atomWithLocalStorage } from './_helpers'
 
-export const sessionAtom = atomWithLocalStorage(
-  'session-atom',
+export const authAtom = atomWithLocalStorage(
+  'auth-atom',
   z
     .object({
-      id: z.string(),
+      session: z.object({
+        id: z.string(),
+      }),
     })
     .nullable(),
   null,

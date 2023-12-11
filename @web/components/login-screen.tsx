@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowLeftIcon, ArrowRightIcon, ReloadIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
-import { codeVerifierAtom, sessionAtom, stateAtom } from '@web/atoms/auth'
+import { codeVerifierAtom, authAtom, stateAtom } from '@web/atoms/auth'
 import { loginWithEmailHistoryAtom } from '@web/atoms/history'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
@@ -23,7 +23,7 @@ type Props = {
 }
 
 export function LoginScreen(props: Props) {
-  const [, setSession] = useAtom(sessionAtom)
+  const [, setAuth] = useAtom(authAtom)
   const [step, setStep] = useState<'send-otp' | 'validate-otp'>('send-otp')
   const [email, setEmail] = useState('')
   const router = useRouter()
@@ -82,7 +82,7 @@ export function LoginScreen(props: Props) {
                 <ValidateOtpForm
                   email={email}
                   onSuccess={(data) => {
-                    setSession(data.session)
+                    setAuth(data.auth)
                     setHistory(RESET)
                     navigateToPreviousPage()
                   }}

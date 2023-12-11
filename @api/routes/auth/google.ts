@@ -66,7 +66,9 @@ export const authGoogleRouter = router({
         }
 
         return {
-          session: await createSession({ ctx, organizationMember }),
+          auth: {
+            session: await createSession({ ctx, organizationMember }),
+          },
         }
       }
 
@@ -97,7 +99,9 @@ export const authGoogleRouter = router({
       })
 
       return {
-        session: await createSession({ ctx, organizationMember }),
+        auth: {
+          session: await createSession({ ctx, organizationMember }),
+        },
       }
     }),
 })

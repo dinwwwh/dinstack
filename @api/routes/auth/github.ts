@@ -76,7 +76,9 @@ export const authGithubRouter = router({
         }
 
         return {
-          session: await createSession({ ctx, organizationMember }),
+          auth: {
+            session: await createSession({ ctx, organizationMember }),
+          },
         }
       }
 
@@ -107,7 +109,9 @@ export const authGithubRouter = router({
       })
 
       return {
-        session: await createSession({ ctx, organizationMember }),
+        auth: {
+          session: await createSession({ ctx, organizationMember }),
+        },
       }
     }),
 })
