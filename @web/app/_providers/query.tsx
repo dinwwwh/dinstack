@@ -1,6 +1,5 @@
 'use client'
 
-import { useToast } from '@dinstack/ui/use-toast'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { authAtom } from '@web/atoms/auth'
@@ -9,6 +8,7 @@ import { api } from '@web/lib/api'
 import { RESET } from 'jotai/utils'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
+import { useToast } from '@ui/ui/use-toast'
 import { store } from './jotai'
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {

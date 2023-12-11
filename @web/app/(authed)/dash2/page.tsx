@@ -1,6 +1,6 @@
 'use client'
 
-import { ScrollArea } from '@dinstack/ui/scroll-area'
+import { ScrollArea } from '@ui/ui/scroll-area'
 
 export default function Page() {
   return (

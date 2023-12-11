@@ -10,7 +10,7 @@
     "deploy:production": "env-cmd -f .env.production next build && wrangler pages deploy --project-name=dinstack-web-production --branch=main ./dist"
   },
   "dependencies": {
-    "@dinstack/ui": "workspace:^",
+    "@ui/ui": "workspace:^",
     "@radix-ui/react-icons": "^1.3.0",
     "@t3-oss/env-nextjs": "^0.7.1",
     "@tanstack/react-query": "4",

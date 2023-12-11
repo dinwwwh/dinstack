@@ -2,15 +2,6 @@
   "name": "@dinstack/api",
   "version": "0.0.0",
   "private": true,
-  "exports": {
-    "./*": {
-      "import": [
-        "./build/*.js",
-        "./build/*.jsx"
-      ],
-      "types": "./build/*.d.ts"
-    }
-  },
   "scripts": {
     "dev": "wrangler dev --env local --port 8000",
     "build": "tsc --build && tsc-alias",

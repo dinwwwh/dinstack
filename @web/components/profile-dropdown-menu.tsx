@@ -1,4 +1,10 @@
-import { Button } from '@dinstack/ui/button'
+import { ReloadIcon } from '@radix-ui/react-icons'
+import { useAuthedAtom } from '@web/atoms/auth'
+import { api } from '@web/lib/api'
+import { RESET } from 'jotai/utils'
+import { useEffect, useState } from 'react'
+import { match } from 'ts-pattern'
+import { Button } from '@ui/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,17 +17,11 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-} from '@dinstack/ui/dropdown-menu'
-import { ScrollArea } from '@dinstack/ui/scroll-area'
-import { SheetTrigger } from '@dinstack/ui/sheet'
-import { Skeleton } from '@dinstack/ui/skeleton'
-import { ViewportBlock } from '@dinstack/ui/viewport-block'
-import { ReloadIcon } from '@radix-ui/react-icons'
-import { useAuthedAtom } from '@web/atoms/auth'
-import { api } from '@web/lib/api'
-import { RESET } from 'jotai/utils'
-import { useEffect, useState } from 'react'
-import { match } from 'ts-pattern'
+} from '@ui/ui/dropdown-menu'
+import { ScrollArea } from '@ui/ui/scroll-area'
+import { SheetTrigger } from '@ui/ui/sheet'
+import { Skeleton } from '@ui/ui/skeleton'
+import { ViewportBlock } from '@ui/ui/viewport-block'
 import { OrganizationCreateSheet } from './organization-create-sheet'
 
 type Props = React.ComponentPropsWithoutRef<typeof DropdownMenu>

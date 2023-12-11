@@ -163,7 +163,7 @@ importers:
 
   '@web':
     dependencies:
-      '@dinstack/ui':
+      '@ui/ui':
         specifier: workspace:^
         version: link:../@ui
       '@radix-ui/react-icons':

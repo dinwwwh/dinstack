@@ -1,6 +1,5 @@
 'use client'
 
-import { useIsRendered } from '@dinstack/ui/hooks/use-is-rendered'
 import { authAtom, stateAtom } from '@web/atoms/auth'
 import { LoginScreen } from '@web/components/login-screen'
 import { api } from '@web/lib/api'
@@ -8,6 +7,7 @@ import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
+import { useIsRendered } from '@ui/hooks/use-is-rendered'
 
 export default function Page() {
   const router = useRouter()

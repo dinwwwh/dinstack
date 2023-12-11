@@ -1,33 +1,7 @@
 {
-  "name": "@dinstack/ui",
+  "name": "@ui/ui",
   "version": "0.0.0",
   "private": true,
-  "exports": {
-    "./*": {
-      "import": [
-        "./build/ui/*.js",
-        "./build/ui/*.jsx"
-      ],
-      "types": "./build/ui/*.d.ts"
-    },
-    "./icons/*": {
-      "import": [
-        "./build/icons/*.js",
-        "./build/icons/*.jsx"
-      ],
-      "types": "./build/icons/*.d.ts"
-    },
-    "./lib/*": {
-      "import": "./build/lib/*.js",
-      "types": "./build/lib/*.d.ts"
-    },
-    "./hooks/*": {
-      "import": "./build/hooks/*.js",
-      "types": "./build/hooks/*.d.ts"
-    },
-    "./configs/tailwind.config": "./configs/tailwind.config.ts",
-    "./styles/globals.css": "./styles/globals.css"
-  },
   "scripts": {
     "build": "tsc --build && tsc-alias",
     "ui:add": "pnpm dlx shadcn-ui@latest add -y",

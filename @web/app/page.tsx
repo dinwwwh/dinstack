@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@dinstack/ui/button'
 import { api } from '@web/lib/api'
+import { Button } from '@ui/ui/button'
 
 export default function Home() {
   const { status, data } = api.ping.useQuery()

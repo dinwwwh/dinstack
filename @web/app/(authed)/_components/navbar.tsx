@@ -1,9 +1,5 @@
 'use client'
 
-import { Button } from '@dinstack/ui/button'
-import { DropdownMenuTrigger } from '@dinstack/ui/dropdown-menu'
-import { ScrollArea } from '@dinstack/ui/scroll-area'
-import { Skeleton } from '@dinstack/ui/skeleton'
 import { CaretDownIcon, DashboardIcon } from '@radix-ui/react-icons'
 import { useAuthedAtom } from '@web/atoms/auth'
 import { ProfileDropdownMenu } from '@web/components/profile-dropdown-menu'
@@ -12,6 +8,10 @@ import { api } from '@web/lib/api'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { match } from 'ts-pattern'
+import { Button } from '@ui/ui/button'
+import { DropdownMenuTrigger } from '@ui/ui/dropdown-menu'
+import { ScrollArea } from '@ui/ui/scroll-area'
+import { Skeleton } from '@ui/ui/skeleton'
 
 type Props = {
   onNavigate?: () => void

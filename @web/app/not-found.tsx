@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@dinstack/ui/button'
 import Link from 'next/link'
+import { Button } from '@ui/ui/button'
 
 export default function PageNotFound() {
   return (
