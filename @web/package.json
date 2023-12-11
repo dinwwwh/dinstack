@@ -17,19 +17,21 @@
     "@trpc/client": "^10.44.1",
     "@trpc/react-query": "^10.44.1",
     "framer-motion": "^10.16.16",
+    "jotai": "^2.6.0",
     "next": "14.0.3",
     "next-themes": "^0.2.1",
     "oslo": "^0.23.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-otp-input": "^3.1.0",
+    "superjson": "^2.2.1",
     "ts-pattern": "^5.0.5",
-    "zod": "^3.22.4",
-    "zustand": "^4.4.7"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@dinstack/api": "workspace:^",
     "@dinstack/tsconfig": "workspace:^",
+    "@swc-jotai/react-refresh": "^0.1.0",
     "@types/node": "^20.10.1",
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.17",

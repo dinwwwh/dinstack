@@ -3,9 +3,8 @@ import '@dinstack/ui/styles/globals.css'
 import { Toaster } from '@dinstack/ui/toaster'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { HistoryProvider } from './_providers/history'
+import JotaiProvider from './_providers/jotai'
 import { QueryProvider } from './_providers/query'
-import { StoresProvider } from './_providers/stores'
 import { ThemeProvider } from './_providers/theme'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,18 +18,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`} suppressHydrationWarning>
-        <StoresProvider>
+        <JotaiProvider>
           <ThemeProvider attribute="class" defaultTheme="system">
-            <HistoryProvider>
-              <QueryProvider>
-                <ScrollArea>
-                  <div className="h-screen">{children}</div>
-                </ScrollArea>
-                <Toaster />
-              </QueryProvider>
-            </HistoryProvider>
+            <QueryProvider>
+              <ScrollArea>
+                <div className="h-screen">{children}</div>
+              </ScrollArea>
+              <Toaster />
+            </QueryProvider>
           </ThemeProvider>
-        </StoresProvider>
+        </JotaiProvider>
       </body>
     </html>
   )

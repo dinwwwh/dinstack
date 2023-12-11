@@ -1,38 +1,37 @@
 'use client'
 
+import { authAtom, codeVerifierAtom, stateAtom } from '@web/atoms/auth'
 import { LoginScreen } from '@web/components/login-screen'
 import { api } from '@web/lib/api'
-import { useAuthStore } from '@web/stores/auth'
-import { useHistoryStore } from '@web/stores/history'
+import { useAtom } from 'jotai'
+import { RESET } from 'jotai/utils'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect } from 'react'
 
 export default function Page() {
-  const historyStore = useHistoryStore()
   const router = useRouter()
+  const [auth, setAuth] = useAtom(authAtom)
+  const [oldState, setOldState] = useAtom(stateAtom)
+  const [codeVerifier, setCodeVerifier] = useAtom(codeVerifierAtom)
 
   const navigateToPreviousPage = useCallback(() => {
-    if (historyStore.previousPathname && !historyStore.previousPathname.includes('/auth')) {
-      router.push(`${historyStore.previousPathname}?${historyStore.previousSearchParams}`)
-    } else {
-      router.push('/dash')
-    }
-  }, [historyStore, router])
+    // TODO: implement it and prevent duplicate
+    router.push('/dash')
+  }, [router])
 
-  const auth = useAuthStore()
   const searchParams = useSearchParams()
   const mutation = api.auth.google.validate.useMutation({
     onSuccess(data) {
       if (!auth.user) {
-        auth.setAuth(data.auth)
+        setAuth(data.auth)
         navigateToPreviousPage()
       }
 
       navigateToPreviousPage()
     },
     onSettled() {
-      auth.setState(null)
-      auth.setCodeVerifier(null)
+      setOldState(RESET)
+      setCodeVerifier(RESET)
     },
   })
 
@@ -43,9 +42,8 @@ export default function Page() {
 
     const code = searchParams.get('code')
     const state = searchParams.get('state')
-    const codeVerifier = auth.codeVerifier
 
-    if (!state || !code || !codeVerifier || state !== auth.state) {
+    if (!state || !code || !codeVerifier || state !== oldState) {
       throw new Error('This page should not be accessed directly')
     }
 

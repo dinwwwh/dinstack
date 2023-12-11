@@ -184,6 +184,9 @@ importers:
       framer-motion:
         specifier: ^10.16.16
         version: 10.16.16(react-dom@18.2.0)(react@18.2.0)
+      jotai:
+        specifier: ^2.6.0
+        version: 2.6.0(@types/react@18.2.40)(react@18.2.0)
       next:
         specifier: 14.0.3
         version: 14.0.3(react-dom@18.2.0)(react@18.2.0)
@@ -202,15 +205,15 @@ importers:
       react-otp-input:
         specifier: ^3.1.0
         version: 3.1.0(react-dom@18.2.0)(react@18.2.0)
+      superjson:
+        specifier: ^2.2.1
+        version: 2.2.1
       ts-pattern:
         specifier: ^5.0.5
         version: 5.0.5
       zod:
         specifier: ^3.22.4
         version: 3.22.4
-      zustand:
-        specifier: ^4.4.7
-        version: 4.4.7(@types/react@18.2.40)(react@18.2.0)
     devDependencies:
       '@dinstack/api':
         specifier: workspace:^
@@ -218,6 +221,9 @@ importers:
       '@dinstack/tsconfig':
         specifier: workspace:^
         version: link:../@tsconfig
+      '@swc-jotai/react-refresh':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@types/node':
         specifier: ^20.10.1
         version: 20.10.1
@@ -2163,6 +2169,10 @@ packages:
       '@babel/runtime': 7.23.5
     dev: false
 
+  /@swc-jotai/react-refresh@0.1.0:
+    resolution: {integrity: sha512-CWV4W06GdfQo3cW3CoUM2fp7avH4Z/suR7SvECNJnQbr6Sa9U3p7o10nXjNv2zT6z09bbNUPM55HBw5Nwd24Iw==}
+    dev: true
+
   /@swc/helpers@0.5.2:
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==}
     dependencies:
@@ -4008,6 +4018,22 @@ packages:
     hasBin: true
     dev: true
 
+  /jotai@2.6.0(@types/react@18.2.40)(react@18.2.0):
+    resolution: {integrity: sha512-Vt6hsc04Km4j03l+Ax+Sc+FVft5cRJhqgxt6GTz6GM2eM3DyX3CdBdzcG0z2FrlZToL1/0OAkqDghIyARWnSuQ==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=17.0.0'
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 18.2.40
+      react: 18.2.0
+    dev: false
+
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -5563,23 +5589,3 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
-
-  /zustand@4.4.7(@types/react@18.2.40)(react@18.2.0):
-    resolution: {integrity: sha512-QFJWJMdlETcI69paJwhSMJz7PPWjVP8Sjhclxmxmxv/RYI7ZOvR5BHX+ktH0we9gTWQMxcne8q1OY8xxz604gw==}
-    engines: {node: '>=12.7.0'}
-    peerDependencies:
-      '@types/react': '>=16.8'
-      immer: '>=9.0'
-      react: '>=16.8'
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      immer:
-        optional: true
-      react:
-        optional: true
-    dependencies:
-      '@types/react': 18.2.40
-      react: 18.2.0
-      use-sync-external-store: 1.2.0(react@18.2.0)
-    dev: false

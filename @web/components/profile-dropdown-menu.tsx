@@ -17,8 +17,9 @@ import { SheetTrigger } from '@dinstack/ui/sheet'
 import { Skeleton } from '@dinstack/ui/skeleton'
 import { ViewportBlock } from '@dinstack/ui/viewport-block'
 import { ReloadIcon } from '@radix-ui/react-icons'
+import { useAuthedAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
-import { useAuthedStore } from '@web/stores/auth'
+import { RESET } from 'jotai/utils'
 import { useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 import { OrganizationCreateSheet } from './organization-create-sheet'
@@ -72,7 +73,7 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
 }
 
 function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void }) {
-  const auth = useAuthedStore()
+  const [auth] = useAuthedAtom()
   const detailQuery = api.organization.detail.useQuery({
     organizationId: auth.organizationMember.organization.id,
   })
@@ -174,11 +175,11 @@ function WorkspaceListItem(props: {
   onSuccess?: () => void
   disabled?: boolean
 }) {
-  const auth = useAuthedStore()
+  const [, setAuth] = useAuthedAtom()
   const utils = api.useUtils()
   const mutation = api.auth.organization.switch.useMutation({
     onSuccess(data) {
-      auth.setAuth(data.auth)
+      setAuth(data.auth)
       utils.invalidate()
       props.onSuccess?.()
     },
@@ -236,8 +237,8 @@ function WorkspaceListItem(props: {
 }
 
 function LogoutDropdownMenuItem() {
-  const auth = useAuthedStore()
-  return <DropdownMenuItem onClick={() => auth.reset()}>Log out</DropdownMenuItem>
+  const [, setAuth] = useAuthedAtom()
+  return <DropdownMenuItem onClick={() => setAuth(RESET)}>Log out</DropdownMenuItem>
 }
 
 function CreateOrganizationDropdownMenuItem() {

@@ -3,11 +3,13 @@
 import { useToast } from '@dinstack/ui/use-toast'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
+import { authAtom } from '@web/atoms/auth'
 import { env } from '@web/env'
 import { api } from '@web/lib/api'
-import { useAuthStore } from '@web/stores/auth'
+import { RESET } from 'jotai/utils'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
+import { store } from './jotai'
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast()
@@ -17,7 +19,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         queryCache: new QueryCache({
           onError(err) {
             if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
-              useAuthStore.getState().reset()
+              store.set(authAtom, RESET)
             }
           },
         }),
@@ -28,7 +30,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
               const message = err.message
 
               if (code === 'UNAUTHORIZED') {
-                useAuthStore.getState().reset()
+                store.set(authAtom, RESET)
               }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
@@ -55,7 +57,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         httpBatchLink({
           url: new URL('/trpc', env.NEXT_PUBLIC_API_URL).toString(),
           async headers() {
-            const auth = useAuthStore.getState()
+            const auth = store.get(authAtom)
             const headers: Record<string, string> = {}
 
             if (auth.user) {

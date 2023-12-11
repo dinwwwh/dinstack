@@ -5,10 +5,12 @@ import { GoogleLogoIcon } from '@dinstack/ui/icons/google-logo'
 import { Input } from '@dinstack/ui/input'
 import { Label } from '@dinstack/ui/label'
 import { ArrowLeftIcon, ArrowRightIcon, ReloadIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
+import { authAtom, codeVerifierAtom, stateAtom } from '@web/atoms/auth'
+import { loginWithEmailHistoryAtom } from '@web/atoms/history'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
-import { useAuthStore } from '@web/stores/auth'
-import { useHistoryStore } from '@web/stores/history'
+import { useAtom } from 'jotai'
+import { RESET } from 'jotai/utils'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useId, useState } from 'react'
@@ -21,34 +23,31 @@ type Props = {
 }
 
 export function LoginScreen(props: Props) {
-  const auth = useAuthStore()
+  const [, setAuth] = useAtom(authAtom)
   const [step, setStep] = useState<'send-otp' | 'validate-otp'>('send-otp')
   const [email, setEmail] = useState('')
-  const historyStore = useHistoryStore()
   const router = useRouter()
+  const [history, setHistory] = useAtom(loginWithEmailHistoryAtom)
 
   const navigateToPreviousPage = useCallback(() => {
-    if (historyStore.previousPathname && !historyStore.previousPathname.includes('/auth')) {
-      router.push(`${historyStore.previousPathname}?${historyStore.previousSearchParams}`)
-    } else {
-      router.push('/dash')
-    }
-  }, [historyStore, router])
+    // TODO: implement it and prevent duplicate
+    router.push('/dash')
+  }, [router])
 
   useEffect(() => {
     if (
-      !historyStore.previousLoginEmail ||
-      !historyStore.previousLoginEmailAt ||
-      historyStore.previousLoginEmailAt < Date.now() - 60 * 1000 * 5
+      !history.previousLoginEmail ||
+      !history.previousLoginEmailAt ||
+      history.previousLoginEmailAt < new Date(Date.now() - 60 * 1000 * 5)
     ) {
       return
     }
 
-    setEmail(historyStore.previousLoginEmail)
+    setEmail(history.previousLoginEmail)
     setStep('validate-otp')
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [history])
 
   return (
     <section className="flex min-h-full">
@@ -73,8 +72,10 @@ export function LoginScreen(props: Props) {
                 <SendOtpForm
                   onSuccess={(data) => {
                     setEmail(data.email)
-                    historyStore.setPreviousLoginEmail(data.email)
-                    historyStore.setPreviousLoginEmailAt(Date.now())
+                    setHistory({
+                      previousLoginEmail: data.email,
+                      previousLoginEmailAt: new Date(),
+                    })
                     setStep('validate-otp')
                   }}
                 />
@@ -83,12 +84,8 @@ export function LoginScreen(props: Props) {
                 <ValidateOtpForm
                   email={email}
                   onSuccess={(data) => {
-                    if (!auth.user) {
-                      auth.setAuth(data.auth)
-                    }
-
-                    historyStore.setPreviousLoginEmail(null)
-                    historyStore.setPreviousLoginEmailAt(null)
+                    setAuth(data.auth)
+                    setHistory(RESET)
                     navigateToPreviousPage()
                   }}
                   onBack={() => {
@@ -238,11 +235,12 @@ function ValidateOtpForm(props: {
 }
 
 function LoginWithGoogleButton(props: { isLoading?: boolean }) {
-  const auth = useAuthStore()
+  const [, setSate] = useAtom(stateAtom)
+  const [, setCodeVerifier] = useAtom(codeVerifierAtom)
   const authGoogle = api.auth.google.loginUrl.useMutation({
     onSuccess: (data) => {
-      auth.setState(data.state)
-      auth.setCodeVerifier(data.codeVerifier)
+      setSate(data.state)
+      setCodeVerifier(data.codeVerifier)
       window.location.href = data.url.toString()
     },
   })
@@ -266,10 +264,10 @@ function LoginWithGoogleButton(props: { isLoading?: boolean }) {
 }
 
 function LoginWithGithubButton(props: { isLoading?: boolean }) {
-  const auth = useAuthStore()
+  const [, setSate] = useAtom(stateAtom)
   const authGoogle = api.auth.github.loginUrl.useMutation({
     onSuccess: (data) => {
-      auth.setState(data.state)
+      setSate(data.state)
       window.location.href = data.url.toString()
     },
   })
