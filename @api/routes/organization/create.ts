@@ -35,7 +35,7 @@ export const organizationCreateRoute = authedProcedure
         .insert(OrganizationMembers)
         .values({
           organizationId: organization.id,
-          userId: ctx.auth.user.id,
+          userId: ctx.session.userId,
           role: 'admin',
         })
         .returning()

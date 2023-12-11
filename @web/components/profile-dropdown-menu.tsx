@@ -175,11 +175,9 @@ function WorkspaceListItem(props: {
   onSuccess?: () => void
   disabled?: boolean
 }) {
-  const [, setAuth] = useAuthedAtom()
   const utils = api.useUtils()
   const mutation = api.auth.organization.switch.useMutation({
     onSuccess(data) {
-      setAuth(data.auth)
       utils.invalidate()
       props.onSuccess?.()
     },
@@ -194,7 +192,7 @@ function WorkspaceListItem(props: {
         variant={'ghost'}
         onClick={() => {
           mutation.mutate({
-            organizationId: props.organization.id,
+            organization: props.organization,
           })
         }}
         disabled={props.disabled}

@@ -20,19 +20,21 @@ export const authAtom = atomWithLocalStorage(
           logoUrl: z.string(),
         }),
       }),
-      jwt: z.string(),
+      session: z.object({
+        id: z.string(),
+      }),
     })
     .or(
       z.object({
         user: z.null(),
         organizationMember: z.null(),
-        jwt: z.null(),
+        session: z.null(),
       }),
     ),
   {
     user: null,
     organizationMember: null,
-    jwt: null,
+    session: null,
   },
 )
 

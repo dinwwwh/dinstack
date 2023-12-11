@@ -20,6 +20,8 @@ export const authOutputSchema = z.object({
         logoUrl: z.string().url(),
       }),
     }),
-    jwt: z.string(),
+    session: z.object({
+      id: z.string(),
+    }),
   }),
 })

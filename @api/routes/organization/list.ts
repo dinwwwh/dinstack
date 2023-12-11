@@ -24,7 +24,9 @@ export const organizationListRoute = authedProcedure
           ctx.db
             .select()
             .from(OrganizationMembers)
-            .where(and(eq(t.id, OrganizationMembers.organizationId), eq(OrganizationMembers.userId, ctx.auth.user.id))),
+            .where(
+              and(eq(t.id, OrganizationMembers.organizationId), eq(OrganizationMembers.userId, ctx.session.userId)),
+            ),
         )
       },
       offset: input.cursor,

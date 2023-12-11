@@ -6,6 +6,7 @@ import { generateState, generateCodeVerifier } from 'arctic'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 import { authOutputSchema } from './_lib/output'
+import { createSession } from './_lib/utils'
 
 export const authGoogleRouter = router({
   loginUrl: procedure.mutation(async ({ ctx }) => {
@@ -77,12 +78,7 @@ export const authGoogleRouter = router({
               avatarUrl: googleAvatarUrl,
             },
             organizationMember,
-            jwt: await ctx.auth.createJwt({
-              user: {
-                id: oauthAccount.userId,
-              },
-              organizationMember,
-            }),
+            session: await createSession({ ctx, organizationMember }),
           },
         }
       }
@@ -117,10 +113,7 @@ export const authGoogleRouter = router({
         auth: {
           user,
           organizationMember,
-          jwt: await ctx.auth.createJwt({
-            user,
-            organizationMember,
-          }),
+          session: await createSession({ ctx, organizationMember }),
         },
       }
     }),
