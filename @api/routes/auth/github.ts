@@ -1,10 +1,12 @@
-import { OauthAccounts, Users } from '@api/database/schema'
+import { Users } from '@api/database/schema'
+import { createUser } from '@api/lib/db'
 import { procedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import type { GitHubUser } from 'arctic'
 import { generateState } from 'arctic'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
+import { authOutputSchema } from './_lib/output'
 
 export const authGithubRouter = router({
   loginUrl: procedure.mutation(async ({ ctx }) => {
@@ -19,6 +21,7 @@ export const authGithubRouter = router({
         code: z.string(),
       }),
     )
+    .output(authOutputSchema)
     .mutation(async ({ ctx, input }) => {
       const tokens = await ctx.auth.github.validateAuthorizationCode(input.code)
       // TODO: use arctic
@@ -40,6 +43,14 @@ export const authGithubRouter = router({
       const githubAvatarUrl = userGithub.avatar_url
 
       const oauthAccount = await ctx.db.query.OauthAccounts.findFirst({
+        with: {
+          organizationMembers: {
+            with: {
+              organization: true,
+            },
+            limit: 1,
+          },
+        },
         where(t, { eq, and }) {
           return and(eq(t.provider, 'github'), eq(t.providerUserId, githubUserId))
         },
@@ -58,6 +69,15 @@ export const authGithubRouter = router({
           })(),
         )
 
+        const organizationMember = oauthAccount.organizationMembers[0]
+
+        if (!organizationMember) {
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: 'Failed to find organization member',
+          })
+        }
+
         return {
           auth: {
             user: {
@@ -66,7 +86,13 @@ export const authGithubRouter = router({
               email: githubEmail,
               avatarUrl: githubAvatarUrl,
             },
-            jwt: await ctx.auth.createJwt({ user: { id: githubUserId } }),
+            organizationMember,
+            jwt: await ctx.auth.createJwt({
+              user: {
+                id: oauthAccount.userId,
+              },
+              organizationMember,
+            }),
           },
         }
       }
@@ -84,38 +110,27 @@ export const authGithubRouter = router({
         })
       }
 
-      const user = await ctx.db.transaction(async (trx) => {
-        const [user] = await trx
-          .insert(Users)
-          .values({
-            email: githubEmail,
-            name: githubName,
-            avatarUrl: githubAvatarUrl,
-          })
-          .returning()
-
-        if (!user) {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to create user' })
-        }
-
-        await trx.insert(OauthAccounts).values({
+      const { user, organizationMember } = await createUser({
+        db: ctx.db,
+        user: {
+          name: githubName,
+          avatarUrl: githubAvatarUrl,
+          email: githubEmail,
+        },
+        oauth: {
           provider: 'github',
           providerUserId: githubUserId,
-          userId: user.id,
-        })
-
-        return user
+        },
       })
 
       return {
         auth: {
-          user: {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            avatarUrl: user.avatarUrl,
-          },
-          jwt: await ctx.auth.createJwt({ user: { id: user.id } }),
+          user: user,
+          organizationMember,
+          jwt: await ctx.auth.createJwt({
+            user,
+            organizationMember,
+          }),
         },
       }
     }),

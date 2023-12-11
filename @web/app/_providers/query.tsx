@@ -6,19 +6,18 @@ import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { env } from '@web/env'
 import { api } from '@web/lib/api'
 import { useAuthStore } from '@web/stores/auth'
-import { useMemo } from 'react'
+import { useState } from 'react'
 import SuperJSON from 'superjson'
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
-  const auth = useAuthStore()
   const { toast } = useToast()
-  const queryClient = useMemo(
+  const [queryClient] = useState(
     () =>
       new QueryClient({
         queryCache: new QueryCache({
           onError(err) {
             if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
-              auth.reset()
+              useAuthStore.getState().reset()
             }
           },
         }),
@@ -29,7 +28,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
               const message = err.message
 
               if (code === 'UNAUTHORIZED') {
-                auth.reset()
+                useAuthStore.getState().reset()
               }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
@@ -47,29 +46,27 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
           },
         }),
       }),
-    [auth, toast],
   )
 
-  const trpcClient = useMemo(
-    () =>
-      api.createClient({
-        transformer: SuperJSON,
-        links: [
-          httpBatchLink({
-            url: new URL('/trpc', env.NEXT_PUBLIC_API_URL).toString(),
-            async headers() {
-              const headers: Record<string, string> = {}
+  const [trpcClient] = useState(() =>
+    api.createClient({
+      transformer: SuperJSON,
+      links: [
+        httpBatchLink({
+          url: new URL('/trpc', env.NEXT_PUBLIC_API_URL).toString(),
+          async headers() {
+            const auth = useAuthStore.getState()
+            const headers: Record<string, string> = {}
 
-              if (auth.user) {
-                headers['Authorization'] = `Bearer ${auth.jwt}`
-              }
+            if (auth.user) {
+              headers['Authorization'] = `Bearer ${auth.jwt}`
+            }
 
-              return headers
-            },
-          }),
-        ],
-      }),
-    [auth],
+            return headers
+          },
+        }),
+      ],
+    }),
   )
 
   return (

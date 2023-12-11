@@ -1,9 +1,11 @@
-import { OauthAccounts, Users } from '@api/database/schema'
+import { Users } from '@api/database/schema'
+import { createUser } from '@api/lib/db'
 import { procedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { generateState, generateCodeVerifier } from 'arctic'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
+import { authOutputSchema } from './_lib/output'
 
 export const authGoogleRouter = router({
   loginUrl: procedure.mutation(async ({ ctx }) => {
@@ -20,6 +22,7 @@ export const authGoogleRouter = router({
         codeVerifier: z.string(),
       }),
     )
+    .output(authOutputSchema)
     .mutation(async ({ ctx, input }) => {
       const tokens = await ctx.auth.google.validateAuthorizationCode(input.code, input.codeVerifier)
       const userGoogle = await ctx.auth.google.getUser(tokens.accessToken)
@@ -34,6 +37,14 @@ export const authGoogleRouter = router({
       const googleAvatarUrl = userGoogle.picture
 
       const oauthAccount = await ctx.db.query.OauthAccounts.findFirst({
+        with: {
+          organizationMembers: {
+            with: {
+              organization: true,
+            },
+            limit: 1,
+          },
+        },
         where(t, { eq, and }) {
           return and(eq(t.provider, 'google'), eq(t.providerUserId, googleUserId))
         },
@@ -52,6 +63,11 @@ export const authGoogleRouter = router({
           })(),
         )
 
+        const organizationMember = oauthAccount.organizationMembers[0]
+        if (!organizationMember) {
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to find organization member' })
+        }
+
         return {
           auth: {
             user: {
@@ -60,7 +76,13 @@ export const authGoogleRouter = router({
               email: googleEmail,
               avatarUrl: googleAvatarUrl,
             },
-            jwt: await ctx.auth.createJwt({ user: { id: oauthAccount.userId } }),
+            organizationMember,
+            jwt: await ctx.auth.createJwt({
+              user: {
+                id: oauthAccount.userId,
+              },
+              organizationMember,
+            }),
           },
         }
       }
@@ -78,38 +100,27 @@ export const authGoogleRouter = router({
         })
       }
 
-      const user = await ctx.db.transaction(async (trx) => {
-        const [user] = await trx
-          .insert(Users)
-          .values({
-            email: googleEmail,
-            name: userGoogle.name,
-            avatarUrl: userGoogle.picture,
-          })
-          .returning()
-
-        if (!user) {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to create user' })
-        }
-
-        await trx.insert(OauthAccounts).values({
+      const { user, organizationMember } = await createUser({
+        db: ctx.db,
+        user: {
+          name: googleName,
+          avatarUrl: googleAvatarUrl,
+          email: googleEmail,
+        },
+        oauth: {
           provider: 'google',
           providerUserId: googleUserId,
-          userId: user.id,
-        })
-
-        return user
+        },
       })
 
       return {
         auth: {
-          user: {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            avatarUrl: user.avatarUrl,
-          },
-          jwt: await ctx.auth.createJwt({ user: { id: user.id } }),
+          user,
+          organizationMember,
+          jwt: await ctx.auth.createJwt({
+            user,
+            organizationMember,
+          }),
         },
       }
     }),

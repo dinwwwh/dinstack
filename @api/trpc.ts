@@ -11,22 +11,22 @@ export const router = t.router
 
 export const procedure = t.procedure
 
-export const authedProcedure = procedure.use(
-  middleware(async ({ ctx, next }) => {
-    const bearer = ctx.request.headers.get('Authorization')
-    if (!bearer) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
-    const token = bearer.replace(/^Bearer /, '')
-    const authData = await ctx.auth.validateJwt(token)
-    if (!authData) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+const authedMiddleware = middleware(async ({ ctx, next }) => {
+  const bearer = ctx.request.headers.get('Authorization')
+  if (!bearer) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+  const token = bearer.replace(/^Bearer /, '')
+  const authData = await ctx.auth.validateJwt(token)
+  if (!authData) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
 
-    return next({
-      ctx: {
-        ...ctx,
-        auth: {
-          ...ctx.auth,
-          user: authData.user,
-        },
+  return next({
+    ctx: {
+      ...ctx,
+      auth: {
+        ...ctx.auth,
+        ...authData,
       },
-    })
-  }),
-)
+    },
+  })
+})
+
+export const authedProcedure = procedure.use(authedMiddleware)

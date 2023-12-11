@@ -21,6 +21,10 @@
       "import": "./build/lib/*.js",
       "types": "./build/lib/*.d.ts"
     },
+    "./hooks/*": {
+      "import": "./build/hooks/*.js",
+      "types": "./build/hooks/*.d.ts"
+    },
     "./configs/tailwind.config": "./configs/tailwind.config.ts",
     "./styles/globals.css": "./styles/globals.css"
   },
@@ -43,6 +47,8 @@
     "@tailwindcss/container-queries": "^0.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "react-in-viewport": "1.0.0-alpha.30",
+    "superjson": "^2.2.1",
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7"
   }
