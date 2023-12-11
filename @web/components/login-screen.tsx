@@ -1,9 +1,5 @@
 'use client'
 
-import { Button } from '@dinstack/ui/button'
-import { GoogleLogoIcon } from '@dinstack/ui/icons/google-logo'
-import { Input } from '@dinstack/ui/input'
-import { Label } from '@dinstack/ui/label'
 import { ArrowLeftIcon, ArrowRightIcon, ReloadIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
 import { authAtom, codeVerifierAtom, stateAtom } from '@web/atoms/auth'
 import { loginWithEmailHistoryAtom } from '@web/atoms/history'
@@ -16,6 +12,10 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useId, useState } from 'react'
 import OTPInput from 'react-otp-input'
 import { match } from 'ts-pattern'
+import { GoogleLogoIcon } from '@ui/icons/google-logo'
+import { Button } from '@ui/ui/button'
+import { Input } from '@ui/ui/input'
+import { Label } from '@ui/ui/label'
 
 type Props = {
   isLoadingGoogle?: boolean
@@ -45,8 +45,6 @@ export function LoginScreen(props: Props) {
 
     setEmail(history.previousLoginEmail)
     setStep('validate-otp')
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history])
 
   return (

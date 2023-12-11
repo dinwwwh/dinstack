@@ -10,15 +10,21 @@
       }
     ],
     "paths": {
-      "@web/*": ["./*"]
+      "@web/*": ["./*"],
+      "@api/*": ["../@api/*"],
+      "@ui/*": ["../@ui/*"],
+      "@ui/_/../ui/*": ["../@ui/ui/*"]
     },
     "noEmit": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", ".next"],
+  "exclude": ["node_modules", ".next", "tailwind.config.ts"],
   "references": [
     {
       "path": "../@api/tsconfig.json"
+    },
+    {
+      "path": "../@ui/tsconfig.json"
     }
   ]
 }

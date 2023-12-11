@@ -1,6 +1,6 @@
-import baseConfig from '@dinstack/ui/configs/tailwind.config'
 import type { Config } from 'tailwindcss'
 import defaultTheme from 'tailwindcss/defaultTheme'
+import baseConfig from '../@ui/configs/tailwind.config'
 
 export default {
   ...baseConfig,

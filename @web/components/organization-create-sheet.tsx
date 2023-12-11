@@ -1,11 +1,11 @@
-import { Button } from '@dinstack/ui/button'
-import { Input } from '@dinstack/ui/input'
-import { Label } from '@dinstack/ui/label'
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@dinstack/ui/sheet'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
 import { useId, useRef } from 'react'
+import { Button } from '@ui/ui/button'
+import { Input } from '@ui/ui/input'
+import { Label } from '@ui/ui/label'
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@ui/ui/sheet'
 
 type Props = React.ComponentPropsWithoutRef<typeof Sheet> & {
   onSuccess?: (result: ApiOutputs['organization']['create']) => void
