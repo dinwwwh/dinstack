@@ -103,16 +103,12 @@ export const authEmailRouter = router({
         }
 
         return {
-          auth: {
-            user: existingUser,
-            organizationMember,
-            session: await createSession({ ctx, organizationMember }),
-          },
+          session: await createSession({ ctx, organizationMember }),
         }
       }
 
       const userName = input.email.split('@')[0] || 'Unknown'
-      const { user, organizationMember } = await createUser({
+      const { organizationMember } = await createUser({
         db: ctx.db,
         user: {
           avatarUrl: generateFallbackAvatarUrl({
@@ -125,11 +121,7 @@ export const authEmailRouter = router({
       })
 
       return {
-        auth: {
-          user: user,
-          organizationMember,
-          session: await createSession({ ctx, organizationMember }),
-        },
+        session: await createSession({ ctx, organizationMember }),
       }
     }),
 })

@@ -52,17 +52,13 @@ export const authGoogleRouter = router({
       })
 
       if (oauthAccount) {
-        ctx.ec.waitUntil(
-          (async () => {
-            await ctx.db
-              .update(Users)
-              .set({
-                name: googleName,
-                avatarUrl: googleAvatarUrl,
-              })
-              .where(eq(Users.id, oauthAccount.userId))
-          })(),
-        )
+        await ctx.db
+          .update(Users)
+          .set({
+            name: googleName,
+            avatarUrl: googleAvatarUrl,
+          })
+          .where(eq(Users.id, oauthAccount.userId))
 
         const organizationMember = oauthAccount.organizationMembers[0]
         if (!organizationMember) {
@@ -70,16 +66,7 @@ export const authGoogleRouter = router({
         }
 
         return {
-          auth: {
-            user: {
-              id: oauthAccount.userId,
-              name: googleName,
-              email: googleEmail,
-              avatarUrl: googleAvatarUrl,
-            },
-            organizationMember,
-            session: await createSession({ ctx, organizationMember }),
-          },
+          session: await createSession({ ctx, organizationMember }),
         }
       }
 
@@ -96,7 +83,7 @@ export const authGoogleRouter = router({
         })
       }
 
-      const { user, organizationMember } = await createUser({
+      const { organizationMember } = await createUser({
         db: ctx.db,
         user: {
           name: googleName,
@@ -110,11 +97,7 @@ export const authGoogleRouter = router({
       })
 
       return {
-        auth: {
-          user,
-          organizationMember,
-          session: await createSession({ ctx, organizationMember }),
-        },
+        session: await createSession({ ctx, organizationMember }),
       }
     }),
 })

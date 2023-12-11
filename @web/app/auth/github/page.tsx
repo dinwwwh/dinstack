@@ -1,6 +1,6 @@
 'use client'
 
-import { authAtom, stateAtom } from '@web/atoms/auth'
+import { sessionAtom, stateAtom } from '@web/atoms/auth'
 import { LoginScreen } from '@web/components/login-screen'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
@@ -11,7 +11,7 @@ import { useIsRendered } from '@ui/hooks/use-is-rendered'
 
 export default function Page() {
   const router = useRouter()
-  const [, setAuth] = useAtom(authAtom)
+  const [, setSession] = useAtom(sessionAtom)
   const [oldState, setOldState] = useAtom(stateAtom)
   const isRendered = useIsRendered()
 
@@ -23,7 +23,7 @@ export default function Page() {
   const searchParams = useSearchParams()
   const mutation = api.auth.github.validate.useMutation({
     onSuccess(data) {
-      setAuth(data.auth)
+      setSession(data.session)
       navigateToPreviousPage()
     },
     onSettled() {

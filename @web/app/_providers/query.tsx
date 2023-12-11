@@ -2,7 +2,7 @@
 
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
-import { authAtom } from '@web/atoms/auth'
+import { sessionAtom } from '@web/atoms/auth'
 import { env } from '@web/env'
 import { api } from '@web/lib/api'
 import { RESET } from 'jotai/utils'
@@ -19,7 +19,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         queryCache: new QueryCache({
           onError(err) {
             if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
-              store.set(authAtom, RESET)
+              store.set(sessionAtom, RESET)
             }
           },
         }),
@@ -30,7 +30,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
               const message = err.message
 
               if (code === 'UNAUTHORIZED') {
-                store.set(authAtom, RESET)
+                store.set(sessionAtom, RESET)
               }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
@@ -57,11 +57,11 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         httpBatchLink({
           url: new URL('/trpc', env.NEXT_PUBLIC_API_URL).toString(),
           async headers() {
-            const auth = store.get(authAtom)
+            const session = store.get(sessionAtom)
             const headers: Record<string, string> = {}
 
-            if (auth.user) {
-              headers['Authorization'] = `Bearer ${auth.session.id}`
+            if (session) {
+              headers['Authorization'] = `Bearer ${session.id}`
             }
 
             return headers
