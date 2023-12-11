@@ -12,3 +12,9 @@ export const loginWithEmailHistoryAtom = atomWithLocalStorage(
     previousLoginEmailAt: null,
   },
 )
+
+export const sidebarSizeHistoryAtom = atomWithLocalStorage(
+  'sidebar-size-history-atom',
+  z.enum(['default', 'icon']),
+  'default',
+)
