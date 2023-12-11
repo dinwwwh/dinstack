@@ -1,7 +1,7 @@
 import { atom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import SuperJSON from 'superjson'
-import { z } from 'zod'
+import type { z } from 'zod'
 
 type SetStateActionClosureWithReset<V> = (prev: V) => V | typeof RESET
 type SetStateActionWithReset<V> = V | typeof RESET | SetStateActionClosureWithReset<V>

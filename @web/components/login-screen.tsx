@@ -45,8 +45,6 @@ export function LoginScreen(props: Props) {
 
     setEmail(history.previousLoginEmail)
     setStep('validate-otp')
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history])
 
   return (
