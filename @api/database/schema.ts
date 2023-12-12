@@ -1,5 +1,6 @@
 import { relations, sql } from 'drizzle-orm'
-import { pgTable, varchar, timestamp, uuid, primaryKey, pgEnum } from 'drizzle-orm/pg-core'
+import { pgTable, varchar, timestamp, uuid, primaryKey, pgEnum, char, jsonb, foreignKey } from 'drizzle-orm/pg-core'
+import { alphabet, generateRandomString } from 'oslo/random'
 
 export const Users = pgTable('users', {
   id: uuid('id')
@@ -76,11 +77,11 @@ export const OrganizationMembers = pgTable(
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (t) => ({
-    pk: primaryKey({ columns: [t.organizationId, t.userId] }),
+    pk: primaryKey({ columns: [t.userId, t.organizationId] }),
   }),
 )
 
-export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one }) => ({
+export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one, many }) => ({
   organization: one(Organizations, {
     fields: [OrganizationMembers.organizationId],
     references: [Organizations.id],
@@ -92,5 +93,34 @@ export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one
   _oauthAccount: one(OauthAccounts, {
     fields: [OrganizationMembers.userId],
     references: [OauthAccounts.userId],
+  }),
+  sessions: many(Sessions),
+}))
+
+export const Sessions = pgTable(
+  'sessions',
+  {
+    id: char('id', { length: 64 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => generateRandomString(64, alphabet('a-z', 'A-Z', '0-9'))),
+    userId: uuid('user_id').notNull(),
+    organizationId: uuid('organization_id').notNull(),
+    headers: jsonb('headers').notNull().$type<Record<string, string>>(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => ({
+    pfk: foreignKey({
+      columns: [t.userId, t.organizationId],
+      foreignColumns: [OrganizationMembers.userId, OrganizationMembers.organizationId],
+      name: 'sessions_user_id_organization_id_fkey',
+    }),
+  }),
+)
+
+export const SessionRelations = relations(Sessions, ({ one }) => ({
+  organizationMember: one(OrganizationMembers, {
+    fields: [Sessions.userId, Sessions.organizationId],
+    references: [OrganizationMembers.userId, OrganizationMembers.organizationId],
   }),
 }))

@@ -8,6 +8,7 @@ import { eq } from 'drizzle-orm'
 import { alphabet, generateRandomString } from 'oslo/random'
 import { z } from 'zod'
 import { authOutputSchema } from './_lib/output'
+import { createSession } from './_lib/utils'
 
 export const authEmailRouter = router({
   sendOtp: procedure
@@ -103,18 +104,13 @@ export const authEmailRouter = router({
 
         return {
           auth: {
-            user: existingUser,
-            organizationMember,
-            jwt: await ctx.auth.createJwt({
-              user: existingUser,
-              organizationMember,
-            }),
+            session: await createSession({ ctx, organizationMember }),
           },
         }
       }
 
       const userName = input.email.split('@')[0] || 'Unknown'
-      const { user, organizationMember } = await createUser({
+      const { organizationMember } = await createUser({
         db: ctx.db,
         user: {
           avatarUrl: generateFallbackAvatarUrl({
@@ -128,12 +124,7 @@ export const authEmailRouter = router({
 
       return {
         auth: {
-          user: user,
-          organizationMember,
-          jwt: await ctx.auth.createJwt({
-            user,
-            organizationMember,
-          }),
+          session: await createSession({ ctx, organizationMember }),
         },
       }
     }),

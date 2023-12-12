@@ -1,7 +1,6 @@
 'use client'
 
 import { CaretDownIcon, DashboardIcon } from '@radix-ui/react-icons'
-import { useAuthedAtom } from '@web/atoms/auth'
 import { ProfileDropdownMenu } from '@web/components/profile-dropdown-menu'
 import { ThemeToggle } from '@web/components/theme-toggle'
 import { api } from '@web/lib/api'
@@ -74,43 +73,50 @@ export function Navbar(props: Props) {
 }
 
 function ProfileButton() {
-  const [auth] = useAuthedAtom()
-
-  const query = api.organization.detail.useQuery({
-    organizationId: auth.organizationMember.organization.id,
-  })
-
-  const orgName = query.data?.organization.name ?? auth.organizationMember.organization.name
-  const orgLogoUrl = query.data?.organization.logoUrl ?? auth.organizationMember.organization.logoUrl
+  const sessionInfosQuery = api.auth.infos.useQuery()
 
   return (
     <DropdownMenuTrigger asChild>
-      <Button
-        type="button"
-        className="flex-1 justify-between w-full overflow-hidden gap-2"
-        size={'icon'}
-        variant={'secondary'}
-      >
-        <div className="flex gap-3">
-          <img src={orgLogoUrl} className="h-9 w-9 rounded-md flex-shrink-0" alt={orgName} />
-          <div className="flex flex-col items-start">
-            <span>{orgName}</span>
-            {match(query)
-              .with({ status: 'loading' }, () => <Skeleton className="h-4 w-20" />)
-              .with({ status: 'error' }, () => '')
-              .with({ status: 'success' }, (query) => (
-                <span className="text-muted-foreground font-normal text-xs">{`${
-                  query.data.organization.members.length
-                } ${query.data.organization.members.length === 1 ? 'member' : 'members'}`}</span>
-              ))
-              .exhaustive()}
+      {match(sessionInfosQuery)
+        .with({ status: 'loading' }, () => (
+          <div className="flex-1 flex gap-3 items-center overflow-hidden">
+            <Skeleton className="h-9 w-9 flex-shrink-0" />
+            <div className="space-y-1">
+              <Skeleton className="h-4 w-36" />
+              <Skeleton className="h-4 w-16" />
+            </div>
           </div>
-        </div>
+        ))
+        .with({ status: 'error' }, () => '')
+        .with({ status: 'success' }, (query) => (
+          <Button
+            type="button"
+            className="flex-1 justify-between w-full overflow-hidden gap-2"
+            size={'icon'}
+            variant={'secondary'}
+          >
+            <div className="flex gap-3">
+              <img
+                src={query.data.session.organizationMember.organization.logoUrl}
+                className="h-9 w-9 rounded-md flex-shrink-0"
+                alt={query.data.session.organizationMember.organization.name}
+              />
+              <div className="flex flex-col items-start">
+                <span>{query.data.session.organizationMember.organization.name}</span>
+                <span className="text-muted-foreground font-normal text-xs">{`${
+                  query.data.session.organizationMember.organization.members.length
+                } ${
+                  query.data.session.organizationMember.organization.members.length === 1 ? 'member' : 'members'
+                }`}</span>
+              </div>
+            </div>
 
-        <div className="pr-2.5">
-          <CaretDownIcon className="h-4 w-4" />
-        </div>
-      </Button>
+            <div className="pr-2.5">
+              <CaretDownIcon className="h-4 w-4" />
+            </div>
+          </Button>
+        ))
+        .exhaustive()}
     </DropdownMenuTrigger>
   )
 }

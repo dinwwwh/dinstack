@@ -1,30 +1,26 @@
 'use client'
 
-import { authAtom, stateAtom } from '@web/atoms/auth'
+import { authAtom, loginRequestFromAtom, stateAtom } from '@web/atoms/auth'
 import { LoginScreen } from '@web/components/login-screen'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useIsRendered } from '@ui/hooks/use-is-rendered'
 
 export default function Page() {
   const router = useRouter()
   const [, setAuth] = useAtom(authAtom)
   const [oldState, setOldState] = useAtom(stateAtom)
+  const [loginRequestFrom] = useAtom(loginRequestFromAtom)
   const isRendered = useIsRendered()
-
-  const navigateToPreviousPage = useCallback(() => {
-    // TODO: implement it
-    router.push('/dash')
-  }, [router])
 
   const searchParams = useSearchParams()
   const mutation = api.auth.github.validate.useMutation({
     onSuccess(data) {
       setAuth(data.auth)
-      navigateToPreviousPage()
+      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
     },
     onSettled() {
       setOldState(RESET)

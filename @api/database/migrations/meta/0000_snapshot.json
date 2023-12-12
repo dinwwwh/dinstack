@@ -1,5 +1,5 @@
 {
-  "id": "4a71e5fc-5636-4250-8fa6-b48c533e7d1c",
+  "id": "28bedb6c-4c38-4a18-bb14-c17876b88145",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -142,9 +142,9 @@
         }
       },
       "compositePrimaryKeys": {
-        "organization_members_organization_id_user_id_pk": {
-          "name": "organization_members_organization_id_user_id_pk",
-          "columns": ["organization_id", "user_id"]
+        "organization_members_user_id_organization_id_pk": {
+          "name": "organization_members_user_id_organization_id_pk",
+          "columns": ["user_id", "organization_id"]
         }
       },
       "uniqueConstraints": {}
@@ -182,6 +182,57 @@
       },
       "indexes": {},
       "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "sessions": {
+      "name": "sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "char(64)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "headers": {
+          "name": "headers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sessions_user_id_organization_id_fkey": {
+          "name": "sessions_user_id_organization_id_fkey",
+          "tableFrom": "sessions",
+          "tableTo": "organization_members",
+          "columnsFrom": ["user_id", "organization_id"],
+          "columnsTo": ["user_id", "organization_id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },

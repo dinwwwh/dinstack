@@ -1,6 +1,7 @@
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { useAuthedAtom } from '@web/atoms/auth'
+import { authAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
+import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import { useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
@@ -73,13 +74,7 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
 }
 
 function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void }) {
-  const [auth] = useAuthedAtom()
-  const detailQuery = api.organization.detail.useQuery({
-    organizationId: auth.organizationMember.organization.id,
-  })
-  const currentOrgName = detailQuery.data?.organization.name ?? auth.organizationMember.organization.name
-  const currentOrgLogoUrl = detailQuery.data?.organization.logoUrl ?? auth.organizationMember.organization.logoUrl
-
+  const sessionInfosQuery = api.auth.infos.useQuery()
   const listQuery = api.organization.list.useInfiniteQuery(
     {
       limit: 6,
@@ -97,49 +92,34 @@ function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void })
         }}
       >
         <div className="space-y-2 py-2">
-          <WorkspaceListItem
-            organization={{
-              id: auth.organizationMember.organization.id,
-              name: currentOrgName,
-              logoUrl: currentOrgLogoUrl,
-              numberMembers: {
-                number: detailQuery.data?.organization.members.length,
-                status: detailQuery.status,
-              },
-            }}
-            disabled
-            onSuccess={() => onOpenChange(false)}
-          />
-
           {match(listQuery)
             .with({ status: 'loading' }, () => <WorkspaceListItemSkeleton />)
             .with({ status: 'error' }, () => '')
             .with({ status: 'success' }, (query) => {
-              return query.data.pages.map((page) => {
+              return query.data.pages.map((page, i) => {
                 return (
-                  <>
-                    {page.items
-                      .filter((item) => item.id !== auth.organizationMember.organization.id)
-                      .map((item) => {
-                        return (
-                          <WorkspaceListItem
-                            key={item.id}
-                            organization={{
-                              ...item,
-                              numberMembers: {
-                                number: item.members.length,
-                                status: 'success',
-                              },
-                            }}
-                            onSuccess={() => onOpenChange(false)}
-                          />
-                        )
-                      })}
+                  <div key={i} className="space-y-2">
+                    {page.items.map((item) => {
+                      return (
+                        <WorkspaceListItem
+                          key={item.id}
+                          organization={{
+                            ...item,
+                            numberMembers: {
+                              number: item.members.length,
+                              status: 'success',
+                            },
+                          }}
+                          disabled={item.id === sessionInfosQuery.data?.session.organizationId}
+                          onSuccess={() => onOpenChange(false)}
+                        />
+                      )
+                    })}
                     {!query.isFetching && query.hasNextPage && (
                       <ViewportBlock onEnterViewport={() => query.fetchNextPage()} />
                     )}
                     {query.hasNextPage && <WorkspaceListItemSkeleton />}
-                  </>
+                  </div>
                 )
               })
             })
@@ -175,11 +155,9 @@ function WorkspaceListItem(props: {
   onSuccess?: () => void
   disabled?: boolean
 }) {
-  const [, setAuth] = useAuthedAtom()
   const utils = api.useUtils()
   const mutation = api.auth.organization.switch.useMutation({
-    onSuccess(data) {
-      setAuth(data.auth)
+    onSuccess() {
       utils.invalidate()
       props.onSuccess?.()
     },
@@ -194,7 +172,7 @@ function WorkspaceListItem(props: {
         variant={'ghost'}
         onClick={() => {
           mutation.mutate({
-            organizationId: props.organization.id,
+            organization: props.organization,
           })
         }}
         disabled={props.disabled}
@@ -237,7 +215,7 @@ function WorkspaceListItem(props: {
 }
 
 function LogoutDropdownMenuItem() {
-  const [, setAuth] = useAuthedAtom()
+  const [, setAuth] = useAtom(authAtom)
   return <DropdownMenuItem onClick={() => setAuth(RESET)}>Log out</DropdownMenuItem>
 }
 

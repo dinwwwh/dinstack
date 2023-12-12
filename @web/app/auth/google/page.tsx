@@ -1,35 +1,27 @@
 'use client'
 
-import { authAtom, codeVerifierAtom, stateAtom } from '@web/atoms/auth'
+import { codeVerifierAtom, authAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
 import { LoginScreen } from '@web/components/login-screen'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useIsRendered } from '@ui/hooks/use-is-rendered'
 
 export default function Page() {
   const router = useRouter()
-  const [auth, setAuth] = useAtom(authAtom)
+  const [, setAuth] = useAtom(authAtom)
   const [oldState, setOldState] = useAtom(stateAtom)
   const [codeVerifier, setCodeVerifier] = useAtom(codeVerifierAtom)
+  const [loginRequestFrom] = useAtom(loginRequestFromAtom)
   const isRendered = useIsRendered()
-
-  const navigateToPreviousPage = useCallback(() => {
-    // TODO: implement it and prevent duplicate
-    router.push('/dash')
-  }, [router])
 
   const searchParams = useSearchParams()
   const mutation = api.auth.google.validate.useMutation({
     onSuccess(data) {
-      if (!auth.user) {
-        setAuth(data.auth)
-        navigateToPreviousPage()
-      }
-
-      navigateToPreviousPage()
+      setAuth(data.auth)
+      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
     },
     onSettled() {
       setOldState(RESET)
@@ -39,10 +31,6 @@ export default function Page() {
 
   useEffect(() => {
     if (!isRendered) return
-
-    if (auth.user) {
-      return navigateToPreviousPage()
-    }
 
     const code = searchParams.get('code')
     const state = searchParams.get('state')

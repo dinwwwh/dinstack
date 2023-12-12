@@ -1,8 +1,8 @@
-import { authedProcedure } from '@api/trpc'
+import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
-export const organizationDetailRoute = authedProcedure
+export const organizationDetailRoute = authProcedure
   .input(
     z.object({
       organizationId: z.string().uuid(),
@@ -29,7 +29,7 @@ export const organizationDetailRoute = authedProcedure
       })
     }
 
-    if (organization.members.find((member) => member.userId === ctx.auth.user.id) === undefined) {
+    if (organization.members.find((member) => member.userId === ctx.auth.session.userId) === undefined) {
       throw new TRPCError({
         code: 'FORBIDDEN',
         message: 'You are not a member of this organization',

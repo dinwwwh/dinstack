@@ -60,8 +60,8 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             const auth = store.get(authAtom)
             const headers: Record<string, string> = {}
 
-            if (auth.user) {
-              headers['Authorization'] = `Bearer ${auth.jwt}`
+            if (auth) {
+              headers['Authorization'] = `Bearer ${auth.session.id}`
             }
 
             return headers
