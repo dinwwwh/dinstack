@@ -6,6 +6,7 @@ import { Toaster } from '@ui/ui/toaster'
 import JotaiProvider from './_providers/jotai'
 import { QueryProvider } from './_providers/query'
 import { ThemeProvider } from './_providers/theme'
+import TurnstileProvider from './_providers/turnstile'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,9 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JotaiProvider>
           <ThemeProvider attribute="class" defaultTheme="system">
             <QueryProvider>
-              <ScrollArea>
-                <div className="h-screen">{children}</div>
-              </ScrollArea>
+              <TurnstileProvider>
+                <ScrollArea>
+                  <div className="h-screen">{children}</div>
+                </ScrollArea>
+              </TurnstileProvider>
               <Toaster />
             </QueryProvider>
           </ThemeProvider>

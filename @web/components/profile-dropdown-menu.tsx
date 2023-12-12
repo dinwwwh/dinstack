@@ -216,6 +216,7 @@ function WorkspaceListItem(props: {
 
 function LogoutDropdownMenuItem() {
   const [, setAuth] = useAtom(authAtom)
+  // TODO: call logout api
   return <DropdownMenuItem onClick={() => setAuth(RESET)}>Log out</DropdownMenuItem>
 }
 
