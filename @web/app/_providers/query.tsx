@@ -10,7 +10,7 @@ import { useState } from 'react'
 import SuperJSON from 'superjson'
 import { useToast } from '@ui/ui/use-toast'
 import { store } from './jotai'
-import { showTurnstileAtom, turnstileTokenAtom } from './turnstile'
+import { showTurnstileAtom, turnstileRefAtom, turnstileTokenAtom } from './turnstile'
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast()
@@ -89,6 +89,8 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
                 ...init.headers,
                 'X-Turnstile-Token': `${token}`,
               }
+              store.set(turnstileTokenAtom, null)
+              store.get(turnstileRefAtom)?.reset()
             }
 
             return await fetch(input, init)

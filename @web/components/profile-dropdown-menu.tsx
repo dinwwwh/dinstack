@@ -175,7 +175,7 @@ function WorkspaceListItem(props: {
             organization: props.organization,
           })
         }}
-        disabled={props.disabled}
+        disabled={mutation.isLoading || props.disabled}
       >
         {mutation.isLoading ? (
           <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center mr-2">

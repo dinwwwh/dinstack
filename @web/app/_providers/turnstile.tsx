@@ -14,6 +14,8 @@ export const turnstileTokenAtom = atom<string | null>(null)
 
 export const showTurnstileAtom = atom(false)
 
+export const turnstileRefAtom = atom<TurnstileInstance | null>(null)
+
 export default function TurnstileProvider({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme()
   const [, setTurnstileToken] = useAtom(turnstileTokenAtom)
@@ -21,6 +23,7 @@ export default function TurnstileProvider({ children }: { children: React.ReactN
   const turnstileRef = useRef<TurnstileInstance>(null)
   const id = useId()
   const isRendered = useIsRendered()
+  const [, _setTurnstileRef] = useAtom(turnstileRefAtom)
 
   return (
     <>
@@ -45,9 +48,15 @@ export default function TurnstileProvider({ children }: { children: React.ReactN
                   .with('light', () => 'light' as const)
                   .otherwise(() => 'auto' as const),
               }}
-              onSuccess={(token) => setTurnstileToken(token)}
+              onSuccess={(token) => {
+                _setTurnstileRef(turnstileRef.current)
+                setTurnstileToken(token)
+              }}
               onError={() => setTurnstileToken(null)}
-              onExpire={() => turnstileRef.current?.reset()}
+              onExpire={() => {
+                setTurnstileToken(null)
+                turnstileRef.current?.reset()
+              }}
             />
           </div>
         </Portal.Root>
