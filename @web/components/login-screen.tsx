@@ -8,8 +8,8 @@ import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useId, useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useEffect, useId, useState } from 'react'
 import OTPInput from 'react-otp-input'
 import { match } from 'ts-pattern'
 import { GoogleLogoIcon } from '@ui/icons/google-logo'
@@ -26,7 +26,6 @@ export function LoginScreen(props: Props) {
   const [, setAuth] = useAtom(authAtom)
   const [step, setStep] = useState<'send-otp' | 'validate-otp'>('send-otp')
   const [email, setEmail] = useState('')
-  const router = useRouter()
   const [history, setHistory] = useAtom(loginWithEmailHistoryAtom)
 
   useEffect(() => {

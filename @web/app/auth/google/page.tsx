@@ -6,7 +6,7 @@ import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useIsRendered } from '@ui/hooks/use-is-rendered'
 
 export default function Page() {
