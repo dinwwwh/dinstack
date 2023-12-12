@@ -15,3 +15,15 @@ export const authAtom = atomWithLocalStorage(
 
 export const stateAtom = atomWithLocalStorage('state-atom', z.string().nullable(), null)
 export const codeVerifierAtom = atomWithLocalStorage('code-verifier-atom', z.string().nullable(), null)
+
+export const loginRequestFromAtom = atomWithLocalStorage(
+  'login-request-from-atom',
+  z.object({
+    pathname: z.string(),
+    searchParams: z.string(),
+  }),
+  {
+    pathname: '',
+    searchParams: '',
+  },
+)

@@ -1,14 +1,14 @@
 'use client'
 
 import { ArrowLeftIcon, ArrowRightIcon, ReloadIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
-import { codeVerifierAtom, authAtom, stateAtom } from '@web/atoms/auth'
+import { codeVerifierAtom, authAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
 import { loginWithEmailHistoryAtom } from '@web/atoms/history'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useId, useState } from 'react'
 import OTPInput from 'react-otp-input'
 import { match } from 'ts-pattern'
@@ -28,11 +28,6 @@ export function LoginScreen(props: Props) {
   const [email, setEmail] = useState('')
   const router = useRouter()
   const [history, setHistory] = useAtom(loginWithEmailHistoryAtom)
-
-  const navigateToPreviousPage = useCallback(() => {
-    // TODO: implement it and prevent duplicate
-    router.push('/dash')
-  }, [router])
 
   useEffect(() => {
     if (
@@ -55,7 +50,9 @@ export function LoginScreen(props: Props) {
             <Link href="/">
               <img className="h-10 w-auto" src="/logo.svg" alt="Your Company" />
             </Link>
-            <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
+            <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-foreground">
+              Sign in to your account
+            </h2>
             <p className="mt-2 text-sm leading-6">
               {match(step)
                 .with('send-otp', () => 'One Step Login')
@@ -84,7 +81,6 @@ export function LoginScreen(props: Props) {
                   onSuccess={(data) => {
                     setAuth(data.auth)
                     setHistory(RESET)
-                    navigateToPreviousPage()
                   }}
                   onBack={() => {
                     setStep('send-otp')
@@ -233,12 +229,19 @@ function ValidateOtpForm(props: {
 }
 
 function LoginWithGoogleButton(props: { isLoading?: boolean }) {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
   const [, setSate] = useAtom(stateAtom)
   const [, setCodeVerifier] = useAtom(codeVerifierAtom)
+  const [, setLoginRequestFrom] = useAtom(loginRequestFromAtom)
   const authGoogle = api.auth.google.loginUrl.useMutation({
     onSuccess: (data) => {
       setSate(data.state)
       setCodeVerifier(data.codeVerifier)
+      setLoginRequestFrom({
+        pathname,
+        searchParams: searchParams.toString(),
+      })
       window.location.href = data.url.toString()
     },
   })
@@ -262,10 +265,17 @@ function LoginWithGoogleButton(props: { isLoading?: boolean }) {
 }
 
 function LoginWithGithubButton(props: { isLoading?: boolean }) {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
   const [, setSate] = useAtom(stateAtom)
+  const [, setLoginRequestFrom] = useAtom(loginRequestFromAtom)
   const authGoogle = api.auth.github.loginUrl.useMutation({
     onSuccess: (data) => {
       setSate(data.state)
+      setLoginRequestFrom({
+        pathname,
+        searchParams: searchParams.toString(),
+      })
       window.location.href = data.url.toString()
     },
   })
