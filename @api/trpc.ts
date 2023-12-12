@@ -11,7 +11,7 @@ export const router = t.router
 
 const turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
   if (type === 'mutation') {
-    let formData = new FormData()
+    const formData = new FormData()
     formData.append('secret', ctx.env.TURNSTILE_SECRET_KEY)
     formData.append('response', ctx.request.headers.get('X-Turnstile-Token'))
     formData.append('remoteip', ctx.request.headers.get('CF-Connecting-IP'))

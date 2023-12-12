@@ -1,6 +1,7 @@
 'use client'
 
-import { Turnstile as Base, TurnstileInstance } from '@marsidev/react-turnstile'
+import type { TurnstileInstance } from '@marsidev/react-turnstile'
+import { Turnstile as Base } from '@marsidev/react-turnstile'
 import { useId, useRef, useState } from 'react'
 
 export function Turnstile() {
