@@ -175,7 +175,7 @@ function WorkspaceListItem(props: {
             organization: props.organization,
           })
         }}
-        disabled={props.disabled}
+        disabled={mutation.isLoading || props.disabled}
       >
         {mutation.isLoading ? (
           <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center mr-2">
@@ -216,6 +216,7 @@ function WorkspaceListItem(props: {
 
 function LogoutDropdownMenuItem() {
   const [, setAuth] = useAtom(authAtom)
+  // TODO: call logout api
   return <DropdownMenuItem onClick={() => setAuth(RESET)}>Log out</DropdownMenuItem>
 }
 

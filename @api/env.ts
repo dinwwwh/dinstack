@@ -12,6 +12,7 @@ export const envSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string(),
   RESEND_API_KEY: z.string(),
   RESEND_FROM: z.string(),
+  TURNSTILE_SECRET_KEY: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>

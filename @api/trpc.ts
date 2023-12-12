@@ -9,7 +9,32 @@ const t = initTRPC.context<Context & { request: Request }>().create({
 export const middleware = t.middleware
 export const router = t.router
 
-export const procedure = t.procedure
+const turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
+  if (type === 'mutation') {
+    const formData = new FormData()
+    formData.append('secret', ctx.env.TURNSTILE_SECRET_KEY)
+    formData.append('response', ctx.request.headers.get('X-Turnstile-Token'))
+    formData.append('remoteip', ctx.request.headers.get('CF-Connecting-IP'))
+
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      body: formData,
+      method: 'POST',
+    })
+    const outcome = (await res.json()) as { success: boolean }
+    if (!outcome.success) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'You are behaving like an automated bot.',
+      })
+    }
+  }
+
+  return next({
+    ctx,
+  })
+})
+
+export const procedure = t.procedure.use(turnstileMiddleware)
 
 const authMiddleware = middleware(async ({ ctx, next }) => {
   const bearer = ctx.request.headers.get('Authorization')
