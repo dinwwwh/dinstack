@@ -3,7 +3,6 @@ const nextConfig = {
   output: 'export',
   experimental: {
     typedRoutes: true,
-    // swcPlugins: [['@swc-jotai/react-refresh', {}]],
   },
   typescript: {
     ignoreBuildErrors: true,

@@ -1,31 +1,45 @@
 'use client'
 
+import { oauthAccountProviders } from '@api/database/schema'
 import { codeVerifierAtom, authAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
-import { LoginScreen } from '@web/components/login-screen'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import { z } from 'zod'
 import { useIsRendered } from '@ui/hooks/use-is-rendered'
 
-export default function Page() {
+export function CallbackHandler() {
   const router = useRouter()
-  const [, setAuth] = useAtom(authAtom)
+  const param = z
+    .object({
+      provider: z.enum(oauthAccountProviders.enumValues),
+    })
+    .parse(useParams())
+  const [auth, setAuth] = useAtom(authAtom)
   const [oldState, setOldState] = useAtom(stateAtom)
   const [codeVerifier, setCodeVerifier] = useAtom(codeVerifierAtom)
   const [loginRequestFrom] = useAtom(loginRequestFromAtom)
   const isRendered = useIsRendered()
 
   const searchParams = useSearchParams()
-  const mutation = api.auth.google.validate.useMutation({
+  const loginMutation = api.auth.oauth.login.useMutation({
     onSuccess(data) {
       setAuth(data.auth)
-      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
     },
     onSettled() {
       setOldState(RESET)
       setCodeVerifier(RESET)
+      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
+    },
+  })
+
+  const connectMutation = api.auth.oauth.connect.useMutation({
+    onSettled() {
+      setOldState(RESET)
+      setCodeVerifier(RESET)
+      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
     },
   })
 
@@ -39,16 +53,24 @@ export default function Page() {
       throw new Error('This page should not be accessed directly')
     }
 
-    mutation.mutate({
-      code,
-      codeVerifier,
-    })
+    if (auth) {
+      connectMutation.mutate({
+        provider: param.provider,
+        state,
+        code,
+        codeVerifier,
+      })
+    } else {
+      loginMutation.mutate({
+        provider: param.provider,
+        state,
+        code,
+        codeVerifier,
+      })
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRendered])
 
-  return (
-    <div className="fixed inset-0 z-50">
-      <LoginScreen isLoadingGoogle={mutation.isLoading} />
-    </div>
-  )
+  return null
 }

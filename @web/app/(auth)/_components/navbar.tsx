@@ -4,6 +4,7 @@ import { CaretDownIcon, DashboardIcon } from '@radix-ui/react-icons'
 import { ProfileDropdownMenu } from '@web/components/profile-dropdown-menu'
 import { ThemeToggle } from '@web/components/theme-toggle'
 import { api } from '@web/lib/api'
+import { isActivePathname } from '@web/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { match } from 'ts-pattern'
@@ -32,8 +33,6 @@ const menuItems = [
 export function Navbar(props: Props) {
   const pathname = usePathname()
 
-  const isActiveLink = (href: string) => `${pathname}/`.startsWith(`${href}/`)
-
   return (
     <div className="flex flex-col h-full">
       <Button variant={'ghost'} className="justify-start w-full" size="icon">
@@ -46,7 +45,7 @@ export function Navbar(props: Props) {
           {menuItems.map((item) => (
             <Button
               key={item.href}
-              variant={isActiveLink(item.href) ? 'secondary' : 'ghost'}
+              variant={isActivePathname(item.href, pathname) ? 'secondary' : 'ghost'}
               className="justify-start p-2.5 w-full"
               size="icon"
               asChild

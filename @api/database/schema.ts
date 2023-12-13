@@ -1,5 +1,16 @@
 import { relations, sql } from 'drizzle-orm'
-import { pgTable, varchar, timestamp, uuid, primaryKey, pgEnum, char, jsonb, foreignKey } from 'drizzle-orm/pg-core'
+import {
+  pgTable,
+  varchar,
+  timestamp,
+  uuid,
+  primaryKey,
+  pgEnum,
+  char,
+  jsonb,
+  foreignKey,
+  unique,
+} from 'drizzle-orm/pg-core'
 import { alphabet, generateRandomString } from 'oslo/random'
 
 export const Users = pgTable('users', {
@@ -17,11 +28,14 @@ export const UserRelations = relations(Users, ({ many }) => ({
   organizationMembers: many(OrganizationMembers),
 }))
 
+export const oauthAccountProviders = pgEnum('oauth_account_providers', ['github', 'google'])
+
 export const OauthAccounts = pgTable(
   'oauth_accounts',
   {
-    provider: varchar('provider', { length: 255 }).notNull().$type<'github' | 'google'>(),
+    provider: oauthAccountProviders('provider').notNull(),
     providerUserId: varchar('provider_user_id', { length: 255 }).notNull(),
+    identifier: varchar('identifier', { length: 255 }).notNull(),
     userId: uuid('user_id')
       .notNull()
       .references(() => Users.id),
@@ -29,6 +43,7 @@ export const OauthAccounts = pgTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.provider, t.providerUserId] }),
+    pu: unique().on(t.provider, t.userId),
   }),
 )
 

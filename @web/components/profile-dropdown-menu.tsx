@@ -3,6 +3,7 @@ import { authAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
 import { Button } from '@ui/ui/button'
@@ -47,9 +48,8 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
         <DropdownMenuSeparator />
         {/* TODO: implement */}
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          <DropdownMenuItem asChild>
+            <Link href="/profile">Profile</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             Billing

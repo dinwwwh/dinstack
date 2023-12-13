@@ -163,6 +163,9 @@ importers:
 
   '@web':
     dependencies:
+      '@dinstack/api':
+        specifier: workspace:^
+        version: link:../@api
       '@dinstack/ui':
         specifier: workspace:^
         version: link:../@ui
@@ -221,9 +224,6 @@ importers:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
-      '@dinstack/api':
-        specifier: workspace:^
-        version: link:../@api
       '@dinstack/tsconfig':
         specifier: workspace:^
         version: link:../@tsconfig

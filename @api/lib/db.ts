@@ -32,6 +32,7 @@ export async function createUser(ctx: {
   oauth?: {
     provider: (typeof schema.OauthAccounts.$inferInsert)['provider']
     providerUserId: string
+    identifier: string
   }
 }) {
   const lowerCaseEmail = ctx.user.email.toLocaleLowerCase()
@@ -89,6 +90,7 @@ export async function createUser(ctx: {
         provider: ctx.oauth.provider,
         providerUserId: ctx.oauth.providerUserId,
         userId: user.id,
+        identifier: ctx.oauth.identifier,
       })
     }
 
