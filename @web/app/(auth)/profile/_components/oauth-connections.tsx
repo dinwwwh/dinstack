@@ -23,14 +23,7 @@ const oauthProviders = [
 
 export function OauthConnections() {
   const query = api.auth.infos.useQuery()
-
-  const connectOauth = (provider: string) => () => {
-    // TODO: implement
-  }
-
-  const disconnectOauth = (provider: string) => () => {
-    // TODO: implement
-  }
+  const disconnectMutation = api.auth.oauth.disconnect.useMutation()
 
   return (
     <div className="@container">
@@ -47,7 +40,7 @@ export function OauthConnections() {
             .with({ status: 'success' }, (query) => (
               <ul role="list" className="divide-y border-t text-sm leading-6">
                 {oauthProviders.map((provider) => (
-                  <li className="flex justify-between gap-x-6 py-6">
+                  <li key={provider.provider} className="flex justify-between gap-x-6 py-6">
                     <div className="font-medium flex gap-3 items-center">
                       <provider.Icon className="h-6 w-6 " />
                       <span>{provider.name}</span>
@@ -57,12 +50,19 @@ export function OauthConnections() {
                         type="button"
                         variant={'ghost'}
                         className="text-destructive hover:text-destructive"
-                        onClick={() => disconnectOauth(provider.provider)}
+                        disabled={
+                          disconnectMutation.isLoading && disconnectMutation.variables?.provider === provider.provider
+                        }
+                        onClick={() =>
+                          disconnectMutation.mutate({
+                            provider: provider.provider,
+                          })
+                        }
                       >
                         Disconnect
                       </Button>
                     ) : (
-                      <Button type="button" variant={'ghost'} onClick={() => connectOauth(provider.provider)}>
+                      <Button type="button" variant={'ghost'}>
                         Connect
                       </Button>
                     )}

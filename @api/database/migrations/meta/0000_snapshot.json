@@ -1,5 +1,5 @@
 {
-  "id": "28bedb6c-4c38-4a18-bb14-c17876b88145",
+  "id": "76e6a6a4-d4bb-46dd-8b39-07e703ac2f77",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -45,7 +45,7 @@
       "columns": {
         "provider": {
           "name": "provider",
-          "type": "varchar(255)",
+          "type": "oauth_account_providers",
           "primaryKey": false,
           "notNull": true
         },
@@ -87,7 +87,13 @@
           "columns": ["provider", "provider_user_id"]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "oauth_accounts_provider_user_id_unique": {
+          "name": "oauth_accounts_provider_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": ["provider", "user_id"]
+        }
+      }
     },
     "organization_members": {
       "name": "organization_members",
@@ -286,6 +292,13 @@
     }
   },
   "enums": {
+    "oauth_account_providers": {
+      "name": "oauth_account_providers",
+      "values": {
+        "github": "github",
+        "google": "google"
+      }
+    },
     "organization_member_roles": {
       "name": "organization_member_roles",
       "values": {

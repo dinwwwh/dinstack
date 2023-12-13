@@ -28,10 +28,12 @@ export const UserRelations = relations(Users, ({ many }) => ({
   organizationMembers: many(OrganizationMembers),
 }))
 
+export const oauthAccountProviders = pgEnum('oauth_account_providers', ['github', 'google'])
+
 export const OauthAccounts = pgTable(
   'oauth_accounts',
   {
-    provider: varchar('provider', { length: 255 }).notNull().$type<'github' | 'google'>(),
+    provider: oauthAccountProviders('provider').notNull(),
     providerUserId: varchar('provider_user_id', { length: 255 }).notNull(),
     userId: uuid('user_id')
       .notNull()

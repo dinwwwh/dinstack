@@ -1,6 +1,12 @@
 CREATE EXTENSION IF NOT EXISTS "pg_uuidv7";
 
 DO $$ BEGIN
+ CREATE TYPE "oauth_account_providers" AS ENUM('github', 'google');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "organization_member_roles" AS ENUM('admin', 'member');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -14,11 +20,12 @@ CREATE TABLE IF NOT EXISTS "email_otps" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "oauth_accounts" (
-	"provider" varchar(255) NOT NULL,
+	"provider" "oauth_account_providers" NOT NULL,
 	"provider_user_id" varchar(255) NOT NULL,
 	"user_id" uuid NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT oauth_accounts_provider_provider_user_id_pk PRIMARY KEY("provider","provider_user_id")
+	CONSTRAINT oauth_accounts_provider_provider_user_id_pk PRIMARY KEY("provider","provider_user_id"),
+	CONSTRAINT "oauth_accounts_provider_user_id_unique" UNIQUE("provider","user_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "organization_members" (
