@@ -95,6 +95,7 @@ export const authOauthRouter = router({
         oauth: {
           provider: input.provider,
           providerUserId: oauthUser.id,
+          identifier: oauthUser.identifier,
         },
       })
 
@@ -153,6 +154,7 @@ export const authOauthRouter = router({
         provider: input.provider,
         providerUserId: oauthUser.id,
         userId: ctx.auth.session.userId,
+        identifier: oauthUser.identifier,
       })
     }),
   disconnect: authProcedure

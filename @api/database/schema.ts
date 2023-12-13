@@ -35,6 +35,7 @@ export const OauthAccounts = pgTable(
   {
     provider: oauthAccountProviders('provider').notNull(),
     providerUserId: varchar('provider_user_id', { length: 255 }).notNull(),
+    identifier: varchar('identifier', { length: 255 }).notNull(),
     userId: uuid('user_id')
       .notNull()
       .references(() => Users.id),

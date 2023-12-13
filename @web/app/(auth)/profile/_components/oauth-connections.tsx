@@ -59,44 +59,53 @@ export function OauthConnections() {
             .with({ status: 'error' }, () => <GeneralError />)
             .with({ status: 'success' }, (query) => (
               <ul role="list" className="divide-y border-t text-sm leading-6">
-                {oauthProviders.map((provider) => (
-                  <li key={provider.provider} className="flex justify-between gap-x-6 py-6">
-                    <div className="font-medium flex gap-3 items-center">
-                      <provider.Icon className="h-6 w-6 " />
-                      <span>{provider.name}</span>
-                      {/* TODO: show provider infos like email/login/... to prevent bad acting */}
-                    </div>
-                    {query.data.oauthAccounts.some((account) => account.provider === provider.provider) ? (
-                      <Button
-                        type="button"
-                        variant={'ghost'}
-                        className="text-destructive hover:text-destructive"
-                        disabled={
-                          disconnectMutation.isLoading && disconnectMutation.variables?.provider === provider.provider
-                        }
-                        onClick={() =>
-                          disconnectMutation.mutate({
-                            provider: provider.provider,
-                          })
-                        }
-                      >
-                        Disconnect
-                      </Button>
-                    ) : (
-                      <Button
-                        type="button"
-                        variant={'ghost'}
-                        disabled={
-                          authorizationUrlMutation.isLoading &&
-                          authorizationUrlMutation.variables?.provider === provider.provider
-                        }
-                        onClick={() => authorizationUrlMutation.mutate({ provider: provider.provider })}
-                      >
-                        Connect
-                      </Button>
-                    )}
-                  </li>
-                ))}
+                {oauthProviders.map((provider) => {
+                  const oauthAccount = query.data.oauthAccounts.find(
+                    (account) => account.provider === provider.provider,
+                  )
+
+                  return (
+                    <li key={provider.provider} className="flex justify-between gap-x-6 py-6">
+                      <div className="flex gap-3 items-center">
+                        <provider.Icon className="h-9 w-9 " />
+                        <div className="flex flex-col gap-1">
+                          <span className="font-medium text-sm">{provider.name}</span>
+                          <span className="font-medium text-xs text-muted-foreground">{oauthAccount?.identifier}</span>
+                        </div>
+                        {/* TODO: show provider infos like email/login/... to prevent bad acting */}
+                      </div>
+                      {oauthAccount ? (
+                        <Button
+                          type="button"
+                          variant={'ghost'}
+                          className="text-destructive hover:text-destructive"
+                          disabled={
+                            disconnectMutation.isLoading && disconnectMutation.variables?.provider === provider.provider
+                          }
+                          onClick={() =>
+                            disconnectMutation.mutate({
+                              provider: provider.provider,
+                            })
+                          }
+                        >
+                          Disconnect
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          variant={'ghost'}
+                          disabled={
+                            authorizationUrlMutation.isLoading &&
+                            authorizationUrlMutation.variables?.provider === provider.provider
+                          }
+                          onClick={() => authorizationUrlMutation.mutate({ provider: provider.provider })}
+                        >
+                          Connect
+                        </Button>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             ))
             .exhaustive()}

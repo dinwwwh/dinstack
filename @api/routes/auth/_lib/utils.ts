@@ -83,6 +83,7 @@ export async function getOauthUser({
   email: string
   name: string
   avatarUrl: string
+  identifier: string
 }> {
   return await match(provider)
     .with('github', async () => {
@@ -104,6 +105,7 @@ export async function getOauthUser({
         email: userGithub.email.toLocaleLowerCase(),
         name: userGithub.name || userGithub.login,
         avatarUrl: userGithub.avatar_url,
+        identifier: `@${userGithub.login}`,
       }
     })
     .with('google', async () => {
@@ -119,6 +121,7 @@ export async function getOauthUser({
         email: userGoogle.email.toLocaleLowerCase(),
         name: userGoogle.name,
         avatarUrl: userGoogle.picture,
+        identifier: userGoogle.email,
       }
     })
     .exhaustive()

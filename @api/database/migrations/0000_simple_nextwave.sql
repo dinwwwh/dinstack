@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS "email_otps" (
 CREATE TABLE IF NOT EXISTS "oauth_accounts" (
 	"provider" "oauth_account_providers" NOT NULL,
 	"provider_user_id" varchar(255) NOT NULL,
+	"identifier" varchar(255) NOT NULL,
 	"user_id" uuid NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT oauth_accounts_provider_provider_user_id_pk PRIMARY KEY("provider","provider_user_id"),

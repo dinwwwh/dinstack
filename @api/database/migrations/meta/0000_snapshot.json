@@ -1,5 +1,5 @@
 {
-  "id": "76e6a6a4-d4bb-46dd-8b39-07e703ac2f77",
+  "id": "be57e4a8-c363-4a94-93e7-dba50163ab8b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -51,6 +51,12 @@
         },
         "provider_user_id": {
           "name": "provider_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "identifier": {
+          "name": "identifier",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
