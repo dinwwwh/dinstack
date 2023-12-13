@@ -21,11 +21,11 @@ export default function Page() {
   const mutation = api.auth.google.validate.useMutation({
     onSuccess(data) {
       setAuth(data.auth)
-      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
     },
     onSettled() {
       setOldState(RESET)
       setCodeVerifier(RESET)
+      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
     },
   })
 

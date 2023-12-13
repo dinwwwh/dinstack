@@ -20,10 +20,10 @@ export default function Page() {
   const mutation = api.auth.github.validate.useMutation({
     onSuccess(data) {
       setAuth(data.auth)
-      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
     },
     onSettled() {
       setOldState(RESET)
+      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
     },
   })
 
