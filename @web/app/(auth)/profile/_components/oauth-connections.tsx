@@ -1,7 +1,10 @@
 'use client'
 
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
+import { codeVerifierAtom, loginRequestFromAtom, stateAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
+import { useAtom } from 'jotai'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { match } from 'ts-pattern'
 import { GoogleLogoColorfulIcon } from '@ui/icons/google-logo'
 import { Button } from '@ui/ui/button'
@@ -22,8 +25,25 @@ const oauthProviders = [
 ] as const
 
 export function OauthConnections() {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const [, setSate] = useAtom(stateAtom)
+  const [, setCodeVerifier] = useAtom(codeVerifierAtom)
+  const [, setLoginRequestFrom] = useAtom(loginRequestFromAtom)
+
   const query = api.auth.infos.useQuery()
   const disconnectMutation = api.auth.oauth.disconnect.useMutation()
+  const authorizationUrlMutation = api.auth.oauth.authorizationUrl.useMutation({
+    onSuccess(data) {
+      setSate(data.state)
+      setCodeVerifier(data.codeVerifier)
+      setLoginRequestFrom({
+        pathname,
+        searchParams: searchParams.toString(),
+      })
+      window.location.href = data.url.toString()
+    },
+  })
 
   return (
     <div className="@container">
@@ -44,6 +64,7 @@ export function OauthConnections() {
                     <div className="font-medium flex gap-3 items-center">
                       <provider.Icon className="h-6 w-6 " />
                       <span>{provider.name}</span>
+                      {/* TODO: show provider infos like email/login/... to prevent bad acting */}
                     </div>
                     {query.data.oauthAccounts.some((account) => account.provider === provider.provider) ? (
                       <Button
@@ -62,7 +83,15 @@ export function OauthConnections() {
                         Disconnect
                       </Button>
                     ) : (
-                      <Button type="button" variant={'ghost'}>
+                      <Button
+                        type="button"
+                        variant={'ghost'}
+                        disabled={
+                          authorizationUrlMutation.isLoading &&
+                          authorizationUrlMutation.variables?.provider === provider.provider
+                        }
+                        onClick={() => authorizationUrlMutation.mutate({ provider: provider.provider })}
+                      >
                         Connect
                       </Button>
                     )}
