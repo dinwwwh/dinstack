@@ -233,7 +233,7 @@ function LoginWithGoogleButton(props: { isLoading?: boolean }) {
   const [, setSate] = useAtom(stateAtom)
   const [, setCodeVerifier] = useAtom(codeVerifierAtom)
   const [, setLoginRequestFrom] = useAtom(loginRequestFromAtom)
-  const authGoogle = api.auth.google.loginUrl.useMutation({
+  const authGoogle = api.auth.oauth.authorizationUrl.useMutation({
     onSuccess: (data) => {
       setSate(data.state)
       setCodeVerifier(data.codeVerifier)
@@ -251,7 +251,11 @@ function LoginWithGoogleButton(props: { isLoading?: boolean }) {
       type="button"
       className="w-full"
       disabled={authGoogle.isLoading || props.isLoading}
-      onClick={() => authGoogle.mutate()}
+      onClick={() =>
+        authGoogle.mutate({
+          provider: 'google',
+        })
+      }
     >
       {authGoogle.isLoading || props.isLoading ? (
         <ReloadIcon className="w-4 h-4 animate-spin" />
@@ -267,10 +271,12 @@ function LoginWithGithubButton(props: { isLoading?: boolean }) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const [, setSate] = useAtom(stateAtom)
+  const [, setCodeVerifier] = useAtom(codeVerifierAtom)
   const [, setLoginRequestFrom] = useAtom(loginRequestFromAtom)
-  const authGoogle = api.auth.github.loginUrl.useMutation({
+  const authGoogle = api.auth.oauth.authorizationUrl.useMutation({
     onSuccess: (data) => {
       setSate(data.state)
+      setCodeVerifier(data.codeVerifier)
       setLoginRequestFrom({
         pathname,
         searchParams: searchParams.toString(),
@@ -285,7 +291,11 @@ function LoginWithGithubButton(props: { isLoading?: boolean }) {
       type="button"
       className="w-full"
       disabled={authGoogle.isLoading || props.isLoading}
-      onClick={() => authGoogle.mutate()}
+      onClick={() =>
+        authGoogle.mutate({
+          provider: 'github',
+        })
+      }
     >
       {authGoogle.isLoading || props.isLoading ? (
         <ReloadIcon className="w-4 h-4 animate-spin" />
