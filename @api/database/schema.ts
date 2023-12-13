@@ -1,5 +1,16 @@
 import { relations, sql } from 'drizzle-orm'
-import { pgTable, varchar, timestamp, uuid, primaryKey, pgEnum, char, jsonb, foreignKey } from 'drizzle-orm/pg-core'
+import {
+  pgTable,
+  varchar,
+  timestamp,
+  uuid,
+  primaryKey,
+  pgEnum,
+  char,
+  jsonb,
+  foreignKey,
+  unique,
+} from 'drizzle-orm/pg-core'
 import { alphabet, generateRandomString } from 'oslo/random'
 
 export const Users = pgTable('users', {
@@ -29,6 +40,7 @@ export const OauthAccounts = pgTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.provider, t.providerUserId] }),
+    pu: unique().on(t.provider, t.userId),
   }),
 )
 

@@ -2,7 +2,7 @@ import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 
 export const authInfosRoute = authProcedure.query(async ({ ctx }) => {
-  const session = await ctx.db.query.Sessions.findFirst({
+  const findSession = ctx.db.query.Sessions.findFirst({
     where(t, { eq }) {
       return eq(t.id, ctx.auth.session.id)
     },
@@ -20,6 +20,14 @@ export const authInfosRoute = authProcedure.query(async ({ ctx }) => {
     },
   })
 
+  const findOauthAccounts = ctx.db.query.OauthAccounts.findMany({
+    where(t, { eq }) {
+      return eq(t.userId, ctx.auth.session.userId)
+    },
+  })
+
+  const [session, oauthAccounts] = await Promise.all([findSession, findOauthAccounts])
+
   if (!session) {
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
@@ -29,5 +37,6 @@ export const authInfosRoute = authProcedure.query(async ({ ctx }) => {
 
   return {
     session,
+    oauthAccounts,
   }
 })
