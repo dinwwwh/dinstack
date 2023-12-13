@@ -4,6 +4,7 @@ import { authGithubRouter } from './github'
 import { authGoogleRouter } from './google'
 import { authInfosRoute } from './infos'
 import { authOrganizationSwitchRoute } from './organization-switch'
+import { authProfileRouter } from './profile'
 
 export const authRouter = router({
   google: authGoogleRouter,
@@ -13,4 +14,5 @@ export const authRouter = router({
     switch: authOrganizationSwitchRoute,
   }),
   infos: authInfosRoute,
+  profile: authProfileRouter,
 })

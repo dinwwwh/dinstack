@@ -1,5 +1,6 @@
 'use client'
 
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { api } from '@web/lib/api'
 import { useId } from 'react'
 import { match } from 'ts-pattern'
@@ -13,10 +14,12 @@ export function PersonalInfosForm() {
   const nameId = useId()
   const emailId = useId()
   const query = api.auth.infos.useQuery()
+  const mutation = api.auth.profile.update.useMutation()
 
   const action = (form: FormData) => {
-    console.log(form)
-    // TODO: Implement this
+    const name = form.get('name') as string
+
+    mutation.mutate({ user: { name } })
   }
 
   return (
@@ -71,7 +74,10 @@ export function PersonalInfosForm() {
                 </div>
 
                 <div className="mt-8">
-                  <Button>Save</Button>
+                  <Button disabled={mutation.isLoading} className="gap-2">
+                    Save
+                    {mutation.isLoading && <ReloadIcon className="h-4 w-4 animate-spin" />}
+                  </Button>
                 </div>
               </form>
             ))
