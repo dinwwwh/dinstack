@@ -1,4 +1,4 @@
-import { OauthAccounts, Users, oauthAccountProviders } from '@api/database/schema'
+import { OauthAccounts, oauthAccountProviders } from '@api/database/schema'
 import { createUser } from '@api/lib/db'
 import { uppercaseFirstLetter } from '@api/lib/utils'
 import { authProcedure, procedure, router } from '@api/trpc'
@@ -50,14 +50,6 @@ export const authOauthRouter = router({
       })
 
       if (oauthAccount) {
-        await ctx.db
-          .update(Users)
-          .set({
-            name: oauthUser.name,
-            avatarUrl: oauthUser.avatarUrl,
-          })
-          .where(eq(Users.id, oauthAccount.userId))
-
         const organizationMember = oauthAccount.organizationMembers[0]
         if (!organizationMember) {
           throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to find organization member' })

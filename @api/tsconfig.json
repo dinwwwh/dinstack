@@ -3,9 +3,14 @@
   "compilerOptions": {
     "outDir": "build",
     "paths": {
-      "@api/*": ["./*"]
+      "@api/*": ["./*"],
+      "@shared/*": ["../@shared/*"]
     }
   },
   "exclude": ["drizzle.config.ts", "scripts", "build"],
-  "references": []
+  "references": [
+    {
+      "path": "../@shared/tsconfig.json"
+    }
+  ]
 }

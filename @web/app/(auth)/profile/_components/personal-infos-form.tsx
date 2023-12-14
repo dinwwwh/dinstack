@@ -1,7 +1,9 @@
 'use client'
 
 import { api } from '@web/lib/api'
-import { useId } from 'react'
+import { constructPublicResourceUrl } from '@web/lib/utils'
+import { Base64 } from 'js-base64'
+import { useId, useRef } from 'react'
 import { match } from 'ts-pattern'
 import { Button } from '@ui/ui/button'
 import { GeneralError } from '@ui/ui/general-error'
@@ -41,13 +43,12 @@ export function PersonalInfosForm() {
                 <div className="space-y-8">
                   <div className="flex items-center gap-8">
                     <img
-                      src={query.data.session.organizationMember.user.avatarUrl}
+                      src={constructPublicResourceUrl(query.data.session.organizationMember.user.avatarUrl)}
                       alt={query.data.session.organizationMember.user.name}
                       className="h-24 w-24 flex-none rounded-lg bg-background object-cover"
                     />
                     <div>
-                      {/* TODO: implement */}
-                      <Button type="button">Change avatar</Button>
+                      <AvatarChangeButton />
                       <p className="mt-2 text-xs leading-5 text-muted-foreground">JPG, GIF or PNG. 1MB max.</p>
                     </div>
                   </div>
@@ -85,5 +86,40 @@ export function PersonalInfosForm() {
         </div>
       </section>
     </div>
+  )
+}
+
+export function AvatarChangeButton() {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const mutation = api.auth.profile.updateAvatarUrl.useMutation()
+
+  const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    const avatarBase64 = Base64.fromUint8Array(new Uint8Array(await file.arrayBuffer()))
+    mutation.mutate({
+      avatar: {
+        name: file.name,
+        base64: avatarBase64,
+      },
+    })
+  }
+
+  return (
+    <>
+      <Button
+        type="button"
+        className="gap-2"
+        disabled={mutation.isLoading}
+        onClick={() => {
+          inputRef.current?.click()
+        }}
+      >
+        Change avatar
+        <MutationStatusIcon status={mutation.status} />
+      </Button>
+      <input ref={inputRef} type="file" className="hidden" accept="image/*" onChange={onChange} />
+    </>
   )
 }

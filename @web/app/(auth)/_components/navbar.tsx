@@ -5,7 +5,7 @@ import { LogoDropdownMenu } from '@web/components/logo-dropdown-menu'
 import { ProfileDropdownMenu } from '@web/components/profile-dropdown-menu'
 import { ThemeToggle } from '@web/components/theme-toggle'
 import { api } from '@web/lib/api'
-import { isActivePathname } from '@web/lib/utils'
+import { constructPublicResourceUrl, isActivePathname } from '@web/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { match } from 'ts-pattern'
@@ -101,7 +101,7 @@ function ProfileButton() {
           >
             <div className="flex gap-3">
               <img
-                src={query.data.session.organizationMember.organization.logoUrl}
+                src={constructPublicResourceUrl(query.data.session.organizationMember.organization.logoUrl)}
                 className="h-9 w-9 rounded-md flex-shrink-0"
                 alt={query.data.session.organizationMember.organization.name}
               />

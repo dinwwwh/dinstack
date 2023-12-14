@@ -1,6 +1,7 @@
 import { ExitIcon, PersonIcon, PlusIcon } from '@radix-ui/react-icons'
 import { authAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
+import { constructPublicResourceUrl } from '@web/lib/utils'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import Link from 'next/link'
@@ -167,7 +168,7 @@ function WorkspaceListItem(props: {
         <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center flex-shrink-0">
           <MutationStatusIcon status={mutation.status}>
             <img
-              src={props.organization.logoUrl}
+              src={constructPublicResourceUrl(props.organization.logoUrl)}
               className="h-9 w-9 rounded-md object-center"
               alt={props.organization.name}
             />

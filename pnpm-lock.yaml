@@ -50,6 +50,9 @@ importers:
 
   '@api':
     dependencies:
+      '@dinstack/shared':
+        specifier: workspace:^
+        version: link:../@shared
       '@neondatabase/serverless':
         specifier: ^0.6.0
         version: 0.6.0
@@ -99,6 +102,12 @@ importers:
       tsx:
         specifier: ^4.6.2
         version: 4.6.2
+
+  '@shared':
+    devDependencies:
+      '@dinstack/tsconfig':
+        specifier: workspace:^
+        version: link:../@tsconfig
 
   '@tsconfig':
     devDependencies:
@@ -175,6 +184,9 @@ importers:
       '@dinstack/api':
         specifier: workspace:^
         version: link:../@api
+      '@dinstack/shared':
+        specifier: workspace:^
+        version: link:../@shared
       '@dinstack/ui':
         specifier: workspace:^
         version: link:../@ui
@@ -205,6 +217,9 @@ importers:
       jotai:
         specifier: ^2.6.0
         version: 2.6.0(@types/react@18.2.43)(react@18.2.0)
+      js-base64:
+        specifier: ^3.7.5
+        version: 3.7.5
       next:
         specifier: 14.0.3
         version: 14.0.3(react-dom@18.2.0)(react@18.2.0)
@@ -4097,6 +4112,10 @@ packages:
     dependencies:
       '@types/react': 18.2.43
       react: 18.2.0
+    dev: false
+
+  /js-base64@3.7.5:
+    resolution: {integrity: sha512-3MEt5DTINKqfScXKfJFrRbxkrnk2AxPWGBL/ycjz4dK8iqiSJ06UxD8jh8xuh6p10TX4t2+7FsBYVxxQbMg+qA==}
     dev: false
 
   /js-tokens@4.0.0:
