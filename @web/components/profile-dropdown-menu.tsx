@@ -44,30 +44,15 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
     <DropdownMenu open={_open} onOpenChange={_onOpenChange} {...props}>
       {children}
       <DropdownMenuContent className="w-72">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <WorkspaceList onOpenChange={_onOpenChange} />
         <DropdownMenuSeparator />
-        {/* TODO: implement */}
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link href="/profile">Profile</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Billing
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Keyboard shortcuts
-            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-          </DropdownMenuItem>
           <CreateOrganizationDropdownMenuItem />
           <LogoutDropdownMenuItem />
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <WorkspaceList onOpenChange={_onOpenChange} />
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -50,7 +50,9 @@ export function OauthConnections() {
       <section className="grid grid-cols-1 gap-x-8 gap-y-10 px-4 py-16  @2xl:grid-cols-3 ">
         <div>
           <h2 className="font-semibold leading-7">Account Connections</h2>
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">Manage your account connections.</p>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            These are the accounts that can be used to login to your account.
+          </p>
         </div>
 
         <div className="@2xl:col-span-2 sm:max-w-xl">
@@ -72,7 +74,6 @@ export function OauthConnections() {
                           <span className="font-medium text-sm">{provider.name}</span>
                           <span className="font-medium text-xs text-muted-foreground">{oauthAccount?.identifier}</span>
                         </div>
-                        {/* TODO: show provider infos like email/login/... to prevent bad acting */}
                       </div>
                       {oauthAccount ? (
                         <Button
