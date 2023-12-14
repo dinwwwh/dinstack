@@ -1,3 +1,4 @@
+import { ExitIcon, PersonIcon, PlusIcon } from '@radix-ui/react-icons'
 import { authAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
@@ -46,7 +47,10 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/profile">Profile</Link>
+            <Link href="/profile">
+              <PersonIcon className="h-4 w-4 mr-2" />
+              Profile
+            </Link>
           </DropdownMenuItem>
           <CreateOrganizationDropdownMenuItem />
           <LogoutDropdownMenuItem />
@@ -207,7 +211,12 @@ function LogoutDropdownMenuItem() {
       setAuth(RESET)
     },
   })
-  return <DropdownMenuItem onClick={() => mutation.mutate()}>Log out</DropdownMenuItem>
+  return (
+    <DropdownMenuItem onClick={() => mutation.mutate()}>
+      <ExitIcon className="h-4 w-4 mr-2" />
+      Log out
+    </DropdownMenuItem>
+  )
 }
 
 function CreateOrganizationDropdownMenuItem() {
@@ -215,6 +224,7 @@ function CreateOrganizationDropdownMenuItem() {
     <OrganizationCreateSheet>
       <SheetTrigger asChild>
         <Button type="button" variant={'ghost'} size={'default'} className="w-full justify-start font-normal px-2 h-8">
+          <PlusIcon className="h-4 w-4 mr-2" />
           Create Organization
         </Button>
       </SheetTrigger>
