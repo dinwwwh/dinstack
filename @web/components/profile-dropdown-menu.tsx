@@ -12,10 +12,8 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -201,8 +199,12 @@ function WorkspaceListItem(props: {
 
 function LogoutDropdownMenuItem() {
   const [, setAuth] = useAtom(authAtom)
-  // TODO: call logout api
-  return <DropdownMenuItem onClick={() => setAuth(RESET)}>Log out</DropdownMenuItem>
+  const mutation = api.auth.logout.useMutation({
+    onSuccess() {
+      setAuth(RESET)
+    },
+  })
+  return <DropdownMenuItem onClick={() => mutation.mutate()}>Log out</DropdownMenuItem>
 }
 
 function CreateOrganizationDropdownMenuItem() {

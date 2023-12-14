@@ -1,6 +1,7 @@
 import { router } from '@api/trpc'
 import { authEmailRouter } from './email'
 import { authInfosRoute } from './infos'
+import { authLogoutRoute } from './logout'
 import { authOauthRouter } from './oauth'
 import { authOrganizationSwitchRoute } from './organization-switch'
 import { authProfileRouter } from './profile'
@@ -13,4 +14,5 @@ export const authRouter = router({
   }),
   infos: authInfosRoute,
   profile: authProfileRouter,
+  logout: authLogoutRoute,
 })
