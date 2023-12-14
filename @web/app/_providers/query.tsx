@@ -73,9 +73,10 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
               if (!store.get(turnstileTokenAtom)) {
                 store.set(showTurnstileAtom, true)
                 await new Promise((resolve) => {
-                  store.sub(turnstileTokenAtom, () => {
+                  const unsub = store.sub(turnstileTokenAtom, () => {
                     const token = store.get(turnstileTokenAtom)
                     if (token) {
+                      unsub()
                       resolve(token)
                     }
                   })
