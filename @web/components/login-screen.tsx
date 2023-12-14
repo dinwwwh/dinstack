@@ -14,9 +14,12 @@ import OTPInput from 'react-otp-input'
 import { match } from 'ts-pattern'
 import { GoogleLogoIcon } from '@ui/icons/google-logo'
 import { Button } from '@ui/ui/button'
+import { DropdownMenuTrigger } from '@ui/ui/dropdown-menu'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
+import { Skeleton } from '@ui/ui/skeleton'
+import { LogoDropdownMenu } from './logo-dropdown-menu'
 
 type Props = {
   isLoadingGoogle?: boolean
@@ -47,9 +50,13 @@ export function LoginScreen(props: Props) {
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
-            <Link href="/">
-              <img className="h-10 w-auto" src="/logo.svg" alt="Your Company" />
-            </Link>
+            <LogoDropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant={'ghost'} className="justify-start w-full" size="icon">
+                  <Skeleton className="h-10 w-36" />
+                </Button>
+              </DropdownMenuTrigger>
+            </LogoDropdownMenu>
             <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-foreground">
               Sign in to your account
             </h2>

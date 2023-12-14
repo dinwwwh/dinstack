@@ -1,6 +1,7 @@
 'use client'
 
 import { CaretDownIcon, DashboardIcon } from '@radix-ui/react-icons'
+import { LogoDropdownMenu } from '@web/components/logo-dropdown-menu'
 import { ProfileDropdownMenu } from '@web/components/profile-dropdown-menu'
 import { ThemeToggle } from '@web/components/theme-toggle'
 import { api } from '@web/lib/api'
@@ -35,10 +36,14 @@ export function Navbar(props: Props) {
 
   return (
     <div className="flex flex-col h-full">
-      <Button variant={'ghost'} className="justify-start w-full" size="icon">
-        <Skeleton className="h-9 w-9 mr-3 flex-shrink-0" />
-        <Skeleton className="h-6 w-36" />
-      </Button>
+      <LogoDropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant={'ghost'} className="justify-start w-full" size="icon">
+            <Skeleton className="h-9 w-9 mr-3 flex-shrink-0" />
+            <Skeleton className="h-6 w-36" />
+          </Button>
+        </DropdownMenuTrigger>
+      </LogoDropdownMenu>
 
       <ScrollArea className="flex-1 mt-8 h-20">
         <div className="flex flex-col gap-4">
