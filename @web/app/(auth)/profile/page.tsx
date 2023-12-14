@@ -1,5 +1,10 @@
+import type { Metadata } from 'next'
 import { OauthConnections } from './_components/oauth-connections'
 import { PersonalInfosForm } from './_components/personal-infos-form'
+
+export const metadata: Metadata = {
+  title: 'Profile',
+}
 
 export default function ProfilePage() {
   return (

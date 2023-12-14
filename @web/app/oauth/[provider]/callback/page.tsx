@@ -1,13 +1,25 @@
 import { oauthAccountProviders } from '@api/database/schema'
 import { ReloadIcon } from '@radix-ui/react-icons'
+import { uppercaseFirstLetter } from '@web/lib/utils'
+import type { Metadata } from 'next'
 import { CallbackHandler } from './_components/callback-handler'
 
-export function generateStaticParams() {
+type Props = {
+  params: { provider: string }
+}
+
+export function generateStaticParams(): Props['params'][] {
   return oauthAccountProviders.enumValues.map((provider) => {
     return {
       provider,
     }
   })
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: `Handling ${uppercaseFirstLetter(params.provider)} callback`,
+  }
 }
 
 export default function OauthCallbackPage() {

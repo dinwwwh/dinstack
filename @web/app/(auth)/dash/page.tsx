@@ -1,6 +1,9 @@
-'use client'
-
+import type { Metadata } from 'next'
 import { ScrollArea } from '@ui/ui/scroll-area'
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+}
 
 export default function Page() {
   return (
