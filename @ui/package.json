@@ -8,7 +8,8 @@
     "postui:add": "pnpm run build"
   },
   "devDependencies": {
-    "@dinstack/tsconfig": "workspace:^"
+    "@dinstack/tsconfig": "workspace:^",
+    "@types/react": "^18.2.43"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
@@ -21,9 +22,11 @@
     "@tailwindcss/container-queries": "^0.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "react": "^18.2.0",
     "react-in-viewport": "1.0.0-alpha.30",
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.1.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "ts-pattern": "^5.0.6"
   }
 }

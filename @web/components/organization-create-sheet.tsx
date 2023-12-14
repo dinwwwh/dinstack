@@ -1,10 +1,10 @@
-import { ReloadIcon } from '@radix-ui/react-icons'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
 import { useId, useRef } from 'react'
 import { Button } from '@ui/ui/button'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
+import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@ui/ui/sheet'
 
 type Props = React.ComponentPropsWithoutRef<typeof Sheet> & {
@@ -15,7 +15,7 @@ export function OrganizationCreateSheet({ children, onSuccess, ...props }: Props
   const nameId = useId()
   const closeElement = useRef<HTMLButtonElement>(null)
 
-  const { mutate, isLoading } = api.organization.create.useMutation({
+  const { mutate, isLoading, status } = api.organization.create.useMutation({
     onSuccess(data) {
       onSuccess?.(data)
       closeElement.current?.click()
@@ -57,8 +57,9 @@ export function OrganizationCreateSheet({ children, onSuccess, ...props }: Props
                 Close
               </Button>
             </SheetClose>
-            <Button disabled={isLoading}>
-              Submit {isLoading && <ReloadIcon className="w-4 h-4 animate-spin ml-2" />}
+            <Button disabled={isLoading} className="gap-2">
+              Submit
+              <MutationStatusIcon status={status} />
             </Button>
           </div>
         </form>

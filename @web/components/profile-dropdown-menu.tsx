@@ -1,4 +1,4 @@
-import { ReloadIcon } from '@radix-ui/react-icons'
+import { ExitIcon, PersonIcon, PlusIcon } from '@radix-ui/react-icons'
 import { authAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
@@ -12,14 +12,13 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from '@ui/ui/dropdown-menu'
+import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 import { ScrollArea } from '@ui/ui/scroll-area'
 import { SheetTrigger } from '@ui/ui/sheet'
 import { Skeleton } from '@ui/ui/skeleton'
@@ -44,30 +43,18 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
     <DropdownMenu open={_open} onOpenChange={_onOpenChange} {...props}>
       {children}
       <DropdownMenuContent className="w-72">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <WorkspaceList onOpenChange={_onOpenChange} />
         <DropdownMenuSeparator />
-        {/* TODO: implement */}
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/profile">Profile</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Billing
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Keyboard shortcuts
-            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+            <Link href="/profile">
+              <PersonIcon className="h-4 w-4 mr-2" />
+              Profile
+            </Link>
           </DropdownMenuItem>
           <CreateOrganizationDropdownMenuItem />
           <LogoutDropdownMenuItem />
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <WorkspaceList onOpenChange={_onOpenChange} />
       </DropdownMenuContent>
     </DropdownMenu>
   )
@@ -167,7 +154,7 @@ function WorkspaceListItem(props: {
     <div className="flex gap-2 pl-2">
       <Button
         type="button"
-        className="flex-1 justify-start"
+        className="flex-1 justify-start gap-2"
         size={'icon'}
         variant={'ghost'}
         onClick={() => {
@@ -177,13 +164,16 @@ function WorkspaceListItem(props: {
         }}
         disabled={mutation.isLoading || props.disabled}
       >
-        {mutation.isLoading ? (
-          <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center mr-2">
-            <ReloadIcon className="h-4 w-4 text-muted-foreground animate-spin" />
-          </div>
-        ) : (
-          <img src={props.organization.logoUrl} className="h-9 w-9 mr-2 rounded-md" alt={props.organization.name} />
-        )}
+        <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center flex-shrink-0">
+          <MutationStatusIcon status={mutation.status}>
+            <img
+              src={props.organization.logoUrl}
+              className="h-9 w-9 rounded-md object-center"
+              alt={props.organization.name}
+            />
+          </MutationStatusIcon>
+        </div>
+
         <div className="flex flex-col items-start">
           <span>{props.organization.name}</span>
           {match(props.organization.numberMembers)
@@ -216,8 +206,17 @@ function WorkspaceListItem(props: {
 
 function LogoutDropdownMenuItem() {
   const [, setAuth] = useAtom(authAtom)
-  // TODO: call logout api
-  return <DropdownMenuItem onClick={() => setAuth(RESET)}>Log out</DropdownMenuItem>
+  const mutation = api.auth.logout.useMutation({
+    onSuccess() {
+      setAuth(RESET)
+    },
+  })
+  return (
+    <DropdownMenuItem onClick={() => mutation.mutate()}>
+      <ExitIcon className="h-4 w-4 mr-2" />
+      Log out
+    </DropdownMenuItem>
+  )
 }
 
 function CreateOrganizationDropdownMenuItem() {
@@ -225,6 +224,7 @@ function CreateOrganizationDropdownMenuItem() {
     <OrganizationCreateSheet>
       <SheetTrigger asChild>
         <Button type="button" variant={'ghost'} size={'default'} className="w-full justify-start font-normal px-2 h-8">
+          <PlusIcon className="h-4 w-4 mr-2" />
           Create Organization
         </Button>
       </SheetTrigger>
