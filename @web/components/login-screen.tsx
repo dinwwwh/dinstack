@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowLeftIcon, ArrowRightIcon, ReloadIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
+import { ArrowLeftIcon, ArrowRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
 import { codeVerifierAtom, authAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
 import { loginWithEmailHistoryAtom } from '@web/atoms/history'
 import type { ApiOutputs } from '@web/lib/api'
@@ -16,6 +16,7 @@ import { GoogleLogoIcon } from '@ui/icons/google-logo'
 import { Button } from '@ui/ui/button'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
+import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 
 type Props = {
   isLoadingGoogle?: boolean
@@ -145,13 +146,11 @@ function SendOtpForm(props: { onSuccess?: ({ email }: { email: string }) => void
       </div>
 
       <div>
-        <Button className="w-full" disabled={mutation.isLoading}>
+        <Button className="w-full gap-2" disabled={mutation.isLoading}>
           Continue
-          {mutation.isLoading ? (
-            <ReloadIcon className="w-4 h-4 animate-spin ml-2" />
-          ) : (
-            <ArrowRightIcon className="w-4 h-4 ml-2" />
-          )}
+          <MutationStatusIcon status={mutation.status}>
+            <ArrowRightIcon className="w-4 h-4 " />
+          </MutationStatusIcon>
         </Button>
       </div>
     </form>
@@ -199,13 +198,11 @@ function ValidateOtpForm(props: {
         <Button variant="secondary" type="button" onClick={() => props.onBack?.()} className="w-full">
           <ArrowLeftIcon className="w-4 h-4 mr-2" /> Back
         </Button>
-        <Button className="w-full" disabled={mutation.isLoading}>
+        <Button className="w-full gap-2" disabled={mutation.isLoading}>
           Continue
-          {mutation.isLoading ? (
-            <ReloadIcon className="w-4 h-4 animate-spin ml-2" />
-          ) : (
-            <ArrowRightIcon className="w-4 h-4 ml-2" />
-          )}
+          <MutationStatusIcon status={mutation.status}>
+            <ArrowRightIcon className="w-4 h-4" />
+          </MutationStatusIcon>
         </Button>
       </div>
 
@@ -220,7 +217,7 @@ function ValidateOtpForm(props: {
           }}
         >
           Resend OTP
-          {sendOtpMutation.isLoading && <ReloadIcon className="w-4 h-4 animate-spin ml-2" />}
+          <MutationStatusIcon status={sendOtpMutation.status} />
         </Button>
       </div>
     </form>
@@ -249,7 +246,7 @@ function LoginWithGoogleButton(props: { isLoading?: boolean }) {
     <Button
       variant={'secondary'}
       type="button"
-      className="w-full"
+      className="w-full gap-2"
       disabled={authGoogle.isLoading || props.isLoading}
       onClick={() =>
         authGoogle.mutate({
@@ -257,12 +254,10 @@ function LoginWithGoogleButton(props: { isLoading?: boolean }) {
         })
       }
     >
-      {authGoogle.isLoading || props.isLoading ? (
-        <ReloadIcon className="w-4 h-4 animate-spin" />
-      ) : (
+      <MutationStatusIcon status={authGoogle.status}>
         <GoogleLogoIcon className="w-[18px] h-[18px]" />
-      )}
-      <span className="ml-2 text-sm font-semibold leading-6">Google</span>
+      </MutationStatusIcon>
+      <span className="text-sm font-semibold leading-6">Google</span>
     </Button>
   )
 }
@@ -273,7 +268,7 @@ function LoginWithGithubButton(props: { isLoading?: boolean }) {
   const [, setSate] = useAtom(stateAtom)
   const [, setCodeVerifier] = useAtom(codeVerifierAtom)
   const [, setLoginRequestFrom] = useAtom(loginRequestFromAtom)
-  const authGoogle = api.auth.oauth.authorizationUrl.useMutation({
+  const authGithub = api.auth.oauth.authorizationUrl.useMutation({
     onSuccess: (data) => {
       setSate(data.state)
       setCodeVerifier(data.codeVerifier)
@@ -289,20 +284,18 @@ function LoginWithGithubButton(props: { isLoading?: boolean }) {
     <Button
       variant={'secondary'}
       type="button"
-      className="w-full"
-      disabled={authGoogle.isLoading || props.isLoading}
+      className="w-full gap-2"
+      disabled={authGithub.isLoading || props.isLoading}
       onClick={() =>
-        authGoogle.mutate({
+        authGithub.mutate({
           provider: 'github',
         })
       }
     >
-      {authGoogle.isLoading || props.isLoading ? (
-        <ReloadIcon className="w-4 h-4 animate-spin" />
-      ) : (
+      <MutationStatusIcon status={authGithub.status}>
         <GitHubLogoIcon className="w-4 h-4" />
-      )}
-      <span className="ml-2 text-sm font-semibold leading-6">Github</span>
+      </MutationStatusIcon>
+      <span className="text-sm font-semibold leading-6">Github</span>
     </Button>
   )
 }

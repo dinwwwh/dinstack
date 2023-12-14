@@ -1,4 +1,3 @@
-import { ReloadIcon } from '@radix-ui/react-icons'
 import { authAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
@@ -18,6 +17,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from '@ui/ui/dropdown-menu'
+import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 import { ScrollArea } from '@ui/ui/scroll-area'
 import { SheetTrigger } from '@ui/ui/sheet'
 import { Skeleton } from '@ui/ui/skeleton'
@@ -150,7 +150,7 @@ function WorkspaceListItem(props: {
     <div className="flex gap-2 pl-2">
       <Button
         type="button"
-        className="flex-1 justify-start"
+        className="flex-1 justify-start gap-2"
         size={'icon'}
         variant={'ghost'}
         onClick={() => {
@@ -160,13 +160,16 @@ function WorkspaceListItem(props: {
         }}
         disabled={mutation.isLoading || props.disabled}
       >
-        {mutation.isLoading ? (
-          <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center mr-2">
-            <ReloadIcon className="h-4 w-4 text-muted-foreground animate-spin" />
-          </div>
-        ) : (
-          <img src={props.organization.logoUrl} className="h-9 w-9 mr-2 rounded-md" alt={props.organization.name} />
-        )}
+        <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center flex-shrink-0">
+          <MutationStatusIcon status={mutation.status}>
+            <img
+              src={props.organization.logoUrl}
+              className="h-9 w-9 rounded-md object-center"
+              alt={props.organization.name}
+            />
+          </MutationStatusIcon>
+        </div>
+
         <div className="flex flex-col items-start">
           <span>{props.organization.name}</span>
           {match(props.organization.numberMembers)

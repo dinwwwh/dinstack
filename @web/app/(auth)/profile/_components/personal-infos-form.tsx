@@ -1,6 +1,5 @@
 'use client'
 
-import { ReloadIcon } from '@radix-ui/react-icons'
 import { api } from '@web/lib/api'
 import { useId } from 'react'
 import { match } from 'ts-pattern'
@@ -9,6 +8,7 @@ import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
+import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 
 export function PersonalInfosForm() {
   const nameId = useId()
@@ -76,7 +76,7 @@ export function PersonalInfosForm() {
                 <div className="mt-8">
                   <Button disabled={mutation.isLoading} className="gap-2">
                     Save
-                    {mutation.isLoading && <ReloadIcon className="h-4 w-4 animate-spin" />}
+                    <MutationStatusIcon status={mutation.status} />
                   </Button>
                 </div>
               </form>
