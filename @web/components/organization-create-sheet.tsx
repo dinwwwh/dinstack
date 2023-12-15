@@ -48,7 +48,14 @@ export function OrganizationCreateSheet({ children, onSuccess, ...props }: Props
             <Label htmlFor={nameId} className="text-right">
               Name
             </Label>
-            <Input id={nameId} className="col-span-3" placeholder="Your workspace" name="name" required minLength={3} />
+            <Input
+              id={nameId}
+              className="col-span-3"
+              placeholder="Your organization"
+              name="name"
+              required
+              minLength={3}
+            />
           </div>
 
           <div className="flex justify-end gap-4">
