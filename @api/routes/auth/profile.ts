@@ -26,8 +26,16 @@ export const authProfileRouter = router({
     .input(
       z.object({
         avatar: z.object({
-          name: z.string().max(2550),
-          base64: z.string(),
+          name: z
+            .string()
+            .max(1234)
+            .transform((name) => name.replace(/[^a-zA-Z0-9.-_]/gi, '-')),
+          base64: z
+            .string()
+            .max(1024 * 1024) // 1 MB
+            .transform((base64) => {
+              return Buffer.from(base64, 'base64')
+            }),
         }),
       }),
     )
@@ -45,18 +53,16 @@ export const authProfileRouter = router({
         })
       }
 
-      await ctx.env.PUBLIC_BUCKET.delete(user.avatarUrl)
-
-      const objectName = `user/${ctx.auth.session.userId}/avatar/${Buffer.from(input.avatar.name).toString(
-        'base64',
-      )}.${input.avatar.name.split('.').pop()!}`
-      await ctx.env.PUBLIC_BUCKET.put(objectName, Buffer.from(input.avatar.base64, 'base64'))
-
-      await ctx.db
+      const objectName = `user/${ctx.auth.session.userId}/avatar/${input.avatar.name}`
+      const deleteOldAvatar = ctx.env.PUBLIC_BUCKET.delete(user.avatarUrl)
+      const uploadNewAvatar = ctx.env.PUBLIC_BUCKET.put(objectName, input.avatar.base64)
+      const updateAvatarUrl = ctx.db
         .update(Users)
         .set({
           avatarUrl: objectName,
         })
         .where(eq(Users.id, ctx.auth.session.userId))
+
+      await Promise.all([deleteOldAvatar, uploadNewAvatar, updateAvatarUrl])
     }),
 })

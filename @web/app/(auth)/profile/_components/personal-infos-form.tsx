@@ -2,6 +2,7 @@
 
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/utils'
+import imageCompression from 'browser-image-compression'
 import { Base64 } from 'js-base64'
 import { useId, useRef } from 'react'
 import { match } from 'ts-pattern'
@@ -97,10 +98,16 @@ export function AvatarChangeButton() {
     const file = event.target.files?.[0]
     if (!file) return
 
-    const avatarBase64 = Base64.fromUint8Array(new Uint8Array(await file.arrayBuffer()))
+    const compressedImage = await imageCompression(file, {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 200,
+      useWebWorker: true,
+    })
+
+    const avatarBase64 = Base64.fromUint8Array(new Uint8Array(await compressedImage.arrayBuffer()))
     mutation.mutate({
       avatar: {
-        name: file.name,
+        name: compressedImage.name,
         base64: avatarBase64,
       },
     })
