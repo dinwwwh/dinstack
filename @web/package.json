@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@dinstack/api": "workspace:^",
+    "@dinstack/shared": "workspace:^",
     "@dinstack/ui": "workspace:^",
     "@marsidev/react-turnstile": "^0.4.0",
     "@radix-ui/react-icons": "^1.3.0",
@@ -19,8 +20,10 @@
     "@tanstack/react-query": "^4.36.1",
     "@trpc/client": "^10.44.1",
     "@trpc/react-query": "^10.44.1",
+    "browser-image-compression": "^2.0.2",
     "framer-motion": "^10.16.16",
     "jotai": "^2.6.0",
+    "js-base64": "^3.7.5",
     "next": "14.0.3",
     "next-themes": "^0.2.1",
     "oslo": "^0.23.5",

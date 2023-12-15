@@ -13,6 +13,9 @@ export const envSchema = z.object({
   RESEND_API_KEY: z.string(),
   RESEND_FROM: z.string(),
   TURNSTILE_SECRET_KEY: z.string(),
+  PUBLIC_BUCKET: z.custom<R2Bucket>((value) => {
+    return typeof value === 'object' && value !== null
+  }),
 })
 
 export type Env = z.infer<typeof envSchema>

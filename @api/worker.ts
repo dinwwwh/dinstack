@@ -34,6 +34,21 @@ export default {
       })
     }
 
+    if (!response && url.pathname.startsWith('/public') && request.method.toUpperCase() === 'GET') {
+      const objectName = url.pathname.replace('/public/', '')
+      const object = await env.PUBLIC_BUCKET.get(objectName)
+
+      if (object) {
+        const headers = new Headers()
+        object.writeHttpMetadata(headers)
+        headers.set('etag', object.httpEtag)
+
+        return new Response(object.body, {
+          headers,
+        })
+      }
+    }
+
     response ??= new Response(
       JSON.stringify({
         message: 'Not found',

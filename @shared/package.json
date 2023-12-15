@@ -1,0 +1,11 @@
+{
+  "name": "@dinstack/shared",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc --build && tsc-alias"
+  },
+  "devDependencies": {
+    "@dinstack/tsconfig": "workspace:^"
+  }
+}

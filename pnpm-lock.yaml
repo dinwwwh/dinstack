@@ -50,6 +50,9 @@ importers:
 
   '@api':
     dependencies:
+      '@dinstack/shared':
+        specifier: workspace:^
+        version: link:../@shared
       '@neondatabase/serverless':
         specifier: ^0.6.0
         version: 0.6.0
@@ -99,6 +102,12 @@ importers:
       tsx:
         specifier: ^4.6.2
         version: 4.6.2
+
+  '@shared':
+    devDependencies:
+      '@dinstack/tsconfig':
+        specifier: workspace:^
+        version: link:../@tsconfig
 
   '@tsconfig':
     devDependencies:
@@ -175,6 +184,9 @@ importers:
       '@dinstack/api':
         specifier: workspace:^
         version: link:../@api
+      '@dinstack/shared':
+        specifier: workspace:^
+        version: link:../@shared
       '@dinstack/ui':
         specifier: workspace:^
         version: link:../@ui
@@ -199,12 +211,18 @@ importers:
       '@trpc/react-query':
         specifier: ^10.44.1
         version: 10.44.1(@tanstack/react-query@4.36.1)(@trpc/client@10.44.1)(@trpc/server@10.44.1)(react-dom@18.2.0)(react@18.2.0)
+      browser-image-compression:
+        specifier: ^2.0.2
+        version: 2.0.2
       framer-motion:
         specifier: ^10.16.16
         version: 10.16.16(react-dom@18.2.0)(react@18.2.0)
       jotai:
         specifier: ^2.6.0
         version: 2.6.0(@types/react@18.2.43)(react@18.2.0)
+      js-base64:
+        specifier: ^3.7.5
+        version: 3.7.5
       next:
         specifier: 14.0.3
         version: 14.0.3(react-dom@18.2.0)(react@18.2.0)
@@ -2755,6 +2773,12 @@ packages:
       fill-range: 7.0.1
     dev: true
 
+  /browser-image-compression@2.0.2:
+    resolution: {integrity: sha512-pBLlQyUf6yB8SmmngrcOw3EoS4RpQ1BcylI3T9Yqn7+4nrQTXJD4sJDe5ODnJdrvNMaio5OicFo75rDyJD2Ucw==}
+    dependencies:
+      uzip: 0.20201231.0
+    dev: false
+
   /browserslist@4.22.2:
     resolution: {integrity: sha512-0UgcrvQmBDvZHFGdYUehrCNIazki7/lUP3kkoi/r3YB2amZbFM9J43ZRkJTXBUZK4gmx56+Sqk9+Vs9mwZx9+A==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
@@ -4097,6 +4121,10 @@ packages:
     dependencies:
       '@types/react': 18.2.43
       react: 18.2.0
+    dev: false
+
+  /js-base64@3.7.5:
+    resolution: {integrity: sha512-3MEt5DTINKqfScXKfJFrRbxkrnk2AxPWGBL/ycjz4dK8iqiSJ06UxD8jh8xuh6p10TX4t2+7FsBYVxxQbMg+qA==}
     dev: false
 
   /js-tokens@4.0.0:
@@ -5539,6 +5567,10 @@ packages:
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
+
+  /uzip@0.20201231.0:
+    resolution: {integrity: sha512-OZeJfZP+R0z9D6TmBgLq2LHzSSptGMGDGigGiEe0pr8UBe/7fdflgHlHBNDASTXB5jnFuxHpNaJywSg8YFeGng==}
+    dev: false
 
   /watchpack@2.4.0:
     resolution: {integrity: sha512-Lcvm7MGST/4fup+ifyKi2hjyIAwcdI4HRgtvTpIUxBRhB+RFtUh8XtDOxUfctVCnhVi+QQj49i91OyvzkJl6cg==}

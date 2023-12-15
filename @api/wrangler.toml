@@ -13,6 +13,10 @@ WEB_URL = "http://localhost:3000"
 GOOGLE_REDIRECT_URL = "http://localhost:3000/oauth/google/callback"
 TURNSTILE_SECRET_KEY = "1x0000000000000000000000000000000AA"
 
+[[env.local.r2_buckets]]
+binding = 'PUBLIC_BUCKET'
+bucket_name = 'dinstack-public-local'
+
 # ------------------------------------------------------------------------------------------------------------
 
 # [env.preview.route]
@@ -23,6 +27,10 @@ TURNSTILE_SECRET_KEY = "1x0000000000000000000000000000000AA"
 WORKER_ENV = "development"
 WEB_URL = "https://preview.example.com"
 GOOGLE_REDIRECT_URL = "https://preview.example.com/oauth/google/callback"
+
+[[env.preview.r2_buckets]]
+binding = 'PUBLIC_BUCKET'
+bucket_name = 'dinstack-public-preview'
 
 # ------------------------------------------------------------------------------------------------------------
 
@@ -37,5 +45,9 @@ logpush = true
 WORKER_ENV = "production"
 WEB_URL = "https://example.com"
 GOOGLE_REDIRECT_URL = "https://example.com/oauth/google/callback"
+
+[[env.production.r2_buckets]]
+binding = 'PUBLIC_BUCKET'
+bucket_name = 'dinstack-public-production'
 
 # ------------------------------------------------------------------------------------------------------------

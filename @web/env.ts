@@ -14,6 +14,7 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_API_URL: z.string().url(),
+    NEXT_PUBLIC_PUBLIC_BUCKET_URL: z.string().url(),
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string(),
   },
   /*
@@ -24,6 +25,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_PUBLIC_BUCKET_URL: process.env.NEXT_PUBLIC_PUBLIC_BUCKET_URL,
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
   },
 })
