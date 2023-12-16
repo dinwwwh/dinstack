@@ -139,3 +139,19 @@ export const SessionRelations = relations(Sessions, ({ one }) => ({
     references: [OrganizationMembers.userId, OrganizationMembers.organizationId],
   }),
 }))
+
+export const OrganizationsInvitations = pgTable('organizations_invitations', {
+  id: char('id', { length: 64 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => generateRandomString(64, alphabet('a-z', 'A-Z', '0-9'))),
+  organizationId: uuid('organization_id')
+    .notNull()
+    .references(() => Organizations.id),
+  email: varchar('email', { length: 255 }).notNull(),
+  role: organizationMembersRoles('role').notNull().default('member'),
+  expiresAt: timestamp('expired_at')
+    .notNull()
+    .$defaultFn(() => new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})

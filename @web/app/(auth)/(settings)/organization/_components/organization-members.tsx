@@ -1,8 +1,10 @@
 'use client'
 
 import { PlusIcon } from '@radix-ui/react-icons'
+import { authAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl, uppercaseFirstLetter } from '@web/lib/utils'
+import { useAtom } from 'jotai'
 import { useSearchParams } from 'next/navigation'
 import { useRef } from 'react'
 import { match } from 'ts-pattern'
@@ -27,6 +29,7 @@ import { OrganizationMemberInviteSheet } from './organization-member-invite-shee
 export function OrganizationMembers() {
   const searchParams = useSearchParams()
   const organizationId = z.string().uuid().parse(searchParams.get('id'))
+  const [auth] = useAtom(authAtom)
 
   const query = api.organization.detail.useQuery({
     organizationId,
@@ -61,6 +64,7 @@ export function OrganizationMembers() {
                           <span className="font-medium text-xs text-muted-foreground">{member.user.email}</span>
                         </div>
                       </div>
+                      {/* TODO: not show on yourself */}
                       <MemberRemoveButton organizationId={organizationId} userId={member.userId} />
                     </li>
                   )
@@ -81,7 +85,7 @@ export function OrganizationMembers() {
 export function MemberRemoveButton(props: { organizationId: string; userId: string }) {
   const closeRef = useRef<HTMLButtonElement>(null)
   const mutation = api.organization.member.remove.useMutation({
-    onSuccess() {
+    onSettled() {
       closeRef.current?.click()
     },
   })

@@ -3,6 +3,7 @@ import { api } from '@web/lib/api'
 import { useId, useRef } from 'react'
 import { z } from 'zod'
 import { Button } from '@ui/ui/button'
+import { Checkbox } from '@ui/ui/checkbox'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
@@ -15,6 +16,7 @@ type Props = React.ComponentPropsWithoutRef<typeof Sheet> & {
 
 export function OrganizationMemberInviteSheet({ organizationId, children, onSuccess, ...props }: Props) {
   const emailId = useId()
+  const withAdminRoleId = useId()
   const closeElement = useRef<HTMLButtonElement>(null)
 
   const mutation = api.organization.member.invite.useMutation({
@@ -28,12 +30,17 @@ export function OrganizationMemberInviteSheet({ organizationId, children, onSucc
     const data = z
       .object({
         email: z.string().email(),
+        withAdminRole: z
+          .enum(['on'])
+          .optional()
+          .transform((value) => value === 'on'),
       })
       .parse(Object.fromEntries(formData))
 
     mutation.mutate({
       organizationId,
       email: data.email,
+      role: data.withAdminRole ? 'admin' : 'member',
     })
   }
 
@@ -53,6 +60,16 @@ export function OrganizationMemberInviteSheet({ organizationId, children, onSucc
               Email
             </Label>
             <Input id={emailId} className="col-span-3" placeholder="Member email" name="email" type="email" required />
+          </div>
+
+          <div className="items-top flex space-x-2 p-4 rounded-md border">
+            <Checkbox id={withAdminRoleId} name="withAdminRole" />
+            <div className="grid gap-1.5 leading-none">
+              <Label htmlFor={withAdminRoleId}>Give admin role</Label>
+              <p className="text-sm text-muted-foreground">
+                Admins can do everything members can, plus manage organization settings and members.
+              </p>
+            </div>
           </div>
 
           <div className="flex justify-end gap-4">
