@@ -46,7 +46,7 @@ export function OrganizationInfosForm() {
 
         <div className="@2xl:col-span-2 max-w-xl">
           {match(query)
-            .with({ status: 'loading' }, () => <GeneralSkeleton count={5} />)
+            .with({ status: 'loading' }, () => <GeneralSkeleton count={4} />)
             .with({ status: 'error' }, () => <GeneralError />)
             .with({ status: 'success' }, (query) => (
               <form action={action}>
