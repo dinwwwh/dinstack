@@ -57,7 +57,12 @@ export function PersonalInfosForm() {
                   <div>
                     <Label htmlFor={nameId}>Name</Label>
                     <div className="mt-2">
-                      <Input id={nameId} name="name" defaultValue={query.data.session.organizationMember.user.name} />
+                      <Input
+                        id={nameId}
+                        name="name"
+                        key={query.data.session.organizationMember.user.id}
+                        defaultValue={query.data.session.organizationMember.user.name}
+                      />
                     </div>
                   </div>
 
@@ -66,6 +71,7 @@ export function PersonalInfosForm() {
                     <div className="mt-2">
                       <Input
                         id={emailId}
+                        key={query.data.session.organizationMember.user.id}
                         type="email"
                         name="email"
                         disabled

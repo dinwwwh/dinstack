@@ -66,7 +66,12 @@ export function OrganizationInfosForm() {
                   <div>
                     <Label htmlFor={nameId}>Name</Label>
                     <div className="mt-2">
-                      <Input id={nameId} name="name" defaultValue={query.data.organization.name} />
+                      <Input
+                        id={nameId}
+                        key={query.data.organization.id}
+                        name="name"
+                        defaultValue={query.data.organization.name}
+                      />
                     </div>
                   </div>
                 </div>

@@ -189,15 +189,13 @@ function OrganizationListItem(props: {
         </div>
       </Button>
 
-      {/* TODO: implement */}
       <DropdownMenuSub>
         <DropdownMenuSubTrigger />
         <DropdownMenuPortal>
           <DropdownMenuSubContent>
-            <DropdownMenuItem>Email</DropdownMenuItem>
-            <DropdownMenuItem>Message</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>More...</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={`/organization?id=${props.organization.id}`}>Settings</Link>
+            </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
       </DropdownMenuSub>
