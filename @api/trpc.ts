@@ -1,6 +1,7 @@
-import { TRPCError, initTRPC } from '@trpc/server'
+import { TRPCError, experimental_standaloneMiddleware, initTRPC } from '@trpc/server'
 import SuperJSON from 'superjson'
 import type { Context } from './context'
+import type { Db } from './lib/db'
 
 const t = initTRPC.context<Context & { request: Request }>().create({
   transformer: SuperJSON,
@@ -73,3 +74,21 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
 })
 
 export const authProcedure = procedure.use(authMiddleware)
+
+export const organizationMemberMiddleware = experimental_standaloneMiddleware<{
+  ctx: { auth: { session: { userId: string } }; db: Db } // defaults to 'object' if not defined
+  input: { organizationId: string } | { organization: { id: string } } // defaults to 'unknown' if not defined
+}>().create(async ({ ctx, next, input }) => {
+  const organizationId = 'organizationId' in input ? input.organizationId : input.organization.id
+
+  const organizationMember = await ctx.db.query.OrganizationMembers.findFirst({
+    where(t, { and, eq }) {
+      return and(eq(t.organizationId, organizationId), eq(t.userId, ctx.auth.session.userId))
+    },
+  })
+
+  if (!organizationMember)
+    throw new TRPCError({ code: 'FORBIDDEN', message: 'You are not a member of this organization.' })
+
+  return next()
+})

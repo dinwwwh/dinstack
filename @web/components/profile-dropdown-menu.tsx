@@ -44,7 +44,7 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
     <DropdownMenu open={_open} onOpenChange={_onOpenChange} {...props}>
       {children}
       <DropdownMenuContent className="w-72">
-        <WorkspaceList onOpenChange={_onOpenChange} />
+        <OrganizationList onOpenChange={_onOpenChange} />
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
@@ -61,7 +61,7 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
   )
 }
 
-function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void }) {
+function OrganizationList({ onOpenChange }: { onOpenChange: (v: boolean) => void }) {
   const sessionInfosQuery = api.auth.infos.useQuery()
   const listQuery = api.organization.list.useInfiniteQuery(
     {
@@ -81,7 +81,7 @@ function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void })
       >
         <div className="space-y-2 py-2">
           {match(listQuery)
-            .with({ status: 'loading' }, () => <WorkspaceListItemSkeleton />)
+            .with({ status: 'loading' }, () => <OrganizationListItemSkeleton />)
             .with({ status: 'error' }, () => '')
             .with({ status: 'success' }, (query) => {
               return query.data.pages.map((page, i) => {
@@ -89,7 +89,7 @@ function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void })
                   <div key={i} className="space-y-2">
                     {page.items.map((item) => {
                       return (
-                        <WorkspaceListItem
+                        <OrganizationListItem
                           key={item.id}
                           organization={{
                             ...item,
@@ -106,7 +106,7 @@ function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void })
                     {!query.isFetching && query.hasNextPage && (
                       <ViewportBlock onEnterViewport={() => query.fetchNextPage()} />
                     )}
-                    {query.hasNextPage && <WorkspaceListItemSkeleton />}
+                    {query.hasNextPage && <OrganizationListItemSkeleton />}
                   </div>
                 )
               })
@@ -118,7 +118,7 @@ function WorkspaceList({ onOpenChange }: { onOpenChange: (v: boolean) => void })
   )
 }
 
-function WorkspaceListItemSkeleton() {
+function OrganizationListItemSkeleton() {
   return (
     <div className="flex gap-2 pl-2">
       <Skeleton className="h-9 w-9" />
@@ -130,7 +130,7 @@ function WorkspaceListItemSkeleton() {
   )
 }
 
-function WorkspaceListItem(props: {
+function OrganizationListItem(props: {
   organization: {
     id: string
     name: string
@@ -189,15 +189,13 @@ function WorkspaceListItem(props: {
         </div>
       </Button>
 
-      {/* TODO: implement */}
       <DropdownMenuSub>
         <DropdownMenuSubTrigger />
         <DropdownMenuPortal>
           <DropdownMenuSubContent>
-            <DropdownMenuItem>Email</DropdownMenuItem>
-            <DropdownMenuItem>Message</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>More...</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={`/organization?id=${props.organization.id}`}>Settings</Link>
+            </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
       </DropdownMenuSub>

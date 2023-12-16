@@ -80,4 +80,8 @@
     table-layout: fixed;
     width: 100%;
   }
+
+  img {
+    @apply object-center object-cover;
+  }
 }

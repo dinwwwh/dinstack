@@ -1,6 +1,7 @@
 import { env } from '@web/env'
 
-export function isActivePathname(pathname: string, currentPathname: string) {
+export function isActivePathname(url: string, currentPathname: string) {
+  const { pathname } = new URL(url, 'https://dinsterizer.com')
   return `${currentPathname}/`.startsWith(`${pathname}/`)
 }
 
