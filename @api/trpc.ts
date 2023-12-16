@@ -76,8 +76,8 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
 export const authProcedure = procedure.use(authMiddleware)
 
 export const organizationMemberMiddleware = experimental_standaloneMiddleware<{
-  ctx: { auth: { session: { userId: string } }; db: Db } // defaults to 'object' if not defined
-  input: { organizationId: string } | { organization: { id: string } } // defaults to 'unknown' if not defined
+  ctx: { auth: { session: { userId: string } }; db: Db }
+  input: { organizationId: string } | { organization: { id: string } }
 }>().create(async ({ ctx, next, input }) => {
   const organizationId = 'organizationId' in input ? input.organizationId : input.organization.id
 
@@ -89,6 +89,24 @@ export const organizationMemberMiddleware = experimental_standaloneMiddleware<{
 
   if (!organizationMember)
     throw new TRPCError({ code: 'FORBIDDEN', message: 'You are not a member of this organization.' })
+
+  return next()
+})
+
+export const organizationAdminMiddleware = experimental_standaloneMiddleware<{
+  ctx: { auth: { session: { userId: string } }; db: Db }
+  input: { organizationId: string } | { organization: { id: string } }
+}>().create(async ({ ctx, next, input }) => {
+  const organizationId = 'organizationId' in input ? input.organizationId : input.organization.id
+
+  const organizationMember = await ctx.db.query.OrganizationMembers.findFirst({
+    where(t, { and, eq }) {
+      return and(eq(t.organizationId, organizationId), eq(t.userId, ctx.auth.session.userId), eq(t.role, 'admin'))
+    },
+  })
+
+  if (!organizationMember)
+    throw new TRPCError({ code: 'FORBIDDEN', message: 'You are not an admin of this organization.' })
 
   return next()
 })

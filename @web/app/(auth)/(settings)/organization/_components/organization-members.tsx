@@ -1,13 +1,14 @@
 'use client'
 
+import { PlusIcon } from '@radix-ui/react-icons'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl, uppercaseFirstLetter } from '@web/lib/utils'
 import { useSearchParams } from 'next/navigation'
+import { useRef } from 'react'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -19,6 +20,9 @@ import {
 import { Button } from '@ui/ui/button'
 import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
+import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
+import { SheetTrigger } from '@ui/ui/sheet'
+import { OrganizationMemberInviteSheet } from './organization-member-invite-sheet'
 
 export function OrganizationMembers() {
   const searchParams = useSearchParams()
@@ -57,10 +61,14 @@ export function OrganizationMembers() {
                           <span className="font-medium text-xs text-muted-foreground">{member.user.email}</span>
                         </div>
                       </div>
-                      <MemberRemoveButton userId={member.userId} />
+                      <MemberRemoveButton organizationId={organizationId} userId={member.userId} />
                     </li>
                   )
                 })}
+
+                <li className="flex justify-between gap-x-6 py-6">
+                  <MemberInviteButton organizationId={organizationId} />
+                </li>
               </ul>
             ))
             .exhaustive()}
@@ -70,9 +78,19 @@ export function OrganizationMembers() {
   )
 }
 
-export function MemberRemoveButton(props: { userId: string }) {
+export function MemberRemoveButton(props: { organizationId: string; userId: string }) {
+  const closeRef = useRef<HTMLButtonElement>(null)
+  const mutation = api.organization.member.remove.useMutation({
+    onSuccess() {
+      closeRef.current?.click()
+    },
+  })
+
   const action = () => {
-    // TODO: implement logic
+    mutation.mutate({
+      organizationId: props.organizationId,
+      userId: props.userId,
+    })
   }
 
   return (
@@ -88,12 +106,26 @@ export function MemberRemoveButton(props: { userId: string }) {
           <AlertDialogDescription>This action will remove the member from your organization.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button variant={'destructive'} asChild>
-            <AlertDialogAction onClick={() => action()}>Continue</AlertDialogAction>
+          <AlertDialogCancel ref={closeRef}>Cancel</AlertDialogCancel>
+          <Button variant={'destructive'} onClick={action} className="gap-2">
+            Continue
+            <MutationStatusIcon status={mutation.status} />
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+  )
+}
+
+export function MemberInviteButton(props: { organizationId: string }) {
+  return (
+    <OrganizationMemberInviteSheet organizationId={props.organizationId}>
+      <SheetTrigger asChild>
+        <Button type="button" variant={'ghost'} className="gap-2">
+          <PlusIcon className="w-4 h-4" />
+          Invite Member
+        </Button>
+      </SheetTrigger>
+    </OrganizationMemberInviteSheet>
   )
 }
