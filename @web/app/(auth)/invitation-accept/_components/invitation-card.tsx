@@ -4,6 +4,7 @@ import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/utils'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
@@ -61,8 +62,11 @@ export function InvitationCard() {
 }
 
 export function InvitationAcceptButton(props: { invitationId: string }) {
+  const router = useRouter()
   const mutation = api.organization.member.acceptInvitation.useMutation({
-    onSuccess() {},
+    onSuccess() {
+      router.push('/dash')
+    },
   })
 
   return (

@@ -1,7 +1,8 @@
-import { OrganizationMembers, Organizations } from '@api/database/schema'
+import { OrganizationMembers, Organizations, Sessions } from '@api/database/schema'
 import { generateFallbackLogoUrl } from '@api/lib/utils'
 import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
+import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
 export const organizationCreateRoute = authProcedure
@@ -45,6 +46,13 @@ export const organizationCreateRoute = authProcedure
         organizationMember,
       }
     })
+
+    await ctx.db
+      .update(Sessions)
+      .set({
+        organizationId: organization.id,
+      })
+      .where(eq(Sessions.id, ctx.auth.session.id))
 
     return {
       organization: {

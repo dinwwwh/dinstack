@@ -1,4 +1,4 @@
-import { OrganizationMembers, OrganizationsInvitations, organizationMembersRoles } from '@api/database/schema'
+import { OrganizationMembers, OrganizationsInvitations, Sessions, organizationMembersRoles } from '@api/database/schema'
 import { authProcedure, organizationAdminMiddleware, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { and, eq } from 'drizzle-orm'
@@ -104,6 +104,13 @@ export const organizationMemberRouter = router({
 
         await trx.delete(OrganizationsInvitations).where(eq(OrganizationsInvitations.id, invitation.id))
       })
+
+      await ctx.db
+        .update(Sessions)
+        .set({
+          organizationId: invitation.organizationId,
+        })
+        .where(eq(Sessions.id, ctx.auth.session.id))
     }),
   remove: authProcedure
     .input(
