@@ -7,6 +7,7 @@ import { RESET } from 'jotai/utils'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { match } from 'ts-pattern'
+import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import {
   DropdownMenu,
@@ -165,13 +166,12 @@ function OrganizationListItem(props: {
         }}
         disabled={mutation.isLoading || props.disabled}
       >
-        <div className="h-9 w-9 rounded-md bg-accent flex items-center justify-center flex-shrink-0">
+        <div className="h-9 w-9 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
           <MutationStatusIcon status={mutation.status}>
-            <img
-              src={constructPublicResourceUrl(props.organization.logoUrl)}
-              className="h-9 w-9 rounded-md object-center"
-              alt={props.organization.name}
-            />
+            <Avatar className="h-9 w-9 ">
+              <AvatarImage alt={props.organization.name} src={constructPublicResourceUrl(props.organization.logoUrl)} />
+              <AvatarFallback>{props.organization.name[0]}</AvatarFallback>
+            </Avatar>
           </MutationStatusIcon>
         </div>
 

@@ -19,6 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@ui/ui/alert-dialog'
+import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
@@ -53,7 +54,10 @@ export function OrganizationMembers() {
                   return (
                     <li key={member.userId} className="flex justify-between gap-x-6 py-6">
                       <div className="flex gap-3 items-center">
-                        <img src={constructPublicResourceUrl(member.user.avatarUrl)} className="h-9 w-9 rounded-md" />
+                        <Avatar className="h-9 w-9">
+                          <AvatarImage alt={member.user.name} src={constructPublicResourceUrl(member.user.avatarUrl)} />
+                          <AvatarFallback>{member.user.name[0]}</AvatarFallback>
+                        </Avatar>
                         <div className="flex flex-col gap-1">
                           <span className="font-medium text-sm">
                             {member.user.name}

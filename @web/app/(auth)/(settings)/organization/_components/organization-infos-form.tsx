@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation'
 import { useId, useRef } from 'react'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
+import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
@@ -52,11 +53,13 @@ export function OrganizationInfosForm() {
               <form action={action}>
                 <div className="space-y-8">
                   <div className="flex items-center gap-8">
-                    <img
-                      src={constructPublicResourceUrl(query.data.organization.logoUrl)}
-                      alt={query.data.organization.name}
-                      className="h-24 w-24 flex-none rounded-lg bg-background object-cover"
-                    />
+                    <Avatar className="h-24 w-24">
+                      <AvatarImage
+                        alt={query.data.organization.name}
+                        src={constructPublicResourceUrl(query.data.organization.logoUrl)}
+                      />
+                      <AvatarFallback>{query.data.organization.name[0]}</AvatarFallback>
+                    </Avatar>
                     <div>
                       <LogoChangeButton />
                       <p className="mt-2 text-xs leading-5 text-muted-foreground">JPG, GIF or PNG. 1MB max.</p>

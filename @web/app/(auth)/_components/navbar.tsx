@@ -9,6 +9,7 @@ import { constructPublicResourceUrl, isActivePathname } from '@web/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { match } from 'ts-pattern'
+import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import { DropdownMenuTrigger } from '@ui/ui/dropdown-menu'
 import { ScrollArea } from '@ui/ui/scroll-area'
@@ -84,7 +85,7 @@ function ProfileButton() {
       {match(sessionInfosQuery)
         .with({ status: 'loading' }, () => (
           <div className="flex-1 flex gap-3 items-center overflow-hidden">
-            <Skeleton className="h-9 w-9 flex-shrink-0" />
+            <Skeleton className="h-9 w-9 rounded-full flex-shrink-0" />
             <div className="space-y-1">
               <Skeleton className="h-4 w-36" />
               <Skeleton className="h-4 w-16" />
@@ -100,11 +101,13 @@ function ProfileButton() {
             variant={'secondary'}
           >
             <div className="flex gap-3">
-              <img
-                src={constructPublicResourceUrl(query.data.session.organizationMember.organization.logoUrl)}
-                className="h-9 w-9 rounded-md flex-shrink-0"
-                alt={query.data.session.organizationMember.organization.name}
-              />
+              <Avatar className="h-9 w-9 flex-shrink-0">
+                <AvatarImage
+                  alt={query.data.session.organizationMember.organization.name}
+                  src={constructPublicResourceUrl(query.data.session.organizationMember.organization.logoUrl)}
+                />
+                <AvatarFallback>{query.data.session.organizationMember.organization.name[0]}</AvatarFallback>
+              </Avatar>
               <div className="flex flex-col items-start">
                 <span>{query.data.session.organizationMember.organization.name}</span>
                 <span className="text-muted-foreground font-normal text-xs">{`${
