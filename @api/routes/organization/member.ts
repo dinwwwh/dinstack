@@ -33,6 +33,33 @@ export const organizationMemberRouter = router({
 
       // TODO: send email
     }),
+  invitationInfo: authProcedure
+    .input(
+      z.object({
+        invitationId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const invitation = await ctx.db.query.OrganizationsInvitations.findFirst({
+        where(t, { eq }) {
+          return eq(t.id, input.invitationId)
+        },
+        with: {
+          organization: true,
+        },
+      })
+
+      if (!invitation) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Invitation not found',
+        })
+      }
+
+      return {
+        invitation,
+      }
+    }),
   acceptInvitation: authProcedure
     .input(
       z.object({

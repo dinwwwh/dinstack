@@ -75,6 +75,7 @@ export const Organizations = pgTable('organizations', {
 
 export const OrganizationRelations = relations(Organizations, ({ many }) => ({
   members: many(OrganizationMembers),
+  invitations: many(OrganizationsInvitations),
 }))
 
 export const organizationMembersRoles = pgEnum('organization_member_roles', ['admin', 'member'])
@@ -155,3 +156,10 @@ export const OrganizationsInvitations = pgTable('organizations_invitations', {
     .$defaultFn(() => new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
+
+export const OrganizationsInvitationRelations = relations(OrganizationsInvitations, ({ one }) => ({
+  organization: one(Organizations, {
+    fields: [OrganizationsInvitations.organizationId],
+    references: [Organizations.id],
+  }),
+}))
