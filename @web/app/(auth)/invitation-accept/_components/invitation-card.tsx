@@ -11,6 +11,7 @@ import { Button } from '@ui/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/ui/card'
 import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
+import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 
 export function InvitationCard() {
   const searchParams = useSearchParams()
@@ -43,15 +44,12 @@ export function InvitationCard() {
               <CardTitle>Join Our Organization</CardTitle>
               <p className="text-center text-muted-foreground">{query.data.invitation.organization.name}</p>
             </CardHeader>
-            <CardContent className="flex flex-col items-center">
+            <CardContent className="flex flex-col items-center space-y-4">
               <p className="text-center text-muted-foreground">
                 You have been invited to join our organization. Click the button below to accept the invitation.
               </p>
-              {/* TODO: implement */}
-              <Button type="button" className="w-full mt-4">
-                Accept Invitation
-              </Button>
-              <Button variant="ghost" className="w-full mt-4" asChild>
+              <InvitationAcceptButton invitationId={invitationId} />
+              <Button variant="ghost" className="w-full" asChild>
                 <Link href="/">Back to Home</Link>
               </Button>
             </CardContent>
@@ -59,5 +57,26 @@ export function InvitationCard() {
         ))
         .exhaustive()}
     </div>
+  )
+}
+
+export function InvitationAcceptButton(props: { invitationId: string }) {
+  const mutation = api.organization.member.acceptInvitation.useMutation({
+    onSuccess() {},
+  })
+
+  return (
+    <Button
+      type="button"
+      className="w-full gap-2"
+      onClick={() =>
+        mutation.mutate({
+          invitationId: props.invitationId,
+        })
+      }
+    >
+      Accept Invitation
+      <MutationStatusIcon status={mutation.status} />
+    </Button>
   )
 }

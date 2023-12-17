@@ -31,6 +31,8 @@ export const organizationMemberRouter = router({
         })
       }
 
+      const invitationAcceptUrl = new URL(`/accept-invitation?id=${invitation.id}`, ctx.env.WEB_URL)
+
       // TODO: send email
     }),
   invitationInfo: authProcedure
@@ -77,6 +79,19 @@ export const organizationMemberRouter = router({
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'Invitation not found',
+        })
+      }
+
+      const existingMember = await ctx.db.query.OrganizationMembers.findFirst({
+        where(t, { and, eq }) {
+          return and(eq(t.organizationId, invitation.organizationId), eq(t.userId, ctx.auth.session.userId))
+        },
+      })
+
+      if (existingMember) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'You are already a member of this organization',
         })
       }
 
