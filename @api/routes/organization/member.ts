@@ -22,6 +22,14 @@ export const organizationMemberRouter = router({
           organizationId: input.organizationId,
           email: input.email,
           role: input.role,
+          expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        })
+        .onConflictDoUpdate({
+          target: [OrganizationsInvitations.organizationId, OrganizationsInvitations.email],
+          set: {
+            role: input.role,
+            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+          },
         })
         .returning()
 
@@ -92,7 +100,7 @@ export const organizationMemberRouter = router({
         })
       }
 
-      if (invitation.createdAt < new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)) {
+      if (invitation.expiresAt < new Date()) {
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'This invitation has expired',
@@ -123,7 +131,7 @@ export const organizationMemberRouter = router({
         })
       }
 
-      if (invitation.createdAt < new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)) {
+      if (invitation.expiresAt < new Date()) {
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'This invitation has expired',
@@ -176,16 +184,19 @@ export const organizationMemberRouter = router({
         })
       }
 
-      await ctx.db
-        .delete(OrganizationMembers)
-        .where(
-          and(
-            eq(OrganizationMembers.userId, input.userId),
-            eq(OrganizationMembers.organizationId, input.organizationId),
-          ),
-        )
-        .execute()
+      await ctx.db.transaction(async (trx) => {
+        await trx
+          .delete(Sessions)
+          .where(and(eq(Sessions.userId, input.userId), eq(Sessions.organizationId, input.organizationId)))
 
-      // TODO: handle related sessions
+        await trx
+          .delete(OrganizationMembers)
+          .where(
+            and(
+              eq(OrganizationMembers.userId, input.userId),
+              eq(OrganizationMembers.organizationId, input.organizationId),
+            ),
+          )
+      })
     }),
 })
