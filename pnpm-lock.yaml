@@ -104,6 +104,10 @@ importers:
         version: 4.6.2
 
   '@shared':
+    dependencies:
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
     devDependencies:
       '@dinstack/tsconfig':
         specifier: workspace:^
