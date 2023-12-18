@@ -1,4 +1,5 @@
 import { OrganizationMembers, OrganizationsInvitations, Sessions, organizationMembersRoles } from '@api/database/schema'
+import { generateOrganizationInvitationEmail } from '@api/emails/organization-invitation'
 import { authProcedure, organizationAdminMiddleware, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { and, eq } from 'drizzle-orm'
@@ -15,7 +16,7 @@ export const organizationMemberRouter = router({
     )
     .use(organizationAdminMiddleware)
     .mutation(async ({ ctx, input }) => {
-      const [invitation] = await ctx.db
+      const createInvitation = ctx.db
         .insert(OrganizationsInvitations)
         .values({
           organizationId: input.organizationId,
@@ -24,6 +25,20 @@ export const organizationMemberRouter = router({
         })
         .returning()
 
+      const findUser = ctx.db.query.Users.findFirst({
+        where(t, { eq }) {
+          return eq(t.id, ctx.auth.session.userId)
+        },
+      })
+
+      const findOrganization = ctx.db.query.Organizations.findFirst({
+        where(t, { eq }) {
+          return eq(t.id, input.organizationId)
+        },
+      })
+
+      const [[invitation], user, organization] = await Promise.all([createInvitation, findUser, findOrganization])
+
       if (!invitation) {
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
@@ -31,9 +46,28 @@ export const organizationMemberRouter = router({
         })
       }
 
-      const invitationAcceptUrl = new URL(`/accept-invitation?id=${invitation.id}`, ctx.env.WEB_URL)
+      if (!user || !organization) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Failed to fetch user or organization',
+        })
+      }
 
-      // TODO: send email
+      ctx.ec.waitUntil(
+        (async () => {
+          const invitationAcceptUrl = new URL(`/invitation-accept?id=${invitation.id}`, ctx.env.WEB_URL)
+          const { subject, html } = generateOrganizationInvitationEmail({
+            inviterName: user.name,
+            organizationName: organization.name,
+            invitationAcceptUrl: invitationAcceptUrl.toString(),
+          })
+          await ctx.email.send({
+            to: [input.email],
+            subject,
+            html,
+          })
+        })(),
+      )
     }),
   invitationInfo: authProcedure
     .input(
@@ -58,6 +92,13 @@ export const organizationMemberRouter = router({
         })
       }
 
+      if (invitation.createdAt < new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'This invitation has expired',
+        })
+      }
+
       return {
         invitation,
       }
@@ -79,6 +120,13 @@ export const organizationMemberRouter = router({
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: 'Invitation not found',
+        })
+      }
+
+      if (invitation.createdAt < new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'This invitation has expired',
         })
       }
 
