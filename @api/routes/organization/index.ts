@@ -3,6 +3,7 @@ import { organizationChangeLogoRoute } from './change-logo'
 import { organizationCreateRoute } from './create'
 import { organizationDetailRoute } from './detail'
 import { organizationListRoute } from './list'
+import { organizationMemberRouter } from './member'
 import { organizationUpdateRoute } from './update'
 
 export const organizationRouter = router({
@@ -11,4 +12,5 @@ export const organizationRouter = router({
   create: organizationCreateRoute,
   update: organizationUpdateRoute,
   changeLogo: organizationChangeLogoRoute,
+  member: organizationMemberRouter,
 })

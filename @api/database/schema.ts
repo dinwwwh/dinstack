@@ -58,9 +58,7 @@ export const OauthAccountRelations = relations(OauthAccounts, ({ one, many }) =>
 export const EmailOtps = pgTable('email_otps', {
   email: varchar('email', { length: 255 }).notNull().primaryKey(),
   code: varchar('code', { length: 6 }).notNull(),
-  expiresAt: timestamp('expired_at')
-    .notNull()
-    .$default(() => new Date(Date.now() + 1000 * 60 * 5)),
+  expiresAt: timestamp('expired_at').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
@@ -75,6 +73,7 @@ export const Organizations = pgTable('organizations', {
 
 export const OrganizationRelations = relations(Organizations, ({ many }) => ({
   members: many(OrganizationMembers),
+  invitations: many(OrganizationsInvitations),
 }))
 
 export const organizationMembersRoles = pgEnum('organization_member_roles', ['admin', 'member'])
@@ -137,5 +136,32 @@ export const SessionRelations = relations(Sessions, ({ one }) => ({
   organizationMember: one(OrganizationMembers, {
     fields: [Sessions.userId, Sessions.organizationId],
     references: [OrganizationMembers.userId, OrganizationMembers.organizationId],
+  }),
+}))
+
+export const OrganizationsInvitations = pgTable(
+  'organizations_invitations',
+  {
+    id: char('id', { length: 64 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => generateRandomString(64, alphabet('a-z', 'A-Z', '0-9'))),
+    organizationId: uuid('organization_id')
+      .notNull()
+      .references(() => Organizations.id),
+    email: varchar('email', { length: 255 }).notNull(),
+    role: organizationMembersRoles('role').notNull().default('member'),
+    expiresAt: timestamp('expired_at').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => ({
+    pu: unique().on(t.organizationId, t.email),
+  }),
+)
+
+export const OrganizationsInvitationRelations = relations(OrganizationsInvitations, ({ one }) => ({
+  organization: one(Organizations, {
+    fields: [OrganizationsInvitations.organizationId],
+    references: [Organizations.id],
   }),
 }))

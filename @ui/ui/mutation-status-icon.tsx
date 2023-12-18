@@ -11,6 +11,7 @@ export function MutationStatusIcon(props: {
   children?: React.ReactNode
 }) {
   const [showSuccess, setShowSuccess] = useState(false)
+  const [showError, setShowError] = useState(false)
 
   useLayoutEffect(() => {
     let timeout: number | null = null
@@ -18,6 +19,13 @@ export function MutationStatusIcon(props: {
       setShowSuccess(true)
       timeout = setTimeout(() => {
         setShowSuccess(false)
+      }, 2_000)
+    }
+
+    if (props.status === 'error') {
+      setShowError(true)
+      timeout = setTimeout(() => {
+        setShowError(false)
       }, 2_000)
     }
 
@@ -32,6 +40,8 @@ export function MutationStatusIcon(props: {
     .with('idle', () => props.children)
     .with('loading', () => <ReloadIcon className={cn('h-4 w-4 animate-spin', props.className)} />)
     .with('success', () => (showSuccess ? <CheckIcon className={cn('h-4 w-4', props.className)} /> : props.children))
-    .with('error', () => <Cross2Icon className={cn('h-4 w-4 text-destructive', props.className)} />)
+    .with('error', () =>
+      showError ? <Cross2Icon className={cn('h-4 w-4 text-destructive', props.className)} /> : props.children,
+    )
     .exhaustive()
 }
