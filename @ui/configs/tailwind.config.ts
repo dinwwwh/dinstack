@@ -6,6 +6,7 @@ export default {
   content: [
     './pages/**/*.*',
     './components/**/*.*',
+    './services/**/*.*',
     './app/**/*.*',
     './src/**/*.*',
     './icons/**/*.*',

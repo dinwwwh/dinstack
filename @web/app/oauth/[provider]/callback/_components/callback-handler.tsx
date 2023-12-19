@@ -28,14 +28,14 @@ export function CallbackHandler() {
     },
     onSettled() {
       setState(RESET)
-      router.push(state.authorizationRedirectUrl)
+      router.push(state?.authorizationRedirectUrl || '/dash')
     },
   })
 
   const connectMutation = api.auth.oauth.connect.useMutation({
     onSettled() {
       setState(RESET)
-      router.push(state.authorizationRedirectUrl)
+      router.push(state?.authorizationRedirectUrl || '/dash')
     },
   })
 

@@ -10,16 +10,14 @@ export const sessionIdAtom = atomWithLocalStorage(
 
 export const oauthStateAtom = atomWithLocalStorage(
   'services/auth/oauth-state',
-  z.object({
-    state: z.string(),
-    codeVerifier: z.string(),
-    authorizationRedirectUrl: z.string(),
-  }),
-  {
-    state: '',
-    codeVerifier: '',
-    authorizationRedirectUrl: '',
-  },
+  z
+    .object({
+      state: z.string(),
+      codeVerifier: z.string(),
+      authorizationRedirectUrl: z.string().url(),
+    })
+    .nullable(),
+  null,
 )
 
 export const emailLoginHistoryAtom = atomWithLocalStorage(
