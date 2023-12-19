@@ -33,6 +33,8 @@ export function OrganizationMembers() {
     organizationId,
   })
 
+  const authInfosQuery = api.auth.infos.useQuery()
+
   return (
     <div className="@container">
       <section className="grid grid-cols-1 gap-x-8 gap-y-10 px-4 py-16  @2xl:grid-cols-3 ">
@@ -65,15 +67,19 @@ export function OrganizationMembers() {
                           <span className="font-medium text-xs text-muted-foreground">{member.user.email}</span>
                         </div>
                       </div>
-                      {/* TODO: not show on yourself */}
-                      <MemberRemoveButton organizationId={organizationId} userId={member.userId} />
+                      {authInfosQuery.data?.session.userId !== member.userId &&
+                        authInfosQuery.data?.session.organizationMember.role === 'admin' && (
+                          <MemberRemoveButton organizationId={organizationId} userId={member.userId} />
+                        )}
                     </li>
                   )
                 })}
 
-                <li className="flex justify-between gap-x-6 py-6">
-                  <MemberInviteButton organizationId={organizationId} />
-                </li>
+                {authInfosQuery.data?.session.organizationMember.role === 'admin' && (
+                  <li className="flex justify-between gap-x-6 py-6">
+                    <MemberInviteButton organizationId={organizationId} />
+                  </li>
+                )}
               </ul>
             ))
             .exhaustive()}
