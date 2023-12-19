@@ -130,7 +130,7 @@ export const organizationMemberSelectSchema = createSelectSchema(OrganizationMem
 export const Sessions = pgTable(
   'sessions',
   {
-    id: char('id', { length: 64 })
+    secretKey: char('secret_key', { length: 64 })
       .notNull()
       .primaryKey()
       .$defaultFn(() => generateRandomString(64, alphabet('a-z', 'A-Z', '0-9'))),
@@ -161,7 +161,7 @@ export const sessionSelectSchema = createSelectSchema(Sessions)
 export const OrganizationsInvitations = pgTable(
   'organizations_invitations',
   {
-    id: char('id', { length: 64 })
+    secretKey: char('secret_key', { length: 64 })
       .notNull()
       .primaryKey()
       .$defaultFn(() => generateRandomString(64, alphabet('a-z', 'A-Z', '0-9'))),

@@ -3,7 +3,7 @@
 import { ArrowLeftIcon, ArrowRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
-import { emailLoginHistoryAtom, oauthStateAtom, sessionIdAtom } from '@web/services/auth/atoms'
+import { emailLoginHistoryAtom, oauthStateAtom, sessionSecretKeyAtom } from '@web/services/auth/atoms'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import { useEffect, useId, useState } from 'react'
@@ -24,7 +24,7 @@ type Props = {
 }
 
 export function LoginScreen(props: Props) {
-  const [, setSessionId] = useAtom(sessionIdAtom)
+  const [, setSessionSecretKey] = useAtom(sessionSecretKeyAtom)
   const [step, setStep] = useState<'send-otp' | 'validate-otp'>('send-otp')
   const [email, setEmail] = useState('')
   const [history, setHistory] = useAtom(emailLoginHistoryAtom)
@@ -79,7 +79,7 @@ export function LoginScreen(props: Props) {
                 <ValidateOtpForm
                   email={email}
                   onSuccess={(data) => {
-                    setSessionId(data.auth.session.id)
+                    setSessionSecretKey(data.sessionSecretKey)
                     setHistory(RESET)
                   }}
                   onBack={() => {

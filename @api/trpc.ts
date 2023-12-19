@@ -40,13 +40,8 @@ export const procedure = t.procedure.use(turnstileMiddleware)
 const authMiddleware = middleware(async ({ ctx, next }) => {
   const bearer = ctx.request.headers.get('Authorization')
   if (!bearer) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
-  const sessionId = bearer.replace(/^Bearer /, '')
+  const sessionSecretKey = bearer.replace(/^Bearer /, '')
   const session = await ctx.db.query.Sessions.findFirst({
-    columns: {
-      id: true,
-      createdAt: true,
-      userId: true,
-    },
     with: {
       organizationMember: {
         columns: {
@@ -57,7 +52,7 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
       },
     },
     where(t, { eq }) {
-      return eq(t.id, sessionId)
+      return eq(t.secretKey, sessionSecretKey)
     },
   })
   if (!session) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })

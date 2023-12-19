@@ -52,7 +52,7 @@ export const organizationCreateRoute = authProcedure
       .set({
         organizationId: organization.id,
       })
-      .where(eq(Sessions.id, ctx.auth.session.id))
+      .where(eq(Sessions.secretKey, ctx.auth.session.secretKey))
 
     return {
       organization: {

@@ -5,7 +5,7 @@ import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { env } from '@web/env'
 import { api } from '@web/lib/api'
 import { store } from '@web/lib/jotai'
-import { sessionIdAtom } from '@web/services/auth/atoms'
+import { sessionSecretKeyAtom } from '@web/services/auth/atoms'
 import { RESET } from 'jotai/utils'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
@@ -20,7 +20,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         queryCache: new QueryCache({
           onError(err) {
             if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
-              store.set(sessionIdAtom, RESET)
+              store.set(sessionSecretKeyAtom, RESET)
             }
           },
         }),
@@ -31,7 +31,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
               const message = err.message
 
               if (code === 'UNAUTHORIZED') {
-                store.set(sessionIdAtom, RESET)
+                store.set(sessionSecretKeyAtom, RESET)
               }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
@@ -58,11 +58,11 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         httpBatchLink({
           url: new URL('/trpc', env.NEXT_PUBLIC_API_URL).toString(),
           async headers() {
-            const sessionId = store.get(sessionIdAtom)
+            const sessionSecretKey = store.get(sessionSecretKeyAtom)
             const headers: Record<string, string> = {}
 
-            if (sessionId) {
-              headers['Authorization'] = `Bearer ${sessionId}`
+            if (sessionSecretKey) {
+              headers['Authorization'] = `Bearer ${sessionSecretKey}`
             }
 
             return headers

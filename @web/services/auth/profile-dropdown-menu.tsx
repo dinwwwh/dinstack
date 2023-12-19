@@ -1,7 +1,7 @@
 import { ExitIcon, PersonIcon, PlusIcon } from '@radix-ui/react-icons'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/utils'
-import { sessionIdAtom } from '@web/services/auth/atoms'
+import { sessionSecretKeyAtom } from '@web/services/auth/atoms'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import Link from 'next/link'
@@ -204,10 +204,10 @@ function OrganizationListItem(props: {
 }
 
 function LogoutDropdownMenuItem() {
-  const [, setSessionId] = useAtom(sessionIdAtom)
+  const [, setSessionSecretKey] = useAtom(sessionSecretKeyAtom)
   const mutation = api.auth.logout.useMutation({
     onSuccess() {
-      setSessionId(RESET)
+      setSessionSecretKey(RESET)
     },
   })
   return (

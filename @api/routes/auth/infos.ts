@@ -4,7 +4,7 @@ import { TRPCError } from '@trpc/server'
 export const authInfosRoute = authProcedure.query(async ({ ctx }) => {
   const findSession = ctx.db.query.Sessions.findFirst({
     where(t, { eq }) {
-      return eq(t.id, ctx.auth.session.id)
+      return eq(t.secretKey, ctx.auth.session.secretKey)
     },
     with: {
       organizationMember: {

@@ -15,5 +15,5 @@ export const authOrganizationSwitchRoute = authProcedure
     await ctx.db
       .update(Sessions)
       .set({ organizationId: input.organization.id })
-      .where(eq(Sessions.id, ctx.auth.session.id))
+      .where(eq(Sessions.secretKey, ctx.auth.session.secretKey))
   })

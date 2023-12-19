@@ -1,5 +1,6 @@
 'use client'
 
+import { organizationSelectSchema } from '@api/database/schema'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/utils'
 import imageCompression from 'browser-image-compression'
@@ -7,7 +8,6 @@ import { Base64 } from 'js-base64'
 import { useSearchParams } from 'next/navigation'
 import { useId, useRef } from 'react'
 import { match } from 'ts-pattern'
-import { z } from 'zod'
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import { GeneralError } from '@ui/ui/general-error'
@@ -18,7 +18,7 @@ import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 
 export function OrganizationInfosForm() {
   const searchParams = useSearchParams()
-  const organizationId = z.string().uuid().parse(searchParams.get('id'))
+  const organizationId = organizationSelectSchema.shape.id.parse(searchParams.get('id'))
 
   const nameId = useId()
   const query = api.organization.detail.useQuery({
@@ -96,7 +96,7 @@ export function OrganizationInfosForm() {
 
 export function LogoChangeButton() {
   const searchParams = useSearchParams()
-  const organizationId = z.string().uuid().parse(searchParams.get('id'))
+  const organizationId = organizationSelectSchema.shape.id.parse(searchParams.get('id'))
   const inputRef = useRef<HTMLInputElement>(null)
   const mutation = api.organization.changeLogo.useMutation()
 

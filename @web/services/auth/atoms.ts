@@ -2,9 +2,9 @@ import { sessionSelectSchema } from '@api/database/schema'
 import { atomWithLocalStorage } from '@web/lib/jotai'
 import { z } from 'zod'
 
-export const sessionIdAtom = atomWithLocalStorage(
-  'services/auth/session-id',
-  sessionSelectSchema.shape['id'].nullable(),
+export const sessionSecretKeyAtom = atomWithLocalStorage(
+  'services/auth/session-secret-key',
+  sessionSelectSchema.shape['secretKey'].nullable(),
   null,
 )
 

@@ -1,12 +1,12 @@
 'use client'
 
+import { organizationSelectSchema } from '@api/database/schema'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl, uppercaseFirstLetter } from '@web/lib/utils'
 import { useSearchParams } from 'next/navigation'
 import { useRef } from 'react'
 import { match } from 'ts-pattern'
-import { z } from 'zod'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -27,7 +27,7 @@ import { OrganizationMemberInviteSheet } from './organization-member-invite-shee
 
 export function OrganizationMembers() {
   const searchParams = useSearchParams()
-  const organizationId = z.string().uuid().parse(searchParams.get('id'))
+  const organizationId = organizationSelectSchema.shape.id.parse(searchParams.get('id'))
 
   const query = api.organization.detail.useQuery({
     organizationId,

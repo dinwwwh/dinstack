@@ -7,7 +7,6 @@ import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { alphabet, generateRandomString } from 'oslo/random'
 import { z } from 'zod'
-import { authOutputSchema } from './_lib/output'
 import { createSession } from './_lib/utils'
 
 export const authEmailRouter = router({
@@ -55,7 +54,6 @@ export const authEmailRouter = router({
         otp: z.string().length(6).toLowerCase(),
       }),
     )
-    .output(authOutputSchema)
     .mutation(async ({ ctx, input }) => {
       // TODO: rate limit 10 times per 5 minutes
 
@@ -103,9 +101,7 @@ export const authEmailRouter = router({
         }
 
         return {
-          auth: {
-            session: await createSession({ ctx, organizationMember }),
-          },
+          sessionSecretKey: (await createSession({ ctx, organizationMember })).secretKey,
         }
       }
 
@@ -123,9 +119,7 @@ export const authEmailRouter = router({
       })
 
       return {
-        auth: {
-          session: await createSession({ ctx, organizationMember }),
-        },
+        sessionSecretKey: (await createSession({ ctx, organizationMember })).secretKey,
       }
     }),
 })

@@ -63,7 +63,7 @@ export const organizationMemberRouter = router({
 
       ctx.ec.waitUntil(
         (async () => {
-          const invitationAcceptUrl = new URL(`/invitation-accept?id=${invitation.id}`, ctx.env.WEB_URL)
+          const invitationAcceptUrl = new URL(`/invitation-accept?secret-key=${invitation.secretKey}`, ctx.env.WEB_URL)
           const { subject, html } = generateOrganizationInvitationEmail({
             inviterName: user.name,
             organizationName: organization.name,
@@ -80,13 +80,13 @@ export const organizationMemberRouter = router({
   invitationInfo: authProcedure
     .input(
       z.object({
-        invitationId: z.string(),
+        invitationSecretKey: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
       const invitation = await ctx.db.query.OrganizationsInvitations.findFirst({
         where(t, { eq }) {
-          return eq(t.id, input.invitationId)
+          return eq(t.secretKey, input.invitationSecretKey)
         },
         with: {
           organization: true,
@@ -114,13 +114,13 @@ export const organizationMemberRouter = router({
   acceptInvitation: authProcedure
     .input(
       z.object({
-        invitationId: z.string(),
+        invitationSecretKey: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const invitation = await ctx.db.query.OrganizationsInvitations.findFirst({
         where(t, { eq }) {
-          return eq(t.id, input.invitationId)
+          return eq(t.secretKey, input.invitationSecretKey)
         },
       })
 
@@ -158,7 +158,7 @@ export const organizationMemberRouter = router({
           role: invitation.role,
         })
 
-        await trx.delete(OrganizationsInvitations).where(eq(OrganizationsInvitations.id, invitation.id))
+        await trx.delete(OrganizationsInvitations).where(eq(OrganizationsInvitations.secretKey, invitation.secretKey))
       })
 
       await ctx.db
@@ -166,7 +166,7 @@ export const organizationMemberRouter = router({
         .set({
           organizationId: invitation.organizationId,
         })
-        .where(eq(Sessions.id, ctx.auth.session.id))
+        .where(eq(Sessions.secretKey, ctx.auth.session.secretKey))
     }),
   remove: authProcedure
     .input(

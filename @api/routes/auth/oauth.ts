@@ -56,9 +56,7 @@ export const authOauthRouter = router({
         }
 
         return {
-          auth: {
-            session: await createSession({ ctx, organizationMember }),
-          },
+          sessionSecretKey: (await createSession({ ctx, organizationMember })).secretKey,
         }
       }
 
@@ -92,9 +90,7 @@ export const authOauthRouter = router({
       })
 
       return {
-        auth: {
-          session: await createSession({ ctx, organizationMember }),
-        },
+        sessionSecretKey: (await createSession({ ctx, organizationMember })).secretKey,
       }
     }),
   connect: authProcedure
