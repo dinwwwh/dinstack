@@ -17,7 +17,7 @@ export const showTurnstileAtom = atom(false)
 
 export const turnstileRefAtom = atom<TurnstileInstance | null>(null)
 
-export default function TurnstileProvider({ children }: { children: React.ReactNode }) {
+export function TurnstileProvider({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme()
   const [, setTurnstileToken] = useAtom(turnstileTokenAtom)
   const [showTurnstile] = useAtom(showTurnstileAtom)

@@ -3,10 +3,10 @@ import { Inter } from 'next/font/google'
 import '@ui/styles/globals.css'
 import { ScrollArea } from '@ui/ui/scroll-area'
 import { Toaster } from '@ui/ui/toaster'
-import JotaiProvider from './_providers/jotai'
-import { QueryProvider } from './_providers/query'
-import { ThemeProvider } from './_providers/theme'
-import TurnstileProvider from './_providers/turnstile'
+import { JotaiProvider } from './_jotai-provider'
+import { QueryProvider } from './_query-provider'
+import { ThemeProvider } from './_theme-provider'
+import { TurnstileProvider } from './_turnstile-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 

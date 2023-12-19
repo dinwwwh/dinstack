@@ -1,6 +1,6 @@
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
-import { organizationRouter } from './routes/organization'
 import { authRouter } from './services/auth/router'
+import { organizationRouter } from './services/organization/router'
 import { procedure, router } from './trpc'
 
 export const appRouter = router({

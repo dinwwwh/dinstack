@@ -10,7 +10,7 @@ import { RESET } from 'jotai/utils'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
 import { useToast } from '@ui/ui/use-toast'
-import { showTurnstileAtom, turnstileRefAtom, turnstileTokenAtom } from './turnstile'
+import { showTurnstileAtom, turnstileRefAtom, turnstileTokenAtom } from './_turnstile-provider'
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast()

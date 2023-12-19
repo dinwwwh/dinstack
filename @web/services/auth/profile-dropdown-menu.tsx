@@ -25,7 +25,7 @@ import { ScrollArea } from '@ui/ui/scroll-area'
 import { SheetTrigger } from '@ui/ui/sheet'
 import { Skeleton } from '@ui/ui/skeleton'
 import { ViewportBlock } from '@ui/ui/viewport-block'
-import { OrganizationCreateSheet } from '../../components/organization-create-sheet'
+import { OrganizationCreateSheet } from '../organization/create-sheet'
 
 type Props = React.ComponentPropsWithoutRef<typeof DropdownMenu>
 

@@ -23,7 +23,7 @@ import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 import { SheetTrigger } from '@ui/ui/sheet'
-import { OrganizationMemberInviteSheet } from './organization-member-invite-sheet'
+import { OrganizationMemberInviteSheet } from './member-invite-sheet'
 
 export function OrganizationMembers() {
   const searchParams = useSearchParams()

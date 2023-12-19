@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { OrganizationInfosForm } from './_components/organization-infos-form'
-import { OrganizationMembers } from './_components/organization-members'
+import { OrganizationInfosForm } from '../../../../services/organization/infos-form'
+import { OrganizationMembers } from '../../../../services/organization/members'
 
 export const metadata: Metadata = {
   title: 'Organization',

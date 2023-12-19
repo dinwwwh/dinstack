@@ -2,7 +2,7 @@ import { oauthAccountProviders } from '@api/database/schema'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { uppercaseFirstLetter } from '@web/lib/utils'
 import type { Metadata } from 'next'
-import { CallbackHandler } from './_components/callback-handler'
+import { CallbackHandler } from '../../../../services/auth/oauth-callback-handler'
 
 type Props = {
   params: { provider: string }
