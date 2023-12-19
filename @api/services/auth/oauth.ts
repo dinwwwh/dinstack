@@ -5,7 +5,7 @@ import { authProcedure, procedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
-import { createOauthAuthorizationUrl, createSession, getOauthUser } from './_lib/utils'
+import { createOauthAuthorizationUrl, createSession, getOauthUser } from './_utils'
 
 export const authOauthRouter = router({
   authorizationUrl: procedure

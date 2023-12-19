@@ -7,7 +7,7 @@ import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { alphabet, generateRandomString } from 'oslo/random'
 import { z } from 'zod'
-import { createSession } from './_lib/utils'
+import { createSession } from './_utils'
 
 export const authEmailRouter = router({
   sendOtp: procedure
