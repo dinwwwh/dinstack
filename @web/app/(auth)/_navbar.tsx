@@ -2,10 +2,10 @@
 
 import { CaretDownIcon, DashboardIcon } from '@radix-ui/react-icons'
 import { LogoDropdownMenu } from '@web/components/logo-dropdown-menu'
-import { ProfileDropdownMenu } from '@web/components/profile-dropdown-menu'
 import { ThemeToggle } from '@web/components/theme-toggle'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl, isActivePathname } from '@web/lib/utils'
+import { ProfileDropdownMenu } from '@web/services/auth/profile-dropdown-menu'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { match } from 'ts-pattern'

@@ -1,7 +1,7 @@
 'use client'
 
-import { LoginScreen } from '@web/components/login-screen'
 import { sessionIdAtom } from '@web/services/auth/atoms'
+import { LoginScreen } from '@web/services/auth/login-screen'
 import { useAtom } from 'jotai'
 import { useIsRendered } from '@ui/hooks/use-is-rendered'
 

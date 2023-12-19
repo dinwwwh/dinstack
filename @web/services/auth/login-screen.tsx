@@ -16,7 +16,7 @@ import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 import { Skeleton } from '@ui/ui/skeleton'
-import { LogoDropdownMenu } from './logo-dropdown-menu'
+import { LogoDropdownMenu } from '../../components/logo-dropdown-menu'
 
 type Props = {
   isLoadingGoogle?: boolean
