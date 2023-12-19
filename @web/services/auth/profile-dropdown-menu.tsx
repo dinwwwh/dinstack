@@ -161,7 +161,7 @@ function OrganizationListItem(props: {
         variant={'ghost'}
         onClick={() => {
           mutation.mutate({
-            organization: props.organization,
+            organizationId: props.organization.id,
           })
         }}
         disabled={mutation.isLoading || props.disabled}

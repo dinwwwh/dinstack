@@ -112,12 +112,10 @@ export function LogoChangeButton() {
 
     const avatarBase64 = Base64.fromUint8Array(new Uint8Array(await compressedImage.arrayBuffer()))
     mutation.mutate({
-      organization: {
-        id: organizationId,
-        avatar: {
-          name: compressedImage.name,
-          base64: avatarBase64,
-        },
+      organizationId: organizationId,
+      avatar: {
+        name: compressedImage.name,
+        base64: avatarBase64,
       },
     })
   }

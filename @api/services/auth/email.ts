@@ -1,4 +1,4 @@
-import { EmailOtps } from '@api/database/schema'
+import { EmailOtps, emailOtpSelectSchema } from '@api/database/schema'
 import { generateLoginEmail } from '@api/emails/login'
 import { createUser } from '@api/lib/db'
 import { generateFallbackAvatarUrl } from '@api/lib/utils'
@@ -6,54 +6,42 @@ import { procedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { alphabet, generateRandomString } from 'oslo/random'
-import { z } from 'zod'
 import { createSession } from './_utils'
 
 export const authEmailRouter = router({
-  sendOtp: procedure
-    .input(
-      z.object({
-        email: z.string().email().toLowerCase(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      // TODO: rate limit 2 times per hour
+  sendOtp: procedure.input(emailOtpSelectSchema.pick({ email: true })).mutation(async ({ ctx, input }) => {
+    // TODO: rate limit 2 times per hour
 
-      const newOtp = generateRandomString(6, alphabet('a-z', '0-9'))
+    const newOtp = generateRandomString(6, alphabet('a-z', '0-9'))
 
-      await ctx.db
-        .insert(EmailOtps)
-        .values({
+    await ctx.db
+      .insert(EmailOtps)
+      .values({
+        code: newOtp,
+        email: input.email,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 5),
+      })
+      .onConflictDoUpdate({
+        target: EmailOtps.email,
+        set: {
           code: newOtp,
-          email: input.email,
           expiresAt: new Date(Date.now() + 1000 * 60 * 5),
-        })
-        .onConflictDoUpdate({
-          target: EmailOtps.email,
-          set: {
-            code: newOtp,
-            expiresAt: new Date(Date.now() + 1000 * 60 * 5),
-          },
-        })
+        },
+      })
 
-      ctx.ec.waitUntil(
-        (async () => {
-          const { subject, html } = generateLoginEmail({ otp: newOtp.toUpperCase() })
-          await ctx.email.send({
-            to: [input.email],
-            subject,
-            html,
-          })
-        })(),
-      )
-    }),
-  validateOtp: procedure
-    .input(
-      z.object({
-        email: z.string().email().toLowerCase(),
-        otp: z.string().length(6).toLowerCase(),
-      }),
+    ctx.ec.waitUntil(
+      (async () => {
+        const { subject, html } = generateLoginEmail({ otp: newOtp.toUpperCase() })
+        await ctx.email.send({
+          to: [input.email],
+          subject,
+          html,
+        })
+      })(),
     )
+  }),
+  validateOtp: procedure
+    .input(emailOtpSelectSchema.pick({ email: true, code: true }))
     .mutation(async ({ ctx, input }) => {
       // TODO: rate limit 10 times per 5 minutes
 
@@ -63,7 +51,7 @@ export const authEmailRouter = router({
         },
       })
 
-      if (!emailOtp || emailOtp.code !== input.otp || emailOtp.expiresAt < new Date()) {
+      if (!emailOtp || emailOtp.code !== input.code || emailOtp.expiresAt < new Date()) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'Invalid OTP',

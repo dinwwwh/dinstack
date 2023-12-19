@@ -1,4 +1,11 @@
-import { OrganizationMembers, OrganizationsInvitations, Sessions, organizationMembersRoles } from '@api/database/schema'
+import {
+  OrganizationMembers,
+  OrganizationsInvitations,
+  Sessions,
+  organizationInvitationSelectSchema,
+  organizationMemberSelectSchema,
+  organizationSelectSchema,
+} from '@api/database/schema'
 import { generateOrganizationInvitationEmail } from '@api/emails/organization-invitation'
 import { authProcedure, organizationAdminMiddleware, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
@@ -8,11 +15,11 @@ import { z } from 'zod'
 export const organizationMemberRouter = router({
   invite: authProcedure
     .input(
-      z.object({
-        organizationId: z.string().uuid(),
-        email: z.string().email().toLowerCase(),
-        role: z.enum(organizationMembersRoles.enumValues),
-      }),
+      organizationInvitationSelectSchema.pick({ email: true, role: true }).and(
+        z.object({
+          organizationId: organizationSelectSchema.shape.id,
+        }),
+      ),
     )
     .use(organizationAdminMiddleware)
     .mutation(async ({ ctx, input }) => {
@@ -80,7 +87,7 @@ export const organizationMemberRouter = router({
   invitationInfo: authProcedure
     .input(
       z.object({
-        invitationSecretKey: z.string(),
+        invitationSecretKey: organizationInvitationSelectSchema.shape.secretKey,
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -114,7 +121,7 @@ export const organizationMemberRouter = router({
   acceptInvitation: authProcedure
     .input(
       z.object({
-        invitationSecretKey: z.string(),
+        invitationSecretKey: organizationInvitationSelectSchema.shape.secretKey,
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -169,12 +176,7 @@ export const organizationMemberRouter = router({
         .where(eq(Sessions.secretKey, ctx.auth.session.secretKey))
     }),
   remove: authProcedure
-    .input(
-      z.object({
-        organizationId: z.string().uuid(),
-        userId: z.string().uuid(),
-      }),
-    )
+    .input(organizationMemberSelectSchema.pick({ organizationId: true, userId: true }))
     .use(organizationAdminMiddleware)
     .mutation(async ({ ctx, input }) => {
       if (input.userId === ctx.auth.session.userId) {

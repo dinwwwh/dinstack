@@ -1,4 +1,4 @@
-import { OrganizationMembers, Organizations, Sessions } from '@api/database/schema'
+import { OrganizationMembers, Organizations, Sessions, organizationSelectSchema } from '@api/database/schema'
 import { generateFallbackLogoUrl } from '@api/lib/utils'
 import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
@@ -8,9 +8,7 @@ import { z } from 'zod'
 export const organizationCreateRoute = authProcedure
   .input(
     z.object({
-      organization: z.object({
-        name: z.string(),
-      }),
+      organization: organizationSelectSchema.pick({ name: true }),
     }),
   )
   .mutation(async ({ ctx, input }) => {

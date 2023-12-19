@@ -1,4 +1,4 @@
-import { Organizations } from '@api/database/schema'
+import { Organizations, organizationSelectSchema } from '@api/database/schema'
 import { authProcedure, organizationMemberMiddleware } from '@api/trpc'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
@@ -6,10 +6,7 @@ import { z } from 'zod'
 export const organizationUpdateRoute = authProcedure
   .input(
     z.object({
-      organization: z.object({
-        id: z.string().uuid(),
-        name: z.string(),
-      }),
+      organization: organizationSelectSchema.pick({ id: true, name: true }),
     }),
   )
   .use(organizationMemberMiddleware)

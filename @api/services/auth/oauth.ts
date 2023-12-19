@@ -1,4 +1,4 @@
-import { OauthAccounts, oauthAccountProviders } from '@api/database/schema'
+import { OauthAccounts, oauthAccountSelectSchema } from '@api/database/schema'
 import { createUser } from '@api/lib/db'
 import { uppercaseFirstLetter } from '@api/lib/utils'
 import { authProcedure, procedure, router } from '@api/trpc'
@@ -9,11 +9,7 @@ import { createOauthAuthorizationUrl, createSession, getOauthUser } from './_uti
 
 export const authOauthRouter = router({
   authorizationUrl: procedure
-    .input(
-      z.object({
-        provider: z.enum(oauthAccountProviders.enumValues),
-      }),
-    )
+    .input(oauthAccountSelectSchema.pick({ provider: true }))
     .mutation(async ({ ctx, input }) => {
       return await createOauthAuthorizationUrl({
         ...input,
@@ -22,12 +18,13 @@ export const authOauthRouter = router({
     }),
   login: procedure
     .input(
-      z.object({
-        provider: z.enum(oauthAccountProviders.enumValues),
-        code: z.string(),
-        codeVerifier: z.string(),
-        state: z.string(),
-      }),
+      oauthAccountSelectSchema.pick({ provider: true }).and(
+        z.object({
+          code: z.string(),
+          codeVerifier: z.string(),
+          state: z.string(),
+        }),
+      ),
     )
     .mutation(async ({ ctx, input }) => {
       const oauthUser = await getOauthUser({
@@ -95,12 +92,13 @@ export const authOauthRouter = router({
     }),
   connect: authProcedure
     .input(
-      z.object({
-        provider: z.enum(oauthAccountProviders.enumValues),
-        code: z.string(),
-        codeVerifier: z.string(),
-        state: z.string(),
-      }),
+      oauthAccountSelectSchema.pick({ provider: true }).and(
+        z.object({
+          code: z.string(),
+          codeVerifier: z.string(),
+          state: z.string(),
+        }),
+      ),
     )
     .mutation(async ({ ctx, input }) => {
       const oauthUser = await getOauthUser({
@@ -146,11 +144,7 @@ export const authOauthRouter = router({
       })
     }),
   disconnect: authProcedure
-    .input(
-      z.object({
-        provider: z.enum(oauthAccountProviders.enumValues),
-      }),
-    )
+    .input(oauthAccountSelectSchema.pick({ provider: true }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db
         .delete(OauthAccounts)

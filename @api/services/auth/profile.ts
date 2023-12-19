@@ -1,4 +1,4 @@
-import { Users } from '@api/database/schema'
+import { Users, userSelectSchema } from '@api/database/schema'
 import { authProcedure, router } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
@@ -9,9 +9,7 @@ export const authProfileRouter = router({
   update: authProcedure
     .input(
       z.object({
-        user: z.object({
-          name: z.string().min(3).max(255).optional(),
-        }),
+        user: userSelectSchema.pick({ name: true }),
       }),
     )
     .mutation(async ({ ctx, input }) => {

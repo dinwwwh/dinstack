@@ -13,6 +13,7 @@ import {
 } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { alphabet, generateRandomString } from 'oslo/random'
+import { z } from 'zod'
 
 export const Users = pgTable('users', {
   id: uuid('id')
@@ -29,8 +30,12 @@ export const UserRelations = relations(Users, ({ many }) => ({
   organizationMembers: many(OrganizationMembers),
 }))
 
-export const userInsertSchema = createInsertSchema(Users)
-export const userSelectSchema = createSelectSchema(Users)
+export const userInsertSchema = createInsertSchema(Users, {
+  email: z.string().length(255).email().toLowerCase(),
+})
+export const userSelectSchema = createSelectSchema(Users, {
+  email: z.string().length(255).email().toLowerCase(),
+})
 
 export const oauthAccountProviders = pgEnum('oauth_account_providers', ['github', 'google'])
 
@@ -69,8 +74,14 @@ export const EmailOtps = pgTable('email_otps', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
-export const emailOtpInsertSchema = createInsertSchema(EmailOtps)
-export const emailOtpSelectSchema = createSelectSchema(EmailOtps)
+export const emailOtpInsertSchema = createInsertSchema(EmailOtps, {
+  email: z.string().length(255).email().toLowerCase(),
+  code: z.string().length(6).toLowerCase(),
+})
+export const emailOtpSelectSchema = createSelectSchema(EmailOtps, {
+  email: z.string().length(255).email().toLowerCase(),
+  code: z.string().length(6).toLowerCase(),
+})
 
 export const Organizations = pgTable('organizations', {
   id: uuid('id')
@@ -185,5 +196,9 @@ export const OrganizationsInvitationRelations = relations(OrganizationsInvitatio
   }),
 }))
 
-export const organizationInvitationInsertSchema = createInsertSchema(OrganizationsInvitations)
-export const organizationInvitationSelectSchema = createSelectSchema(OrganizationsInvitations)
+export const organizationInvitationInsertSchema = createInsertSchema(OrganizationsInvitations, {
+  email: z.string().length(255).email().toLowerCase(),
+})
+export const organizationInvitationSelectSchema = createSelectSchema(OrganizationsInvitations, {
+  email: z.string().length(255).email().toLowerCase(),
+})
