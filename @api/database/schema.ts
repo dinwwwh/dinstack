@@ -11,6 +11,7 @@ import {
   foreignKey,
   unique,
 } from 'drizzle-orm/pg-core'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { alphabet, generateRandomString } from 'oslo/random'
 
 export const Users = pgTable('users', {
@@ -27,6 +28,9 @@ export const UserRelations = relations(Users, ({ many }) => ({
   oauthAccounts: many(OauthAccounts),
   organizationMembers: many(OrganizationMembers),
 }))
+
+export const userInsertSchema = createInsertSchema(Users)
+export const userSelectSchema = createSelectSchema(Users)
 
 export const oauthAccountProviders = pgEnum('oauth_account_providers', ['github', 'google'])
 
@@ -55,12 +59,18 @@ export const OauthAccountRelations = relations(OauthAccounts, ({ one, many }) =>
   organizationMembers: many(OrganizationMembers),
 }))
 
+export const oauthAccountInsertSchema = createInsertSchema(OauthAccounts)
+export const oauthAccountSelectSchema = createSelectSchema(OauthAccounts)
+
 export const EmailOtps = pgTable('email_otps', {
   email: varchar('email', { length: 255 }).notNull().primaryKey(),
   code: varchar('code', { length: 6 }).notNull(),
   expiresAt: timestamp('expired_at').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
+
+export const emailOtpInsertSchema = createInsertSchema(EmailOtps)
+export const emailOtpSelectSchema = createSelectSchema(EmailOtps)
 
 export const Organizations = pgTable('organizations', {
   id: uuid('id')
@@ -75,6 +85,9 @@ export const OrganizationRelations = relations(Organizations, ({ many }) => ({
   members: many(OrganizationMembers),
   invitations: many(OrganizationsInvitations),
 }))
+
+export const organizationInsertSchema = createInsertSchema(Organizations)
+export const organizationSelectSchema = createSelectSchema(Organizations)
 
 export const organizationMembersRoles = pgEnum('organization_member_roles', ['admin', 'member'])
 
@@ -111,6 +124,9 @@ export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one
   sessions: many(Sessions),
 }))
 
+export const organizationMemberInsertSchema = createInsertSchema(OrganizationMembers)
+export const organizationMemberSelectSchema = createSelectSchema(OrganizationMembers)
+
 export const Sessions = pgTable(
   'sessions',
   {
@@ -139,6 +155,9 @@ export const SessionRelations = relations(Sessions, ({ one }) => ({
   }),
 }))
 
+export const sessionInsertSchema = createInsertSchema(Sessions)
+export const sessionSelectSchema = createSelectSchema(Sessions)
+
 export const OrganizationsInvitations = pgTable(
   'organizations_invitations',
   {
@@ -165,3 +184,6 @@ export const OrganizationsInvitationRelations = relations(OrganizationsInvitatio
     references: [Organizations.id],
   }),
 }))
+
+export const organizationInvitationInsertSchema = createInsertSchema(OrganizationsInvitations)
+export const organizationInvitationSelectSchema = createSelectSchema(OrganizationsInvitations)

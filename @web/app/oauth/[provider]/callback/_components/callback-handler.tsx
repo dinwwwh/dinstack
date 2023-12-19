@@ -1,8 +1,8 @@
 'use client'
 
 import { oauthAccountProviders } from '@api/database/schema'
-import { codeVerifierAtom, authAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
+import { oauthStateAtom, sessionIdAtom } from '@web/services/auth/atoms'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
@@ -17,29 +17,25 @@ export function CallbackHandler() {
       provider: z.enum(oauthAccountProviders.enumValues),
     })
     .parse(useParams())
-  const [auth, setAuth] = useAtom(authAtom)
-  const [oldState, setOldState] = useAtom(stateAtom)
-  const [codeVerifier, setCodeVerifier] = useAtom(codeVerifierAtom)
-  const [loginRequestFrom] = useAtom(loginRequestFromAtom)
+  const [sessionId, setSessionId] = useAtom(sessionIdAtom)
+  const [state, setState] = useAtom(oauthStateAtom)
   const isRendered = useIsRendered()
 
   const searchParams = useSearchParams()
   const loginMutation = api.auth.oauth.login.useMutation({
     onSuccess(data) {
-      setAuth(data.auth)
+      setSessionId(data.auth.session.id)
     },
     onSettled() {
-      setOldState(RESET)
-      setCodeVerifier(RESET)
-      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
+      setState(RESET)
+      router.push(state.authorizationRedirectUrl)
     },
   })
 
   const connectMutation = api.auth.oauth.connect.useMutation({
     onSettled() {
-      setOldState(RESET)
-      setCodeVerifier(RESET)
-      router.push(`${loginRequestFrom.pathname}?${loginRequestFrom.searchParams}`)
+      setState(RESET)
+      router.push(state.authorizationRedirectUrl)
     },
   })
 
@@ -47,25 +43,25 @@ export function CallbackHandler() {
     if (!isRendered) return
 
     const code = searchParams.get('code')
-    const state = searchParams.get('state')
+    const urlState = searchParams.get('state')
 
-    if (!state || !code || !codeVerifier || state !== oldState) {
+    if (!state || !code || !state.codeVerifier || urlState !== state.state) {
       throw new Error('This page should not be accessed directly')
     }
 
-    if (auth) {
+    if (sessionId) {
       connectMutation.mutate({
         provider: param.provider,
-        state,
+        state: urlState,
         code,
-        codeVerifier,
+        codeVerifier: state.codeVerifier,
       })
     } else {
       loginMutation.mutate({
         provider: param.provider,
-        state,
+        state: urlState,
         code,
-        codeVerifier,
+        codeVerifier: state.codeVerifier,
       })
     }
 

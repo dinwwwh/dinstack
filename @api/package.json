@@ -18,6 +18,7 @@
     "@trpc/server": "^10.44.1",
     "arctic": "^0.3.6",
     "drizzle-orm": "^0.29.1",
+    "drizzle-zod": "^0.5.1",
     "lodash-es": "^4.17.21",
     "oslo": "^0.23.5",
     "superjson": "^2.2.1",

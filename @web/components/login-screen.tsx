@@ -1,13 +1,11 @@
 'use client'
 
 import { ArrowLeftIcon, ArrowRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
-import { codeVerifierAtom, authAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
-import { loginWithEmailHistoryAtom } from '@web/atoms/history'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
+import { emailLoginHistoryAtom, oauthStateAtom, sessionIdAtom } from '@web/services/auth/atoms'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
-import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useId, useState } from 'react'
 import OTPInput from 'react-otp-input'
 import { match } from 'ts-pattern'
@@ -26,21 +24,17 @@ type Props = {
 }
 
 export function LoginScreen(props: Props) {
-  const [, setAuth] = useAtom(authAtom)
+  const [, setSessionId] = useAtom(sessionIdAtom)
   const [step, setStep] = useState<'send-otp' | 'validate-otp'>('send-otp')
   const [email, setEmail] = useState('')
-  const [history, setHistory] = useAtom(loginWithEmailHistoryAtom)
+  const [history, setHistory] = useAtom(emailLoginHistoryAtom)
 
   useEffect(() => {
-    if (
-      !history.previousLoginEmail ||
-      !history.previousLoginEmailAt ||
-      history.previousLoginEmailAt < new Date(Date.now() - 60 * 1000 * 5)
-    ) {
+    if (!history.loginEmail || !history.loginEmailAt || history.loginEmailAt < new Date(Date.now() - 60 * 1000 * 5)) {
       return
     }
 
-    setEmail(history.previousLoginEmail)
+    setEmail(history.loginEmail)
     setStep('validate-otp')
   }, [history])
 
@@ -74,8 +68,8 @@ export function LoginScreen(props: Props) {
                   onSuccess={(data) => {
                     setEmail(data.email)
                     setHistory({
-                      previousLoginEmail: data.email,
-                      previousLoginEmailAt: new Date(),
+                      loginEmail: data.email,
+                      loginEmailAt: new Date(),
                     })
                     setStep('validate-otp')
                   }}
@@ -85,7 +79,7 @@ export function LoginScreen(props: Props) {
                 <ValidateOtpForm
                   email={email}
                   onSuccess={(data) => {
-                    setAuth(data.auth)
+                    setSessionId(data.auth.session.id)
                     setHistory(RESET)
                   }}
                   onBack={() => {
@@ -231,18 +225,13 @@ function ValidateOtpForm(props: {
 }
 
 function LoginWithGoogleButton(props: { isLoading?: boolean }) {
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const [, setSate] = useAtom(stateAtom)
-  const [, setCodeVerifier] = useAtom(codeVerifierAtom)
-  const [, setLoginRequestFrom] = useAtom(loginRequestFromAtom)
+  const [, setSate] = useAtom(oauthStateAtom)
   const authGoogle = api.auth.oauth.authorizationUrl.useMutation({
     onSuccess: (data) => {
-      setSate(data.state)
-      setCodeVerifier(data.codeVerifier)
-      setLoginRequestFrom({
-        pathname,
-        searchParams: searchParams.toString(),
+      setSate({
+        state: data.state,
+        codeVerifier: data.codeVerifier,
+        authorizationRedirectUrl: window.location.href,
       })
       window.location.href = data.url.toString()
     },
@@ -269,18 +258,13 @@ function LoginWithGoogleButton(props: { isLoading?: boolean }) {
 }
 
 function LoginWithGithubButton(props: { isLoading?: boolean }) {
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const [, setSate] = useAtom(stateAtom)
-  const [, setCodeVerifier] = useAtom(codeVerifierAtom)
-  const [, setLoginRequestFrom] = useAtom(loginRequestFromAtom)
+  const [, setSate] = useAtom(oauthStateAtom)
   const authGithub = api.auth.oauth.authorizationUrl.useMutation({
     onSuccess: (data) => {
-      setSate(data.state)
-      setCodeVerifier(data.codeVerifier)
-      setLoginRequestFrom({
-        pathname,
-        searchParams: searchParams.toString(),
+      setSate({
+        state: data.state,
+        codeVerifier: data.codeVerifier,
+        authorizationRedirectUrl: window.location.href,
       })
       window.location.href = data.url.toString()
     },
