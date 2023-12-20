@@ -1,3 +1,4 @@
+import { organizationSchema } from '@api/database/schema'
 import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
@@ -5,7 +6,7 @@ import { z } from 'zod'
 export const organizationDetailRoute = authProcedure
   .input(
     z.object({
-      organizationId: z.string().uuid(),
+      organizationId: organizationSchema.shape.id,
     }),
   )
   .query(async ({ ctx, input }) => {

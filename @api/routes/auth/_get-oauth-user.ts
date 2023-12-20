@@ -1,71 +1,8 @@
-import type { Context } from '@api/context'
-import type { OauthAccounts } from '@api/database/schema'
-import { Sessions } from '@api/database/schema'
+import { Context } from '@api/context'
+import { OauthAccounts } from '@api/database/schema'
 import { TRPCError } from '@trpc/server'
-import type { GitHubUser } from 'arctic'
-import { generateCodeVerifier, generateState } from 'arctic'
+import { GitHubUser } from 'arctic'
 import { match } from 'ts-pattern'
-
-export async function createSession({
-  ctx,
-  organizationMember,
-}: {
-  ctx: Context & { request: Request }
-  organizationMember: {
-    organizationId: string
-    userId: string
-  }
-}) {
-  const [session] = await ctx.db
-    .insert(Sessions)
-    .values({
-      headers: Object.fromEntries(ctx.request.headers.entries()),
-      userId: organizationMember.userId,
-      organizationId: organizationMember.organizationId,
-    })
-    .returning()
-
-  if (!session) {
-    throw new TRPCError({
-      code: 'INTERNAL_SERVER_ERROR',
-      message: 'Failed to create session',
-    })
-  }
-
-  return session
-}
-
-export async function createOauthAuthorizationUrl({
-  ctx,
-  provider,
-}: {
-  ctx: Context
-  provider: (typeof OauthAccounts.$inferSelect)['provider']
-}): Promise<{
-  url: URL
-  state: string
-  codeVerifier: string
-}> {
-  const state = generateState()
-  const codeVerifier = generateCodeVerifier()
-
-  return await match(provider)
-    .with('github', async () => {
-      return {
-        url: await ctx.auth.github.createAuthorizationURL(state),
-        state,
-        codeVerifier,
-      }
-    })
-    .with('google', async () => {
-      return {
-        url: await ctx.auth.google.createAuthorizationURL(state, codeVerifier),
-        state,
-        codeVerifier,
-      }
-    })
-    .exhaustive()
-}
 
 export async function getOauthUser({
   ctx,

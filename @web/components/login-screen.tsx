@@ -181,7 +181,7 @@ function ValidateOtpForm(props: {
       className="space-y-5"
       onSubmit={(e) => {
         e.preventDefault()
-        mutation.mutate({ otp, email: props.email })
+        mutation.mutate({ code: otp, email: props.email })
       }}
     >
       <div>

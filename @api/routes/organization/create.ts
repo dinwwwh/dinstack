@@ -1,4 +1,4 @@
-import { OrganizationMembers, Organizations, Sessions } from '@api/database/schema'
+import { OrganizationMembers, Organizations, Sessions, organizationSchema } from '@api/database/schema'
 import { generateFallbackLogoUrl } from '@api/lib/utils'
 import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
@@ -8,8 +8,8 @@ import { z } from 'zod'
 export const organizationCreateRoute = authProcedure
   .input(
     z.object({
-      organization: z.object({
-        name: z.string(),
+      organization: organizationSchema.pick({
+        name: true,
       }),
     }),
   )
@@ -52,7 +52,7 @@ export const organizationCreateRoute = authProcedure
       .set({
         organizationId: organization.id,
       })
-      .where(eq(Sessions.id, ctx.auth.session.id))
+      .where(eq(Sessions.secretKey, ctx.auth.session.secretKey))
 
     return {
       organization: {
