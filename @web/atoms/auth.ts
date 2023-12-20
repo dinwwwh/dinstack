@@ -1,3 +1,4 @@
+import { sessionSchema } from '@api/database/schema'
 import { z } from 'zod'
 import { atomWithLocalStorage } from './_helpers'
 
@@ -5,8 +6,8 @@ export const authAtom = atomWithLocalStorage(
   'auth-atom',
   z
     .object({
-      session: z.object({
-        id: z.string(),
+      session: sessionSchema.pick({
+        secretKey: true,
       }),
     })
     .nullable(),

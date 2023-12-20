@@ -1,3 +1,4 @@
+import { organizationInvitationSchema } from '@api/database/schema'
 import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
@@ -5,13 +6,13 @@ import { z } from 'zod'
 export const organizationMemberInvitationInfoRoute = authProcedure
   .input(
     z.object({
-      invitationId: z.string(),
+      invitationSecretKey: organizationInvitationSchema.shape.secretKey,
     }),
   )
   .query(async ({ ctx, input }) => {
     const invitation = await ctx.db.query.OrganizationsInvitations.findFirst({
       where(t, { eq }) {
-        return eq(t.secretKey, input.invitationId)
+        return eq(t.secretKey, input.invitationSecretKey)
       },
       with: {
         organization: true,

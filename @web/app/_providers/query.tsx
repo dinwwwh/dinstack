@@ -62,7 +62,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             const headers: Record<string, string> = {}
 
             if (auth) {
-              headers['Authorization'] = `Bearer ${auth.session.id}`
+              headers['Authorization'] = `Bearer ${auth.session.secretKey}`
             }
 
             return headers
