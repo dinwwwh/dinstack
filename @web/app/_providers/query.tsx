@@ -5,11 +5,11 @@ import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { sessionAtom } from '@web/atoms/auth'
 import { env } from '@web/env'
 import { api } from '@web/lib/api'
+import { jotaiStore } from '@web/lib/jotai'
 import { RESET } from 'jotai/utils'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
 import { useToast } from '@ui/ui/use-toast'
-import { store } from './jotai'
 import { showTurnstileAtom, turnstileRefAtom, turnstileTokenAtom } from './turnstile'
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
@@ -20,7 +20,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         queryCache: new QueryCache({
           onError(err) {
             if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
-              store.set(sessionAtom, RESET)
+              jotaiStore.set(sessionAtom, RESET)
             }
           },
         }),
@@ -31,7 +31,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
               const message = err.message
 
               if (code === 'UNAUTHORIZED') {
-                store.set(sessionAtom, RESET)
+                jotaiStore.set(sessionAtom, RESET)
               }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
@@ -58,7 +58,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         httpBatchLink({
           url: new URL('/trpc', env.NEXT_PUBLIC_API_URL).toString(),
           async headers() {
-            const session = store.get(sessionAtom)
+            const session = jotaiStore.get(sessionAtom)
             const headers: Record<string, string> = {}
 
             if (session) {
@@ -70,28 +70,28 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
           async fetch(input, init) {
             const method = init?.method?.toUpperCase() ?? 'GET'
             if (method === 'POST' && init) {
-              if (!store.get(turnstileTokenAtom)) {
-                store.set(showTurnstileAtom, true)
+              if (!jotaiStore.get(turnstileTokenAtom)) {
+                jotaiStore.set(showTurnstileAtom, true)
                 await new Promise((resolve) => {
-                  const unsub = store.sub(turnstileTokenAtom, () => {
-                    const token = store.get(turnstileTokenAtom)
+                  const unsub = jotaiStore.sub(turnstileTokenAtom, () => {
+                    const token = jotaiStore.get(turnstileTokenAtom)
                     if (token) {
                       unsub()
                       resolve(token)
                     }
                   })
                 })
-                store.set(showTurnstileAtom, false)
+                jotaiStore.set(showTurnstileAtom, false)
               }
 
-              const token = store.get(turnstileTokenAtom)
+              const token = jotaiStore.get(turnstileTokenAtom)
 
               init.headers = {
                 ...init.headers,
                 'X-Turnstile-Token': `${token}`,
               }
-              store.set(turnstileTokenAtom, null)
-              store.get(turnstileRefAtom)?.reset()
+              jotaiStore.set(turnstileTokenAtom, null)
+              jotaiStore.get(turnstileRefAtom)?.reset()
             }
 
             return await fetch(input, init)

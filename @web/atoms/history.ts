@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { atomWithLocalStorage } from './_helpers'
+import { atomWithLocalStorage } from '../lib/jotai'
 
 export const loginWithEmailHistoryAtom = atomWithLocalStorage(
   'login-with-email-history-atom',

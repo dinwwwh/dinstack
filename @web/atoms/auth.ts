@@ -1,6 +1,6 @@
 import { organizationMemberSchema, organizationSchema, sessionSchema, userSchema } from '@api/database/schema'
 import { z } from 'zod'
-import { atomWithLocalStorage } from './_helpers'
+import { atomWithLocalStorage } from '../lib/jotai'
 
 export const sessionAtom = atomWithLocalStorage(
   'session-atom',

@@ -1,10 +1,12 @@
-import { atom } from 'jotai'
+import { atom, createStore } from 'jotai'
 import { RESET } from 'jotai/utils'
 import SuperJSON from 'superjson'
 import type { z } from 'zod'
 
 type SetStateActionClosureWithReset<V> = (prev: V) => V | typeof RESET
 type SetStateActionWithReset<V> = V | typeof RESET | SetStateActionClosureWithReset<V>
+
+export const jotaiStore = createStore()
 
 export function atomWithLocalStorage<T extends z.Schema>(key: string, schema: T, _initialValue: z.infer<T>) {
   type V = z.infer<T>
