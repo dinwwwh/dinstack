@@ -24,7 +24,7 @@ export function SyncSession() {
     if (query.status !== 'success') return
 
     setSession(query.data.session)
-  }, [query.data])
+  }, [query.data, query.status, setSession])
 
   return null
 }

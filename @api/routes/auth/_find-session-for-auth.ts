@@ -1,4 +1,4 @@
-import { Context } from '@api/context'
+import type { Context } from '@api/context'
 import { TRPCError } from '@trpc/server'
 
 export async function findSessionForAuth({ ctx, sessionSecretKey }: { ctx: Context; sessionSecretKey: string }) {

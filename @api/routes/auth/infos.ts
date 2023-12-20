@@ -1,5 +1,4 @@
 import { authProcedure } from '@api/trpc'
-import { TRPCError } from '@trpc/server'
 import { findSessionForAuth } from './_find-session-for-auth'
 
 export const authInfosRoute = authProcedure.query(async ({ ctx }) => {

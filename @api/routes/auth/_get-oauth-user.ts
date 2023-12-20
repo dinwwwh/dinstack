@@ -1,7 +1,7 @@
-import { Context } from '@api/context'
-import { OauthAccounts } from '@api/database/schema'
+import type { Context } from '@api/context'
+import type { OauthAccounts } from '@api/database/schema'
 import { TRPCError } from '@trpc/server'
-import { GitHubUser } from 'arctic'
+import type { GitHubUser } from 'arctic'
 import { match } from 'ts-pattern'
 
 export async function getOauthUser({
