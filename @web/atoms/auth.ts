@@ -1,15 +1,30 @@
-import { sessionSchema } from '@api/database/schema'
+import { organizationMemberSchema, organizationSchema, sessionSchema, userSchema } from '@api/database/schema'
 import { z } from 'zod'
 import { atomWithLocalStorage } from './_helpers'
 
-export const authAtom = atomWithLocalStorage(
-  'auth-atom',
-  z
-    .object({
-      session: sessionSchema.pick({
-        secretKey: true,
-      }),
+export const sessionAtom = atomWithLocalStorage(
+  'session-atom',
+  sessionSchema
+    .pick({
+      secretKey: true,
     })
+    .and(
+      z.object({
+        organizationMember: z.object({
+          role: organizationMemberSchema.shape.role,
+          user: userSchema,
+          organization: organizationSchema.and(
+            z.object({
+              members: z.array(
+                z.object({
+                  user: userSchema,
+                }),
+              ),
+            }),
+          ),
+        }),
+      }),
+    )
     .nullable(),
   null,
 )

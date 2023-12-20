@@ -1,7 +1,7 @@
 'use client'
 
 import { oauthAccountProviders } from '@api/database/schema'
-import { codeVerifierAtom, authAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
+import { codeVerifierAtom, sessionAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
@@ -17,7 +17,7 @@ export function CallbackHandler() {
       provider: z.enum(oauthAccountProviders.enumValues),
     })
     .parse(useParams())
-  const [auth, setAuth] = useAtom(authAtom)
+  const [session, setSession] = useAtom(sessionAtom)
   const [oldState, setOldState] = useAtom(stateAtom)
   const [codeVerifier, setCodeVerifier] = useAtom(codeVerifierAtom)
   const [loginRequestFrom] = useAtom(loginRequestFromAtom)
@@ -26,7 +26,7 @@ export function CallbackHandler() {
   const searchParams = useSearchParams()
   const loginMutation = api.auth.oauth.login.useMutation({
     onSuccess(data) {
-      setAuth(data.auth)
+      setSession(data.session)
     },
     onSettled() {
       setOldState(RESET)
@@ -53,7 +53,7 @@ export function CallbackHandler() {
       throw new Error('This page should not be accessed directly')
     }
 
-    if (auth) {
+    if (session) {
       connectMutation.mutate({
         provider: param.provider,
         state,

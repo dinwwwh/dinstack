@@ -6,6 +6,7 @@ import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 import { createSession } from './_create-session'
+import { findSessionForAuth } from './_find-session-for-auth'
 
 export const authEmailValidateOtpRoute = procedure
   .input(
@@ -60,10 +61,12 @@ export const authEmailValidateOtpRoute = procedure
         })
       }
 
+      const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
+
+      const session = await findSessionForAuth({ ctx, sessionSecretKey })
+
       return {
-        auth: {
-          session: await createSession({ ctx, organizationMember }),
-        },
+        session,
       }
     }
 
@@ -80,9 +83,11 @@ export const authEmailValidateOtpRoute = procedure
       },
     })
 
+    const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
+
+    const session = await findSessionForAuth({ ctx, sessionSecretKey })
+
     return {
-      auth: {
-        session: await createSession({ ctx, organizationMember }),
-      },
+      session,
     }
   })

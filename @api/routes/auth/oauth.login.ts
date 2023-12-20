@@ -5,6 +5,7 @@ import { procedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 import { createSession } from './_create-session'
+import { findSessionForAuth } from './_find-session-for-auth'
 import { getOauthUser } from './_get-oauth-user'
 
 export const authOauthLoginRoute = procedure
@@ -42,10 +43,12 @@ export const authOauthLoginRoute = procedure
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to find organization member' })
       }
 
+      const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
+
+      const session = await findSessionForAuth({ ctx, sessionSecretKey })
+
       return {
-        auth: {
-          session: await createSession({ ctx, organizationMember }),
-        },
+        session,
       }
     }
 
@@ -76,9 +79,11 @@ export const authOauthLoginRoute = procedure
       },
     })
 
+    const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
+
+    const session = await findSessionForAuth({ ctx, sessionSecretKey })
+
     return {
-      auth: {
-        session: await createSession({ ctx, organizationMember }),
-      },
+      session,
     }
   })

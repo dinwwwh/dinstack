@@ -1,24 +1,9 @@
 import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
+import { findSessionForAuth } from './_find-session-for-auth'
 
 export const authInfosRoute = authProcedure.query(async ({ ctx }) => {
-  const findSession = ctx.db.query.Sessions.findFirst({
-    where(t, { eq }) {
-      return eq(t.secretKey, ctx.auth.session.secretKey)
-    },
-    with: {
-      organizationMember: {
-        with: {
-          organization: {
-            with: {
-              members: true,
-            },
-          },
-          user: true,
-        },
-      },
-    },
-  })
+  const findSession = findSessionForAuth({ ctx, sessionSecretKey: ctx.auth.session.secretKey })
 
   const findOauthAccounts = ctx.db.query.OauthAccounts.findMany({
     where(t, { eq }) {
@@ -27,13 +12,6 @@ export const authInfosRoute = authProcedure.query(async ({ ctx }) => {
   })
 
   const [session, oauthAccounts] = await Promise.all([findSession, findOauthAccounts])
-
-  if (!session) {
-    throw new TRPCError({
-      code: 'INTERNAL_SERVER_ERROR',
-      message: 'Failed to find session',
-    })
-  }
 
   return {
     session,
