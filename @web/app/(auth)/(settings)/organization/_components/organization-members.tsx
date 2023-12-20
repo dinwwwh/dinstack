@@ -1,6 +1,7 @@
 'use client'
 
 import { PlusIcon } from '@radix-ui/react-icons'
+import { useAuthenticatedUser } from '@web/hooks/use-user'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl, uppercaseFirstLetter } from '@web/lib/utils'
 import { useSearchParams } from 'next/navigation'
@@ -28,10 +29,13 @@ import { OrganizationMemberInviteSheet } from './organization-member-invite-shee
 export function OrganizationMembers() {
   const searchParams = useSearchParams()
   const organizationId = z.string().uuid().parse(searchParams.get('id'))
+  const user = useAuthenticatedUser()
 
   const query = api.organization.detail.useQuery({
     organizationId,
   })
+
+  const memberRole = query.data?.organization.members.find((member) => member.userId === user?.id)?.role
 
   return (
     <div className="@container">
@@ -65,15 +69,18 @@ export function OrganizationMembers() {
                           <span className="font-medium text-xs text-muted-foreground">{member.user.email}</span>
                         </div>
                       </div>
-                      {/* TODO: not show on yourself */}
-                      <MemberRemoveButton organizationId={organizationId} userId={member.userId} />
+                      {user.id !== member.userId && (
+                        <MemberRemoveButton organizationId={organizationId} userId={member.userId} />
+                      )}
                     </li>
                   )
                 })}
 
-                <li className="flex justify-between gap-x-6 py-6">
-                  <MemberInviteButton organizationId={organizationId} />
-                </li>
+                {memberRole === 'admin' && (
+                  <li className="flex justify-between gap-x-6 py-6">
+                    <MemberInviteButton organizationId={organizationId} />
+                  </li>
+                )}
               </ul>
             ))
             .exhaustive()}

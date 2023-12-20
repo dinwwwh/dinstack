@@ -9,8 +9,8 @@ import { match } from 'ts-pattern'
 import { Button } from '@ui/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@ui/ui/sheet'
 import { Skeleton } from '@ui/ui/skeleton'
-import { Navbar } from './_components/navbar'
-import { RequireAuthWrapper } from './_wrappers/require-auth'
+import { Navbar } from './_navbar'
+import { RequireAuthWrapper } from './_require-auth'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

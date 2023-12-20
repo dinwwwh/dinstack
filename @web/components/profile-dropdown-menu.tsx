@@ -1,5 +1,6 @@
 import { ExitIcon, PersonIcon, PlusIcon } from '@radix-ui/react-icons'
 import { sessionAtom } from '@web/atoms/auth'
+import { useAuthenticatedOrganizationMember } from '@web/hooks/use-organization-member'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/utils'
 import { useAtom } from 'jotai'
@@ -63,7 +64,7 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
 }
 
 function OrganizationList({ onOpenChange }: { onOpenChange: (v: boolean) => void }) {
-  const sessionInfosQuery = api.auth.infos.useQuery()
+  const organization = useAuthenticatedOrganizationMember().organization
   const listQuery = api.organization.list.useInfiniteQuery(
     {
       limit: 6,
@@ -81,6 +82,18 @@ function OrganizationList({ onOpenChange }: { onOpenChange: (v: boolean) => void
         }}
       >
         <div className="space-y-2 py-2">
+          <OrganizationListItem
+            organization={{
+              ...organization,
+              numberMembers: {
+                number: organization.members.length,
+                status: 'success',
+              },
+            }}
+            disabled
+            onSuccess={() => onOpenChange(false)}
+          />
+
           {match(listQuery)
             .with({ status: 'loading' }, () => <OrganizationListItemSkeleton />)
             .with({ status: 'error' }, () => '')
@@ -88,22 +101,23 @@ function OrganizationList({ onOpenChange }: { onOpenChange: (v: boolean) => void
               return query.data.pages.map((page, i) => {
                 return (
                   <div key={i} className="space-y-2">
-                    {page.items.map((item) => {
-                      return (
-                        <OrganizationListItem
-                          key={item.id}
-                          organization={{
-                            ...item,
-                            numberMembers: {
-                              number: item.members.length,
-                              status: 'success',
-                            },
-                          }}
-                          disabled={item.id === sessionInfosQuery.data?.session.organizationId}
-                          onSuccess={() => onOpenChange(false)}
-                        />
-                      )
-                    })}
+                    {page.items
+                      .filter((item) => item.id !== organization.id)
+                      .map((item) => {
+                        return (
+                          <OrganizationListItem
+                            key={item.id}
+                            organization={{
+                              ...item,
+                              numberMembers: {
+                                number: item.members.length,
+                                status: 'success',
+                              },
+                            }}
+                            onSuccess={() => onOpenChange(false)}
+                          />
+                        )
+                      })}
                     {!query.isFetching && query.hasNextPage && (
                       <ViewportBlock onEnterViewport={() => query.fetchNextPage()} />
                     )}

@@ -4,6 +4,8 @@ import { CaretDownIcon, DashboardIcon } from '@radix-ui/react-icons'
 import { LogoDropdownMenu } from '@web/components/logo-dropdown-menu'
 import { ProfileDropdownMenu } from '@web/components/profile-dropdown-menu'
 import { ThemeToggle } from '@web/components/theme-toggle'
+import { useAuthenticatedOrganizationMember } from '@web/hooks/use-organization-member'
+import { useAuthenticatedUser } from '@web/hooks/use-user'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl, isActivePathname } from '@web/lib/utils'
 import Link from 'next/link'
@@ -78,52 +80,33 @@ export function Navbar(props: Props) {
 }
 
 function ProfileButton() {
-  const sessionInfosQuery = api.auth.infos.useQuery()
+  const organization = useAuthenticatedOrganizationMember().organization
 
   return (
     <DropdownMenuTrigger asChild>
-      {match(sessionInfosQuery)
-        .with({ status: 'loading' }, () => (
-          <div className="flex-1 flex gap-3 items-center overflow-hidden">
-            <Skeleton className="h-9 w-9 rounded-full flex-shrink-0" />
-            <div className="space-y-1">
-              <Skeleton className="h-4 w-36" />
-              <Skeleton className="h-4 w-16" />
-            </div>
+      <Button
+        type="button"
+        className="flex-1 justify-between w-full overflow-hidden gap-2"
+        size={'icon'}
+        variant={'secondary'}
+      >
+        <div className="flex gap-3">
+          <Avatar className="h-9 w-9 flex-shrink-0">
+            <AvatarImage alt={organization.name} src={constructPublicResourceUrl(organization.logoUrl)} />
+            <AvatarFallback>{organization.name[0]}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col items-start">
+            <span>{organization.name}</span>
+            <span className="text-muted-foreground font-normal text-xs">{`${organization.members.length} ${
+              organization.members.length === 1 ? 'member' : 'members'
+            }`}</span>
           </div>
-        ))
-        .with({ status: 'error' }, () => '')
-        .with({ status: 'success' }, (query) => (
-          <Button
-            type="button"
-            className="flex-1 justify-between w-full overflow-hidden gap-2"
-            size={'icon'}
-            variant={'secondary'}
-          >
-            <div className="flex gap-3">
-              <Avatar className="h-9 w-9 flex-shrink-0">
-                <AvatarImage
-                  alt={query.data.session.organizationMember.organization.name}
-                  src={constructPublicResourceUrl(query.data.session.organizationMember.organization.logoUrl)}
-                />
-                <AvatarFallback>{query.data.session.organizationMember.organization.name[0]}</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col items-start">
-                <span>{query.data.session.organizationMember.organization.name}</span>
-                <span className="text-muted-foreground font-normal text-xs">{`${
-                  query.data.session.organizationMember.organization.members.length
-                } ${
-                  query.data.session.organizationMember.organization.members.length === 1 ? 'member' : 'members'
-                }`}</span>
-              </div>
-            </div>
+        </div>
 
-            <div className="pr-2.5">
-              <CaretDownIcon className="h-4 w-4" />
-            </div>
-          </Button>
-        ))
-        .exhaustive()}
+        <div className="pr-2.5">
+          <CaretDownIcon className="h-4 w-4" />
+        </div>
+      </Button>
     </DropdownMenuTrigger>
   )
 }
