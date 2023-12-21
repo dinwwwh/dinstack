@@ -1,15 +1,15 @@
 'use client'
 
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
+import { GoogleLogoColorfulIcon } from '@ui/icons/google-logo'
+import { Button } from '@ui/ui/button'
+import { GeneralError } from '@ui/ui/general-error'
+import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { codeVerifierAtom, loginRequestFromAtom, stateAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { match } from 'ts-pattern'
-import { GoogleLogoColorfulIcon } from '@ui/icons/google-logo'
-import { Button } from '@ui/ui/button'
-import { GeneralError } from '@ui/ui/general-error'
-import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 
 const oauthProviders = [
   {

@@ -1,6 +1,7 @@
 'use client'
 
 import { oauthAccountProviders } from '@api/database/schema'
+import { useIsRendered } from '@ui/hooks/use-is-rendered'
 import { codeVerifierAtom, sessionAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'
@@ -8,7 +9,6 @@ import { RESET } from 'jotai/utils'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { z } from 'zod'
-import { useIsRendered } from '@ui/hooks/use-is-rendered'
 
 export function CallbackHandler() {
   const router = useRouter()

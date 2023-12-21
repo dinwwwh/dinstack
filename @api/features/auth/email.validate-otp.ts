@@ -1,3 +1,5 @@
+import { createSession } from './helpers/create-session'
+import { findSessionForAuth } from './helpers/find-session-for-auth'
 import { EmailOtps, emailOtpSchema } from '@api/database/schema'
 import { createUser } from '@api/lib/db'
 import { procedure } from '@api/trpc'
@@ -5,8 +7,6 @@ import { generateFallbackAvatarUrl } from '@api/utils/generate-fallback-avatar-u
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
-import { createSession } from './helpers/create-session'
-import { findSessionForAuth } from './helpers/find-session-for-auth'
 
 export const authEmailValidateOtpRoute = procedure
   .input(

@@ -2,6 +2,5 @@
   "printWidth": 100,
   "semi": false,
   "singleQuote": true,
-  "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
   "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }

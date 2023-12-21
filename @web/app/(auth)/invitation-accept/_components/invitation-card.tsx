@@ -1,17 +1,17 @@
 'use client'
 
 import { organizationInvitationSchema } from '@api/database/schema'
-import { api } from '@web/lib/api'
-import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { match } from 'ts-pattern'
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/ui/card'
 import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
+import { api } from '@web/lib/api'
+import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { match } from 'ts-pattern'
 
 export function InvitationCard() {
   const searchParams = useSearchParams()

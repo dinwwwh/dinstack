@@ -1,12 +1,12 @@
+import { createSession } from './helpers/create-session'
+import { findSessionForAuth } from './helpers/find-session-for-auth'
+import { getOauthUser } from './helpers/get-oauth-user'
 import { oauthAccountSchema } from '@api/database/schema'
 import { createUser } from '@api/lib/db'
 import { procedure } from '@api/trpc'
 import { uppercaseFirstLetter } from '@shared/utils/uppercase-first-letter'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
-import { createSession } from './helpers/create-session'
-import { findSessionForAuth } from './helpers/find-session-for-auth'
-import { getOauthUser } from './helpers/get-oauth-user'
 
 export const authOauthLoginRoute = procedure
   .input(

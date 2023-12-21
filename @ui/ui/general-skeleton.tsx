@@ -1,5 +1,5 @@
-import { cn } from '@ui/utils/cn'
 import { Skeleton } from './skeleton'
+import { cn } from '@ui/utils/cn'
 
 type Props = {
   count: number

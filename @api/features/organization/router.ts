@@ -1,4 +1,3 @@
-import { router } from '@api/trpc'
 import { organizationChangeLogoRoute } from './change-logo'
 import { organizationCreateRoute } from './create'
 import { organizationDetailRoute } from './detail'
@@ -8,6 +7,7 @@ import { organizationMemberInvitationInfoRoute } from './member.invitation-info'
 import { organizationMemberInviteRoute } from './member.invite'
 import { organizationMemberRemoveRoute } from './member.remove'
 import { organizationUpdateRoute } from './update'
+import { router } from '@api/trpc'
 
 export const organizationRouter = router({
   list: organizationListRoute,

@@ -1,6 +1,6 @@
+import { Alert, AlertTitle, AlertDescription } from './alert'
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import type { ComponentPropsWithoutRef } from 'react'
-import { Alert, AlertTitle, AlertDescription } from './alert'
 
 type Props = ComponentPropsWithoutRef<typeof Alert> & {
   title?: string

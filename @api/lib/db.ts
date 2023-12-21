@@ -1,11 +1,11 @@
+import * as schema from '../database/schema'
+import type { Env } from '../env'
 import { neon, neonConfig } from '@neondatabase/serverless'
 import { TRPCError } from '@trpc/server'
 import { drizzle as drizzleNeon } from 'drizzle-orm/neon-http'
 import { withReplicas } from 'drizzle-orm/pg-core'
 import { drizzle as drizzlePostgres } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
-import * as schema from '../database/schema'
-import type { Env } from '../env'
 
 neonConfig.fetchConnectionCache = true
 

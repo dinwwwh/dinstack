@@ -7,10 +7,10 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 import { createContext } from './context'
 import { envSchema } from './env'
 import { appRouter } from './router'
+import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 
 export default {
   async fetch(request: Request, unvalidatedEnv: unknown, ec: ExecutionContext) {

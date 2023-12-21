@@ -1,7 +1,6 @@
 'use client'
 
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
-import { useTheme } from 'next-themes'
 import { Button } from '@ui/ui/button'
 import {
   DropdownMenu,
@@ -9,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@ui/ui/dropdown-menu'
+import { useTheme } from 'next-themes'
 
 export function ThemeToggle() {
   const { setTheme } = useTheme()

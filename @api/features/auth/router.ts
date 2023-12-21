@@ -1,4 +1,3 @@
-import { router } from '@api/trpc'
 import { authEmailSendOtpRoute } from './email.send-otp'
 import { authEmailValidateOtpRoute } from './email.validate-otp'
 import { authInfosRoute } from './infos'
@@ -9,6 +8,7 @@ import { authOauthDisconnectRoute } from './oauth.disconnect'
 import { authOauthLoginRoute } from './oauth.login'
 import { authOrganizationSwitchRoute } from './organization-switch'
 import { authProfileRouter } from './profile'
+import { router } from '@api/trpc'
 
 export const authRouter = router({
   email: router({
