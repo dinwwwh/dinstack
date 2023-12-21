@@ -10,6 +10,7 @@ import {
   jsonb,
   foreignKey,
   unique,
+  integer,
 } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { alphabet, generateRandomString } from 'oslo/random'
@@ -181,6 +182,7 @@ export const OrganizationsInvitations = pgTable(
       .references(() => Organizations.id),
     email: varchar('email', { length: 255 }).notNull(),
     role: organizationMembersRoles('role').notNull().default('member'),
+    usageLimit: integer('usage_limit'),
     expiresAt: timestamp('expired_at').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
@@ -198,7 +200,9 @@ export const OrganizationsInvitationRelations = relations(OrganizationsInvitatio
 
 export const organizationInvitationSchema = createSelectSchema(OrganizationsInvitations, {
   email: z.string().max(255).email().toLowerCase(),
+  usageLimit: z.number().int().positive().nullable(),
 })
 export const organizationsInvitationInsertSchema = createInsertSchema(OrganizationsInvitations, {
   email: z.string().max(255).email().toLowerCase(),
+  usageLimit: z.number().int().positive().nullable().optional(),
 })

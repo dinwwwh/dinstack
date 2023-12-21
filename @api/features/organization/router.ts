@@ -4,7 +4,7 @@ import { organizationDetailRoute } from './detail'
 import { organizationListRoute } from './list'
 import { organizationMemberAcceptInvitationRoute } from './member.accept-invitation'
 import { organizationMemberInvitationInfoRoute } from './member.invitation-info'
-import { organizationMemberInviteRoute } from './member.invite'
+import { organizationMemberInviteByEmailRoute } from './member.invite-by-email'
 import { organizationMemberRemoveRoute } from './member.remove'
 import { organizationUpdateRoute } from './update'
 import { router } from '@api/trpc'
@@ -16,7 +16,7 @@ export const organizationRouter = router({
   update: organizationUpdateRoute,
   changeLogo: organizationChangeLogoRoute,
   member: router({
-    invite: organizationMemberInviteRoute,
+    inviteByEmail: organizationMemberInviteByEmailRoute,
     invitationInfo: organizationMemberInvitationInfoRoute,
     acceptInvitation: organizationMemberAcceptInvitationRoute,
     remove: organizationMemberRemoveRoute,

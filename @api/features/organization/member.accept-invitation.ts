@@ -31,8 +31,15 @@ export const organizationMemberAcceptInvitationRoute = authProcedure
 
     if (invitation.expiresAt < new Date()) {
       throw new TRPCError({
-        code: 'NOT_FOUND',
+        code: 'BAD_REQUEST',
         message: 'This invitation has expired',
+      })
+    }
+
+    if (invitation.usageLimit !== null && invitation.usageLimit <= 0) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'This invitation has been used up',
       })
     }
 
@@ -59,9 +66,14 @@ export const organizationMemberAcceptInvitationRoute = authProcedure
         role: invitation.role,
       })
 
-      await trx
-        .delete(OrganizationsInvitations)
-        .where(eq(OrganizationsInvitations.secretKey, invitation.secretKey))
+      if (invitation.usageLimit !== null) {
+        await trx
+          .update(OrganizationsInvitations)
+          .set({
+            usageLimit: invitation.usageLimit - 1,
+          })
+          .where(eq(OrganizationsInvitations.secretKey, invitation.secretKey))
+      }
     })
 
     await ctx.db

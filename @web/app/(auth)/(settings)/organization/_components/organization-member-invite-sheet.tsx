@@ -18,7 +18,7 @@ import { z } from 'zod'
 
 type Props = React.ComponentPropsWithoutRef<typeof Sheet> & {
   organizationId: string
-  onSuccess?: (result: ApiOutputs['organization']['member']['invite']) => void
+  onSuccess?: (result: ApiOutputs['organization']['member']['inviteByEmail']) => void
 }
 
 export function OrganizationMemberInviteSheet({
@@ -31,7 +31,7 @@ export function OrganizationMemberInviteSheet({
   const withAdminRoleId = useId()
   const closeElement = useRef<HTMLButtonElement>(null)
 
-  const mutation = api.organization.member.invite.useMutation({
+  const mutation = api.organization.member.inviteByEmail.useMutation({
     onSuccess(data) {
       onSuccess?.(data)
       closeElement.current?.click()
