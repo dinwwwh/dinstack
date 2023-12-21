@@ -9,7 +9,7 @@ import { useTheme } from 'next-themes'
 import { useId, useRef } from 'react'
 import { match } from 'ts-pattern'
 import { useIsRendered } from '@ui/hooks/use-is-rendered'
-import { cn } from '@ui/lib/utils'
+import { cn } from '@ui/utils/cn'
 
 export const turnstileTokenAtom = atom<string | null>(null)
 

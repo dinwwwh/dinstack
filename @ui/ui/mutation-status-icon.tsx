@@ -3,7 +3,7 @@
 import { CheckIcon, Cross2Icon, ReloadIcon } from '@radix-ui/react-icons'
 import { useState, useLayoutEffect } from 'react'
 import { match } from 'ts-pattern'
-import { cn } from '@ui/lib/utils'
+import { cn } from '@ui/utils/cn'
 
 export function MutationStatusIcon(props: {
   status: 'idle' | 'loading' | 'success' | 'error'

@@ -2,7 +2,7 @@
 
 import { organizationInvitationSchema } from '@api/database/schema'
 import { api } from '@web/lib/api'
-import { constructPublicResourceUrl } from '@web/lib/utils'
+import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { match } from 'ts-pattern'

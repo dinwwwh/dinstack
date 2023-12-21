@@ -1,7 +1,7 @@
 'use client'
 
 import { api } from '@web/lib/api'
-import { isActivePathname } from '@web/lib/utils'
+import { isActivePathname } from '@web/utils/is-active-pathname'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Skeleton } from '@ui/ui/skeleton'

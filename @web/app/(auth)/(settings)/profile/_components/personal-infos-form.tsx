@@ -1,7 +1,7 @@
 'use client'
 
 import { api } from '@web/lib/api'
-import { constructPublicResourceUrl } from '@web/lib/utils'
+import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
 import imageCompression from 'browser-image-compression'
 import { Base64 } from 'js-base64'
 import { useId, useRef } from 'react'
