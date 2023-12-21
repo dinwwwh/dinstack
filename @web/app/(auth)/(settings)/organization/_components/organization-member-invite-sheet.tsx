@@ -104,7 +104,25 @@ export function OrganizationMemberInviteSheet({
             </Button>
           </div>
         </form>
+
+        <div className="relative mt-16">
+          <div className="absolute inset-0 flex items-center" aria-hidden="true">
+            <div className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-sm font-medium leading-6">
+            <span className="bg-background px-6 text-muted-foreground text-sm">
+              Or invite by bellow link with member role
+            </span>
+          </div>
+        </div>
+
+        <InvitationLink />
       </SheetContent>
     </Sheet>
   )
+}
+
+function InvitationLink() {
+  // TODO
+  return null
 }

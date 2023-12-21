@@ -1,3 +1,4 @@
+import { generateInvitationAcceptUrl } from './helpers/generate-invitation-accept-url'
 import { OrganizationInvitations, organizationInvitationSchema } from '@api/database/schema'
 import { generateOrganizationInvitationEmail } from '@api/emails/organization-invitation'
 import { authProcedure, organizationAdminMiddleware } from '@api/trpc'
@@ -67,10 +68,10 @@ export const organizationMemberInviteByEmailRoute = authProcedure
 
     ctx.ec.waitUntil(
       (async () => {
-        const invitationAcceptUrl = new URL(
-          `/invitation-accept?secret-key=${invitation.secretKey}`,
-          ctx.env.WEB_URL,
-        )
+        const invitationAcceptUrl = generateInvitationAcceptUrl({
+          ctx,
+          invitationSecretKey: invitation.secretKey,
+        })
         const { subject, html } = generateOrganizationInvitationEmail({
           inviterName: user.name,
           organizationName: organization.name,
