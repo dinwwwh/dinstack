@@ -40,7 +40,10 @@ export const authOauthLoginRoute = procedure
     if (oauthAccount) {
       const organizationMember = oauthAccount.organizationMembers[0]
       if (!organizationMember) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to find organization member' })
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Failed to find organization member',
+        })
       }
 
       const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
@@ -61,7 +64,9 @@ export const authOauthLoginRoute = procedure
     if (userByEmail) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
-        message: `Please login with your email and link to your ${uppercaseFirstLetter(input.provider)} account first`,
+        message: `Please login with your email and link to your ${uppercaseFirstLetter(
+          input.provider,
+        )} account first`,
       })
     }
 

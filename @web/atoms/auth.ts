@@ -1,4 +1,9 @@
-import { organizationMemberSchema, organizationSchema, sessionSchema, userSchema } from '@api/database/schema'
+import {
+  organizationMemberSchema,
+  organizationSchema,
+  sessionSchema,
+  userSchema,
+} from '@api/database/schema'
 import { z } from 'zod'
 import { atomWithLocalStorage } from '../lib/jotai'
 
@@ -30,7 +35,11 @@ export const sessionAtom = atomWithLocalStorage(
 )
 
 export const stateAtom = atomWithLocalStorage('state-atom', z.string().nullable(), null)
-export const codeVerifierAtom = atomWithLocalStorage('code-verifier-atom', z.string().nullable(), null)
+export const codeVerifierAtom = atomWithLocalStorage(
+  'code-verifier-atom',
+  z.string().nullable(),
+  null,
+)
 
 export const loginRequestFromAtom = atomWithLocalStorage(
   'login-request-from-atom',

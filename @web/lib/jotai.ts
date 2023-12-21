@@ -8,7 +8,11 @@ type SetStateActionWithReset<V> = V | typeof RESET | SetStateActionClosureWithRe
 
 export const jotaiStore = createStore()
 
-export function atomWithLocalStorage<T extends z.Schema>(key: string, schema: T, _initialValue: z.infer<T>) {
+export function atomWithLocalStorage<T extends z.Schema>(
+  key: string,
+  schema: T,
+  _initialValue: z.infer<T>,
+) {
   type V = z.infer<T>
   const parse = (v: unknown): V => schema.parse(v)
   const initialValue = parse(_initialValue)

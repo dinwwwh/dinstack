@@ -23,7 +23,9 @@ export const organizationMemberRemoveRoute = authProcedure
     await ctx.db.transaction(async (trx) => {
       await trx
         .delete(Sessions)
-        .where(and(eq(Sessions.userId, input.userId), eq(Sessions.organizationId, input.organizationId)))
+        .where(
+          and(eq(Sessions.userId, input.userId), eq(Sessions.organizationId, input.organizationId)),
+        )
 
       await trx
         .delete(OrganizationMembers)

@@ -43,7 +43,11 @@ export const organizationMemberInviteRoute = authProcedure
       },
     })
 
-    const [[invitation], user, organization] = await Promise.all([createInvitation, findUser, findOrganization])
+    const [[invitation], user, organization] = await Promise.all([
+      createInvitation,
+      findUser,
+      findOrganization,
+    ])
 
     if (!invitation) {
       throw new TRPCError({
@@ -61,7 +65,10 @@ export const organizationMemberInviteRoute = authProcedure
 
     ctx.ec.waitUntil(
       (async () => {
-        const invitationAcceptUrl = new URL(`/invitation-accept?secret-key=${invitation.secretKey}`, ctx.env.WEB_URL)
+        const invitationAcceptUrl = new URL(
+          `/invitation-accept?secret-key=${invitation.secretKey}`,
+          ctx.env.WEB_URL,
+        )
         const { subject, html } = generateOrganizationInvitationEmail({
           inviterName: user.name,
           organizationName: organization.name,

@@ -90,14 +90,17 @@ function ProfileButton() {
       >
         <div className="flex gap-3">
           <Avatar className="h-9 w-9 flex-shrink-0">
-            <AvatarImage alt={organization.name} src={constructPublicResourceUrl(organization.logoUrl)} />
+            <AvatarImage
+              alt={organization.name}
+              src={constructPublicResourceUrl(organization.logoUrl)}
+            />
             <AvatarFallback>{organization.name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-start">
             <span>{organization.name}</span>
-            <span className="text-muted-foreground font-normal text-xs">{`${organization.members.length} ${
-              organization.members.length === 1 ? 'member' : 'members'
-            }`}</span>
+            <span className="text-muted-foreground font-normal text-xs">{`${
+              organization.members.length
+            } ${organization.members.length === 1 ? 'member' : 'members'}`}</span>
           </div>
         </div>
 

@@ -12,5 +12,10 @@ export const authOauthDisconnectRoute = authProcedure
   .mutation(async ({ ctx, input }) => {
     await ctx.db
       .delete(OauthAccounts)
-      .where(and(eq(OauthAccounts.provider, input.provider), eq(OauthAccounts.userId, ctx.auth.session.userId)))
+      .where(
+        and(
+          eq(OauthAccounts.provider, input.provider),
+          eq(OauthAccounts.userId, ctx.auth.session.userId),
+        ),
+      )
   })

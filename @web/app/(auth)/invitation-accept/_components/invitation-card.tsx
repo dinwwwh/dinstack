@@ -15,7 +15,9 @@ import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 
 export function InvitationCard() {
   const searchParams = useSearchParams()
-  const invitationSecretKey = organizationInvitationSchema.shape.secretKey.parse(searchParams.get('secret-key'))
+  const invitationSecretKey = organizationInvitationSchema.shape.secretKey.parse(
+    searchParams.get('secret-key'),
+  )
   const query = api.organization.member.invitationInfo.useQuery({
     invitationSecretKey,
   })
@@ -42,11 +44,14 @@ export function InvitationCard() {
                 <AvatarFallback>{query.data.invitation.organization.name[0]}</AvatarFallback>
               </Avatar>
               <CardTitle>Join Our Organization</CardTitle>
-              <p className="text-center text-muted-foreground">{query.data.invitation.organization.name}</p>
+              <p className="text-center text-muted-foreground">
+                {query.data.invitation.organization.name}
+              </p>
             </CardHeader>
             <CardContent className="flex flex-col items-center space-y-4">
               <p className="text-center text-muted-foreground">
-                You have been invited to join our organization. Click the button below to accept the invitation.
+                You have been invited to join our organization. Click the button below to accept the
+                invitation.
               </p>
               <InvitationAcceptButton invitationSecretKey={invitationSecretKey} />
               <Button variant="ghost" className="w-full" asChild>

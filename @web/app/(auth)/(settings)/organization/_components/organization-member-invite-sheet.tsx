@@ -7,14 +7,26 @@ import { Checkbox } from '@ui/ui/checkbox'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@ui/ui/sheet'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from '@ui/ui/sheet'
 
 type Props = React.ComponentPropsWithoutRef<typeof Sheet> & {
   organizationId: string
   onSuccess?: (result: ApiOutputs['organization']['member']['invite']) => void
 }
 
-export function OrganizationMemberInviteSheet({ organizationId, children, onSuccess, ...props }: Props) {
+export function OrganizationMemberInviteSheet({
+  organizationId,
+  children,
+  onSuccess,
+  ...props
+}: Props) {
   const emailId = useId()
   const withAdminRoleId = useId()
   const closeElement = useRef<HTMLButtonElement>(null)
@@ -51,7 +63,8 @@ export function OrganizationMemberInviteSheet({ organizationId, children, onSucc
         <SheetHeader>
           <SheetTitle>Invite Member to Organization</SheetTitle>
           <SheetDescription>
-            We will send an email containing a link to join the organization to the email address you provide.
+            We will send an email containing a link to join the organization to the email address
+            you provide.
           </SheetDescription>
         </SheetHeader>
         <form action={action} className="space-y-4 mt-6">
@@ -59,7 +72,14 @@ export function OrganizationMemberInviteSheet({ organizationId, children, onSucc
             <Label htmlFor={emailId} className="text-right">
               Email
             </Label>
-            <Input id={emailId} className="col-span-3" placeholder="Member email" name="email" type="email" required />
+            <Input
+              id={emailId}
+              className="col-span-3"
+              placeholder="Member email"
+              name="email"
+              type="email"
+              required
+            />
           </div>
 
           <div className="items-top flex space-x-2 p-4 rounded-md border">

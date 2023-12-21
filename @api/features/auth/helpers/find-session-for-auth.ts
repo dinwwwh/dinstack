@@ -1,7 +1,13 @@
 import type { Context } from '@api/context'
 import { TRPCError } from '@trpc/server'
 
-export async function findSessionForAuth({ ctx, sessionSecretKey }: { ctx: Context; sessionSecretKey: string }) {
+export async function findSessionForAuth({
+  ctx,
+  sessionSecretKey,
+}: {
+  ctx: Context
+  sessionSecretKey: string
+}) {
   const session = await ctx.db.query.Sessions.findFirst({
     where(t, { eq }) {
       return eq(t.secretKey, sessionSecretKey)

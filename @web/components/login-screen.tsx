@@ -101,7 +101,9 @@ export function LoginScreen(props: Props) {
                   <div className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-background px-6 text-muted-foreground text-sm">Or continue with</span>
+                  <span className="bg-background px-6 text-muted-foreground text-sm">
+                    Or continue with
+                  </span>
                 </div>
               </div>
               <div className="mt-6 space-y-4">
@@ -201,7 +203,12 @@ function ValidateOtpForm(props: {
       </div>
 
       <div className="flex gap-3">
-        <Button variant="secondary" type="button" onClick={() => props.onBack?.()} className="w-full">
+        <Button
+          variant="secondary"
+          type="button"
+          onClick={() => props.onBack?.()}
+          className="w-full"
+        >
           <ArrowLeftIcon className="w-4 h-4 mr-2" /> Back
         </Button>
         <Button className="w-full gap-2" disabled={mutation.isLoading}>

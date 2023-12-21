@@ -1,9 +1,22 @@
 import type { Env } from './env'
-import { createAuthGithub, createAuthGoogle, createCreateAuthJwtFn, createValidateAuthJwtFn } from './lib/auth'
+import {
+  createAuthGithub,
+  createAuthGoogle,
+  createCreateAuthJwtFn,
+  createValidateAuthJwtFn,
+} from './lib/auth'
 import { createDb } from './lib/db'
 import { createSendEmailFn } from './lib/email'
 
-export function createContext({ env, ec, request }: { env: Env; ec: ExecutionContext; request?: Request }) {
+export function createContext({
+  env,
+  ec,
+  request,
+}: {
+  env: Env
+  ec: ExecutionContext
+  request?: Request
+}) {
   const db = createDb({ env })
   const createAuthJwt = createCreateAuthJwtFn({ env })
   const validateAuthJwt = createValidateAuthJwtFn({ env })

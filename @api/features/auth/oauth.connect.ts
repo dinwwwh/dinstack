@@ -32,12 +32,17 @@ export const authOauthConnectRoute = authProcedure
       },
     })
 
-    const [oauthAccount, userOauthAccount] = await Promise.all([findOauthAccount, findUserOauthAccount])
+    const [oauthAccount, userOauthAccount] = await Promise.all([
+      findOauthAccount,
+      findUserOauthAccount,
+    ])
 
     if (oauthAccount) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
-        message: `This ${uppercaseFirstLetter(input.provider)} account is already linked to another user.`,
+        message: `This ${uppercaseFirstLetter(
+          input.provider,
+        )} account is already linked to another user.`,
       })
     }
 

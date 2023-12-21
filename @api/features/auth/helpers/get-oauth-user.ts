@@ -35,7 +35,8 @@ export async function getOauthUser({
         },
       }).then((res) => res.json())) as GitHubUser
 
-      if (!userGithub.email) throw new TRPCError({ code: 'BAD_REQUEST', message: 'This Github account has no email' })
+      if (!userGithub.email)
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'This Github account has no email' })
 
       return {
         id: userGithub.id.toString(),
@@ -49,7 +50,8 @@ export async function getOauthUser({
       const tokens = await ctx.auth.google.validateAuthorizationCode(code, codeVerifier)
       const userGoogle = await ctx.auth.google.getUser(tokens.accessToken)
 
-      if (!userGoogle.email) throw new TRPCError({ code: 'BAD_REQUEST', message: 'Google account has no email' })
+      if (!userGoogle.email)
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Google account has no email' })
       if (!userGoogle.email_verified)
         throw new TRPCError({ code: 'BAD_REQUEST', message: "This Google's email is not verified" })
 

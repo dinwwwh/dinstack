@@ -1,6 +1,11 @@
 import { DashboardIcon, GitHubLogoIcon, HomeIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@ui/ui/dropdown-menu'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from '@ui/ui/dropdown-menu'
 
 export function LogoDropdownMenu({ children, ...props }: { children: React.ReactNode }) {
   return (

@@ -57,7 +57,9 @@ export function OauthConnections() {
 
         <div className="@2xl:col-span-2 sm:max-w-xl">
           {match(query)
-            .with({ status: 'loading' }, () => <GeneralSkeleton count={oauthProviders.length * 1.5} />)
+            .with({ status: 'loading' }, () => (
+              <GeneralSkeleton count={oauthProviders.length * 1.5} />
+            ))
             .with({ status: 'error' }, () => <GeneralError />)
             .with({ status: 'success' }, (query) => (
               <ul role="list" className="divide-y border-t text-sm leading-6">
@@ -72,7 +74,9 @@ export function OauthConnections() {
                         <provider.Icon className="h-9 w-9 " />
                         <div className="flex flex-col gap-1">
                           <span className="font-medium text-sm">{provider.name}</span>
-                          <span className="font-medium text-xs text-muted-foreground">{oauthAccount?.identifier}</span>
+                          <span className="font-medium text-xs text-muted-foreground">
+                            {oauthAccount?.identifier}
+                          </span>
                         </div>
                       </div>
                       {oauthAccount ? (
@@ -81,7 +85,8 @@ export function OauthConnections() {
                           variant={'ghost'}
                           className="text-destructive hover:text-destructive"
                           disabled={
-                            disconnectMutation.isLoading && disconnectMutation.variables?.provider === provider.provider
+                            disconnectMutation.isLoading &&
+                            disconnectMutation.variables?.provider === provider.provider
                           }
                           onClick={() =>
                             disconnectMutation.mutate({
@@ -99,7 +104,9 @@ export function OauthConnections() {
                             authorizationUrlMutation.isLoading &&
                             authorizationUrlMutation.variables?.provider === provider.provider
                           }
-                          onClick={() => authorizationUrlMutation.mutate({ provider: provider.provider })}
+                          onClick={() =>
+                            authorizationUrlMutation.mutate({ provider: provider.provider })
+                          }
                         >
                           Connect
                         </Button>

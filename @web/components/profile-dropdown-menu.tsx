@@ -183,7 +183,10 @@ function OrganizationListItem(props: {
         <div className="h-9 w-9 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
           <MutationStatusIcon status={mutation.status}>
             <Avatar className="h-9 w-9 ">
-              <AvatarImage alt={props.organization.name} src={constructPublicResourceUrl(props.organization.logoUrl)} />
+              <AvatarImage
+                alt={props.organization.name}
+                src={constructPublicResourceUrl(props.organization.logoUrl)}
+              />
               <AvatarFallback>{props.organization.name[0]}</AvatarFallback>
             </Avatar>
           </MutationStatusIcon>
@@ -236,7 +239,12 @@ function CreateOrganizationDropdownMenuItem() {
   return (
     <OrganizationCreateSheet>
       <SheetTrigger asChild>
-        <Button type="button" variant={'ghost'} size={'default'} className="w-full justify-start font-normal px-2 h-8">
+        <Button
+          type="button"
+          variant={'ghost'}
+          size={'default'}
+          className="w-full justify-start font-normal px-2 h-8"
+        >
           <PlusIcon className="h-4 w-4 mr-2" />
           Create Organization
         </Button>

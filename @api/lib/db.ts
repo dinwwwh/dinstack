@@ -14,7 +14,10 @@ export function createDb({ env }: { env: Env }) {
     schema,
     logger: env.WORKER_ENV === 'development',
   })
-  const read = drizzleNeon(neon(env.DATABASE_URL), { schema, logger: env.WORKER_ENV === 'development' })
+  const read = drizzleNeon(neon(env.DATABASE_URL), {
+    schema,
+    logger: env.WORKER_ENV === 'development',
+  })
 
   // @ts-expect-error TODO: fix type for withReplicas
   return withReplicas(write, [read])

@@ -47,13 +47,19 @@ export function PersonalInfosForm() {
                     <Avatar className="h-24 w-24">
                       <AvatarImage
                         alt={query.data.session.organizationMember.user.name}
-                        src={constructPublicResourceUrl(query.data.session.organizationMember.user.avatarUrl)}
+                        src={constructPublicResourceUrl(
+                          query.data.session.organizationMember.user.avatarUrl,
+                        )}
                       />
-                      <AvatarFallback>{query.data.session.organizationMember.user.name[0]}</AvatarFallback>
+                      <AvatarFallback>
+                        {query.data.session.organizationMember.user.name[0]}
+                      </AvatarFallback>
                     </Avatar>
                     <div>
                       <AvatarChangeButton />
-                      <p className="mt-2 text-xs leading-5 text-muted-foreground">JPG, GIF or PNG. 1MB max.</p>
+                      <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                        JPG, GIF or PNG. 1MB max.
+                      </p>
                     </div>
                   </div>
 

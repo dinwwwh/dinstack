@@ -83,7 +83,10 @@ export const organizationMemberMiddleware = experimental_standaloneMiddleware<{
   })
 
   if (!organizationMember)
-    throw new TRPCError({ code: 'FORBIDDEN', message: 'You are not a member of this organization.' })
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'You are not a member of this organization.',
+    })
 
   return next()
 })
@@ -96,12 +99,19 @@ export const organizationAdminMiddleware = experimental_standaloneMiddleware<{
 
   const organizationMember = await ctx.db.query.OrganizationMembers.findFirst({
     where(t, { and, eq }) {
-      return and(eq(t.organizationId, organizationId), eq(t.userId, ctx.auth.session.userId), eq(t.role, 'admin'))
+      return and(
+        eq(t.organizationId, organizationId),
+        eq(t.userId, ctx.auth.session.userId),
+        eq(t.role, 'admin'),
+      )
     },
   })
 
   if (!organizationMember)
-    throw new TRPCError({ code: 'FORBIDDEN', message: 'You are not an admin of this organization.' })
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'You are not an admin of this organization.',
+    })
 
   return next()
 })
