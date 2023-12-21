@@ -1,11 +1,18 @@
-import type { ApiOutputs } from '@web/lib/api'
-import { api } from '@web/lib/api'
-import { useId, useRef } from 'react'
 import { Button } from '@ui/ui/button'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@ui/ui/sheet'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from '@ui/ui/sheet'
+import type { ApiOutputs } from '@web/lib/api'
+import { api } from '@web/lib/api'
+import { useId, useRef } from 'react'
 
 type Props = React.ComponentPropsWithoutRef<typeof Sheet> & {
   onSuccess?: (result: ApiOutputs['organization']['create']) => void
@@ -40,7 +47,8 @@ export function OrganizationCreateSheet({ children, onSuccess, ...props }: Props
         <SheetHeader>
           <SheetTitle>Create organization</SheetTitle>
           <SheetDescription>
-            Create a new organization to collaborate with others. You can invite others to your organization later.
+            Create a new organization to collaborate with others. You can invite others to your
+            organization later.
           </SheetDescription>
         </SheetHeader>
         <form className="space-y-4 mt-6" onSubmit={onSubmit}>

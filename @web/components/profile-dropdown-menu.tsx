@@ -1,12 +1,5 @@
+import { OrganizationCreateSheet } from './organization-create-sheet'
 import { ExitIcon, PersonIcon, PlusIcon } from '@radix-ui/react-icons'
-import { authAtom } from '@web/atoms/auth'
-import { api } from '@web/lib/api'
-import { constructPublicResourceUrl } from '@web/lib/utils'
-import { useAtom } from 'jotai'
-import { RESET } from 'jotai/utils'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { match } from 'ts-pattern'
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import {
@@ -25,7 +18,15 @@ import { ScrollArea } from '@ui/ui/scroll-area'
 import { SheetTrigger } from '@ui/ui/sheet'
 import { Skeleton } from '@ui/ui/skeleton'
 import { ViewportBlock } from '@ui/ui/viewport-block'
-import { OrganizationCreateSheet } from './organization-create-sheet'
+import { sessionAtom } from '@web/atoms/auth'
+import { useAuthenticatedOrganizationMember } from '@web/hooks/use-organization-member'
+import { api } from '@web/lib/api'
+import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
+import { useAtom } from 'jotai'
+import { RESET } from 'jotai/utils'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { match } from 'ts-pattern'
 
 type Props = React.ComponentPropsWithoutRef<typeof DropdownMenu>
 
@@ -63,7 +64,7 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
 }
 
 function OrganizationList({ onOpenChange }: { onOpenChange: (v: boolean) => void }) {
-  const sessionInfosQuery = api.auth.infos.useQuery()
+  const organization = useAuthenticatedOrganizationMember().organization
   const listQuery = api.organization.list.useInfiniteQuery(
     {
       limit: 6,
@@ -81,6 +82,18 @@ function OrganizationList({ onOpenChange }: { onOpenChange: (v: boolean) => void
         }}
       >
         <div className="space-y-2 py-2">
+          <OrganizationListItem
+            organization={{
+              ...organization,
+              numberMembers: {
+                number: organization.members.length,
+                status: 'success',
+              },
+            }}
+            disabled
+            onSuccess={() => onOpenChange(false)}
+          />
+
           {match(listQuery)
             .with({ status: 'loading' }, () => <OrganizationListItemSkeleton />)
             .with({ status: 'error' }, () => '')
@@ -88,22 +101,23 @@ function OrganizationList({ onOpenChange }: { onOpenChange: (v: boolean) => void
               return query.data.pages.map((page, i) => {
                 return (
                   <div key={i} className="space-y-2">
-                    {page.items.map((item) => {
-                      return (
-                        <OrganizationListItem
-                          key={item.id}
-                          organization={{
-                            ...item,
-                            numberMembers: {
-                              number: item.members.length,
-                              status: 'success',
-                            },
-                          }}
-                          disabled={item.id === sessionInfosQuery.data?.session.organizationId}
-                          onSuccess={() => onOpenChange(false)}
-                        />
-                      )
-                    })}
+                    {page.items
+                      .filter((item) => item.id !== organization.id)
+                      .map((item) => {
+                        return (
+                          <OrganizationListItem
+                            key={item.id}
+                            organization={{
+                              ...item,
+                              numberMembers: {
+                                number: item.members.length,
+                                status: 'success',
+                              },
+                            }}
+                            onSuccess={() => onOpenChange(false)}
+                          />
+                        )
+                      })}
                     {!query.isFetching && query.hasNextPage && (
                       <ViewportBlock onEnterViewport={() => query.fetchNextPage()} />
                     )}
@@ -161,7 +175,7 @@ function OrganizationListItem(props: {
         variant={'ghost'}
         onClick={() => {
           mutation.mutate({
-            organization: props.organization,
+            organizationId: props.organization.id,
           })
         }}
         disabled={mutation.isLoading || props.disabled}
@@ -169,7 +183,10 @@ function OrganizationListItem(props: {
         <div className="h-9 w-9 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
           <MutationStatusIcon status={mutation.status}>
             <Avatar className="h-9 w-9 ">
-              <AvatarImage alt={props.organization.name} src={constructPublicResourceUrl(props.organization.logoUrl)} />
+              <AvatarImage
+                alt={props.organization.name}
+                src={constructPublicResourceUrl(props.organization.logoUrl)}
+              />
               <AvatarFallback>{props.organization.name[0]}</AvatarFallback>
             </Avatar>
           </MutationStatusIcon>
@@ -204,7 +221,7 @@ function OrganizationListItem(props: {
 }
 
 function LogoutDropdownMenuItem() {
-  const [, setAuth] = useAtom(authAtom)
+  const [, setAuth] = useAtom(sessionAtom)
   const mutation = api.auth.logout.useMutation({
     onSuccess() {
       setAuth(RESET)
@@ -222,7 +239,12 @@ function CreateOrganizationDropdownMenuItem() {
   return (
     <OrganizationCreateSheet>
       <SheetTrigger asChild>
-        <Button type="button" variant={'ghost'} size={'default'} className="w-full justify-start font-normal px-2 h-8">
+        <Button
+          type="button"
+          variant={'ghost'}
+          size={'default'}
+          className="w-full justify-start font-normal px-2 h-8"
+        >
           <PlusIcon className="h-4 w-4 mr-2" />
           Create Organization
         </Button>

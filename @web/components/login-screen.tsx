@@ -1,7 +1,15 @@
 'use client'
 
+import { LogoDropdownMenu } from './logo-dropdown-menu'
 import { ArrowLeftIcon, ArrowRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
-import { codeVerifierAtom, authAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
+import { GoogleLogoIcon } from '@ui/icons/google-logo'
+import { Button } from '@ui/ui/button'
+import { DropdownMenuTrigger } from '@ui/ui/dropdown-menu'
+import { Input } from '@ui/ui/input'
+import { Label } from '@ui/ui/label'
+import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
+import { Skeleton } from '@ui/ui/skeleton'
+import { codeVerifierAtom, sessionAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
 import { loginWithEmailHistoryAtom } from '@web/atoms/history'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
@@ -11,14 +19,6 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useId, useState } from 'react'
 import OTPInput from 'react-otp-input'
 import { match } from 'ts-pattern'
-import { GoogleLogoIcon } from '@ui/icons/google-logo'
-import { Button } from '@ui/ui/button'
-import { DropdownMenuTrigger } from '@ui/ui/dropdown-menu'
-import { Input } from '@ui/ui/input'
-import { Label } from '@ui/ui/label'
-import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
-import { Skeleton } from '@ui/ui/skeleton'
-import { LogoDropdownMenu } from './logo-dropdown-menu'
 
 type Props = {
   isLoadingGoogle?: boolean
@@ -26,7 +26,7 @@ type Props = {
 }
 
 export function LoginScreen(props: Props) {
-  const [, setAuth] = useAtom(authAtom)
+  const [, setAuth] = useAtom(sessionAtom)
   const [step, setStep] = useState<'send-otp' | 'validate-otp'>('send-otp')
   const [email, setEmail] = useState('')
   const [history, setHistory] = useAtom(loginWithEmailHistoryAtom)
@@ -85,7 +85,7 @@ export function LoginScreen(props: Props) {
                 <ValidateOtpForm
                   email={email}
                   onSuccess={(data) => {
-                    setAuth(data.auth)
+                    setAuth(data.session)
                     setHistory(RESET)
                   }}
                   onBack={() => {
@@ -101,7 +101,9 @@ export function LoginScreen(props: Props) {
                   <div className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-background px-6 text-muted-foreground text-sm">Or continue with</span>
+                  <span className="bg-background px-6 text-muted-foreground text-sm">
+                    Or continue with
+                  </span>
                 </div>
               </div>
               <div className="mt-6 space-y-4">
@@ -181,7 +183,7 @@ function ValidateOtpForm(props: {
       className="space-y-5"
       onSubmit={(e) => {
         e.preventDefault()
-        mutation.mutate({ otp, email: props.email })
+        mutation.mutate({ code: otp, email: props.email })
       }}
     >
       <div>
@@ -201,7 +203,12 @@ function ValidateOtpForm(props: {
       </div>
 
       <div className="flex gap-3">
-        <Button variant="secondary" type="button" onClick={() => props.onBack?.()} className="w-full">
+        <Button
+          variant="secondary"
+          type="button"
+          onClick={() => props.onBack?.()}
+          className="w-full"
+        >
           <ArrowLeftIcon className="w-4 h-4 mr-2" /> Back
         </Button>
         <Button className="w-full gap-2" disabled={mutation.isLoading}>

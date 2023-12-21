@@ -1,7 +1,7 @@
 'use client'
 
-import { api } from '@web/lib/api'
 import { Button } from '@ui/ui/button'
+import { api } from '@web/lib/api'
 
 export default function Home() {
   const { status, data } = api.ping.useQuery()

@@ -1,5 +1,5 @@
-import type { Metadata } from 'next'
 import { InvitationCard } from './_components/invitation-card'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Invitation Accept',

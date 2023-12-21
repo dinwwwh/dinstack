@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import { OauthConnections } from './_components/oauth-connections'
 import { PersonalInfosForm } from './_components/personal-infos-form'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Profile',

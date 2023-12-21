@@ -1,13 +1,5 @@
 'use client'
 
-import { api } from '@web/lib/api'
-import { constructPublicResourceUrl } from '@web/lib/utils'
-import imageCompression from 'browser-image-compression'
-import { Base64 } from 'js-base64'
-import { useSearchParams } from 'next/navigation'
-import { useId, useRef } from 'react'
-import { match } from 'ts-pattern'
-import { z } from 'zod'
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import { GeneralError } from '@ui/ui/general-error'
@@ -15,6 +7,14 @@ import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
+import { api } from '@web/lib/api'
+import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
+import imageCompression from 'browser-image-compression'
+import { Base64 } from 'js-base64'
+import { useSearchParams } from 'next/navigation'
+import { useId, useRef } from 'react'
+import { match } from 'ts-pattern'
+import { z } from 'zod'
 
 export function OrganizationInfosForm() {
   const searchParams = useSearchParams()
@@ -42,7 +42,9 @@ export function OrganizationInfosForm() {
       <section className="grid grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 @2xl:grid-cols-3">
         <div>
           <h2 className="font-semibold leading-7">Organization Information</h2>
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">Edit information about your organization.</p>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            Edit information about your organization.
+          </p>
         </div>
 
         <div className="@2xl:col-span-2 max-w-xl">
@@ -62,7 +64,9 @@ export function OrganizationInfosForm() {
                     </Avatar>
                     <div>
                       <LogoChangeButton />
-                      <p className="mt-2 text-xs leading-5 text-muted-foreground">JPG, GIF or PNG. 1MB max.</p>
+                      <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                        JPG, GIF or PNG. 1MB max.
+                      </p>
                     </div>
                   </div>
 

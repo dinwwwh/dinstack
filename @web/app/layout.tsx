@@ -1,12 +1,13 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import '@ui/styles/globals.css'
-import { ScrollArea } from '@ui/ui/scroll-area'
-import { Toaster } from '@ui/ui/toaster'
+import { AuthProvider } from './_providers/auth'
 import JotaiProvider from './_providers/jotai'
 import { QueryProvider } from './_providers/query'
 import { ThemeProvider } from './_providers/theme'
 import TurnstileProvider from './_providers/turnstile'
+import '@ui/styles/globals.css'
+import { ScrollArea } from '@ui/ui/scroll-area'
+import { Toaster } from '@ui/ui/toaster'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,12 +26,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JotaiProvider>
           <ThemeProvider attribute="class" defaultTheme="system">
             <QueryProvider>
-              <TurnstileProvider>
-                <ScrollArea>
-                  <div className="h-screen">{children}</div>
-                </ScrollArea>
-              </TurnstileProvider>
-              <Toaster />
+              <AuthProvider>
+                <TurnstileProvider>
+                  <ScrollArea>
+                    <div className="h-screen">{children}</div>
+                  </ScrollArea>
+                </TurnstileProvider>
+                <Toaster />
+              </AuthProvider>
             </QueryProvider>
           </ThemeProvider>
         </JotaiProvider>

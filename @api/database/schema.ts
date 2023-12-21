@@ -11,7 +11,9 @@ import {
   foreignKey,
   unique,
 } from 'drizzle-orm/pg-core'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { alphabet, generateRandomString } from 'oslo/random'
+import { z } from 'zod'
 
 export const Users = pgTable('users', {
   id: uuid('id')
@@ -27,6 +29,13 @@ export const UserRelations = relations(Users, ({ many }) => ({
   oauthAccounts: many(OauthAccounts),
   organizationMembers: many(OrganizationMembers),
 }))
+
+export const userSchema = createSelectSchema(Users, {
+  email: z.string().max(255).email().toLowerCase(),
+})
+export const userInsertSchema = createInsertSchema(Users, {
+  email: z.string().max(255).email().toLowerCase(),
+})
 
 export const oauthAccountProviders = pgEnum('oauth_account_providers', ['github', 'google'])
 
@@ -55,11 +64,23 @@ export const OauthAccountRelations = relations(OauthAccounts, ({ one, many }) =>
   organizationMembers: many(OrganizationMembers),
 }))
 
+export const oauthAccountSchema = createSelectSchema(OauthAccounts)
+export const oauthAccountInsertSchema = createInsertSchema(OauthAccounts)
+
 export const EmailOtps = pgTable('email_otps', {
   email: varchar('email', { length: 255 }).notNull().primaryKey(),
   code: varchar('code', { length: 6 }).notNull(),
   expiresAt: timestamp('expired_at').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+export const emailOtpSchema = createSelectSchema(EmailOtps, {
+  email: z.string().max(255).email().toLowerCase(),
+  code: z.string().max(6).toLowerCase(),
+})
+export const emailOtpInsertSchema = createInsertSchema(EmailOtps, {
+  email: z.string().max(255).email().toLowerCase(),
+  code: z.string().max(6).toLowerCase(),
 })
 
 export const Organizations = pgTable('organizations', {
@@ -75,6 +96,9 @@ export const OrganizationRelations = relations(Organizations, ({ many }) => ({
   members: many(OrganizationMembers),
   invitations: many(OrganizationsInvitations),
 }))
+
+export const organizationSchema = createSelectSchema(Organizations)
+export const organizationInsertSchema = createInsertSchema(Organizations)
 
 export const organizationMembersRoles = pgEnum('organization_member_roles', ['admin', 'member'])
 
@@ -111,10 +135,13 @@ export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one
   sessions: many(Sessions),
 }))
 
+export const organizationMemberSchema = createSelectSchema(OrganizationMembers)
+export const organizationMemberInsertSchema = createInsertSchema(OrganizationMembers)
+
 export const Sessions = pgTable(
   'sessions',
   {
-    id: char('id', { length: 64 })
+    secretKey: char('secret_key', { length: 64 })
       .notNull()
       .primaryKey()
       .$defaultFn(() => generateRandomString(64, alphabet('a-z', 'A-Z', '0-9'))),
@@ -139,10 +166,13 @@ export const SessionRelations = relations(Sessions, ({ one }) => ({
   }),
 }))
 
+export const sessionSchema = createSelectSchema(Sessions)
+export const sessionInsertSchema = createInsertSchema(Sessions)
+
 export const OrganizationsInvitations = pgTable(
   'organizations_invitations',
   {
-    id: char('id', { length: 64 })
+    secretKey: char('secret_key', { length: 64 })
       .notNull()
       .primaryKey()
       .$defaultFn(() => generateRandomString(64, alphabet('a-z', 'A-Z', '0-9'))),
@@ -165,3 +195,10 @@ export const OrganizationsInvitationRelations = relations(OrganizationsInvitatio
     references: [Organizations.id],
   }),
 }))
+
+export const organizationInvitationSchema = createSelectSchema(OrganizationsInvitations, {
+  email: z.string().max(255).email().toLowerCase(),
+})
+export const organizationsInvitationInsertSchema = createInsertSchema(OrganizationsInvitations, {
+  email: z.string().max(255).email().toLowerCase(),
+})

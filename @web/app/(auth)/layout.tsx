@@ -1,16 +1,16 @@
 'use client'
 
+import { Navbar } from './_navbar'
+import { RequireAuthWrapper } from './_require-auth'
 import { CaretLeftIcon, CaretRightIcon, HamburgerMenuIcon } from '@radix-ui/react-icons'
+import { Button } from '@ui/ui/button'
+import { Sheet, SheetContent, SheetTrigger } from '@ui/ui/sheet'
+import { Skeleton } from '@ui/ui/skeleton'
 import { sidebarSizeHistoryAtom } from '@web/atoms/history'
 import { motion } from 'framer-motion'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { match } from 'ts-pattern'
-import { Button } from '@ui/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@ui/ui/sheet'
-import { Skeleton } from '@ui/ui/skeleton'
-import { Navbar } from './_components/navbar'
-import { RequireAuthWrapper } from './_wrappers/require-auth'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

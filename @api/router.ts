@@ -1,7 +1,7 @@
-import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
-import { authRouter } from './routes/auth'
-import { organizationRouter } from './routes/organization'
+import { authRouter } from './features/auth/router'
+import { organizationRouter } from './features/organization/router'
 import { procedure, router } from './trpc'
+import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 export const appRouter = router({
   ping: procedure.query(() => 'pong'),

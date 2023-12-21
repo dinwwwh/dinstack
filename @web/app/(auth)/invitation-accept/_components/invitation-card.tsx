@@ -1,23 +1,25 @@
 'use client'
 
-import { api } from '@web/lib/api'
-import { constructPublicResourceUrl } from '@web/lib/utils'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { match } from 'ts-pattern'
-import { z } from 'zod'
+import { organizationInvitationSchema } from '@api/database/schema'
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/ui/card'
 import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
+import { api } from '@web/lib/api'
+import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { match } from 'ts-pattern'
 
 export function InvitationCard() {
   const searchParams = useSearchParams()
-  const invitationId = z.string().parse(searchParams.get('id'))
+  const invitationSecretKey = organizationInvitationSchema.shape.secretKey.parse(
+    searchParams.get('secret-key'),
+  )
   const query = api.organization.member.invitationInfo.useQuery({
-    invitationId,
+    invitationSecretKey,
   })
 
   return (
@@ -42,13 +44,16 @@ export function InvitationCard() {
                 <AvatarFallback>{query.data.invitation.organization.name[0]}</AvatarFallback>
               </Avatar>
               <CardTitle>Join Our Organization</CardTitle>
-              <p className="text-center text-muted-foreground">{query.data.invitation.organization.name}</p>
+              <p className="text-center text-muted-foreground">
+                {query.data.invitation.organization.name}
+              </p>
             </CardHeader>
             <CardContent className="flex flex-col items-center space-y-4">
               <p className="text-center text-muted-foreground">
-                You have been invited to join our organization. Click the button below to accept the invitation.
+                You have been invited to join our organization. Click the button below to accept the
+                invitation.
               </p>
-              <InvitationAcceptButton invitationId={invitationId} />
+              <InvitationAcceptButton invitationSecretKey={invitationSecretKey} />
               <Button variant="ghost" className="w-full" asChild>
                 <Link href="/">Back to Home</Link>
               </Button>
@@ -60,7 +65,7 @@ export function InvitationCard() {
   )
 }
 
-export function InvitationAcceptButton(props: { invitationId: string }) {
+export function InvitationAcceptButton(props: { invitationSecretKey: string }) {
   const router = useRouter()
   const mutation = api.organization.member.acceptInvitation.useMutation({
     onSuccess() {
@@ -74,7 +79,7 @@ export function InvitationAcceptButton(props: { invitationId: string }) {
       className="w-full gap-2"
       onClick={() =>
         mutation.mutate({
-          invitationId: props.invitationId,
+          invitationSecretKey: props.invitationSecretKey,
         })
       }
     >

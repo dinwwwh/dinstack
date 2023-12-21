@@ -1,11 +1,5 @@
 'use client'
 
-import { api } from '@web/lib/api'
-import { constructPublicResourceUrl } from '@web/lib/utils'
-import imageCompression from 'browser-image-compression'
-import { Base64 } from 'js-base64'
-import { useId, useRef } from 'react'
-import { match } from 'ts-pattern'
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import { GeneralError } from '@ui/ui/general-error'
@@ -13,6 +7,12 @@ import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
+import { api } from '@web/lib/api'
+import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
+import imageCompression from 'browser-image-compression'
+import { Base64 } from 'js-base64'
+import { useId, useRef } from 'react'
+import { match } from 'ts-pattern'
 
 export function PersonalInfosForm() {
   const nameId = useId()
@@ -47,13 +47,19 @@ export function PersonalInfosForm() {
                     <Avatar className="h-24 w-24">
                       <AvatarImage
                         alt={query.data.session.organizationMember.user.name}
-                        src={constructPublicResourceUrl(query.data.session.organizationMember.user.avatarUrl)}
+                        src={constructPublicResourceUrl(
+                          query.data.session.organizationMember.user.avatarUrl,
+                        )}
                       />
-                      <AvatarFallback>{query.data.session.organizationMember.user.name[0]}</AvatarFallback>
+                      <AvatarFallback>
+                        {query.data.session.organizationMember.user.name[0]}
+                      </AvatarFallback>
                     </Avatar>
                     <div>
                       <AvatarChangeButton />
-                      <p className="mt-2 text-xs leading-5 text-muted-foreground">JPG, GIF or PNG. 1MB max.</p>
+                      <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                        JPG, GIF or PNG. 1MB max.
+                      </p>
                     </div>
                   </div>
 

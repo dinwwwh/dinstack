@@ -1,7 +1,7 @@
-import { TRPCError, experimental_standaloneMiddleware, initTRPC } from '@trpc/server'
-import SuperJSON from 'superjson'
 import type { Context } from './context'
 import type { Db } from './lib/db'
+import { TRPCError, experimental_standaloneMiddleware, initTRPC } from '@trpc/server'
+import SuperJSON from 'superjson'
 
 const t = initTRPC.context<Context & { request: Request }>().create({
   transformer: SuperJSON,
@@ -40,13 +40,8 @@ export const procedure = t.procedure.use(turnstileMiddleware)
 const authMiddleware = middleware(async ({ ctx, next }) => {
   const bearer = ctx.request.headers.get('Authorization')
   if (!bearer) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
-  const sessionId = bearer.replace(/^Bearer /, '')
+  const sessionSecretKey = bearer.replace(/^Bearer /, '')
   const session = await ctx.db.query.Sessions.findFirst({
-    columns: {
-      id: true,
-      createdAt: true,
-      userId: true,
-    },
     with: {
       organizationMember: {
         columns: {
@@ -57,7 +52,7 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
       },
     },
     where(t, { eq }) {
-      return eq(t.id, sessionId)
+      return eq(t.secretKey, sessionSecretKey)
     },
   })
   if (!session) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
@@ -88,7 +83,10 @@ export const organizationMemberMiddleware = experimental_standaloneMiddleware<{
   })
 
   if (!organizationMember)
-    throw new TRPCError({ code: 'FORBIDDEN', message: 'You are not a member of this organization.' })
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'You are not a member of this organization.',
+    })
 
   return next()
 })
@@ -101,12 +99,19 @@ export const organizationAdminMiddleware = experimental_standaloneMiddleware<{
 
   const organizationMember = await ctx.db.query.OrganizationMembers.findFirst({
     where(t, { and, eq }) {
-      return and(eq(t.organizationId, organizationId), eq(t.userId, ctx.auth.session.userId), eq(t.role, 'admin'))
+      return and(
+        eq(t.organizationId, organizationId),
+        eq(t.userId, ctx.auth.session.userId),
+        eq(t.role, 'admin'),
+      )
     },
   })
 
   if (!organizationMember)
-    throw new TRPCError({ code: 'FORBIDDEN', message: 'You are not an admin of this organization.' })
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'You are not an admin of this organization.',
+    })
 
   return next()
 })

@@ -1,12 +1,8 @@
 'use client'
 
+import { OrganizationMemberInviteSheet } from './organization-member-invite-sheet'
 import { PlusIcon } from '@radix-ui/react-icons'
-import { api } from '@web/lib/api'
-import { constructPublicResourceUrl, uppercaseFirstLetter } from '@web/lib/utils'
-import { useSearchParams } from 'next/navigation'
-import { useRef } from 'react'
-import { match } from 'ts-pattern'
-import { z } from 'zod'
+import { uppercaseFirstLetter } from '@shared/utils/uppercase-first-letter'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -23,22 +19,34 @@ import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 import { SheetTrigger } from '@ui/ui/sheet'
-import { OrganizationMemberInviteSheet } from './organization-member-invite-sheet'
+import { useAuthenticatedUser } from '@web/hooks/use-user'
+import { api } from '@web/lib/api'
+import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
+import { useSearchParams } from 'next/navigation'
+import { useRef } from 'react'
+import { match } from 'ts-pattern'
+import { z } from 'zod'
 
 export function OrganizationMembers() {
   const searchParams = useSearchParams()
   const organizationId = z.string().uuid().parse(searchParams.get('id'))
+  const user = useAuthenticatedUser()
 
   const query = api.organization.detail.useQuery({
     organizationId,
   })
+
+  const memberRole = query.data?.organization.members.find((member) => member.userId === user?.id)
+    ?.role
 
   return (
     <div className="@container">
       <section className="grid grid-cols-1 gap-x-8 gap-y-10 px-4 py-16  @2xl:grid-cols-3 ">
         <div>
           <h2 className="font-semibold leading-7">Organization Members</h2>
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">These are the members of your organization.</p>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            These are the members of your organization.
+          </p>
         </div>
 
         <div className="@2xl:col-span-2 sm:max-w-xl">
@@ -52,7 +60,10 @@ export function OrganizationMembers() {
                     <li key={member.userId} className="flex justify-between gap-x-6 py-6">
                       <div className="flex gap-3 items-center">
                         <Avatar className="h-9 w-9">
-                          <AvatarImage alt={member.user.name} src={constructPublicResourceUrl(member.user.avatarUrl)} />
+                          <AvatarImage
+                            alt={member.user.name}
+                            src={constructPublicResourceUrl(member.user.avatarUrl)}
+                          />
                           <AvatarFallback>{member.user.name[0]}</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col gap-1">
@@ -62,18 +73,26 @@ export function OrganizationMembers() {
                               {uppercaseFirstLetter(member.role)}
                             </span>
                           </span>
-                          <span className="font-medium text-xs text-muted-foreground">{member.user.email}</span>
+                          <span className="font-medium text-xs text-muted-foreground">
+                            {member.user.email}
+                          </span>
                         </div>
                       </div>
-                      {/* TODO: not show on yourself */}
-                      <MemberRemoveButton organizationId={organizationId} userId={member.userId} />
+                      {user.id !== member.userId && (
+                        <MemberRemoveButton
+                          organizationId={organizationId}
+                          userId={member.userId}
+                        />
+                      )}
                     </li>
                   )
                 })}
 
-                <li className="flex justify-between gap-x-6 py-6">
-                  <MemberInviteButton organizationId={organizationId} />
-                </li>
+                {memberRole === 'admin' && (
+                  <li className="flex justify-between gap-x-6 py-6">
+                    <MemberInviteButton organizationId={organizationId} />
+                  </li>
+                )}
               </ul>
             ))
             .exhaustive()}
@@ -108,7 +127,9 @@ export function MemberRemoveButton(props: { organizationId: string; userId: stri
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>This action will remove the member from your organization.</AlertDialogDescription>
+          <AlertDialogDescription>
+            This action will remove the member from your organization.
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel ref={closeRef}>Cancel</AlertDialogCancel>

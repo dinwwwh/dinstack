@@ -1,11 +1,11 @@
 'use client'
 
-import { api } from '@web/lib/api'
-import { isActivePathname } from '@web/lib/utils'
-import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
 import { Skeleton } from '@ui/ui/skeleton'
 import { ViewportBlock } from '@ui/ui/viewport-block'
+import { api } from '@web/lib/api'
+import { isActivePathname } from '@web/utils/is-active-pathname'
+import Link from 'next/link'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 const staticLinks = [
   {
@@ -47,7 +47,10 @@ export function Nav() {
       >
         {staticLinks.map((link) => (
           <li key={link.name}>
-            <Link href={link.href} className={isActivePathname(link.href, pathname) ? 'text-primary' : ''}>
+            <Link
+              href={link.href}
+              className={isActivePathname(link.href, pathname) ? 'text-primary' : ''}
+            >
               {link.name}
             </Link>
           </li>
@@ -58,7 +61,9 @@ export function Nav() {
             <Link
               href={link.href}
               className={
-                isActivePathname(link.href, pathname) && searchParams.get('id') === link.id ? 'text-primary' : ''
+                isActivePathname(link.href, pathname) && searchParams.get('id') === link.id
+                  ? 'text-primary'
+                  : ''
               }
             >
               {link.name}
@@ -67,7 +72,9 @@ export function Nav() {
         ))}
 
         <li>
-          {!query.isFetching && query.hasNextPage && <ViewportBlock onEnterViewport={() => query.fetchNextPage()} />}
+          {!query.isFetching && query.hasNextPage && (
+            <ViewportBlock onEnterViewport={() => query.fetchNextPage()} />
+          )}
           {(query.hasNextPage || query.isLoading) && <Skeleton className="w-36 h-6" />}
         </li>
       </ul>

@@ -1,9 +1,9 @@
 'use client'
 
 import { CheckIcon, Cross2Icon, ReloadIcon } from '@radix-ui/react-icons'
+import { cn } from '@ui/utils/cn'
 import { useState, useLayoutEffect } from 'react'
 import { match } from 'ts-pattern'
-import { cn } from '@ui/lib/utils'
 
 export function MutationStatusIcon(props: {
   status: 'idle' | 'loading' | 'success' | 'error'
@@ -39,9 +39,15 @@ export function MutationStatusIcon(props: {
   return match(props.status)
     .with('idle', () => props.children)
     .with('loading', () => <ReloadIcon className={cn('h-4 w-4 animate-spin', props.className)} />)
-    .with('success', () => (showSuccess ? <CheckIcon className={cn('h-4 w-4', props.className)} /> : props.children))
+    .with('success', () =>
+      showSuccess ? <CheckIcon className={cn('h-4 w-4', props.className)} /> : props.children,
+    )
     .with('error', () =>
-      showError ? <Cross2Icon className={cn('h-4 w-4 text-destructive', props.className)} /> : props.children,
+      showError ? (
+        <Cross2Icon className={cn('h-4 w-4 text-destructive', props.className)} />
+      ) : (
+        props.children
+      ),
     )
     .exhaustive()
 }
