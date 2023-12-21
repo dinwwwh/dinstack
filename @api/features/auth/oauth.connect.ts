@@ -1,9 +1,9 @@
 import { OauthAccounts, oauthAccountSchema } from '@api/database/schema'
-import { uppercaseFirstLetter } from '@api/lib/utils'
 import { authProcedure } from '@api/trpc'
+import { uppercaseFirstLetter } from '@shared/utils/uppercase-first-letter'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
-import { getOauthUser } from './_get-oauth-user'
+import { getOauthUser } from './helpers/get-oauth-user'
 
 export const authOauthConnectRoute = authProcedure
   .input(
