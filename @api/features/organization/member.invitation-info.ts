@@ -10,7 +10,7 @@ export const organizationMemberInvitationInfoRoute = authProcedure
     }),
   )
   .query(async ({ ctx, input }) => {
-    const invitation = await ctx.db.query.OrganizationsInvitations.findFirst({
+    const invitation = await ctx.db.query.OrganizationInvitations.findFirst({
       where(t, { eq }) {
         return eq(t.secretKey, input.invitationSecretKey)
       },

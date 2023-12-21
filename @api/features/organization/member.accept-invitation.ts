@@ -1,6 +1,6 @@
 import {
   OrganizationMembers,
-  OrganizationsInvitations,
+  OrganizationInvitations,
   Sessions,
   organizationInvitationSchema,
 } from '@api/database/schema'
@@ -16,7 +16,7 @@ export const organizationMemberAcceptInvitationRoute = authProcedure
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    const invitation = await ctx.db.query.OrganizationsInvitations.findFirst({
+    const invitation = await ctx.db.query.OrganizationInvitations.findFirst({
       where(t, { eq }) {
         return eq(t.secretKey, input.invitationSecretKey)
       },
@@ -68,11 +68,11 @@ export const organizationMemberAcceptInvitationRoute = authProcedure
 
       if (invitation.usageLimit !== null) {
         await trx
-          .update(OrganizationsInvitations)
+          .update(OrganizationInvitations)
           .set({
             usageLimit: invitation.usageLimit - 1,
           })
-          .where(eq(OrganizationsInvitations.secretKey, invitation.secretKey))
+          .where(eq(OrganizationInvitations.secretKey, invitation.secretKey))
       }
     })
 

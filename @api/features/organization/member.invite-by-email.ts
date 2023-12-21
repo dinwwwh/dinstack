@@ -1,4 +1,4 @@
-import { OrganizationsInvitations, organizationInvitationSchema } from '@api/database/schema'
+import { OrganizationInvitations, organizationInvitationSchema } from '@api/database/schema'
 import { generateOrganizationInvitationEmail } from '@api/emails/organization-invitation'
 import { authProcedure, organizationAdminMiddleware } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
@@ -8,14 +8,14 @@ export const organizationMemberInviteByEmailRoute = authProcedure
   .input(
     z.object({
       organizationId: organizationInvitationSchema.shape.organizationId,
-      email: organizationInvitationSchema.shape.email,
+      email: z.string().max(255).email().toLowerCase(),
       role: organizationInvitationSchema.shape.role,
     }),
   )
   .use(organizationAdminMiddleware)
   .mutation(async ({ ctx, input }) => {
     const createInvitation = ctx.db
-      .insert(OrganizationsInvitations)
+      .insert(OrganizationInvitations)
       .values({
         organizationId: input.organizationId,
         email: input.email,
@@ -24,7 +24,7 @@ export const organizationMemberInviteByEmailRoute = authProcedure
         expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
       })
       .onConflictDoUpdate({
-        target: [OrganizationsInvitations.organizationId, OrganizationsInvitations.email],
+        target: [OrganizationInvitations.organizationId, OrganizationInvitations.email],
         set: {
           role: input.role,
           usageLimit: 1,

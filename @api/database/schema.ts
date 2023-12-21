@@ -95,7 +95,7 @@ export const Organizations = pgTable('organizations', {
 
 export const OrganizationRelations = relations(Organizations, ({ many }) => ({
   members: many(OrganizationMembers),
-  invitations: many(OrganizationsInvitations),
+  invitations: many(OrganizationInvitations),
 }))
 
 export const organizationSchema = createSelectSchema(Organizations)
@@ -170,8 +170,8 @@ export const SessionRelations = relations(Sessions, ({ one }) => ({
 export const sessionSchema = createSelectSchema(Sessions)
 export const sessionInsertSchema = createInsertSchema(Sessions)
 
-export const OrganizationsInvitations = pgTable(
-  'organizations_invitations',
+export const OrganizationInvitations = pgTable(
+  'organization_invitations',
   {
     secretKey: char('secret_key', { length: 64 })
       .notNull()
@@ -180,7 +180,7 @@ export const OrganizationsInvitations = pgTable(
     organizationId: uuid('organization_id')
       .notNull()
       .references(() => Organizations.id),
-    email: varchar('email', { length: 255 }).notNull(),
+    email: varchar('email', { length: 255 }),
     role: organizationMembersRoles('role').notNull().default('member'),
     usageLimit: integer('usage_limit'),
     expiresAt: timestamp('expired_at').notNull(),
@@ -191,18 +191,18 @@ export const OrganizationsInvitations = pgTable(
   }),
 )
 
-export const OrganizationsInvitationRelations = relations(OrganizationsInvitations, ({ one }) => ({
+export const OrganizationInvitationRelations = relations(OrganizationInvitations, ({ one }) => ({
   organization: one(Organizations, {
-    fields: [OrganizationsInvitations.organizationId],
+    fields: [OrganizationInvitations.organizationId],
     references: [Organizations.id],
   }),
 }))
 
-export const organizationInvitationSchema = createSelectSchema(OrganizationsInvitations, {
-  email: z.string().max(255).email().toLowerCase(),
+export const organizationInvitationSchema = createSelectSchema(OrganizationInvitations, {
+  email: z.string().max(255).email().toLowerCase().nullable(),
   usageLimit: z.number().int().positive().nullable(),
 })
-export const organizationsInvitationInsertSchema = createInsertSchema(OrganizationsInvitations, {
-  email: z.string().max(255).email().toLowerCase(),
+export const organizationInvitationInsertSchema = createInsertSchema(OrganizationInvitations, {
+  email: z.string().max(255).email().toLowerCase().nullable(),
   usageLimit: z.number().int().positive().nullable().optional(),
 })

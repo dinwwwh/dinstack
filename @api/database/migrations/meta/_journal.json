@@ -36,6 +36,20 @@
       "when": 1703162619961,
       "tag": "0004_massive_shooting_star",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1703163923756,
+      "tag": "0005_amusing_skullbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1703164074503,
+      "tag": "0006_striped_quicksilver",
+      "breakpoints": true
     }
   ]
 }
