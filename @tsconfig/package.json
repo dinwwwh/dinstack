@@ -5,7 +5,7 @@
   "scripts": {},
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230922.0",
-    "@types/node": "^20.10.4",
+    "@types/node": "20.10.1",
     "@total-typescript/ts-reset": "^0.5.1"
   }
 }
