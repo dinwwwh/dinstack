@@ -1,7 +1,7 @@
 'use client'
 
-import { Skeleton } from '@ui/ui/skeleton'
-import { ViewportBlock } from '@ui/ui/viewport-block'
+import { Skeleton } from '+ui/ui/skeleton'
+import { ViewportBlock } from '+ui/ui/viewport-block'
 import { api } from '@web/lib/api'
 import { isActivePathname } from '@web/utils/is-active-pathname'
 import Link from 'next/link'

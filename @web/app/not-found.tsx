@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@ui/ui/button'
+import { Button } from '+ui/ui/button'
 import Link from 'next/link'
 
 export default function PageNotFound() {

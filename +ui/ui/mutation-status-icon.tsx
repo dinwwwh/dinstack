@@ -1,7 +1,7 @@
 'use client'
 
+import { cn } from '+ui/utils/cn'
 import { CheckIcon, Cross2Icon, ReloadIcon } from '@radix-ui/react-icons'
-import { cn } from '@ui/utils/cn'
 import { useState, useLayoutEffect } from 'react'
 import { match } from 'ts-pattern'
 

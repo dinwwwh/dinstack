@@ -1,5 +1,5 @@
-import type { Db } from '@db/lib/db'
-import { OauthAccounts, OrganizationMembers, Organizations, Users } from '@db/schema'
+import type { Db } from '+db/lib/db'
+import { OauthAccounts, OrganizationMembers, Organizations, Users } from '+db/schema'
 import { TRPCError } from '@trpc/server'
 
 export async function createUser(ctx: {

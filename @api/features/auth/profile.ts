@@ -1,5 +1,5 @@
+import { Users } from '+db/schema'
 import { authProcedure, router } from '@api/trpc'
-import { Users } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { Buffer } from 'node:buffer'

@@ -1,7 +1,7 @@
 'use client'
 
-import { oauthAccountProviders } from '@db/schema'
-import { useIsRendered } from '@ui/hooks/use-is-rendered'
+import { oauthAccountProviders } from '+db/schema'
+import { useIsRendered } from '+ui/hooks/use-is-rendered'
 import { codeVerifierAtom, sessionAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'
 import { useAtom } from 'jotai'

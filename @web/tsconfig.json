@@ -12,10 +12,10 @@
     "paths": {
       "@web/*": ["./*"],
       "@api/*": ["../@api/*"],
-      "@shared/*": ["../@shared/*"],
-      "@db/*": ["../@db/*"],
-      "@ui/*": ["../@ui/*"],
-      "@ui/_/../ui/*": ["../@ui/ui/*"]
+      "+shared/*": ["../+shared/*"],
+      "+db/*": ["../+db/*"],
+      "+ui/*": ["../+ui/*"],
+      "+ui/_/../ui/*": ["../+ui/ui/*"]
     },
     "noEmit": true
   },
@@ -26,13 +26,13 @@
       "path": "../@api/tsconfig.json"
     },
     {
-      "path": "../@shared/tsconfig.json"
+      "path": "../+shared/tsconfig.json"
     },
     {
-      "path": "../@db/tsconfig.json"
+      "path": "../+db/tsconfig.json"
     },
     {
-      "path": "../@ui/tsconfig.json"
+      "path": "../+ui/tsconfig.json"
     }
   ]
 }

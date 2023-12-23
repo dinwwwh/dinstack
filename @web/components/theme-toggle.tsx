@@ -1,13 +1,13 @@
 'use client'
 
-import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
-import { Button } from '@ui/ui/button'
+import { Button } from '+ui/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@ui/ui/dropdown-menu'
+} from '+ui/ui/dropdown-menu'
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 import { useTheme } from 'next-themes'
 
 export function ThemeToggle() {

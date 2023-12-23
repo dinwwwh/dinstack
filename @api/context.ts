@@ -1,3 +1,4 @@
+import { createDb } from '+db/lib/db'
 import type { Env } from './env'
 import {
   createAuthGithub,
@@ -6,7 +7,6 @@ import {
   createValidateAuthJwtFn,
 } from './lib/auth'
 import { createSendEmailFn } from './lib/email'
-import { createDb } from '@db/lib/db'
 
 export function createContext({
   env,

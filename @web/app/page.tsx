@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@ui/ui/button'
+import { Button } from '+ui/ui/button'
 import { api } from '@web/lib/api'
 
 export default function Home() {

@@ -1,4 +1,4 @@
-import { ScrollArea } from '@ui/ui/scroll-area'
+import { ScrollArea } from '+ui/ui/scroll-area'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {

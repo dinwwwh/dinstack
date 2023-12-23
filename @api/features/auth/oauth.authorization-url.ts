@@ -1,5 +1,5 @@
+import { oauthAccountSchema } from '+db/schema'
 import { procedure } from '@api/trpc'
-import { oauthAccountSchema } from '@db/schema'
 import { generateCodeVerifier, generateState } from 'arctic'
 import { match } from 'ts-pattern'
 import { z } from 'zod'

@@ -4,17 +4,17 @@
     "outDir": "build",
     "paths": {
       "@api/*": ["./*"],
-      "@shared/*": ["../@shared/*"],
-      "@db/*": ["../@db/*"]
+      "+shared/*": ["../+shared/*"],
+      "+db/*": ["../+db/*"]
     }
   },
   "exclude": ["build"],
   "references": [
     {
-      "path": "../@shared/tsconfig.json"
+      "path": "../+shared/tsconfig.json"
     },
     {
-      "path": "../@db/tsconfig.json"
+      "path": "../+db/tsconfig.json"
     }
   ]
 }

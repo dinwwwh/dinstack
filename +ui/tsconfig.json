@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "build",
     "paths": {
-      "@ui/*": ["./*"],
-      "@ui/_/../ui/*": ["./ui/*"]
+      "+ui/*": ["./*"],
+      "+ui/_/../ui/*": ["./ui/*"]
     }
   },
   "exclude": ["build", "configs/tailwind.config.ts"]

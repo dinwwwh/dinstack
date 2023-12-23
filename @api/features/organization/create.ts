@@ -1,6 +1,6 @@
+import { OrganizationMembers, Organizations, Sessions, organizationSchema } from '+db/schema'
 import { authProcedure } from '@api/trpc'
 import { generateFallbackLogoUrl } from '@api/utils/generate-fallback-logo-url'
-import { OrganizationMembers, Organizations, Sessions, organizationSchema } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'

@@ -1,6 +1,6 @@
+import { cn } from '+ui/utils/cn'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import * as ToastPrimitives from '@radix-ui/react-toast'
-import { cn } from '@ui/utils/cn'
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 

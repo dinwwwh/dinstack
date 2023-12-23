@@ -1,7 +1,7 @@
-import { Button } from '@ui/ui/button'
-import { Input } from '@ui/ui/input'
-import { Label } from '@ui/ui/label'
-import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
+import { Button } from '+ui/ui/button'
+import { Input } from '+ui/ui/input'
+import { Label } from '+ui/ui/label'
+import { MutationStatusIcon } from '+ui/ui/mutation-status-icon'
 import {
   Sheet,
   SheetClose,
@@ -9,7 +9,7 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from '@ui/ui/sheet'
+} from '+ui/ui/sheet'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
 import { useId, useRef } from 'react'

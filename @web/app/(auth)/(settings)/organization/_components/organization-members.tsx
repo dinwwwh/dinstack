@@ -1,8 +1,6 @@
 'use client'
 
-import { OrganizationMemberInviteSheet } from './organization-member-invite-sheet'
-import { PlusIcon } from '@radix-ui/react-icons'
-import { uppercaseFirstLetter } from '@shared/utils/uppercase-first-letter'
+import { uppercaseFirstLetter } from '+shared/utils/uppercase-first-letter'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -12,13 +10,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@ui/ui/alert-dialog'
-import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
-import { Button } from '@ui/ui/button'
-import { GeneralError } from '@ui/ui/general-error'
-import { GeneralSkeleton } from '@ui/ui/general-skeleton'
-import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
-import { SheetTrigger } from '@ui/ui/sheet'
+} from '+ui/ui/alert-dialog'
+import { Avatar, AvatarFallback, AvatarImage } from '+ui/ui/avatar'
+import { Button } from '+ui/ui/button'
+import { GeneralError } from '+ui/ui/general-error'
+import { GeneralSkeleton } from '+ui/ui/general-skeleton'
+import { MutationStatusIcon } from '+ui/ui/mutation-status-icon'
+import { SheetTrigger } from '+ui/ui/sheet'
+import { OrganizationMemberInviteSheet } from './organization-member-invite-sheet'
+import { PlusIcon } from '@radix-ui/react-icons'
 import { useAuthenticatedUser } from '@web/hooks/use-user'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'

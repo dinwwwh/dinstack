@@ -1,7 +1,5 @@
-import { OrganizationCreateSheet } from './organization-create-sheet'
-import { ExitIcon, PersonIcon, PlusIcon } from '@radix-ui/react-icons'
-import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
-import { Button } from '@ui/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '+ui/ui/avatar'
+import { Button } from '+ui/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,12 +10,14 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-} from '@ui/ui/dropdown-menu'
-import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
-import { ScrollArea } from '@ui/ui/scroll-area'
-import { SheetTrigger } from '@ui/ui/sheet'
-import { Skeleton } from '@ui/ui/skeleton'
-import { ViewportBlock } from '@ui/ui/viewport-block'
+} from '+ui/ui/dropdown-menu'
+import { MutationStatusIcon } from '+ui/ui/mutation-status-icon'
+import { ScrollArea } from '+ui/ui/scroll-area'
+import { SheetTrigger } from '+ui/ui/sheet'
+import { Skeleton } from '+ui/ui/skeleton'
+import { ViewportBlock } from '+ui/ui/viewport-block'
+import { OrganizationCreateSheet } from './organization-create-sheet'
+import { ExitIcon, PersonIcon, PlusIcon } from '@radix-ui/react-icons'
 import { sessionAtom } from '@web/atoms/auth'
 import { useAuthenticatedOrganizationMember } from '@web/hooks/use-organization-member'
 import { api } from '@web/lib/api'
