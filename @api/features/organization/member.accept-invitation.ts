@@ -4,7 +4,7 @@ import {
   Sessions,
   organizationInvitationSchema,
 } from '+db/schema'
-import { authProcedure } from '@api/trpc'
+import { authProcedure } from '@api/core/trpc'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'

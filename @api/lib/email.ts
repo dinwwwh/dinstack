@@ -1,4 +1,4 @@
-import type { Env } from '@api/env'
+import type { Env } from '@api/lib/env'
 
 export function createSendEmailFn({ env }: { env: Env }) {
   return async (arg: { to: string[]; subject: string; html: string }) => {

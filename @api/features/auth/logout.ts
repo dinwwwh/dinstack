@@ -1,5 +1,5 @@
 import { Sessions } from '+db/schema'
-import { authProcedure } from '@api/trpc'
+import { authProcedure } from '@api/core/trpc'
 import { eq } from 'drizzle-orm'
 
 export const authLogoutRoute = authProcedure.mutation(async ({ ctx }) => {

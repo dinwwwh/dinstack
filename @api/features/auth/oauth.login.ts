@@ -4,7 +4,7 @@ import { createSession } from './helpers/create-session'
 import { createUser } from './helpers/create-user'
 import { findSessionForAuth } from './helpers/find-session-for-auth'
 import { getOauthUser } from './helpers/get-oauth-user'
-import { procedure } from '@api/trpc'
+import { procedure } from '@api/core/trpc'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 

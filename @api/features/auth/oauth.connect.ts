@@ -1,7 +1,7 @@
 import { OauthAccounts, oauthAccountSchema } from '+db/schema'
 import { uppercaseFirstLetter } from '+shared/utils/uppercase-first-letter'
 import { getOauthUser } from './helpers/get-oauth-user'
-import { authProcedure } from '@api/trpc'
+import { authProcedure } from '@api/core/trpc'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
