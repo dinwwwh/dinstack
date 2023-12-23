@@ -1,4 +1,4 @@
-import { cn } from '+ui/utils/cn'
+import { cn } from '+ui/lib/utils'
 import { Skeleton } from './skeleton'
 
 type Props = {
