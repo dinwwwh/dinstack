@@ -207,7 +207,7 @@ importers:
         specifier: ^18.2.43
         version: 18.2.43
 
-  '@web':
+  '@web-content':
     dependencies:
       '@dinstack/api':
         specifier: workspace:^
