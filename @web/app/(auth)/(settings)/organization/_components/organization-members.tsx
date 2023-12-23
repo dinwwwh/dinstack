@@ -21,7 +21,7 @@ import { OrganizationMemberInviteSheet } from './organization-member-invite-shee
 import { PlusIcon } from '@radix-ui/react-icons'
 import { useAuthenticatedUser } from '@web/hooks/use-user'
 import { api } from '@web/lib/api'
-import { constructPublicResourceUrl } from '@web/utils/construct-public-resource-url'
+import { constructPublicResourceUrl } from '@web/lib/utils'
 import { useSearchParams } from 'next/navigation'
 import { useRef } from 'react'
 import { match } from 'ts-pattern'
