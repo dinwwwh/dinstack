@@ -5,8 +5,8 @@ import {
   createCreateAuthJwtFn,
   createValidateAuthJwtFn,
 } from './lib/auth'
-import { createDb } from './lib/db'
 import { createSendEmailFn } from './lib/email'
+import { createDb } from '@db/lib/db'
 
 export function createContext({
   env,
@@ -17,7 +17,7 @@ export function createContext({
   ec: ExecutionContext
   request?: Request
 }) {
-  const db = createDb({ env })
+  const db = createDb({ logger: env.WORKER_ENV === 'production', databaseUrl: env.DATABASE_URL })
   const createAuthJwt = createCreateAuthJwtFn({ env })
   const validateAuthJwt = createValidateAuthJwtFn({ env })
   const authGoogle = createAuthGoogle({ env })

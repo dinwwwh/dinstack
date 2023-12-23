@@ -7,18 +7,14 @@
     "build": "tsc --build && tsc-alias",
     "preview": "wrangler dev --env local --port 8000",
     "typecheck": "tsc --noEmit",
-    "db:migration": "drizzle-kit generate:pg",
-    "db:migrate": "tsx scripts/migrate.ts",
     "deploy:preview": "wrangler deploy --env preview",
     "deploy:production": "wrangler deploy --env production"
   },
   "dependencies": {
+    "@dinstack/db": "workspace:^",
     "@dinstack/shared": "workspace:^",
-    "@neondatabase/serverless": "^0.6.0",
     "@trpc/server": "^10.44.1",
     "arctic": "^0.3.6",
-    "drizzle-orm": "^0.29.1",
-    "drizzle-zod": "^0.5.1",
     "lodash-es": "^4.17.21",
     "oslo": "^0.23.5",
     "superjson": "^2.2.1",
@@ -29,9 +25,6 @@
   },
   "devDependencies": {
     "@dinstack/tsconfig": "workspace:^",
-    "@types/lodash-es": "^4.17.12",
-    "drizzle-kit": "^0.20.6",
-    "postgres": "^3.4.3",
-    "tsx": "^4.6.2"
+    "@types/lodash-es": "^4.17.12"
   }
 }

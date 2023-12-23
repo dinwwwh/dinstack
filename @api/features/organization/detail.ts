@@ -1,5 +1,5 @@
-import { organizationSchema } from '@api/database/schema'
 import { authProcedure } from '@api/trpc'
+import { organizationSchema } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 

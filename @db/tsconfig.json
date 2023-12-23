@@ -1,0 +1,16 @@
+{
+  "extends": "@dinstack/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "paths": {
+      "@db/*": ["./*"],
+      "@shared/*": ["../@shared/*"]
+    }
+  },
+  "exclude": ["drizzle.config.ts", "scripts", "build"],
+  "references": [
+    {
+      "path": "../@shared/tsconfig.json"
+    }
+  ]
+}

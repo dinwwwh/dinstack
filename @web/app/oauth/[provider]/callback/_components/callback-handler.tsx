@@ -1,6 +1,6 @@
 'use client'
 
-import { oauthAccountProviders } from '@api/database/schema'
+import { oauthAccountProviders } from '@db/schema'
 import { useIsRendered } from '@ui/hooks/use-is-rendered'
 import { codeVerifierAtom, sessionAtom, stateAtom, loginRequestFromAtom } from '@web/atoms/auth'
 import { api } from '@web/lib/api'

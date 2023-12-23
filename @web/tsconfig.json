@@ -13,6 +13,7 @@
       "@web/*": ["./*"],
       "@api/*": ["../@api/*"],
       "@shared/*": ["../@shared/*"],
+      "@db/*": ["../@db/*"],
       "@ui/*": ["../@ui/*"],
       "@ui/_/../ui/*": ["../@ui/ui/*"]
     },
@@ -26,6 +27,9 @@
     },
     {
       "path": "../@shared/tsconfig.json"
+    },
+    {
+      "path": "../@db/tsconfig.json"
     },
     {
       "path": "../@ui/tsconfig.json"

@@ -1,5 +1,5 @@
-import { Organizations } from '@api/database/schema'
 import { authProcedure, organizationMemberMiddleware } from '@api/trpc'
+import { Organizations } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { Buffer } from 'node:buffer'

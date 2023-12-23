@@ -1,29 +1,6 @@
-import * as schema from '../database/schema'
-import type { Env } from '../env'
-import { neon, neonConfig } from '@neondatabase/serverless'
+import type { Db } from '@db/lib/db'
+import { OauthAccounts, OrganizationMembers, Organizations, Users } from '@db/schema'
 import { TRPCError } from '@trpc/server'
-import { drizzle as drizzleNeon } from 'drizzle-orm/neon-http'
-import { withReplicas } from 'drizzle-orm/pg-core'
-import { drizzle as drizzlePostgres } from 'drizzle-orm/postgres-js'
-import postgres from 'postgres'
-
-neonConfig.fetchConnectionCache = true
-
-export function createDb({ env }: { env: Env }) {
-  const write = drizzlePostgres(postgres(env.DATABASE_URL), {
-    schema,
-    logger: env.WORKER_ENV === 'development',
-  })
-  const read = drizzleNeon(neon(env.DATABASE_URL), {
-    schema,
-    logger: env.WORKER_ENV === 'development',
-  })
-
-  // @ts-expect-error TODO: fix type for withReplicas
-  return withReplicas(write, [read])
-}
-
-export type Db = ReturnType<typeof createDb>
 
 export async function createUser(ctx: {
   db: Db
@@ -33,7 +10,7 @@ export async function createUser(ctx: {
     name: string
   }
   oauth?: {
-    provider: (typeof schema.OauthAccounts.$inferInsert)['provider']
+    provider: (typeof OauthAccounts.$inferInsert)['provider']
     providerUserId: string
     identifier: string
   }
@@ -42,7 +19,7 @@ export async function createUser(ctx: {
 
   return await ctx.db.transaction(async (trx) => {
     const [user] = await trx
-      .insert(schema.Users)
+      .insert(Users)
       .values({
         email: lowerCaseEmail,
         name: ctx.user.name,
@@ -58,7 +35,7 @@ export async function createUser(ctx: {
     }
 
     const [organization] = await ctx.db
-      .insert(schema.Organizations)
+      .insert(Organizations)
       .values({
         name: `${user.name}'s Organization`,
         logoUrl: ctx.user.avatarUrl,
@@ -73,7 +50,7 @@ export async function createUser(ctx: {
     }
 
     const [organizationMember] = await trx
-      .insert(schema.OrganizationMembers)
+      .insert(OrganizationMembers)
       .values({
         organizationId: organization.id,
         userId: user.id,
@@ -89,7 +66,7 @@ export async function createUser(ctx: {
     }
 
     if (ctx.oauth) {
-      await trx.insert(schema.OauthAccounts).values({
+      await trx.insert(OauthAccounts).values({
         provider: ctx.oauth.provider,
         providerUserId: ctx.oauth.providerUserId,
         userId: user.id,

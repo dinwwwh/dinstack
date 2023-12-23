@@ -50,24 +50,18 @@ importers:
 
   '@api':
     dependencies:
+      '@dinstack/db':
+        specifier: workspace:^
+        version: link:../@db
       '@dinstack/shared':
         specifier: workspace:^
         version: link:../@shared
-      '@neondatabase/serverless':
-        specifier: ^0.6.0
-        version: 0.6.0
       '@trpc/server':
         specifier: ^10.44.1
         version: 10.44.1
       arctic:
         specifier: ^0.3.6
         version: 0.3.6
-      drizzle-orm:
-        specifier: ^0.29.1
-        version: 0.29.1(@neondatabase/serverless@0.6.0)(postgres@3.4.3)
-      drizzle-zod:
-        specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.29.1)(zod@3.22.4)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -96,6 +90,25 @@ importers:
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
+
+  '@db':
+    dependencies:
+      '@neondatabase/serverless':
+        specifier: ^0.6.0
+        version: 0.6.0
+      drizzle-orm:
+        specifier: ^0.29.1
+        version: 0.29.1(@neondatabase/serverless@0.6.0)(postgres@3.4.3)
+      drizzle-zod:
+        specifier: ^0.5.1
+        version: 0.5.1(drizzle-orm@0.29.1)(zod@3.22.4)
+      oslo:
+        specifier: ^0.23.5
+        version: 0.23.5
+    devDependencies:
+      '@dinstack/tsconfig':
+        specifier: workspace:^
+        version: link:../@tsconfig
       drizzle-kit:
         specifier: ^0.20.6
         version: 0.20.6
