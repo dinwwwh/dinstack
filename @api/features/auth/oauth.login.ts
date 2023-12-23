@@ -1,5 +1,5 @@
 import { oauthAccountSchema } from '+db/schema'
-import { uppercaseFirstLetter } from '+shared/utils/uppercase-first-letter'
+import { uppercaseFirstLetter } from '+shared/lib/utils'
 import { createSession } from './helpers/create-session'
 import { createUser } from './helpers/create-user'
 import { findSessionForAuth } from './helpers/find-session-for-auth'

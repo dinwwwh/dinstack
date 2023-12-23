@@ -1,6 +1,6 @@
 'use client'
 
-import { uppercaseFirstLetter } from '+shared/utils/uppercase-first-letter'
+import { uppercaseFirstLetter } from '+shared/lib/utils'
 import {
   AlertDialog,
   AlertDialogCancel,
