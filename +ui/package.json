@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "build": "tsc --build && tsc-alias",
-    "ui:add": "pnpm dlx shadcn-ui@latest add -y",
-    "postui:add": "pnpm run build"
+    "ui:add": "pnpm dlx shadcn-ui@latest add -y"
   },
   "devDependencies": {
     "@dinstack/tsconfig": "workspace:^",
