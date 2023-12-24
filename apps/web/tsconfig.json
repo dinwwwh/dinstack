@@ -11,10 +11,10 @@
     ],
     "paths": {
       "@web/*": ["./*"],
-      "@api/*": ["../@api/*"],
-      "@shared/*": ["../@shared/*"],
-      "@ui/*": ["../@ui/*"],
-      "@ui/_/../ui/*": ["../@ui/ui/*"]
+      "@api/*": ["../api/*"],
+      "@shared/*": ["../../packages/shared/*"],
+      "@ui/*": ["../../packages/ui/*"],
+      "@ui/_/../ui/*": ["../../packages/ui/ui/*"]
     },
     "noEmit": true
   },
@@ -22,13 +22,13 @@
   "exclude": ["node_modules", ".next", "tailwind.config.ts"],
   "references": [
     {
-      "path": "../@api/tsconfig.json"
+      "path": "../api/tsconfig.json"
     },
     {
-      "path": "../@shared/tsconfig.json"
+      "path": "../../packages/shared/tsconfig.json"
     },
     {
-      "path": "../@ui/tsconfig.json"
+      "path": "../../packages/ui/tsconfig.json"
     }
   ]
 }
