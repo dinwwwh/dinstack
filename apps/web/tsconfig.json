@@ -14,7 +14,8 @@
       "@api/*": ["../api/*"],
       "@shared/*": ["../../packages/shared/*"],
       "@ui/*": ["../../packages/ui/*"],
-      "@ui/_/../ui/*": ["../../packages/ui/ui/*"]
+      "@ui/_/../ui/*": ["../../packages/ui/ui/*"],
+      "@db/*": ["../../packages/db/*"]
     },
     "noEmit": true
   },
@@ -29,6 +30,9 @@
     },
     {
       "path": "../../packages/ui/tsconfig.json"
+    },
+    {
+      "path": "../../packages/db/tsconfig.json"
     }
   ]
 }

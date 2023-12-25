@@ -1,10 +1,10 @@
+import { authProcedure } from '@api/trpc'
 import {
   OrganizationMembers,
   OrganizationsInvitations,
   Sessions,
   organizationInvitationSchema,
-} from '@api/database/schema'
-import { authProcedure } from '@api/trpc'
+} from '@db/schema'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'

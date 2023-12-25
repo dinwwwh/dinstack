@@ -1,5 +1,5 @@
 import { CallbackHandler } from './_components/callback-handler'
-import { oauthAccountProviders } from '@api/database/schema'
+import { oauthAccountProviders } from '@db/schema'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { uppercaseFirstLetter } from '@shared/utils/uppercase-first-letter'
 import type { Metadata } from 'next'

@@ -1,0 +1,24 @@
+{
+  "name": "@dinstack/db",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "db:migration": "drizzle-kit generate:pg",
+    "db:migrate:local": "env-cmd -f .env.local tsx scripts/migrate.ts",
+    "db:migrate:preview": "env-cmd -f .env.preview tsx scripts/migrate.ts",
+    "db:migrate:production": "env-cmd -f .env.production tsx scripts/migrate.ts"
+  },
+  "devDependencies": {
+    "@dinstack/tsconfig": "workspace:^",
+    "drizzle-kit": "^0.20.7"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.6.1",
+    "drizzle-zod": "^0.5.1",
+    "oslo": "^0.23.5",
+    "postgres": "^3.4.3",
+    "zod": "^3.22.4",
+    "drizzle-orm": "^0.29.1"
+  }
+}

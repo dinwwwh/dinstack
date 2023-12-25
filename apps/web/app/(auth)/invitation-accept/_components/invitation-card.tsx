@@ -1,6 +1,6 @@
 'use client'
 
-import { organizationInvitationSchema } from '@api/database/schema'
+import { organizationInvitationSchema } from '@db/schema'
 import { Avatar, AvatarFallback, AvatarImage } from '@ui/ui/avatar'
 import { Button } from '@ui/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/ui/card'

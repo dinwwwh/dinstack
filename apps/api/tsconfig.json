@@ -4,13 +4,17 @@
     "outDir": "build",
     "paths": {
       "@api/*": ["./*"],
-      "@shared/*": ["../../packages/shared/*"]
+      "@shared/*": ["../../packages/shared/*"],
+      "@db/*": ["../../packages/db/*"]
     }
   },
   "exclude": ["drizzle.config.ts", "scripts", "build"],
   "references": [
     {
       "path": "../../packages/shared/tsconfig.json"
+    },
+    {
+      "path": "../../packages/db/tsconfig.json"
     }
   ]
 }

@@ -1,6 +1,6 @@
-import { OrganizationsInvitations, organizationInvitationSchema } from '@api/database/schema'
 import { generateOrganizationInvitationEmail } from '@api/emails/organization-invitation'
 import { authProcedure, organizationAdminMiddleware } from '@api/trpc'
+import { OrganizationsInvitations, organizationInvitationSchema } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 

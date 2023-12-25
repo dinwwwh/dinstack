@@ -1,0 +1,10 @@
+{
+  "extends": "@dinstack/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "paths": {
+      "@db/*": ["./*"]
+    }
+  },
+  "exclude": ["build"]
+}

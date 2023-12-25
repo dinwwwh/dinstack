@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@dinstack/api": "workspace:^",
+    "@dinstack/db": "workspace:^",
     "@dinstack/shared": "workspace:^",
     "@dinstack/ui": "workspace:^",
     "@marsidev/react-turnstile": "^0.4.0",

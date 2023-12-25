@@ -1,5 +1,5 @@
-import { OrganizationMembers } from '@api/database/schema'
 import { authProcedure } from '@api/trpc'
+import { OrganizationMembers } from '@db/schema'
 import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
 
