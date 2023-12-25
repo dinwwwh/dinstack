@@ -1,4 +1,4 @@
-import { Db } from '@db/lib/db'
+import type { Db } from '@db/lib/db'
 import { OauthAccounts, OrganizationMembers, Organizations, Users } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 
