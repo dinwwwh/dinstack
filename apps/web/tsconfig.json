@@ -1,0 +1,20 @@
+{
+  "extends": "@dinstack/tsconfig/react.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "paths": {
+      "web/*": ["./*"],
+      "@ui/*": ["../../packages/ui/*"],
+      "@ui/_/../ui/*": ["../../packages/ui/ui/*"]
+    }
+  },
+  "exclude": ["vite.config.ts", "build", "dist", "tailwind.config.ts"],
+  "references": [
+    {
+      "path": "../../packages/ui/tsconfig.json"
+    },
+    {
+      "path": "../api/tsconfig.json"
+    }
+  ]
+}

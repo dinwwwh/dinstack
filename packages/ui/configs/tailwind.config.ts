@@ -12,6 +12,7 @@ export default {
     './providers/**/*.*',
     './stores/**/*.*',
     './lib/**/*.*',
+    './core/**/*.*',
     resolve(__dirname, '../ui/**/*.*'),
   ],
   theme: {
