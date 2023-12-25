@@ -1,0 +1,17 @@
+{
+  "extends": "@dinstack/tsconfig/react.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "paths": {
+      "@turnstile-react/*": ["./*"],
+      "@ui/*": ["../ui/*"],
+      "@ui/_/../ui/*": ["../ui/ui/*"]
+    }
+  },
+  "exclude": ["build"],
+  "references": [
+    {
+      "path": "../ui/tsconfig.json"
+    }
+  ]
+}

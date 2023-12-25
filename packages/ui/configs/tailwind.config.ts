@@ -14,6 +14,7 @@ export default {
     './lib/**/*.*',
     './core/**/*.*',
     resolve(__dirname, '../ui/**/*.*'),
+    resolve(__dirname, '../turnstile/**/*.*'),
   ],
   theme: {
     container: {

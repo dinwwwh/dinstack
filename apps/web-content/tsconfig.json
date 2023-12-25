@@ -15,7 +15,8 @@
       "@ui/*": ["../../packages/ui/*"],
       "@ui/_/../ui/*": ["../../packages/ui/ui/*"],
       "@db/*": ["../../packages/db/*"],
-      "@shared-react/*": ["../../packages/shared-react/*"]
+      "@shared-react/*": ["../../packages/shared-react/*"],
+      "@turnstile-react/*": ["../../packages/turnstile-react/*"]
     },
     "noEmit": true
   },
@@ -33,6 +34,9 @@
     },
     {
       "path": "../../packages/shared-react/tsconfig.json"
+    },
+    {
+      "path": "../../packages/turnstile-react/tsconfig.json"
     }
   ]
 }

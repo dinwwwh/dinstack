@@ -1,9 +1,9 @@
 'use client'
 
-import { showTurnstileAtom, turnstileRefAtom, turnstileTokenAtom } from './turnstile'
 import { api } from '@shared-react/lib/api'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
+import { getTurnstileToken } from '@turnstile-react/lib/turnstile'
 import { useToast } from '@ui/ui/use-toast'
 import { sessionAtom } from '@web-content/atoms/auth'
 import { env } from '@web-content/lib/env'
@@ -70,28 +70,12 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
           async fetch(input, init) {
             const method = init?.method?.toUpperCase() ?? 'GET'
             if (method === 'POST' && init) {
-              if (!jotaiStore.get(turnstileTokenAtom)) {
-                jotaiStore.set(showTurnstileAtom, true)
-                await new Promise((resolve) => {
-                  const unsub = jotaiStore.sub(turnstileTokenAtom, () => {
-                    const token = jotaiStore.get(turnstileTokenAtom)
-                    if (token) {
-                      unsub()
-                      resolve(token)
-                    }
-                  })
-                })
-                jotaiStore.set(showTurnstileAtom, false)
-              }
-
-              const token = jotaiStore.get(turnstileTokenAtom)
+              const token = await getTurnstileToken()
 
               init.headers = {
                 ...init.headers,
                 'X-Turnstile-Token': `${token}`,
               }
-              jotaiStore.set(turnstileTokenAtom, null)
-              jotaiStore.get(turnstileRefAtom)?.reset()
             }
 
             return await fetch(input, init)
