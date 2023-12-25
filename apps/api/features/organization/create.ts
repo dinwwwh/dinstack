@@ -1,5 +1,5 @@
 import { authProcedure } from '@api/core/trpc'
-import { generateFallbackLogoUrl } from '@api/utils/generate-fallback-logo-url'
+import { generateFallbackLogoUrl } from '@api/lib/utils'
 import { OrganizationMembers, Organizations, Sessions, organizationSchema } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'

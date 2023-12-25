@@ -4,7 +4,7 @@ import { findSessionForAuth } from './helpers/find-session-for-auth'
 import { getOauthUser } from './helpers/get-oauth-user'
 import { procedure } from '@api/core/trpc'
 import { oauthAccountSchema } from '@db/schema'
-import { uppercaseFirstLetter } from '@shared/utils/uppercase-first-letter'
+import { uppercaseFirstLetter } from '@shared/lib/utils'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 

@@ -3,7 +3,7 @@
 import { Skeleton } from '@ui/ui/skeleton'
 import { ViewportBlock } from '@ui/ui/viewport-block'
 import { api } from '@web/lib/api'
-import { isActivePathname } from '@web/utils/is-active-pathname'
+import { isActivePathname } from '@web/lib/utils'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 
