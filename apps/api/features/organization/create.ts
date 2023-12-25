@@ -1,4 +1,4 @@
-import { authProcedure } from '@api/trpc'
+import { authProcedure } from '@api/core/trpc'
 import { generateFallbackLogoUrl } from '@api/utils/generate-fallback-logo-url'
 import { OrganizationMembers, Organizations, Sessions, organizationSchema } from '@db/schema'
 import { TRPCError } from '@trpc/server'

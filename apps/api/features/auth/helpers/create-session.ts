@@ -1,4 +1,4 @@
-import type { Context } from '@api/context'
+import type { Context } from '@api/lib/context'
 import { Sessions } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 

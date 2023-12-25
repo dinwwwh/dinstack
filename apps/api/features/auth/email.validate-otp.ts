@@ -1,7 +1,7 @@
 import { createSession } from './helpers/create-session'
 import { createUser } from './helpers/create-user'
 import { findSessionForAuth } from './helpers/find-session-for-auth'
-import { procedure } from '@api/trpc'
+import { procedure } from '@api/core/trpc'
 import { generateFallbackAvatarUrl } from '@api/utils/generate-fallback-avatar-url'
 import { EmailOtps, emailOtpSchema } from '@db/schema'
 import { TRPCError } from '@trpc/server'

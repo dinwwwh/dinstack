@@ -1,4 +1,4 @@
-import { procedure } from '@api/trpc'
+import { procedure } from '@api/core/trpc'
 import { oauthAccountSchema } from '@db/schema'
 import { generateCodeVerifier, generateState } from 'arctic'
 import { match } from 'ts-pattern'

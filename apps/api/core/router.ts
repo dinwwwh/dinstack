@@ -1,5 +1,5 @@
-import { authRouter } from './features/auth/router'
-import { organizationRouter } from './features/organization/router'
+import { authRouter } from '../features/auth/router'
+import { organizationRouter } from '../features/organization/router'
 import { procedure, router } from './trpc'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 

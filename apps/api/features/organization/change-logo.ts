@@ -1,4 +1,4 @@
-import { authProcedure, organizationMemberMiddleware } from '@api/trpc'
+import { authProcedure, organizationMemberMiddleware } from '@api/core/trpc'
 import { Organizations } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'

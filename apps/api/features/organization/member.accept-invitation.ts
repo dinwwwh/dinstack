@@ -1,4 +1,4 @@
-import { authProcedure } from '@api/trpc'
+import { authProcedure } from '@api/core/trpc'
 import {
   OrganizationMembers,
   OrganizationsInvitations,

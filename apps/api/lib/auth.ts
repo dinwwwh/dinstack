@@ -1,4 +1,4 @@
-import type { Env } from '@api/env'
+import type { Env } from '@api/lib/env'
 import { organizationMembersRoles } from '@db/schema'
 import { GitHub, Google } from 'arctic'
 import { TimeSpan } from 'oslo'
