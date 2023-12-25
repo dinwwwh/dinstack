@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:content": "pnpm run dev",
     "preview": "next build && pnpm dlx serve@latest out",
     "typecheck": "tsc --noEmit",
     "deploy:preview": "env-cmd -f .env.preview next build && wrangler pages deploy --project-name=dinstack-web-content-preview --branch=main ./dist",
