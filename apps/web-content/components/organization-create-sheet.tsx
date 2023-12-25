@@ -1,3 +1,5 @@
+import type { ApiOutputs } from '@shared-react/lib/api'
+import { api } from '@shared-react/lib/api'
 import { Button } from '@ui/ui/button'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
@@ -10,8 +12,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@ui/ui/sheet'
-import type { ApiOutputs } from '@web-content/lib/api'
-import { api } from '@web-content/lib/api'
 import { useId, useRef } from 'react'
 
 type Props = React.ComponentPropsWithoutRef<typeof Sheet> & {

@@ -1,0 +1,16 @@
+{
+  "name": "@dinstack/shared-react",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --build && tsc-alias"
+  },
+  "devDependencies": {
+    "@dinstack/tsconfig": "workspace:^"
+  },
+  "dependencies": {
+    "@dinstack/api": "workspace:^",
+    "@trpc/react-query": "^10.44.1"
+  }
+}

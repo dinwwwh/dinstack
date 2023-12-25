@@ -1,11 +1,11 @@
 'use client'
 
 import { showTurnstileAtom, turnstileRefAtom, turnstileTokenAtom } from './turnstile'
+import { api } from '@shared-react/lib/api'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { useToast } from '@ui/ui/use-toast'
 import { sessionAtom } from '@web-content/atoms/auth'
-import { api } from '@web-content/lib/api'
 import { env } from '@web-content/lib/env'
 import { jotaiStore } from '@web-content/lib/jotai'
 import { RESET } from 'jotai/utils'

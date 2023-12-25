@@ -1,7 +1,7 @@
 'use client'
 
+import { api } from '@shared-react/lib/api'
 import { Button } from '@ui/ui/button'
-import { api } from '@web-content/lib/api'
 
 export default function Home() {
   const { status, data } = api.ping.useQuery()

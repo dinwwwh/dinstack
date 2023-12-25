@@ -1,6 +1,7 @@
 'use client'
 
 import { oauthAccountProviders } from '@db/schema'
+import { api } from '@shared-react/lib/api'
 import { useIsRendered } from '@ui/hooks/use-is-rendered'
 import {
   codeVerifierAtom,
@@ -8,7 +9,6 @@ import {
   stateAtom,
   loginRequestFromAtom,
 } from '@web-content/atoms/auth'
-import { api } from '@web-content/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'

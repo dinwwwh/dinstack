@@ -1,12 +1,12 @@
 'use client'
 
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
+import { api } from '@shared-react/lib/api'
 import { GoogleLogoColorfulIcon } from '@ui/icons/google-logo'
 import { Button } from '@ui/ui/button'
 import { GeneralError } from '@ui/ui/general-error'
 import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { codeVerifierAtom, loginRequestFromAtom, stateAtom } from '@web-content/atoms/auth'
-import { api } from '@web-content/lib/api'
 import { useAtom } from 'jotai'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { match } from 'ts-pattern'

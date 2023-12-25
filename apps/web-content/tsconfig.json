@@ -15,7 +15,8 @@
       "@shared/*": ["../../packages/shared/*"],
       "@ui/*": ["../../packages/ui/*"],
       "@ui/_/../ui/*": ["../../packages/ui/ui/*"],
-      "@db/*": ["../../packages/db/*"]
+      "@db/*": ["../../packages/db/*"],
+      "@shared-react/*": ["../../packages/shared-react/*"]
     },
     "noEmit": true
   },
@@ -33,6 +34,9 @@
     },
     {
       "path": "../../packages/db/tsconfig.json"
+    },
+    {
+      "path": "../../packages/shared-react/tsconfig.json"
     }
   ]
 }

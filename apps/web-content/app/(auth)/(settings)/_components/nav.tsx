@@ -1,8 +1,8 @@
 'use client'
 
+import { api } from '@shared-react/lib/api'
 import { Skeleton } from '@ui/ui/skeleton'
 import { ViewportBlock } from '@ui/ui/viewport-block'
-import { api } from '@web-content/lib/api'
 import { isActivePathname } from '@web-content/lib/utils'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'

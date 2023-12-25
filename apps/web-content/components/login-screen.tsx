@@ -2,6 +2,8 @@
 
 import { LogoDropdownMenu } from './logo-dropdown-menu'
 import { ArrowLeftIcon, ArrowRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
+import type { ApiOutputs } from '@shared-react/lib/api'
+import { api } from '@shared-react/lib/api'
 import { GoogleLogoIcon } from '@ui/icons/google-logo'
 import { Button } from '@ui/ui/button'
 import { DropdownMenuTrigger } from '@ui/ui/dropdown-menu'
@@ -16,8 +18,6 @@ import {
   loginRequestFromAtom,
 } from '@web-content/atoms/auth'
 import { loginWithEmailHistoryAtom } from '@web-content/atoms/history'
-import type { ApiOutputs } from '@web-content/lib/api'
-import { api } from '@web-content/lib/api'
 import { useAtom } from 'jotai'
 import { RESET } from 'jotai/utils'
 import { usePathname, useSearchParams } from 'next/navigation'

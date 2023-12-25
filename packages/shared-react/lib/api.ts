@@ -1,4 +1,6 @@
+import type * as _B from '../node_modules/@trpc/react-query/dist/createTRPCReact'
 import type { AppRouter, AppRouterInputs, AppRouterOutputs } from '@api/core/router'
+import type * as _A from '@api/node_modules/arctic/dist'
 import { createTRPCReact } from '@trpc/react-query'
 
 export const api = createTRPCReact<AppRouter>({

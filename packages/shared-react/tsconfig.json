@@ -1,0 +1,16 @@
+{
+  "extends": "@dinstack/tsconfig/react.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "paths": {
+      "@shared-react/*": ["./*"],
+      "@api/*": ["../../apps/api/*"]
+    }
+  },
+  "exclude": ["build"],
+  "references": [
+    {
+      "path": "../../apps/api/tsconfig.json"
+    }
+  ]
+}

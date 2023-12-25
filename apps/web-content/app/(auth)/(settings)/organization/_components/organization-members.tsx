@@ -2,6 +2,7 @@
 
 import { OrganizationMemberInviteSheet } from './organization-member-invite-sheet'
 import { PlusIcon } from '@radix-ui/react-icons'
+import { api } from '@shared-react/lib/api'
 import { uppercaseFirstLetter } from '@shared/lib/utils'
 import {
   AlertDialog,
@@ -20,7 +21,6 @@ import { GeneralSkeleton } from '@ui/ui/general-skeleton'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
 import { SheetTrigger } from '@ui/ui/sheet'
 import { useAuthenticatedUser } from '@web-content/hooks/use-user'
-import { api } from '@web-content/lib/api'
 import { constructPublicResourceUrl } from '@web-content/lib/utils'
 import { useSearchParams } from 'next/navigation'
 import { useRef } from 'react'

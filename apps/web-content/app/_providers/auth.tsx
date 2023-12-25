@@ -1,7 +1,7 @@
 'use client'
 
+import { api } from '@shared-react/lib/api'
 import { sessionAtom } from '@web-content/atoms/auth'
-import { api } from '@web-content/lib/api'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 
