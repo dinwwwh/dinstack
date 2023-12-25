@@ -12,7 +12,8 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
     () =>
       new QueryClient({
         queryCache: new QueryCache({
-          onError(err) {
+          onError() {
+            // TODO: handle errors
             // if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
             //   jotaiStore.set(sessionAtom, RESET)
             // }
@@ -24,6 +25,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
               const code = err.data?.code
               const message = err.message
 
+              // TODO: handle errors
               // if (code === 'UNAUTHORIZED') {
               //   jotaiStore.set(sessionAtom, RESET)
               // }
@@ -54,6 +56,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
           async headers() {
             const headers: Record<string, string> = {}
 
+            // TODO: handle auth
             // const session = jotaiStore.get(sessionAtom)
             // if (session) {
             //   headers['Authorization'] = `Bearer ${session.secretKey}`
@@ -62,7 +65,8 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             return headers
           },
           async fetch(input, init) {
-            const method = init?.method?.toUpperCase() ?? 'GET'
+            // TODO: handle turnstile
+            // const method = init?.method?.toUpperCase() ?? 'GET'
             // if (method === 'POST' && init) {
             //   if (!jotaiStore.get(turnstileTokenAtom)) {
             //     jotaiStore.set(showTurnstileAtom, true)

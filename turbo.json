@@ -8,6 +8,10 @@
     "typecheck": {
       "dependsOn": ["^build"]
     },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
     "dev:web": {
       "cache": false,
       "persistent": true

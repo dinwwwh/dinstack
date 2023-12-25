@@ -4,6 +4,7 @@
   "packageManager": "pnpm@8.6.10",
   "scripts": {
     "build": "turbo run build",
+    "dev": "turbo run dev",
     "dev:web": "turbo run dev:web",
     "dev:web-content": "turbo run dev:web-content",
     "preview": "turbo run preview",
