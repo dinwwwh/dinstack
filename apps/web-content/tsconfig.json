@@ -11,7 +11,6 @@
     ],
     "paths": {
       "@web-content/*": ["./*"],
-      "@api/*": ["../api/*"],
       "@shared/*": ["../../packages/shared/*"],
       "@ui/*": ["../../packages/ui/*"],
       "@ui/_/../ui/*": ["../../packages/ui/ui/*"],
@@ -23,9 +22,6 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules", ".next", "tailwind.config.ts"],
   "references": [
-    {
-      "path": "../api/tsconfig.json"
-    },
     {
       "path": "../../packages/shared/tsconfig.json"
     },

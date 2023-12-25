@@ -13,13 +13,19 @@
     "deploy:production": "vite build --mode=production && wrangler pages deploy --project-name=dinstack-web-production --branch=main ./dist"
   },
   "dependencies": {
-    "@dinstack/api": "workspace:^",
+    "@dinstack/shared-react": "workspace:^",
     "@dinstack/ui": "workspace:^",
+    "@tanstack/react-query": "^4.36.1",
+    "@trpc/client": "^10.44.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
+    "superjson": "^2.2.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@dinstack/tsconfig": "workspace:^",
+    "@remix-run/router": "^1.14.1",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",

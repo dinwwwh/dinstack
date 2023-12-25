@@ -3,9 +3,10 @@
   "compilerOptions": {
     "outDir": "build",
     "paths": {
-      "web/*": ["./*"],
+      "@web/*": ["./*"],
       "@ui/*": ["../../packages/ui/*"],
-      "@ui/_/../ui/*": ["../../packages/ui/ui/*"]
+      "@ui/_/../ui/*": ["../../packages/ui/ui/*"],
+      "@shared-react/*": ["../../packages/shared-react/*"]
     }
   },
   "exclude": ["vite.config.ts", "build", "dist", "tailwind.config.ts"],
@@ -14,7 +15,7 @@
       "path": "../../packages/ui/tsconfig.json"
     },
     {
-      "path": "../api/tsconfig.json"
+      "path": "../../packages/shared-react/tsconfig.json"
     }
   ]
 }

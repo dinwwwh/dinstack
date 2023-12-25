@@ -10,6 +10,7 @@ export default defineConfig({
       '@web': resolve(__dirname, './'),
       '@ui': resolve(__dirname, '../../packages/ui'),
       '@ui/_/../ui': resolve(__dirname, '../../packages/ui/ui'),
+      '@shared-react': resolve(__dirname, '../../packages/shared-react'),
     },
   },
 })

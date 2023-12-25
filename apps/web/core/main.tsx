@@ -1,10 +1,14 @@
+import { router } from './router'
 import '@ui/styles/globals.css'
-import { Button } from '@ui/ui/button'
+import { QueryProvider } from '@web/providers/query'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { RouterProvider } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Button>xin chao</Button>
+    <QueryProvider>
+      <RouterProvider router={router} />
+    </QueryProvider>
   </React.StrictMode>,
 )
