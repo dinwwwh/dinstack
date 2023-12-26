@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@web': resolve(__dirname, './'),
+      '@web-app': resolve(__dirname, './'),
       '@ui/_/..': resolve(__dirname, '../../packages/ui'),
       '@ui': resolve(__dirname, '../../packages/ui'),
       '@shared-react': resolve(__dirname, '../../packages/shared-react'),

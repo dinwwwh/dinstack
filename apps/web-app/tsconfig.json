@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "build",
     "paths": {
-      "@web/*": ["./*"],
+      "@web-app/*": ["./*"],
       "@ui/*": ["../../packages/ui/*"],
       "@ui/_/../*": ["../../packages/ui/*"],
       "@shared-react/*": ["../../packages/shared-react/*"],

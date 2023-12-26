@@ -1,5 +1,5 @@
 import type * as _A from '@remix-run/router'
-import { AuthLayout } from '@web/components/auth-layout'
+import { AuthLayout } from '@web-app/components/auth-layout'
 import { createBrowserRouter } from 'react-router-dom'
 
 export const router = createBrowserRouter([

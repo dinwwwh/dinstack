@@ -1,5 +1,5 @@
 import { TurnstileProvider as BaseProvider } from '@turnstile-react/providers/turnstile'
-import { env } from '@web/lib/env'
+import { env } from '@web-app/lib/env'
 
 export function TurnstileProvider(props: { children: React.ReactNode }) {
   // TODO: handle theme

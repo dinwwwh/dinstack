@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --concurrency 11",
-    "dev:web": "turbo run dev:web --concurrency 11",
+    "dev:web-app": "turbo run dev:web-app --concurrency 11",
     "dev:web-content": "turbo run dev:web-content --concurrency 11",
     "preview": "turbo run preview",
     "lint": "eslint --max-warnings 0 --report-unused-disable-directives . && prettier --check .",

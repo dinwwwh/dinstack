@@ -4,7 +4,7 @@ import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@ta
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { getTurnstileToken } from '@turnstile-react/lib/turnstile'
 import { useToast } from '@ui/ui/use-toast'
-import { env } from '@web/lib/env'
+import { env } from '@web-app/lib/env'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
 

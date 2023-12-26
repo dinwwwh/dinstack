@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "wrangler dev --env local --port 8000",
-    "dev:web": "pnpm run dev",
+    "dev:web-app": "pnpm run dev",
     "dev:web-content": "pnpm run dev",
     "build": "tsc --build && tsc-alias",
     "preview": "wrangler dev --env local --port 8000",
