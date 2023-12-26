@@ -5,7 +5,7 @@
     "paths": {
       "@web/*": ["./*"],
       "@ui/*": ["../../packages/ui/*"],
-      "@ui/_/../ui/*": ["../../packages/ui/ui/*"],
+      "@ui/_/../*": ["../../packages/ui/*"],
       "@shared-react/*": ["../../packages/shared-react/*"],
       "@turnstile-react/*": ["../../packages/turnstile-react/*"]
     }

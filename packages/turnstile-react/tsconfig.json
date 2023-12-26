@@ -5,7 +5,7 @@
     "paths": {
       "@turnstile-react/*": ["./*"],
       "@ui/*": ["../ui/*"],
-      "@ui/_/../ui/*": ["../ui/ui/*"]
+      "@ui/_/../*": ["../ui/*"]
     }
   },
   "exclude": ["build"],
