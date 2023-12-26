@@ -15,6 +15,7 @@ export default {
     './core/**/*.*',
     resolve(__dirname, '../ui/**/*.tsx'),
     resolve(__dirname, '../../turnstile-react/providers/**/*.tsx'),
+    resolve(__dirname, '../../auth-react/components/**/*.tsx'),
   ],
   theme: {
     container: {

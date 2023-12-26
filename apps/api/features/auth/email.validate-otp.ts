@@ -66,7 +66,11 @@ export const authEmailValidateOtpRoute = procedure
       const session = await findSessionForAuth({ ctx, sessionSecretKey })
 
       return {
-        session,
+        session: {
+          ...session,
+          user: session.organizationMember.user,
+          organization: session.organizationMember.organization,
+        },
       }
     }
 
@@ -88,6 +92,10 @@ export const authEmailValidateOtpRoute = procedure
     const session = await findSessionForAuth({ ctx, sessionSecretKey })
 
     return {
-      session,
+      session: {
+        ...session,
+        user: session.organizationMember.user,
+        organization: session.organizationMember.organization,
+      },
     }
   })

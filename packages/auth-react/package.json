@@ -15,6 +15,8 @@
     "@dinstack/shared-react": "workspace:^",
     "@dinstack/ui": "workspace:^",
     "react": "^18.2.0",
+    "react-otp-input": "^3.1.0",
+    "ts-pattern": "^5.0.6",
     "zustand": "^4.4.7"
   }
 }

@@ -3,6 +3,7 @@ import { AuthProvider } from '@auth-react/providers/auth'
 import '@ui/styles/globals.css'
 import { ScrollArea } from '@ui/ui/scroll-area'
 import { Toaster } from '@ui/ui/toaster'
+import { AuthLayout } from '@web/components/auth-layout'
 import { QueryProvider } from '@web/providers/query'
 import { TurnstileProvider } from '@web/providers/turnstile'
 import React from 'react'
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <TurnstileProvider>
         <QueryProvider>
           <AuthProvider>
-            <RouterProvider router={router} />
+            <div className="h-screen">
+              <RouterProvider router={router} />
+            </div>
 
             <Toaster />
           </AuthProvider>

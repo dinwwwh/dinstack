@@ -3,7 +3,7 @@ import { getTurnstileToken } from '@turnstile-react/lib/turnstile'
 import { Button } from '@ui/ui/button'
 import { useToast } from '@ui/ui/use-toast'
 
-export function HomePage() {
+export function Component() {
   const { toast } = useToast()
   const query = api.ping.useQuery()
   return (

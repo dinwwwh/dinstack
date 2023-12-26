@@ -10,7 +10,7 @@ mode = "smart"
 [env.local.vars]
 WORKER_ENV = "development"
 WEB_URL = "http://localhost:3000"
-GOOGLE_REDIRECT_URL = "http://localhost:3000/oauth/google/callback"
+GOOGLE_REDIRECT_URL = "http://localhost:4000/oauth/google/callback"
 TURNSTILE_SECRET_KEY = "1x0000000000000000000000000000000AA"
 
 [[env.local.r2_buckets]]

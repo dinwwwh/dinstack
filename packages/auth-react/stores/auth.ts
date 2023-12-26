@@ -12,9 +12,20 @@ export const useAuthStore = create(
           organizationMember: typeof OrganizationMembers.$inferSelect
         })
       | null
+    oauthAuthorization: {
+      redirectUrl: URL
+      codeVerifier: string
+      state: string
+    } | null
+    emailAuthorization: {
+      email: string
+      at: Date
+    } | null
   }>(
     () => ({
       session: null,
+      oauthAuthorization: null,
+      emailAuthorization: null,
     }),
     {
       version: 0,
