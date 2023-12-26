@@ -7,7 +7,8 @@
       "@ui/*": ["../../packages/ui/*"],
       "@ui/_/../*": ["../../packages/ui/*"],
       "@shared-react/*": ["../../packages/shared-react/*"],
-      "@turnstile-react/*": ["../../packages/turnstile-react/*"]
+      "@turnstile-react/*": ["../../packages/turnstile-react/*"],
+      "@auth-react/*": ["../../packages/auth-react/*"]
     }
   },
   "exclude": ["vite.config.ts", "build", "dist", "tailwind.config.ts"],
@@ -20,6 +21,9 @@
     },
     {
       "path": "../../packages/turnstile-react/tsconfig.json"
+    },
+    {
+      "path": "../../packages/auth-react/tsconfig.json"
     }
   ]
 }

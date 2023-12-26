@@ -13,7 +13,11 @@ export const authInfosRoute = authProcedure.query(async ({ ctx }) => {
   const [session, oauthAccounts] = await Promise.all([findSession, findOauthAccounts])
 
   return {
-    session,
+    session: {
+      ...session,
+      organization: session.organizationMember.organization,
+      user: session.organizationMember.user,
+    },
     oauthAccounts,
   }
 })

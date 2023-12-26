@@ -13,6 +13,7 @@
     "deploy:production": "vite build --mode=production && wrangler pages deploy --project-name=dinstack-web-production --branch=main ./dist"
   },
   "dependencies": {
+    "@dinstack/auth-react": "workspace:^",
     "@dinstack/shared-react": "workspace:^",
     "@dinstack/turnstile-react": "workspace:^",
     "@dinstack/ui": "workspace:^",

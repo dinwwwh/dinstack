@@ -1,0 +1,20 @@
+{
+  "name": "@dinstack/auth-react",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --build && tsc-alias"
+  },
+  "devDependencies": {
+    "@dinstack/tsconfig": "workspace:^",
+    "@types/react": "^18.2.43"
+  },
+  "dependencies": {
+    "@dinstack/db": "workspace:^",
+    "@dinstack/shared-react": "workspace:^",
+    "@dinstack/ui": "workspace:^",
+    "react": "^18.2.0",
+    "zustand": "^4.4.7"
+  }
+}

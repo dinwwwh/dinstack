@@ -1,4 +1,5 @@
 import { router } from './router'
+import { AuthProvider } from '@auth-react/providers/auth'
 import '@ui/styles/globals.css'
 import { ScrollArea } from '@ui/ui/scroll-area'
 import { Toaster } from '@ui/ui/toaster'
@@ -13,9 +14,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <TurnstileProvider>
         <QueryProvider>
-          <RouterProvider router={router} />
+          <AuthProvider>
+            <RouterProvider router={router} />
 
-          <Toaster />
+            <Toaster />
+          </AuthProvider>
         </QueryProvider>
       </TurnstileProvider>
     </React.StrictMode>

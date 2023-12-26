@@ -4,9 +4,9 @@
   "packageManager": "pnpm@8.6.10",
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
-    "dev:web": "turbo run dev:web",
-    "dev:web-content": "turbo run dev:web-content",
+    "dev": "turbo run dev --concurrency 11",
+    "dev:web": "turbo run dev:web --concurrency 11",
+    "dev:web-content": "turbo run dev:web-content --concurrency 11",
     "preview": "turbo run preview",
     "lint": "eslint --max-warnings 0 --report-unused-disable-directives . && prettier --check .",
     "lint:fix": "eslint --fix --max-warnings 0 --report-unused-disable-directives . && prettier --write .",
@@ -17,17 +17,17 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@typescript-eslint/eslint-plugin": "^6.13.1",
-    "@typescript-eslint/parser": "^6.13.1",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0",
     "env-cmd": "^10.1.0",
-    "eslint": "^8.55.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^3.1.0",
+    "prettier": "^3.1.1",
     "tsc-alias": "^1.8.8",
-    "turbo": "^1.10.16",
-    "typescript": "^5.3.2",
-    "wrangler": "^3.18.0"
+    "turbo": "^1.11.2",
+    "typescript": "^5.3.3",
+    "wrangler": "^3.22.1"
   }
 }

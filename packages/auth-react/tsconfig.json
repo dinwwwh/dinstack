@@ -1,0 +1,25 @@
+{
+  "extends": "@dinstack/tsconfig/react.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "paths": {
+      "@auth-react/*": ["./*"],
+      "@shared-react/*": ["../shared-react/*"],
+      "@db/*": ["../db/*"],
+      "@ui/*": ["../ui/*"],
+      "@ui/_/../*": ["../ui/*"]
+    }
+  },
+  "exclude": ["build"],
+  "references": [
+    {
+      "path": "../shared-react/tsconfig.json"
+    },
+    {
+      "path": "../db/tsconfig.json"
+    },
+    {
+      "path": "../ui/tsconfig.json"
+    }
+  ]
+}
