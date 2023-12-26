@@ -11,6 +11,7 @@ export default defineConfig({
       '@ui': resolve(__dirname, '../../packages/ui'),
       '@ui/_/../ui': resolve(__dirname, '../../packages/ui/ui'),
       '@shared-react': resolve(__dirname, '../../packages/shared-react'),
+      '@turnstile-react': resolve(__dirname, '../../packages/turnstile-react'),
     },
   },
 })

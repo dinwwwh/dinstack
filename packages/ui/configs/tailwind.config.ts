@@ -13,8 +13,8 @@ export default {
     './stores/**/*.*',
     './lib/**/*.*',
     './core/**/*.*',
-    resolve(__dirname, '../ui/**/*.*'),
-    resolve(__dirname, '../turnstile/**/*.*'),
+    resolve(__dirname, '../ui/**/*.tsx'),
+    resolve(__dirname, '../../turnstile-react/providers/**/*.tsx'),
   ],
   theme: {
     container: {

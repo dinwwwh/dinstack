@@ -99,6 +99,9 @@ importers:
       '@dinstack/shared-react':
         specifier: workspace:^
         version: link:../../packages/shared-react
+      '@dinstack/turnstile-react':
+        specifier: workspace:^
+        version: link:../../packages/turnstile-react
       '@dinstack/ui':
         specifier: workspace:^
         version: link:../../packages/ui

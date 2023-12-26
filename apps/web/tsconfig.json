@@ -6,7 +6,8 @@
       "@web/*": ["./*"],
       "@ui/*": ["../../packages/ui/*"],
       "@ui/_/../ui/*": ["../../packages/ui/ui/*"],
-      "@shared-react/*": ["../../packages/shared-react/*"]
+      "@shared-react/*": ["../../packages/shared-react/*"],
+      "@turnstile-react/*": ["../../packages/turnstile-react/*"]
     }
   },
   "exclude": ["vite.config.ts", "build", "dist", "tailwind.config.ts"],
@@ -16,6 +17,9 @@
     },
     {
       "path": "../../packages/shared-react/tsconfig.json"
+    },
+    {
+      "path": "../../packages/turnstile-react/tsconfig.json"
     }
   ]
 }

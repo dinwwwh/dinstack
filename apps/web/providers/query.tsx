@@ -1,6 +1,7 @@
 import { api } from '@shared-react/lib/api'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
+import { getTurnstileToken } from '@turnstile-react/lib/turnstile'
 import { useToast } from '@ui/ui/use-toast'
 import { env } from '@web/lib/env'
 import { useState } from 'react'
@@ -65,32 +66,15 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             return headers
           },
           async fetch(input, init) {
-            // TODO: handle turnstile
-            // const method = init?.method?.toUpperCase() ?? 'GET'
-            // if (method === 'POST' && init) {
-            //   if (!jotaiStore.get(turnstileTokenAtom)) {
-            //     jotaiStore.set(showTurnstileAtom, true)
-            //     await new Promise((resolve) => {
-            //       const unsub = jotaiStore.sub(turnstileTokenAtom, () => {
-            //         const token = jotaiStore.get(turnstileTokenAtom)
-            //         if (token) {
-            //           unsub()
-            //           resolve(token)
-            //         }
-            //       })
-            //     })
-            //     jotaiStore.set(showTurnstileAtom, false)
-            //   }
+            const method = init?.method?.toUpperCase() ?? 'GET'
+            if (method === 'POST' && init) {
+              const token = await getTurnstileToken()
 
-            //   const token = jotaiStore.get(turnstileTokenAtom)
-
-            //   init.headers = {
-            //     ...init.headers,
-            //     'X-Turnstile-Token': `${token}`,
-            //   }
-            //   jotaiStore.set(turnstileTokenAtom, null)
-            //   jotaiStore.get(turnstileRefAtom)?.reset()
-            // }
+              init.headers = {
+                ...init.headers,
+                'X-Turnstile-Token': `${token}`,
+              }
+            }
 
             return await fetch(input, init)
           },

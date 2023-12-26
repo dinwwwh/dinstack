@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@dinstack/shared-react": "workspace:^",
+    "@dinstack/turnstile-react": "workspace:^",
     "@dinstack/ui": "workspace:^",
     "@tanstack/react-query": "^4.36.1",
     "@trpc/client": "^10.44.1",
