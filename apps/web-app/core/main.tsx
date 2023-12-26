@@ -3,27 +3,30 @@ import { AuthProvider } from '@auth-react/providers/auth'
 import '@ui/styles/globals.css'
 import { ScrollArea } from '@ui/ui/scroll-area'
 import { Toaster } from '@ui/ui/toaster'
-import { AuthLayout } from '@web-app/components/auth-layout'
+import { AuthLayout } from '@web-app/layouts/auth-layout'
 import { QueryProvider } from '@web-app/providers/query'
+import { ThemeProvider } from '@web-app/providers/theme'
 import { TurnstileProvider } from '@web-app/providers/turnstile'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <ScrollArea className="h-screen">
-    <React.StrictMode>
-      <TurnstileProvider>
-        <QueryProvider>
-          <AuthProvider>
-            <div className="h-screen">
-              <RouterProvider router={router} />
-            </div>
+  <React.StrictMode>
+    <ThemeProvider>
+      <ScrollArea className="h-screen">
+        <TurnstileProvider>
+          <QueryProvider>
+            <AuthProvider>
+              <div className="h-screen">
+                <RouterProvider router={router} />
+              </div>
 
-            <Toaster />
-          </AuthProvider>
-        </QueryProvider>
-      </TurnstileProvider>
-    </React.StrictMode>
-  </ScrollArea>,
+              <Toaster />
+            </AuthProvider>
+          </QueryProvider>
+        </TurnstileProvider>
+      </ScrollArea>
+    </ThemeProvider>
+  </React.StrictMode>,
 )

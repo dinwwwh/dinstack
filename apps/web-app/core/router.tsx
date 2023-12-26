@@ -1,5 +1,6 @@
 import type * as _A from '@remix-run/router'
-import { AuthLayout } from '@web-app/components/auth-layout'
+import { AuthLayout } from '@web-app/layouts/auth-layout'
+import { WithSidebar } from '@web-app/layouts/with-sidebar'
 import { createBrowserRouter } from 'react-router-dom'
 
 export const router = createBrowserRouter([
@@ -7,8 +8,13 @@ export const router = createBrowserRouter([
     Component: () => <AuthLayout />,
     children: [
       {
-        path: '/',
-        lazy: () => import('../pages/home'),
+        Component: () => <WithSidebar />,
+        children: [
+          {
+            path: '/',
+            lazy: () => import('../pages/home'),
+          },
+        ],
       },
     ],
   },

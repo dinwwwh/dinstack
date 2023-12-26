@@ -8,7 +8,9 @@ export const useAuthStore = create(
     session:
       | (typeof Sessions.$inferSelect & {
           user: typeof Users.$inferSelect
-          organization: typeof Organizations.$inferSelect
+          organization: typeof Organizations.$inferSelect & {
+            members: (typeof OrganizationMembers.$inferSelect)[]
+          }
           organizationMember: typeof OrganizationMembers.$inferSelect
         })
       | null
@@ -34,3 +36,16 @@ export const useAuthStore = create(
     },
   ),
 )
+
+export function useAuthedStore() {
+  const auth = useAuthStore()
+  const session = auth.session
+  if (!session) {
+    throw new Error('Requires user to be logged in')
+  }
+
+  return {
+    ...auth,
+    session,
+  }
+}
