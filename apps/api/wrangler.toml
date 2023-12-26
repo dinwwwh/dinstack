@@ -7,12 +7,6 @@ mode = "smart"
 
 # ------------------------------------------------------------------------------------------------------------
 
-[env.local.vars]
-WORKER_ENV = "development"
-WEB_URL = "http://localhost:3000"
-GOOGLE_REDIRECT_URL = "http://localhost:4000/oauth/google/callback"
-TURNSTILE_SECRET_KEY = "1x0000000000000000000000000000000AA"
-
 [[env.local.r2_buckets]]
 binding = 'PUBLIC_BUCKET'
 bucket_name = 'dinstack-public-local'
@@ -22,11 +16,6 @@ bucket_name = 'dinstack-public-local'
 # [env.preview.route]
 # pattern = "preview.api.example.com"
 # custom_domain = true
-
-[env.preview.vars]
-WORKER_ENV = "development"
-WEB_URL = "https://preview.example.com"
-GOOGLE_REDIRECT_URL = "https://preview.example.com/oauth/google/callback"
 
 [[env.preview.r2_buckets]]
 binding = 'PUBLIC_BUCKET'
@@ -40,11 +29,6 @@ logpush = true
 # [env.production.route]
 # pattern = "api.example.com"
 # custom_domain = true
-
-[env.production.vars]
-WORKER_ENV = "production"
-WEB_URL = "https://example.com"
-GOOGLE_REDIRECT_URL = "https://example.com/oauth/google/callback"
 
 [[env.production.r2_buckets]]
 binding = 'PUBLIC_BUCKET'

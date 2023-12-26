@@ -66,8 +66,8 @@ export const organizationMemberInviteRoute = authProcedure
     ctx.ec.waitUntil(
       (async () => {
         const invitationAcceptUrl = new URL(
-          `/invitation-accept?secret-key=${invitation.secretKey}`,
-          ctx.env.WEB_URL,
+          `invitation-accept?secret-key=${invitation.secretKey}`,
+          ctx.env.WEB_APP_BASE_URL,
         )
         const { subject, html } = generateOrganizationInvitationEmail({
           inviterName: user.name,
