@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuthStore } from '@auth-react/stores/auth'
-import { ArrowLeftIcon, ArrowRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons'
+import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import type { ApiOutputs } from '@shared-react/lib/api'
 import { api } from '@shared-react/lib/api'
 import { GoogleLogoIcon } from '@ui/icons/google-logo'
@@ -9,6 +9,7 @@ import { Button } from '@ui/ui/button'
 import { Input } from '@ui/ui/input'
 import { Label } from '@ui/ui/label'
 import { MutationStatusIcon } from '@ui/ui/mutation-status-icon'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useEffect, useId, useState } from 'react'
 import OTPInput from 'react-otp-input'
 import { match } from 'ts-pattern'
@@ -92,9 +93,7 @@ function SendOtpForm(props: { onSuccess?: ({ email }: { email: string }) => void
   return (
     <form
       className="space-y-4"
-      onSubmit={(e) => {
-        e.preventDefault()
-
+      onSubmit={() => {
         mutation.mutate({ email })
       }}
     >
@@ -116,7 +115,7 @@ function SendOtpForm(props: { onSuccess?: ({ email }: { email: string }) => void
         <Button className="w-full gap-2" disabled={mutation.isLoading}>
           Continue
           <MutationStatusIcon status={mutation.status}>
-            <ArrowRightIcon className="w-4 h-4 " />
+            <ArrowRight strokeWidth={1.5} className="w-4 h-4" />
           </MutationStatusIcon>
         </Button>
       </div>
@@ -168,12 +167,12 @@ function ValidateOtpForm(props: {
           onClick={() => props.onBack?.()}
           className="w-full"
         >
-          <ArrowLeftIcon className="w-4 h-4 mr-2" /> Back
+          <ArrowLeft strokeWidth={1.5} className="w-4 h-4 mr-2" /> Back
         </Button>
         <Button className="w-full gap-2" disabled={mutation.isLoading}>
           Continue
           <MutationStatusIcon status={mutation.status}>
-            <ArrowRightIcon className="w-4 h-4" />
+            <ArrowRight strokeWidth={1.5} className="w-4 h-4" />
           </MutationStatusIcon>
         </Button>
       </div>
@@ -182,7 +181,7 @@ function ValidateOtpForm(props: {
         <Button
           disabled={sendOtpMutation.isLoading}
           variant="ghost"
-          className="w-full text-muted-foreground"
+          className="w-full text-muted-foreground gap-2"
           type="button"
           onClick={() => {
             sendOtpMutation.mutate({ email: props.email })
