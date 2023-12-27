@@ -3,6 +3,7 @@ import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { useToast } from '@web/components/ui/use-toast'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
+import { getTurnstileToken } from '@web/lib/turnstile'
 import { useAuthStore } from '@web/stores/auth'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
@@ -53,31 +54,15 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             return headers
           },
           async fetch(input, init) {
-            // const method = init?.method?.toUpperCase() ?? 'GET'
-            // if (method === 'POST' && init) {
-            //   if (!jotaiStore.get(turnstileTokenAtom)) {
-            //     jotaiStore.set(showTurnstileAtom, true)
-            //     await new Promise((resolve) => {
-            //       const unsub = jotaiStore.sub(turnstileTokenAtom, () => {
-            //         const token = jotaiStore.get(turnstileTokenAtom)
-            //         if (token) {
-            //           unsub()
-            //           resolve(token)
-            //         }
-            //       })
-            //     })
-            //     jotaiStore.set(showTurnstileAtom, false)
-            //   }
+            const method = init?.method?.toUpperCase() ?? 'GET'
+            if (method === 'POST' && init) {
+              const token = await getTurnstileToken()
 
-            //   const token = jotaiStore.get(turnstileTokenAtom)
-
-            //   init.headers = {
-            //     ...init.headers,
-            //     'X-Turnstile-Token': `${token}`,
-            //   }
-            //   jotaiStore.set(turnstileTokenAtom, null)
-            //   jotaiStore.get(turnstileRefAtom)?.reset()
-            // }
+              init.headers = {
+                ...init.headers,
+                'X-Turnstile-Token': `${token}`,
+              }
+            }
 
             return await fetch(input, init)
           },
