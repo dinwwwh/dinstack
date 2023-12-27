@@ -6,6 +6,7 @@ import { ScrollArea } from '@ui/ui/scroll-area'
 import { Sheet, SheetContent, SheetTrigger } from '@ui/ui/sheet'
 import { Skeleton } from '@ui/ui/skeleton'
 import { Navbar } from '@web-app/components/sidebar'
+import { useSystemStore } from '@web-app/stores/system'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
@@ -46,7 +47,7 @@ function SmallScreenNavbar() {
 }
 
 function LargeScreenNavbar() {
-  const [sidebarSize, setSidebarSize] = useState<'default' | 'icon'>('default')
+  const sidebarSize = useSystemStore().sidebarSize
 
   return (
     <div className="h-full p-4 pb-6 relative z-10 hidden md:block bg-border/10 border-r  border-border/50">
@@ -66,7 +67,7 @@ function LargeScreenNavbar() {
               variant={'outline'}
               size={'icon'}
               className="h-6 w-6 bg-background"
-              onClick={() => setSidebarSize('icon')}
+              onClick={() => useSystemStore.setState({ sidebarSize: 'icon' })}
             >
               <CaretLeftIcon className="h-4 w-4" />
             </Button>
@@ -77,7 +78,7 @@ function LargeScreenNavbar() {
               variant={'outline'}
               size={'icon'}
               className="h-6 w-6 bg-background"
-              onClick={() => setSidebarSize('default')}
+              onClick={() => useSystemStore.setState({ sidebarSize: 'default' })}
             >
               <CaretRightIcon className="h-4 w-4" />
             </Button>
