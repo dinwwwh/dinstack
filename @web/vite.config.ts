@@ -8,9 +8,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@web': resolve(__dirname, './'),
-      '@ui': resolve(__dirname, '../../packages/ui'),
-      '@ui/_/../ui': resolve(__dirname, '../../packages/ui/ui'),
-      '@shared-react': resolve(__dirname, '../../packages/shared-react'),
     },
   },
 })

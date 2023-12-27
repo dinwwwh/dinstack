@@ -50,7 +50,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
       transformer: SuperJSON,
       links: [
         httpBatchLink({
-          url: new URL('/trpc', env.API_TRPC_BASE_URL).toString(),
+          url: env.API_TRPC_BASE_URL,
           async headers() {
             const headers: Record<string, string> = {}
 
@@ -62,7 +62,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             return headers
           },
           async fetch(input, init) {
-            const method = init?.method?.toUpperCase() ?? 'GET'
+            // const method = init?.method?.toUpperCase() ?? 'GET'
             // if (method === 'POST' && init) {
             //   if (!jotaiStore.get(turnstileTokenAtom)) {
             //     jotaiStore.set(showTurnstileAtom, true)

@@ -1,6 +1,5 @@
 import './global.css'
 import { router } from './router'
-import '@ui/styles/globals.css'
 import { Toaster } from '@web/components/ui/toaster'
 import { QueryProvider } from '@web/providers/query'
 import React from 'react'
