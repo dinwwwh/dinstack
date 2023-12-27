@@ -1,6 +1,5 @@
 import { createSession } from './helpers/create-session'
 import { createUser } from './helpers/create-user'
-import { findSessionForAuth } from './helpers/find-session-for-auth'
 import { procedure } from '@api/core/trpc'
 import { EmailOtps, emailOtpSchema } from '@api/database/schema'
 import { generateFallbackAvatarUrl } from '@api/lib/utils'
@@ -61,17 +60,20 @@ export const authEmailValidateOtpRoute = procedure
         })
       }
 
-      const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
-
-      const session = await findSessionForAuth({ ctx, sessionSecretKey })
+      const session = await createSession({ ctx, organizationMember })
 
       return {
-        session,
+        session: {
+          ...session,
+          user: existingUser,
+          organization: organizationMember.organization,
+          organizationMember,
+        },
       }
     }
 
     const userName = input.email.split('@')[0] || 'Unknown'
-    const { organizationMember } = await createUser({
+    const { organizationMember, user, organization } = await createUser({
       db: ctx.db,
       user: {
         avatarUrl: generateFallbackAvatarUrl({
@@ -83,11 +85,14 @@ export const authEmailValidateOtpRoute = procedure
       },
     })
 
-    const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
-
-    const session = await findSessionForAuth({ ctx, sessionSecretKey })
+    const session = await createSession({ ctx, organizationMember })
 
     return {
-      session,
+      session: {
+        ...session,
+        user,
+        organization,
+        organizationMember,
+      },
     }
   })

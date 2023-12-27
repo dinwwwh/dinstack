@@ -1,6 +1,5 @@
 import { createSession } from './helpers/create-session'
 import { createUser } from './helpers/create-user'
-import { findSessionForAuth } from './helpers/find-session-for-auth'
 import { getOauthUser } from './helpers/get-oauth-user'
 import { procedure } from '@api/core/trpc'
 import { oauthAccountSchema } from '@api/database/schema'
@@ -27,6 +26,7 @@ export const authOauthLoginRoute = procedure
       with: {
         organizationMembers: {
           with: {
+            user: true,
             organization: true,
           },
           limit: 1,
@@ -46,12 +46,15 @@ export const authOauthLoginRoute = procedure
         })
       }
 
-      const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
-
-      const session = await findSessionForAuth({ ctx, sessionSecretKey })
+      const session = await createSession({ ctx, organizationMember })
 
       return {
-        session,
+        session: {
+          ...session,
+          user: organizationMember.user,
+          organization: organizationMember.organization,
+          organizationMember,
+        },
       }
     }
 
@@ -70,7 +73,7 @@ export const authOauthLoginRoute = procedure
       })
     }
 
-    const { organizationMember } = await createUser({
+    const { organizationMember, user, organization } = await createUser({
       db: ctx.db,
       user: {
         name: oauthUser.name,
@@ -84,11 +87,14 @@ export const authOauthLoginRoute = procedure
       },
     })
 
-    const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
-
-    const session = await findSessionForAuth({ ctx, sessionSecretKey })
+    const session = await createSession({ ctx, organizationMember })
 
     return {
-      session,
+      session: {
+        ...session,
+        user,
+        organization,
+        organizationMember,
+      },
     }
   })

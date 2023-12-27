@@ -6,6 +6,7 @@ const config = {
   darkMode: ['class'],
   content: [
     resolve(__dirname, './components/**/*.{js,ts,jsx,tsx}'),
+    resolve(__dirname, './layouts/**/*.{js,ts,jsx,tsx}'),
     resolve(__dirname, './core/**/*.{js,ts,jsx,tsx}'),
     resolve(__dirname, './lib/**/*.{js,ts,jsx,tsx}'),
     resolve(__dirname, './pages/**/*.{js,ts,jsx,tsx}'),

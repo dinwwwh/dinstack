@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@web': resolve(__dirname, './'),
+      '@api': resolve(__dirname, '../@api'),
     },
   },
 })

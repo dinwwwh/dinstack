@@ -3,6 +3,7 @@ import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { useToast } from '@web/components/ui/use-toast'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
+import { useAuthStore } from '@web/stores/auth'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
 
@@ -11,22 +12,12 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
-        queryCache: new QueryCache({
-          onError() {
-            // if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
-            //   jotaiStore.set(sessionAtom, RESET)
-            // }
-          },
-        }),
+        queryCache: new QueryCache(),
         mutationCache: new MutationCache({
           onError(err) {
             if (err instanceof TRPCClientError) {
               const code = err.data?.code
               const message = err.message
-
-              // if (code === 'UNAUTHORIZED') {
-              //   jotaiStore.set(sessionAtom, RESET)
-              // }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
                 toast({
@@ -54,10 +45,10 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
           async headers() {
             const headers: Record<string, string> = {}
 
-            // const session = jotaiStore.get(sessionAtom)
-            // if (session) {
-            //   headers['Authorization'] = `Bearer ${session.secretKey}`
-            // }
+            const session = useAuthStore.getState().session
+            if (session) {
+              headers['Authorization'] = `Bearer ${session.secretKey}`
+            }
 
             return headers
           },
