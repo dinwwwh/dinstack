@@ -1,4 +1,4 @@
-import { OrganizationMembers, Organizations, Sessions, Users } from '@db/schema'
+import type { OrganizationMembers, Organizations, Sessions, Users } from '@db/schema'
 import { createSuperJSONStorage } from '@shared-react/lib/zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'

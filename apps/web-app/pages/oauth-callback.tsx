@@ -1,8 +1,8 @@
 import { oauthAccountSchema } from '../../../packages/db/schema'
 import { OauthCallbackHandler } from '@auth-react/components/oauth-callback-handler'
 import { useAuthStore } from '@auth-react/stores/auth'
-import { Loader, Loader2 } from 'lucide-react'
-import { redirect, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Loader2 } from 'lucide-react'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
 export function Component() {

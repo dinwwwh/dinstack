@@ -1,5 +1,5 @@
 import { useAuthStore } from '@auth-react/stores/auth'
-import { OauthAccounts } from '@db/schema'
+import type { OauthAccounts } from '@db/schema'
 import { useEffectOnce } from '@shared-react/hooks/use-effect-once'
 import { api } from '@shared-react/lib/api'
 import { match } from 'ts-pattern'
