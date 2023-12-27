@@ -51,8 +51,8 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0
       '@trpc/server':
-        specifier: ^10.44.1
-        version: 10.44.1
+        specifier: ^10.45.0
+        version: 10.45.0
       arctic:
         specifier: ^0.3.6
         version: 0.3.6
@@ -108,6 +108,9 @@ importers:
 
   '@web':
     dependencies:
+      '@dinstack/api':
+        specifier: workspace:^
+        version: link:../@api
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.2.45)(react@18.2.0)
@@ -121,7 +124,7 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1
       '@trpc/client':
-        specifier: ^10.44.1
+        specifier: ^10.45.0
         version: 10.45.0(@trpc/server@10.45.0)
       '@trpc/react-query':
         specifier: ^10.45.0
@@ -2005,11 +2008,6 @@ packages:
       '@trpc/server': 10.45.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /@trpc/server@10.44.1:
-    resolution: {integrity: sha512-mF7B+K6LjuboX8I1RZgKE5GA/fJhsJ8tKGK2UBt3Bwik7hepEPb4NJgNr7vO6BK5IYwPdBLRLTctRw6XZx0sRg==}
-    engines: {node: '>=18.0.0'}
     dev: false
 
   /@trpc/server@10.45.0:

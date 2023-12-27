@@ -14,11 +14,12 @@
     "deploy:production": "vite build --mode=production && wrangler pages deploy --project-name=dinstack-web-production --branch=main ./dist"
   },
   "dependencies": {
+    "@dinstack/api": "workspace:^",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@tanstack/react-query": "^4.36.1",
     "@total-typescript/ts-reset": "^0.5.1",
-    "@trpc/client": "^10.44.1",
+    "@trpc/client": "^10.45.0",
     "@trpc/react-query": "^10.45.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
