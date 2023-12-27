@@ -1,0 +1,47 @@
+{
+  "name": "web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 4000",
+    "dev:web": "pnpm run dev",
+    "build": "tsc --build && tsc-alias",
+    "ui:add": "pnpm dlx shadcn-ui@latest add -y",
+    "preview": "vite build && vite preview --port 4000",
+    "typecheck": "tsc --noEmit",
+    "deploy:preview": "vite build --mode=preview && wrangler pages deploy --project-name=dinstack-web-preview --branch=main ./dist",
+    "deploy:production": "vite build --mode=production && wrangler pages deploy --project-name=dinstack-web-production --branch=main ./dist"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
+    "@tanstack/react-query": "^4.36.1",
+    "@total-typescript/ts-reset": "^0.5.1",
+    "@trpc/client": "^10.44.1",
+    "@trpc/react-query": "^10.45.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "lucide-react": "^0.302.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
+    "superjson": "^2.2.1",
+    "tailwind-merge": "^2.2.0",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@remix-run/router": "^1.14.1",
+    "@types/node": "20.10.1",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.8"
+  }
+}
