@@ -17,7 +17,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "allowJs": true,
     "paths": {
       "@web/*": ["./*"],
       "@api/*": ["../@api/*"]
@@ -26,7 +25,7 @@
     "strict": true,
     "noUncheckedIndexedAccess": true
   },
-  "exclude": ["build", "vite.config.ts", "dist", "tailwind.config.ts"],
+  "exclude": ["build", "vite.config.ts", "dist", "tailwind.config.ts", "postcss.config.ts"],
   "references": [
     {
       "path": "../@api/tsconfig.json"
