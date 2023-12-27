@@ -221,7 +221,7 @@ function LoginWithGoogleButton() {
       }
     >
       <MutationStatusIcon status={authGoogle.status}>
-        <GoogleLogoIcon className="w-[18px] h-[18px]" />
+        <GoogleLogoIcon className="w-4 h-4" />
       </MutationStatusIcon>
       <span className="text-sm font-semibold leading-6">Google</span>
     </Button>
@@ -255,7 +255,7 @@ function LoginWithGithubButton() {
       }
     >
       <MutationStatusIcon status={authGithub.status}>
-        <GithubIcon className="w-4 h-4" />
+        <GithubIcon strokeWidth={1.5} className="w-4 h-4" />
       </MutationStatusIcon>
       <span className="text-sm font-semibold leading-6">Github</span>
     </Button>
