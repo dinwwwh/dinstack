@@ -2,6 +2,7 @@
 
 import { CaretLeftIcon, CaretRightIcon, HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { Button } from '@ui/ui/button'
+import { ScrollArea } from '@ui/ui/scroll-area'
 import { Sheet, SheetContent, SheetTrigger } from '@ui/ui/sheet'
 import { Skeleton } from '@ui/ui/skeleton'
 import { Navbar } from '@web-app/components/sidebar'
@@ -15,9 +16,9 @@ export function WithSidebar() {
     <div className="md:h-full md:flex">
       <SmallScreenNavbar />
       <LargeScreenNavbar />
-      <div className="md:flex-1 md:h-full">
+      <ScrollArea className="md:flex-1 md:h-full">
         <Outlet />
-      </div>
+      </ScrollArea>
     </div>
   )
 }

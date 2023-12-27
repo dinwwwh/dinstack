@@ -6,15 +6,9 @@ export function Component() {
   const { toast } = useToast()
   const query = api.ping.useQuery()
   return (
-    <Button
-      onClick={async () => {
-        toast({
-          title: 'Hello',
-          description: 'World',
-        })
-      }}
-    >
-      {JSON.stringify(query.data)}
-    </Button>
+    <>
+      <div className="h-screen"></div>
+      <div className="h-screen bg-red-200"></div>
+    </>
   )
 }
