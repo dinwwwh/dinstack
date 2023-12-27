@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build": "tsc --build && tsc-alias",
     "typecheck": "tsc --noEmit",
     "db:migration": "drizzle-kit generate:pg",
     "db:migrate:local": "env-cmd -f .env.local tsx scripts/migrate.ts",

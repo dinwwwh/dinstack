@@ -278,6 +278,9 @@ importers:
       '@dinstack/db':
         specifier: workspace:^
         version: link:../db
+      '@dinstack/shared':
+        specifier: workspace:^
+        version: link:../shared
       '@dinstack/shared-react':
         specifier: workspace:^
         version: link:../shared-react

@@ -10,6 +10,6 @@ if (!process.env.DATABASE_URL) {
 const sql = postgres(process.env.DATABASE_URL, { max: 1, ssl: true })
 const db = drizzle(sql)
 
-migrate(db, { migrationsFolder: resolve(__dirname, '../database/migrations') }).then(() => {
+migrate(db, { migrationsFolder: resolve(__dirname, '../migrations') }).then(() => {
   sql.end()
 })

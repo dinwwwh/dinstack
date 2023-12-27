@@ -208,7 +208,7 @@ function OrganizationListItem(props: {
         <DropdownMenuPortal>
           <DropdownMenuSubContent>
             <DropdownMenuItem asChild>
-              <Link to={`/organization?id=${props.organization.id}`}>Settings</Link>
+              <Link to={`/organizations/${props.organization.id}`}>Settings</Link>
             </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuPortal>

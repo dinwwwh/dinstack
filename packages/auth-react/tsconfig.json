@@ -4,6 +4,7 @@
     "outDir": "build",
     "paths": {
       "@auth-react/*": ["./*"],
+      "@shared/*": ["../shared/*"],
       "@shared-react/*": ["../shared-react/*"],
       "@db/*": ["../db/*"],
       "@ui/*": ["../ui/*"],
@@ -12,6 +13,9 @@
   },
   "exclude": ["build"],
   "references": [
+    {
+      "path": "../shared/tsconfig.json"
+    },
     {
       "path": "../shared-react/tsconfig.json"
     },

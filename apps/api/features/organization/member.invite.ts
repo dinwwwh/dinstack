@@ -1,6 +1,6 @@
 import { authProcedure, organizationAdminMiddleware } from '@api/core/trpc'
 import { generateOrganizationInvitationEmail } from '@api/emails/organization-invitation'
-import { OrganizationsInvitations, organizationInvitationSchema } from '@db/schema'
+import { OrganizationInvitations, organizationInvitationSchema } from '@db/schema'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
@@ -15,7 +15,7 @@ export const organizationMemberInviteRoute = authProcedure
   .use(organizationAdminMiddleware)
   .mutation(async ({ ctx, input }) => {
     const createInvitation = ctx.db
-      .insert(OrganizationsInvitations)
+      .insert(OrganizationInvitations)
       .values({
         organizationId: input.organizationId,
         email: input.email,
@@ -23,7 +23,7 @@ export const organizationMemberInviteRoute = authProcedure
         expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
       })
       .onConflictDoUpdate({
-        target: [OrganizationsInvitations.organizationId, OrganizationsInvitations.email],
+        target: [OrganizationInvitations.organizationId, OrganizationInvitations.email],
         set: {
           role: input.role,
           expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),

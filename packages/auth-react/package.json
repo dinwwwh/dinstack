@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@dinstack/db": "workspace:^",
+    "@dinstack/shared": "workspace:^",
     "@dinstack/shared-react": "workspace:^",
     "@dinstack/ui": "workspace:^",
     "browser-image-compression": "^2.0.2",

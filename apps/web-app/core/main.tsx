@@ -20,12 +20,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <div className="h-screen">
                 <RouterProvider router={router} />
               </div>
-
-              <Toaster />
             </AuthProvider>
           </QueryProvider>
         </TurnstileProvider>
       </ScrollArea>
     </ThemeProvider>
+
+    <Toaster />
   </React.StrictMode>,
 )
