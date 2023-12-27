@@ -284,6 +284,12 @@ importers:
       '@dinstack/ui':
         specifier: workspace:^
         version: link:../ui
+      browser-image-compression:
+        specifier: ^2.0.2
+        version: 2.0.2
+      js-base64:
+        specifier: ^3.7.5
+        version: 3.7.5
       lucide-react:
         specifier: ^0.301.0
         version: 0.301.0(react@18.2.0)
@@ -296,6 +302,9 @@ importers:
       ts-pattern:
         specifier: ^5.0.6
         version: 5.0.6
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
       zustand:
         specifier: ^4.4.7
         version: 4.4.7(@types/react@18.2.43)(react@18.2.0)
