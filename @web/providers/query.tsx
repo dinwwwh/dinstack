@@ -12,7 +12,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
     () =>
       new QueryClient({
         queryCache: new QueryCache({
-          onError(err) {
+          onError() {
             // if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
             //   jotaiStore.set(sessionAtom, RESET)
             // }
