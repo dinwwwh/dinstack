@@ -1,6 +1,6 @@
+import { procedure } from '@api/core/trpc'
 import { EmailOtps, emailOtpSchema } from '@api/database/schema'
 import { generateLoginEmail } from '@api/emails/login'
-import { procedure } from '@api/trpc'
 import { alphabet, generateRandomString } from 'oslo/random'
 import { z } from 'zod'
 

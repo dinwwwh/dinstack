@@ -1,9 +1,8 @@
 {
   "editor.formatOnSave": true,
-  "prettier.documentSelectors": ["**/*.astro"],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.organizeImports": false
+    "source.fixAll.eslint": "never",
+    "source.organizeImports": "never"
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "files.associations": {

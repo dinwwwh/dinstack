@@ -7,9 +7,9 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import { createContext } from './context'
-import { envSchema } from './env'
 import { appRouter } from './router'
+import { createContext } from '@api/lib/context'
+import { envSchema } from '@api/lib/env'
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 
 export default {

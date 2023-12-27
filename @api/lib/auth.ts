@@ -1,5 +1,5 @@
 import { organizationMembersRoles } from '@api/database/schema'
-import type { Env } from '@api/env'
+import type { Env } from '@api/lib/env'
 import { GitHub, Google } from 'arctic'
 import { TimeSpan } from 'oslo'
 import { createJWT, validateJWT } from 'oslo/jwt'

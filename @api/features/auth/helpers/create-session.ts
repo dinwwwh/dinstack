@@ -1,5 +1,5 @@
-import type { Context } from '@api/context'
 import { Sessions } from '@api/database/schema'
+import type { Context } from '@api/lib/context'
 import { TRPCError } from '@trpc/server'
 
 export async function createSession({

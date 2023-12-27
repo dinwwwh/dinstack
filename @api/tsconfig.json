@@ -1,16 +1,31 @@
 {
-  "extends": "@dinstack/tsconfig/worker.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "composite": true,
+    "declarationMap": true,
+    "target": "es2021",
+    "useDefineForClassFields": true,
+    "lib": ["es2021"],
+    "types": ["@total-typescript/ts-reset", "@cloudflare/workers-types", "@types/node"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "incremental": true,
+
     "outDir": "build",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "allowJs": true,
     "paths": {
       "@api/*": ["./*"],
       "@shared/*": ["../@shared/*"]
-    }
+    },
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true
   },
-  "exclude": ["drizzle.config.ts", "scripts", "build"],
-  "references": [
-    {
-      "path": "../@shared/tsconfig.json"
-    }
-  ]
+  "exclude": ["build", "drizzle.config.ts", "scripts"],
+  "references": []
 }

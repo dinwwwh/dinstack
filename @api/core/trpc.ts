@@ -1,5 +1,5 @@
-import type { Context } from './context'
-import type { Db } from './lib/db'
+import type { Context } from '@api/lib/context'
+import type { Db } from '@api/lib/db'
 import { TRPCError, experimental_standaloneMiddleware, initTRPC } from '@trpc/server'
 import SuperJSON from 'superjson'
 
