@@ -3,6 +3,7 @@ import { Turnstile } from '@marsidev/react-turnstile'
 import * as Portal from '@radix-ui/react-portal'
 import { env } from '@web/lib/env'
 import { cn } from '@web/lib/utils'
+import { useSystemStore } from '@web/stores/system'
 import { useTurnstileStore } from '@web/stores/turnstile'
 import { useId, useRef } from 'react'
 
@@ -10,6 +11,7 @@ export function TurnstileProvider(props: { children: React.ReactNode }) {
   const turnstileStore = useTurnstileStore()
   const turnstileRef = useRef<TurnstileInstance>(null)
   const id = useId()
+  const systemStore = useSystemStore()
 
   return (
     <>
@@ -28,8 +30,7 @@ export function TurnstileProvider(props: { children: React.ReactNode }) {
             id={id}
             siteKey={env.TURNSTILE_SITE_KEY}
             options={{
-              // TODO: implement dark mode
-              theme: 'auto',
+              theme: systemStore.theme === 'system' ? 'auto' : systemStore.theme,
             }}
             onSuccess={(token) => {
               useTurnstileStore.setState(() => ({
