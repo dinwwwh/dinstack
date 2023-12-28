@@ -1,5 +1,7 @@
 import { ThemeToggle } from '../theme-toggle'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { LogoDropdownMenu } from './logo-dropdown-menu'
+import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
 import { Skeleton } from '@web/components/ui/skeleton'
@@ -47,10 +49,14 @@ export function Navbar(props: Props) {
   return (
     <div className="flex flex-col h-full">
       {/* TODO: dropdown menu */}
-      <div className="flex gap-3 items-center">
-        <Skeleton className="h-9 w-9 flex-shrink-0" />
-        <Skeleton className="h-6 w-36" />
-      </div>
+      <LogoDropdownMenu>
+        <DropdownMenuTrigger>
+          <div className="flex gap-3 items-center">
+            <Skeleton className="h-9 w-9 flex-shrink-0" />
+            <Skeleton className="h-6 w-36" />
+          </div>
+        </DropdownMenuTrigger>
+      </LogoDropdownMenu>
 
       <div className="flex flex-col gap-2 mt-8 overflow-hidden">
         {menuItems.map((item) => (
@@ -63,7 +69,7 @@ export function Navbar(props: Props) {
             onClick={props.onNavigate}
           >
             <Link to={item.href}>
-              <item.Icon strokeWidth={1.5} className="h-4 w-4 mr-2.5 flex-shrink-0" />
+              <item.Icon className="h-4 w-4 mr-2.5 flex-shrink-0" />
               <span>{item.label}</span>
             </Link>
           </Button>
@@ -109,7 +115,7 @@ function OrganizationButton() {
       </div>
 
       <div className="pr-2.5">
-        <ChevronsUpDownIcon strokeWidth={1.5} className="h-4 w-4" />
+        <ChevronsUpDownIcon className="h-4 w-4" />
       </div>
     </Button>
   )

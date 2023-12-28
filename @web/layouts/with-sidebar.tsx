@@ -32,7 +32,7 @@ function SmallScreenNavbar() {
       <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
         <SheetTrigger asChild>
           <Button type="button" variant={'outline'} size={'icon'}>
-            <MenuIcon strokeWidth={1.5} className="h-4 w-4" />
+            <MenuIcon className="h-4 w-4" />
           </Button>
         </SheetTrigger>
         <SheetContent side={'left'} className="min-w-[288px]">
@@ -69,7 +69,7 @@ function LargeScreenNavbar() {
               className="h-5 w-5 bg-background"
               onClick={() => useSystemStore.setState({ sidebarSize: 'icon' })}
             >
-              <ChevronLeft strokeWidth={1.5} className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4" />
             </Button>
           ))
           .with('icon', () => (
@@ -80,7 +80,7 @@ function LargeScreenNavbar() {
               className="h-5 w-5 bg-background"
               onClick={() => useSystemStore.setState({ sidebarSize: 'default' })}
             >
-              <ChevronRight strokeWidth={1.5} className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4" />
             </Button>
           ))
           .exhaustive()}

@@ -113,7 +113,7 @@ function SendOtpForm(props: { onSuccess?: ({ email }: { email: string }) => void
         <Button className="w-full gap-2" disabled={mutation.isLoading}>
           Continue
           <MutationStatusIcon status={mutation.status}>
-            <ArrowRight strokeWidth={1.5} className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4" />
           </MutationStatusIcon>
         </Button>
       </div>
@@ -165,12 +165,12 @@ function ValidateOtpForm(props: {
           onClick={() => props.onBack?.()}
           className="w-full"
         >
-          <ArrowLeft strokeWidth={1.5} className="w-4 h-4 mr-2" /> Back
+          <ArrowLeft className="w-4 h-4 mr-2" /> Back
         </Button>
         <Button className="w-full gap-2" disabled={mutation.isLoading}>
           Continue
           <MutationStatusIcon status={mutation.status}>
-            <ArrowRight strokeWidth={1.5} className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4" />
           </MutationStatusIcon>
         </Button>
       </div>
@@ -255,7 +255,7 @@ function LoginWithGithubButton() {
       }
     >
       <MutationStatusIcon status={authGithub.status}>
-        <GithubIcon strokeWidth={1.5} className="w-4 h-4" />
+        <GithubIcon className="w-4 h-4" />
       </MutationStatusIcon>
       <span className="text-sm font-semibold leading-6">Github</span>
     </Button>

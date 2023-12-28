@@ -36,19 +36,13 @@ export function MutationStatusIcon(props: {
 
   return match(props.status)
     .with('idle', () => props.children)
-    .with('loading', () => (
-      <Loader2Icon strokeWidth={1.5} className={cn('h-4 w-4 animate-spin', props.className)} />
-    ))
+    .with('loading', () => <Loader2Icon className={cn('h-4 w-4 animate-spin', props.className)} />)
     .with('success', () =>
-      showSuccess ? (
-        <CheckIcon strokeWidth={1.5} className={cn('h-4 w-4', props.className)} />
-      ) : (
-        props.children
-      ),
+      showSuccess ? <CheckIcon className={cn('h-4 w-4', props.className)} /> : props.children,
     )
     .with('error', () =>
       showError ? (
-        <XIcon strokeWidth={1.5} className={cn('h-4 w-4 text-destructive', props.className)} />
+        <XIcon className={cn('h-4 w-4 text-destructive', props.className)} />
       ) : (
         props.children
       ),
