@@ -1,6 +1,7 @@
 import { ThemeToggle } from '../theme-toggle'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
+import { ProfileDropdownMenu } from './profile-dropdown-menu'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
@@ -91,32 +92,35 @@ function OrganizationButton() {
   const organization = useAuthedStore().session.organization
 
   return (
-    // TODO: dropdown menu
-    <Button
-      type="button"
-      className="flex-1 justify-between w-full overflow-hidden gap-2 pl-0"
-      size={'sm'}
-      variant={'ghost'}
-    >
-      <div className="flex gap-3">
-        <Avatar className="h-9 w-9 flex-shrink-0">
-          <AvatarImage
-            alt={organization.name}
-            src={constructPublicResourceUrl(organization.logoUrl)}
-          />
-          <AvatarFallback>{organization.name[0]}</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col items-start">
-          <span>{organization.name}</span>
-          <span className="text-muted-foreground font-normal text-xs">{`${
-            organization.members.length
-          } ${organization.members.length === 1 ? 'member' : 'members'}`}</span>
-        </div>
-      </div>
+    <ProfileDropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          className="flex-1 justify-between w-full overflow-hidden gap-2 pl-0"
+          size={'sm'}
+          variant={'ghost'}
+        >
+          <div className="flex gap-3">
+            <Avatar className="h-9 w-9 flex-shrink-0">
+              <AvatarImage
+                alt={organization.name}
+                src={constructPublicResourceUrl(organization.logoUrl)}
+              />
+              <AvatarFallback>{organization.name[0]}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col items-start">
+              <span>{organization.name}</span>
+              <span className="text-muted-foreground font-normal text-xs">{`${
+                organization.members.length
+              } ${organization.members.length === 1 ? 'member' : 'members'}`}</span>
+            </div>
+          </div>
 
-      <div className="pr-2.5">
-        <ChevronsUpDownIcon className="h-4 w-4" />
-      </div>
-    </Button>
+          <div>
+            <ChevronsUpDownIcon className="h-4 w-4" />
+          </div>
+        </Button>
+      </DropdownMenuTrigger>
+    </ProfileDropdownMenu>
   )
 }
