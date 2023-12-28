@@ -27,7 +27,11 @@ export const authOauthLoginRoute = procedure
         organizationMembers: {
           with: {
             user: true,
-            organization: true,
+            organization: {
+              with: {
+                members: true,
+              },
+            },
           },
           limit: 1,
         },
@@ -93,7 +97,10 @@ export const authOauthLoginRoute = procedure
       session: {
         ...session,
         user,
-        organization,
+        organization: {
+          ...organization,
+          members: [organizationMember],
+        },
         organizationMember,
       },
     }

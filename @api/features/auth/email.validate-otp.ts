@@ -40,7 +40,11 @@ export const authEmailValidateOtpRoute = procedure
       with: {
         organizationMembers: {
           with: {
-            organization: true,
+            organization: {
+              with: {
+                members: true,
+              },
+            },
           },
           limit: 1,
         },
@@ -91,7 +95,10 @@ export const authEmailValidateOtpRoute = procedure
       session: {
         ...session,
         user,
-        organization,
+        organization: {
+          ...organization,
+          members: [organizationMember],
+        },
         organizationMember,
       },
     }

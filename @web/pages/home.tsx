@@ -1,7 +1,8 @@
-import { Button } from '@web/components/ui/button'
-import { api } from '@web/lib/api'
-
 export function HomePage() {
-  const query = api.ping.useQuery()
-  return <Button>{JSON.stringify(query.data)}</Button>
+  return (
+    <div>
+      <div className="h-screen"></div>
+      <div className="h-screen bg-red-200"></div>
+    </div>
+  )
 }

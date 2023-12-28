@@ -14,7 +14,11 @@ const authStoreSchema = z.object({
     .and(
       z.object({
         user: userSchema,
-        organization: organizationSchema,
+        organization: organizationSchema.and(
+          z.object({
+            members: z.array(organizationMemberSchema),
+          }),
+        ),
         organizationMember: organizationMemberSchema,
       }),
     )

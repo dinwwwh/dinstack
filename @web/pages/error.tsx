@@ -2,9 +2,24 @@ import { Button } from '@web/components/ui/button'
 import { Link, useRouteError } from 'react-router-dom'
 
 export function ErrorPage() {
-  const error = useRouteError() as any
+  const error = useRouteError()
 
-  const status = error?.status || 500
+  const status =
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    typeof error.status === 'number'
+      ? error.status
+      : 500
+
+  const message =
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof error.message === 'string' &&
+    error.message.length < 50
+      ? error.message
+      : 'Please try again later.'
 
   return (
     <div className="container px-4 mx-auto pt-16 md:mt-20 lg:mt-28 xl:mt-36">
@@ -20,9 +35,7 @@ export function ErrorPage() {
             <h2 className="mb-4 text-4xl md:text-5xl leading-tight font-bold tracking-tighter">
               Oh no! {status === 404 ? 'Page not found' : 'Something went wrong'}
             </h2>
-            <p className="mb-10 text-lg md:text-xl text-muted-foreground">
-              {error?.message?.length < 50 ? error?.message : 'Please try again later.'}
-            </p>
+            <p className="mb-10 text-lg md:text-xl text-muted-foreground">{message}</p>
             <div className="w-full lg:w-auto py-1 lg:py-0 lg:mr-6">
               <Button size={'lg'} asChild>
                 <Link to="/">Go back to Homepage</Link>
