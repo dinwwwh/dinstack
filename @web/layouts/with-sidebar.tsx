@@ -8,8 +8,8 @@ import { Skeleton } from '@web/components/ui/skeleton'
 import { useSystemStore } from '@web/stores/system'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, MenuIcon } from 'lucide-react'
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import { match } from 'ts-pattern'
 
 export function WithSidebarLayout() {
@@ -25,7 +25,12 @@ export function WithSidebarLayout() {
 }
 
 function SmallScreenNavbar() {
+  const location = useLocation()
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    setIsMobileSidebarOpen(false)
+  }, [location])
 
   return (
     <div className="px-4 py-3 md:hidden flex justify-between gap-4 border-b  border-border/50">
@@ -36,7 +41,7 @@ function SmallScreenNavbar() {
           </Button>
         </SheetTrigger>
         <SheetContent side={'left'} className="min-w-[288px]">
-          <Navbar onNavigate={() => setIsMobileSidebarOpen(false)} />
+          <Navbar />
         </SheetContent>
       </Sheet>
 

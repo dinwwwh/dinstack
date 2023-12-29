@@ -17,9 +17,7 @@ import {
 } from 'lucide-react'
 import { Link, matchPath, useLocation } from 'react-router-dom'
 
-type Props = {
-  onNavigate?: () => void
-}
+type Props = {}
 
 const menuItems = [
   {
@@ -66,7 +64,6 @@ export function Navbar(props: Props) {
             className="justify-start p-2.5 w-full font-medium overflow-hidden"
             size="sm"
             asChild
-            onClick={props.onNavigate}
           >
             <Link to={item.href}>
               <item.Icon className="h-4 w-4 mr-2.5 flex-shrink-0" />
