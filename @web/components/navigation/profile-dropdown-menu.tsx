@@ -8,11 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
 } from '@web/components/ui/dropdown-menu'
 import { ScrollArea } from '@web/components/ui/scroll-area'
 import { SheetTrigger } from '@web/components/ui/sheet'
@@ -181,7 +177,7 @@ function OrganizationListItem(props: {
         </div>
 
         <div className="flex flex-col items-start flex-1 overflow-hidden">
-          <span className="truncate w-full text-left">{props.organization.name}</span>
+          <span className="truncate w-full text-left font-medium">{props.organization.name}</span>
           <span className="text-muted-foreground font-normal text-xs">{`${
             props.organization.numberMembers
           } ${props.organization.numberMembers === 1 ? 'member' : 'members'}`}</span>

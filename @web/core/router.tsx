@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: '/organizations/:organizationId',
-                lazy: () => import('../pages/organization-detail'),
+                lazy: () => import('../pages/organization-settings'),
               },
             ],
           },

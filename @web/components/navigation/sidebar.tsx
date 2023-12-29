@@ -107,7 +107,7 @@ function OrganizationButton() {
             <AvatarFallback>{organization.name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-start flex-1 overflow-hidden">
-            <span className="truncate w-full">{organization.name}</span>
+            <span className="truncate w-full text-left font-medium">{organization.name}</span>
             <span className="text-muted-foreground font-normal text-xs">{`${
               organization.members.length
             } ${organization.members.length === 1 ? 'member' : 'members'}`}</span>
