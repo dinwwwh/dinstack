@@ -50,7 +50,7 @@ function LargeScreenNavbar() {
   const sidebarSize = useSystemStore().sidebarSize
 
   return (
-    <div className="h-full p-4 px-3 pb-6 relative z-10 hidden md:block shadow">
+    <div className="h-full p-4 px-3 pb-6 relative z-10 hidden md:block border-r border-border/50">
       <motion.div
         className="h-full"
         initial={{ width: sidebarSize === 'default' ? 288 : 36 }}

@@ -20,7 +20,7 @@ import { Skeleton } from '@web/components/ui/skeleton'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { useAuthStore, useAuthedStore } from '@web/stores/auth'
-import { LogOut, Plus, UserRound } from 'lucide-react'
+import { ChevronRightIcon, LogOutIcon, PlusIcon, UserRoundIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { match } from 'ts-pattern'
@@ -48,7 +48,7 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link to="/profile">
-              <UserRound className="h-4 w-4 mr-2" />
+              <UserRoundIcon className="h-4 w-4 mr-2" />
               Profile
             </Link>
           </DropdownMenuItem>
@@ -180,24 +180,25 @@ function OrganizationListItem(props: {
           </MutationStatusIcon>
         </div>
 
-        <div className="flex flex-col items-start">
-          <span>{props.organization.name}</span>
+        <div className="flex flex-col items-start flex-1 overflow-hidden">
+          <span className="truncate w-full text-left">{props.organization.name}</span>
           <span className="text-muted-foreground font-normal text-xs">{`${
             props.organization.numberMembers
           } ${props.organization.numberMembers === 1 ? 'member' : 'members'}`}</span>
         </div>
       </Button>
 
-      <DropdownMenuSub>
-        <DropdownMenuSubTrigger />
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent>
-            <DropdownMenuItem asChild>
-              <Link to={`/organizations/${props.organization.id}`}>Settings</Link>
-            </DropdownMenuItem>
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
-      </DropdownMenuSub>
+      <Button
+        variant={'ghost'}
+        size={'icon'}
+        className="w-8"
+        onClick={() => props.onSuccess?.()}
+        asChild
+      >
+        <Link to={`/organizations/${props.organization.id}`}>
+          <ChevronRightIcon className="h-4 w-4" />
+        </Link>
+      </Button>
     </div>
   )
 }
@@ -218,7 +219,7 @@ function LogoutDropdownMenuItem() {
       onClick={() => mutation.mutate()}
     >
       <MutationStatusIcon status={mutation.status}>
-        <LogOut className="h-4 w-4" />
+        <LogOutIcon className="h-4 w-4" />
       </MutationStatusIcon>
       Log out
     </Button>
@@ -235,7 +236,7 @@ function CreateOrganizationDropdownMenuItem() {
           size={'default'}
           className="w-full justify-start font-normal px-2 h-8"
         >
-          <Plus className="h-4 w-4 mr-2" />
+          <PlusIcon className="h-4 w-4 mr-2" />
           New Organization
         </Button>
       </SheetTrigger>

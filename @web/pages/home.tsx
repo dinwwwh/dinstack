@@ -1,4 +1,4 @@
-export function HomePage() {
+export function Component() {
   return (
     <div>
       <div className="h-screen"></div>

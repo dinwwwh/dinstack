@@ -49,7 +49,6 @@ export function Navbar(props: Props) {
 
   return (
     <div className="flex flex-col h-full">
-      {/* TODO: dropdown menu */}
       <LogoDropdownMenu>
         <DropdownMenuTrigger>
           <div className="flex gap-3 items-center">
@@ -59,19 +58,19 @@ export function Navbar(props: Props) {
         </DropdownMenuTrigger>
       </LogoDropdownMenu>
 
-      <div className="flex flex-col gap-2 mt-8 overflow-hidden">
+      <div className="flex flex-col gap-2 mt-8">
         {menuItems.map((item) => (
           <Button
             key={item.href}
             variant={matchPath(item.href, location.pathname) ? 'default' : 'ghost'}
-            className="justify-start p-2.5 w-full font-medium"
+            className="justify-start p-2.5 w-full font-medium overflow-hidden"
             size="sm"
             asChild
             onClick={props.onNavigate}
           >
             <Link to={item.href}>
               <item.Icon className="h-4 w-4 mr-2.5 flex-shrink-0" />
-              <span>{item.label}</span>
+              <span className="truncate">{item.label}</span>
             </Link>
           </Button>
         ))}
@@ -100,20 +99,18 @@ function OrganizationButton() {
           size={'sm'}
           variant={'ghost'}
         >
-          <div className="flex gap-3">
-            <Avatar className="h-9 w-9 flex-shrink-0">
-              <AvatarImage
-                alt={organization.name}
-                src={constructPublicResourceUrl(organization.logoUrl)}
-              />
-              <AvatarFallback>{organization.name[0]}</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col items-start">
-              <span>{organization.name}</span>
-              <span className="text-muted-foreground font-normal text-xs">{`${
-                organization.members.length
-              } ${organization.members.length === 1 ? 'member' : 'members'}`}</span>
-            </div>
+          <Avatar className="h-9 w-9 flex-shrink-0">
+            <AvatarImage
+              alt={organization.name}
+              src={constructPublicResourceUrl(organization.logoUrl)}
+            />
+            <AvatarFallback>{organization.name[0]}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col items-start flex-1 overflow-hidden">
+            <span className="truncate w-full">{organization.name}</span>
+            <span className="text-muted-foreground font-normal text-xs">{`${
+              organization.members.length
+            } ${organization.members.length === 1 ? 'member' : 'members'}`}</span>
           </div>
 
           <div>

@@ -16,13 +16,11 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: '/',
-                async lazy() {
-                  const { HomePage } = await import('../pages/home')
-
-                  return {
-                    Component: HomePage,
-                  }
-                },
+                lazy: () => import('../pages/home'),
+              },
+              {
+                path: '/organizations/:organizationId',
+                lazy: () => import('../pages/organization-detail'),
               },
             ],
           },

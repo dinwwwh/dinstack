@@ -6,7 +6,7 @@ import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
 import { useAuthStore } from '@web/stores/auth'
-import { ArrowLeft, ArrowRight, GithubIcon } from 'lucide-react'
+import { ArrowLeftIcon, ArrowRightIcon, GithubIcon } from 'lucide-react'
 import { useEffect, useId, useState } from 'react'
 import OTPInput from 'react-otp-input'
 import { match } from 'ts-pattern'
@@ -113,7 +113,7 @@ function SendOtpForm(props: { onSuccess?: ({ email }: { email: string }) => void
         <Button className="w-full gap-2" disabled={mutation.isLoading}>
           Continue
           <MutationStatusIcon status={mutation.status}>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRightIcon className="w-4 h-4" />
           </MutationStatusIcon>
         </Button>
       </div>
@@ -165,12 +165,12 @@ function ValidateOtpForm(props: {
           onClick={() => props.onBack?.()}
           className="w-full"
         >
-          <ArrowLeft className="w-4 h-4 mr-2" /> Back
+          <ArrowLeftIcon className="w-4 h-4 mr-2" /> Back
         </Button>
         <Button className="w-full gap-2" disabled={mutation.isLoading}>
           Continue
           <MutationStatusIcon status={mutation.status}>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRightIcon className="w-4 h-4" />
           </MutationStatusIcon>
         </Button>
       </div>
