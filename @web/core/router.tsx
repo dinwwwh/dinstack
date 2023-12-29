@@ -24,6 +24,10 @@ export const router = createBrowserRouter([
               },
             ],
           },
+          {
+            path: '/organization-invitation-accept/:secretKey',
+            lazy: () => import('../pages/organization-invitation-accept'),
+          },
         ],
       },
 
