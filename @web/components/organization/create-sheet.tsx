@@ -67,11 +67,11 @@ export function OrganizationCreateSheet({ children, onSuccess, ...props }: Props
 
           <div className="flex justify-end gap-4">
             <SheetClose asChild>
-              <Button ref={closeElement} type="button" variant="secondary">
+              <Button ref={closeElement} type="button" variant="secondary" className="flex-1">
                 Close
               </Button>
             </SheetClose>
-            <Button disabled={isLoading} className="gap-2">
+            <Button disabled={isLoading} className="gap-2 flex-1">
               Submit
               <MutationStatusIcon status={status} />
             </Button>

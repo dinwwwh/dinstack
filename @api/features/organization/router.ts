@@ -6,6 +6,7 @@ import { organizationMemberAcceptInvitationRoute } from './member.accept-invitat
 import { organizationMemberInvitationInfoRoute } from './member.invitation-info'
 import { organizationMemberInviteRoute } from './member.invite'
 import { organizationMemberRemoveRoute } from './member.remove'
+import { organizationMemberUpdateRoute } from './member.update'
 import { organizationUpdateRoute } from './update'
 import { router } from '@api/core/trpc'
 
@@ -20,5 +21,6 @@ export const organizationRouter = router({
     invitationInfo: organizationMemberInvitationInfoRoute,
     acceptInvitation: organizationMemberAcceptInvitationRoute,
     remove: organizationMemberRemoveRoute,
+    update: organizationMemberUpdateRoute,
   }),
 })

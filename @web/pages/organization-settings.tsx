@@ -3,6 +3,7 @@ import { GeneralError } from '@web/components/general-error'
 import { GeneralSkeleton } from '@web/components/general-skeleton'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import { OrganizationMemberInviteSheet } from '@web/components/organization/member-invite-sheet'
+import { OrganizationMemberUpdateSheet } from '@web/components/organization/member-update-sheet'
 import { OrganizationUpdateLogoFn } from '@web/components/organization/update-logo-fn'
 import { OrganizationUpdateSheet } from '@web/components/organization/update-sheet'
 import { Avatar, AvatarFallback, AvatarImage } from '@web/components/ui/avatar'
@@ -10,6 +11,8 @@ import { Badge } from '@web/components/ui/badge'
 import { SheetTrigger } from '@web/components/ui/sheet'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
+import { cn } from '@web/lib/utils'
+import { useAuthedStore } from '@web/stores/auth'
 import { useParams } from 'react-router-dom'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
@@ -24,6 +27,8 @@ export function Component() {
   const query = api.organization.detail.useQuery({
     organizationId: params.organizationId,
   })
+
+  const organizationMember = useAuthedStore().session.organizationMember
 
   return (
     <div className="mx-auto max-w-5xl py-6 md:py-8 xl:py-12 px-4">
@@ -66,7 +71,10 @@ export function Component() {
                         {({ mutation, fn }) => (
                           <button
                             type="button"
-                            className="font-semibold text-primary hover:text-primary/80 flex gap-2 items-center disabled:text-primary/60"
+                            className={cn(
+                              'font-semibold text-primary hover:text-primary/80 flex gap-2 items-center disabled:text-primary/60',
+                              organizationMember.role !== 'admin' && 'invisible',
+                            )}
                             disabled={mutation.isLoading}
                             onClick={fn}
                           >
@@ -87,7 +95,10 @@ export function Component() {
                         <SheetTrigger asChild>
                           <button
                             type="button"
-                            className="font-semibold text-primary hover:text-primary/80"
+                            className={cn(
+                              'font-semibold text-primary hover:text-primary/80',
+                              organizationMember.role !== 'admin' && 'invisible',
+                            )}
                           >
                             Update
                           </button>
@@ -129,18 +140,33 @@ export function Component() {
                           </span>
                         </div>
                       </div>
-                      {/* TODO: implement */}
-                      <button
-                        type="button"
-                        className="font-semibold text-primary hover:text-primary/80"
+                      <OrganizationMemberUpdateSheet
+                        organizationId={member.organizationId}
+                        userId={member.userId}
                       >
-                        Update
-                      </button>
+                        <SheetTrigger asChild>
+                          <button
+                            type="button"
+                            className={cn(
+                              'font-semibold text-primary hover:text-primary/80',
+                              organizationMember.role !== 'admin' ||
+                                (organizationMember.userId === member.userId && 'invisible'),
+                            )}
+                          >
+                            Update
+                          </button>
+                        </SheetTrigger>
+                      </OrganizationMemberUpdateSheet>
                     </li>
                   ))}
                 </ul>
 
-                <div className="flex border-t border-border/70 pt-6">
+                <div
+                  className={cn(
+                    'flex border-t border-border/70 pt-6',
+                    organizationMember.role !== 'admin' && 'invisible',
+                  )}
+                >
                   <OrganizationMemberInviteSheet organizationId={params.organizationId}>
                     <SheetTrigger asChild>
                       <button
