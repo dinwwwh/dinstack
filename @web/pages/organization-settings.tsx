@@ -23,12 +23,15 @@ export function Component() {
       organizationId: z.string().uuid(),
     })
     .parse(useParams())
+  const user = useAuthedStore().session.user
 
   const query = api.organization.detail.useQuery({
     organizationId: params.organizationId,
   })
 
-  const organizationMember = useAuthedStore().session.organizationMember
+  const organizationMember = query.data?.organization.members.find(
+    (member) => member.userId === user.id,
+  )
 
   return (
     <div className="mx-auto max-w-5xl py-6 md:py-8 xl:py-12 px-4">
@@ -73,7 +76,7 @@ export function Component() {
                             type="button"
                             className={cn(
                               'font-semibold text-primary hover:text-primary/80 flex gap-2 items-center disabled:text-primary/60',
-                              organizationMember.role !== 'admin' && 'invisible',
+                              organizationMember?.role !== 'admin' && 'invisible',
                             )}
                             disabled={mutation.isLoading}
                             onClick={fn}
@@ -97,7 +100,7 @@ export function Component() {
                             type="button"
                             className={cn(
                               'font-semibold text-primary hover:text-primary/80',
-                              organizationMember.role !== 'admin' && 'invisible',
+                              organizationMember?.role !== 'admin' && 'invisible',
                             )}
                           >
                             Update
@@ -149,8 +152,9 @@ export function Component() {
                             type="button"
                             className={cn(
                               'font-semibold text-primary hover:text-primary/80',
-                              organizationMember.role !== 'admin' ||
-                                (organizationMember.userId === member.userId && 'invisible'),
+                              (organizationMember?.role !== 'admin' ||
+                                organizationMember?.userId === member.userId) &&
+                                'invisible',
                             )}
                           >
                             Update
@@ -164,7 +168,7 @@ export function Component() {
                 <div
                   className={cn(
                     'flex border-t border-border/70 pt-6',
-                    organizationMember.role !== 'admin' && 'invisible',
+                    organizationMember?.role !== 'admin' && 'invisible',
                   )}
                 >
                   <OrganizationMemberInviteSheet organizationId={params.organizationId}>
