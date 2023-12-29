@@ -201,7 +201,7 @@ function OrganizationListItem(props: {
 
 function LogoutDropdownMenuItem() {
   const mutation = api.auth.logout.useMutation({
-    onSuccess() {
+    onSettled() {
       useAuthStore.setState({ session: null })
     },
   })

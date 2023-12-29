@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1702472647210,
-      "tag": "0000_simple_nextwave",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1702714658330,
-      "tag": "0001_grey_wiccan",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1702870623178,
-      "tag": "0002_medical_lilith",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1703035567950,
-      "tag": "0003_youthful_magneto",
+      "when": 1703834854118,
+      "tag": "0000_gigantic_doorman",
       "breakpoints": true
     }
   ]
