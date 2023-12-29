@@ -42,7 +42,7 @@ export function ProfileDropdownMenu({ children, open = false, onOpenChange, ...p
         <OrganizationList onOpenChange={_onOpenChange} />
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem className="cursor-pointer" asChild>
             <Link to="/profile">
               <UserRoundIcon className="h-4 w-4 mr-2" />
               Profile
