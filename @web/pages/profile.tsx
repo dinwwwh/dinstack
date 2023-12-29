@@ -178,14 +178,16 @@ function OauthConnectButton(props: { provider: (typeof oauthProviders)[number]['
   return (
     <button
       type="button"
-      className={cn('font-semibold text-primary hover:text-primary/80')}
+      className={cn(
+        'font-semibold text-primary hover:text-primary/80 flex gap-2 items-center disabled:text-primary/60',
+      )}
       disabled={
         authorizationUrlMutation.isLoading &&
         authorizationUrlMutation.variables?.provider === props.provider
       }
       onClick={() => authorizationUrlMutation.mutate({ provider: props.provider })}
     >
-      Connect
+      <MutationStatusIcon status={authorizationUrlMutation.status} /> Connect
     </button>
   )
 }

@@ -20,6 +20,7 @@ export function OauthCallbackHandler(props: {
     },
     onSettled() {
       const url = authStore.oauthAuthorization?.redirectUrl
+      useAuthStore.setState({ oauthAuthorization: null })
       if (!url) {
         navigate('/')
       } else {
@@ -31,6 +32,7 @@ export function OauthCallbackHandler(props: {
   const connectMutation = api.auth.oauth.connect.useMutation({
     onSettled() {
       const url = authStore.oauthAuthorization?.redirectUrl
+      useAuthStore.setState({ oauthAuthorization: null })
       if (!url) {
         navigate('/')
       } else {
