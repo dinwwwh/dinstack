@@ -25,8 +25,3 @@ jobs:
       - run: pnpm run --filter @dinstack/api db:migrate
 
       - run: pnpm run deploy:production
-
-      - uses: nathanvaughn/actions-cloudflare-purge@master
-        with:
-          cf_zone: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-          cf_auth: ${{ secrets.CLOUDFLARE_API_TOKEN }}
