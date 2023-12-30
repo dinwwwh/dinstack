@@ -1,5 +1,5 @@
+import { authProcedure } from '@api/core/trpc'
 import { OauthAccounts, oauthAccountSchema } from '@api/database/schema'
-import { authProcedure } from '@api/trpc'
 import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
 

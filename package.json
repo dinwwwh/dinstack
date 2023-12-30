@@ -10,14 +10,12 @@
     "lint:fix": "eslint --fix --max-warnings 0 --report-unused-disable-directives . && prettier --write .",
     "typecheck": "turbo run typecheck",
     "deploy:preview": "turbo run deploy:preview",
-    "deploy:production": "turbo run deploy:production",
-    "ui:add": "pnpm --filter @dinstack/ui run ui:add"
+    "deploy:production": "turbo run deploy:production"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
-    "env-cmd": "^10.1.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",

@@ -1,10 +1,10 @@
+import { createDefaultOrganization } from './helpers/create-default-organization'
 import { createSession } from './helpers/create-session'
-import { findSessionForAuth } from './helpers/find-session-for-auth'
+import { createUser } from './helpers/create-user'
 import { getOauthUser } from './helpers/get-oauth-user'
+import { procedure } from '@api/core/trpc'
 import { oauthAccountSchema } from '@api/database/schema'
-import { createUser } from '@api/lib/db'
-import { procedure } from '@api/trpc'
-import { uppercaseFirstLetter } from '@shared/utils/uppercase-first-letter'
+import { uppercaseFirstLetter } from '@api/lib/utils'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
@@ -25,11 +25,19 @@ export const authOauthLoginRoute = procedure
 
     const oauthAccount = await ctx.db.query.OauthAccounts.findFirst({
       with: {
-        organizationMembers: {
+        user: {
           with: {
-            organization: true,
+            organizationMembers: {
+              with: {
+                organization: {
+                  with: {
+                    members: true,
+                  },
+                },
+              },
+              limit: 1,
+            },
           },
-          limit: 1,
         },
       },
       where(t, { eq, and }) {
@@ -38,20 +46,33 @@ export const authOauthLoginRoute = procedure
     })
 
     if (oauthAccount) {
-      const organizationMember = oauthAccount.organizationMembers[0]
-      if (!organizationMember) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to find organization member',
+      const organizationMember = await (async () => {
+        if (oauthAccount.user.organizationMembers[0])
+          return oauthAccount.user.organizationMembers[0]
+
+        const { organization, organizationMember } = await createDefaultOrganization({
+          db: ctx.db,
+          userId: oauthAccount.user.id,
         })
-      }
 
-      const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
+        return {
+          ...organizationMember,
+          organization: {
+            ...organization,
+            members: [organizationMember],
+          },
+        }
+      })()
 
-      const session = await findSessionForAuth({ ctx, sessionSecretKey })
+      const session = await createSession({ ctx, organizationMember })
 
       return {
-        session,
+        session: {
+          ...session,
+          user: oauthAccount.user,
+          organization: organizationMember.organization,
+          organizationMember,
+        },
       }
     }
 
@@ -70,7 +91,7 @@ export const authOauthLoginRoute = procedure
       })
     }
 
-    const { organizationMember } = await createUser({
+    const { user } = await createUser({
       db: ctx.db,
       user: {
         name: oauthUser.name,
@@ -84,11 +105,22 @@ export const authOauthLoginRoute = procedure
       },
     })
 
-    const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
+    const { organization, organizationMember } = await createDefaultOrganization({
+      db: ctx.db,
+      userId: user.id,
+    })
 
-    const session = await findSessionForAuth({ ctx, sessionSecretKey })
+    const session = await createSession({ ctx, organizationMember })
 
     return {
-      session,
+      session: {
+        ...session,
+        user,
+        organization: {
+          ...organization,
+          members: [organizationMember],
+        },
+        organizationMember,
+      },
     }
   })

@@ -1,5 +1,6 @@
 name = "dinstack-api"
-main = "worker.ts"
+main = "core/worker.ts"
+compatibility_date = "2023-12-30"
 compatibility_flags = ["nodejs_compat"]
 
 [placement]
@@ -7,15 +8,31 @@ mode = "smart"
 
 # ------------------------------------------------------------------------------------------------------------
 
+[env.local.vars]
+WORKER_ENV = "development"
+WEB_BASE_URL = "http://localhost:4000/"
+RESEND_FROM = "Dinstack <dinstack-local@dinsterizer.com>"
+GOOGLE_REDIRECT_URL = "http://localhost:4000/oauth/google/callback"
+GOOGLE_CLIENT_ID = "1019692203340-au9j2o73f5f97vlt7hplbp98bcdq57dj.apps.googleusercontent.com"
+GITHUB_CLIENT_ID = "8e47226c06dc296d8ac2"
+
 [[env.local.r2_buckets]]
 binding = 'PUBLIC_BUCKET'
 bucket_name = 'dinstack-public-local'
 
 # ------------------------------------------------------------------------------------------------------------
 
-# [env.preview.route]
-# pattern = "preview.api.example.com"
-# custom_domain = true
+[env.preview.route]
+pattern = "dinstack-api-preview.dinsterizer.com"
+custom_domain = true
+
+[env.preview.vars]
+WORKER_ENV = "development"
+WEB_BASE_URL = "https://dinstack-web-preview.dinsterizer.com/"
+RESEND_FROM = "Dinstack <dinstack-preview@dinsterizer.com>"
+GOOGLE_REDIRECT_URL = "https://dinstack-web-preview.dinsterizer.com/oauth/google/callback"
+GOOGLE_CLIENT_ID = "1019692203340-gqqsd9oq7gc0ijtfd76v035aaa6ufc6v.apps.googleusercontent.com"
+GITHUB_CLIENT_ID = "e6301f7401b9b2a87240"
 
 [[env.preview.r2_buckets]]
 binding = 'PUBLIC_BUCKET'
@@ -26,9 +43,17 @@ bucket_name = 'dinstack-public-preview'
 [env.production]
 logpush = true
 
-# [env.production.route]
-# pattern = "api.example.com"
-# custom_domain = true
+[env.production.route]
+pattern = "dinstack-api.dinsterizer.com"
+custom_domain = true
+
+[env.production.vars]
+WORKER_ENV = "production"
+WEB_BASE_URL = "https://dinstack-web.dinsterizer.com/"
+RESEND_FROM = "Dinstack <dinstack@dinsterizer.com>"
+GOOGLE_REDIRECT_URL = "https://dinstack-web.dinsterizer.com/oauth/google/callback"
+GOOGLE_CLIENT_ID = "1019692203340-rqo0lnoos9j8l13jmgblp79eudck231a.apps.googleusercontent.com"
+GITHUB_CLIENT_ID = "3de5e4cf49132a8bb000"
 
 [[env.production.r2_buckets]]
 binding = 'PUBLIC_BUCKET'

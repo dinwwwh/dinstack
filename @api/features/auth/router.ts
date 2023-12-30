@@ -8,7 +8,7 @@ import { authOauthDisconnectRoute } from './oauth.disconnect'
 import { authOauthLoginRoute } from './oauth.login'
 import { authOrganizationSwitchRoute } from './organization-switch'
 import { authProfileRouter } from './profile'
-import { router } from '@api/trpc'
+import { router } from '@api/core/trpc'
 
 export const authRouter = router({
   email: router({

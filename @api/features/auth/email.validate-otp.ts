@@ -1,9 +1,9 @@
+import { createDefaultOrganization } from './helpers/create-default-organization'
 import { createSession } from './helpers/create-session'
-import { findSessionForAuth } from './helpers/find-session-for-auth'
+import { createUser } from './helpers/create-user'
+import { procedure } from '@api/core/trpc'
 import { EmailOtps, emailOtpSchema } from '@api/database/schema'
-import { createUser } from '@api/lib/db'
-import { procedure } from '@api/trpc'
-import { generateFallbackAvatarUrl } from '@api/utils/generate-fallback-avatar-url'
+import { generateFallbackAvatarUrl } from '@api/lib/utils'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
@@ -41,7 +41,11 @@ export const authEmailValidateOtpRoute = procedure
       with: {
         organizationMembers: {
           with: {
-            organization: true,
+            organization: {
+              with: {
+                members: true,
+              },
+            },
           },
           limit: 1,
         },
@@ -52,26 +56,37 @@ export const authEmailValidateOtpRoute = procedure
     })
 
     if (existingUser) {
-      const organizationMember = existingUser.organizationMembers[0]
+      const organizationMember = await (async () => {
+        if (existingUser.organizationMembers[0]) return existingUser.organizationMembers[0]
 
-      if (!organizationMember) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to find organization member',
+        const { organization, organizationMember } = await createDefaultOrganization({
+          db: ctx.db,
+          userId: existingUser.id,
         })
-      }
 
-      const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
+        return {
+          ...organizationMember,
+          organization: {
+            ...organization,
+            members: [organizationMember],
+          },
+        }
+      })()
 
-      const session = await findSessionForAuth({ ctx, sessionSecretKey })
+      const session = await createSession({ ctx, organizationMember })
 
       return {
-        session,
+        session: {
+          ...session,
+          user: existingUser,
+          organization: organizationMember.organization,
+          organizationMember,
+        },
       }
     }
 
     const userName = input.email.split('@')[0] || 'Unknown'
-    const { organizationMember } = await createUser({
+    const { user } = await createUser({
       db: ctx.db,
       user: {
         avatarUrl: generateFallbackAvatarUrl({
@@ -82,12 +97,22 @@ export const authEmailValidateOtpRoute = procedure
         name: userName,
       },
     })
+    const { organization, organizationMember } = await createDefaultOrganization({
+      db: ctx.db,
+      userId: user.id,
+    })
 
-    const sessionSecretKey = (await createSession({ ctx, organizationMember })).secretKey
-
-    const session = await findSessionForAuth({ ctx, sessionSecretKey })
+    const session = await createSession({ ctx, organizationMember })
 
     return {
-      session,
+      session: {
+        ...session,
+        user,
+        organization: {
+          ...organization,
+          members: [organizationMember],
+        },
+        organizationMember,
+      },
     }
   })

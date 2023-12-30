@@ -1,5 +1,5 @@
-import type { Context } from '@api/context'
 import type { OauthAccounts } from '@api/database/schema'
+import type { Context } from '@api/lib/context'
 import { TRPCError } from '@trpc/server'
 import type { GitHubUser } from 'arctic'
 import { match } from 'ts-pattern'

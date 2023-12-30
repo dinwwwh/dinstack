@@ -1,34 +1,34 @@
 {
-  "extends": "@dinstack/tsconfig/react.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "composite": false,
-    "declarationMap": false,
+    "composite": true,
+    "declarationMap": true,
+    "target": "es2021",
+    "useDefineForClassFields": true,
+    "lib": ["es2021", "DOM", "DOM.Iterable"],
+    "types": ["@total-typescript/ts-reset"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "incremental": true,
+
     "outDir": "build",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
     "paths": {
       "@web/*": ["./*"],
-      "@api/*": ["../@api/*"],
-      "@shared/*": ["../@shared/*"],
-      "@ui/*": ["../@ui/*"],
-      "@ui/_/../ui/*": ["../@ui/ui/*"]
+      "@api/*": ["../@api/*"]
     },
-    "noEmit": true
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", ".next", "tailwind.config.ts"],
+  "exclude": ["build", "vite.config.ts", "dist", "tailwind.config.ts", "postcss.config.ts"],
   "references": [
     {
       "path": "../@api/tsconfig.json"
-    },
-    {
-      "path": "../@shared/tsconfig.json"
-    },
-    {
-      "path": "../@ui/tsconfig.json"
     }
   ]
 }

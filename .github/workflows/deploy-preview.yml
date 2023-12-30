@@ -6,21 +6,13 @@ on:
 
 jobs:
   deploy-preview:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [20.x]
+    runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
 
     steps:
       - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
 
       - uses: pnpm/action-setup@v2
 

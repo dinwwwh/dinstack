@@ -1,10 +1,10 @@
+import { authProcedure } from '@api/core/trpc'
 import {
   OrganizationMembers,
-  OrganizationsInvitations,
+  OrganizationInvitations,
   Sessions,
   organizationInvitationSchema,
 } from '@api/database/schema'
-import { authProcedure } from '@api/trpc'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
@@ -16,7 +16,7 @@ export const organizationMemberAcceptInvitationRoute = authProcedure
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    const invitation = await ctx.db.query.OrganizationsInvitations.findFirst({
+    const invitation = await ctx.db.query.OrganizationInvitations.findFirst({
       where(t, { eq }) {
         return eq(t.secretKey, input.invitationSecretKey)
       },
@@ -60,8 +60,8 @@ export const organizationMemberAcceptInvitationRoute = authProcedure
       })
 
       await trx
-        .delete(OrganizationsInvitations)
-        .where(eq(OrganizationsInvitations.secretKey, invitation.secretKey))
+        .delete(OrganizationInvitations)
+        .where(eq(OrganizationInvitations.secretKey, invitation.secretKey))
     })
 
     await ctx.db

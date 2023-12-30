@@ -56,12 +56,11 @@ export const OauthAccounts = pgTable(
   }),
 )
 
-export const OauthAccountRelations = relations(OauthAccounts, ({ one, many }) => ({
+export const OauthAccountRelations = relations(OauthAccounts, ({ one }) => ({
   user: one(Users, {
     fields: [OauthAccounts.userId],
     references: [Users.id],
   }),
-  organizationMembers: many(OrganizationMembers),
 }))
 
 export const oauthAccountSchema = createSelectSchema(OauthAccounts)
@@ -94,7 +93,7 @@ export const Organizations = pgTable('organizations', {
 
 export const OrganizationRelations = relations(Organizations, ({ many }) => ({
   members: many(OrganizationMembers),
-  invitations: many(OrganizationsInvitations),
+  invitations: many(OrganizationInvitations),
 }))
 
 export const organizationSchema = createSelectSchema(Organizations)
@@ -119,7 +118,7 @@ export const OrganizationMembers = pgTable(
   }),
 )
 
-export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one, many }) => ({
+export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one }) => ({
   organization: one(Organizations, {
     fields: [OrganizationMembers.organizationId],
     references: [Organizations.id],
@@ -128,11 +127,6 @@ export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one
     fields: [OrganizationMembers.userId],
     references: [Users.id],
   }),
-  _oauthAccount: one(OauthAccounts, {
-    fields: [OrganizationMembers.userId],
-    references: [OauthAccounts.userId],
-  }),
-  sessions: many(Sessions),
 }))
 
 export const organizationMemberSchema = createSelectSchema(OrganizationMembers)
@@ -169,8 +163,8 @@ export const SessionRelations = relations(Sessions, ({ one }) => ({
 export const sessionSchema = createSelectSchema(Sessions)
 export const sessionInsertSchema = createInsertSchema(Sessions)
 
-export const OrganizationsInvitations = pgTable(
-  'organizations_invitations',
+export const OrganizationInvitations = pgTable(
+  'organization_invitations',
   {
     secretKey: char('secret_key', { length: 64 })
       .notNull()
@@ -189,16 +183,16 @@ export const OrganizationsInvitations = pgTable(
   }),
 )
 
-export const OrganizationsInvitationRelations = relations(OrganizationsInvitations, ({ one }) => ({
+export const OrganizationsInvitationRelations = relations(OrganizationInvitations, ({ one }) => ({
   organization: one(Organizations, {
-    fields: [OrganizationsInvitations.organizationId],
+    fields: [OrganizationInvitations.organizationId],
     references: [Organizations.id],
   }),
 }))
 
-export const organizationInvitationSchema = createSelectSchema(OrganizationsInvitations, {
+export const organizationInvitationSchema = createSelectSchema(OrganizationInvitations, {
   email: z.string().max(255).email().toLowerCase(),
 })
-export const organizationsInvitationInsertSchema = createInsertSchema(OrganizationsInvitations, {
+export const organizationInvitationInsertSchema = createInsertSchema(OrganizationInvitations, {
   email: z.string().max(255).email().toLowerCase(),
 })
