@@ -1,3 +1,4 @@
+import { createDefaultOrganization } from './helpers/create-default-organization'
 import { createSession } from './helpers/create-session'
 import { createUser } from './helpers/create-user'
 import { procedure } from '@api/core/trpc'
@@ -55,14 +56,22 @@ export const authEmailValidateOtpRoute = procedure
     })
 
     if (existingUser) {
-      const organizationMember = existingUser.organizationMembers[0]
+      const organizationMember = await (async () => {
+        if (existingUser.organizationMembers[0]) return existingUser.organizationMembers[0]
 
-      if (!organizationMember) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to find organization member',
+        const { organization, organizationMember } = await createDefaultOrganization({
+          db: ctx.db,
+          userId: existingUser.id,
         })
-      }
+
+        return {
+          ...organizationMember,
+          organization: {
+            ...organization,
+            members: [organizationMember],
+          },
+        }
+      })()
 
       const session = await createSession({ ctx, organizationMember })
 
@@ -77,7 +86,7 @@ export const authEmailValidateOtpRoute = procedure
     }
 
     const userName = input.email.split('@')[0] || 'Unknown'
-    const { organizationMember, user, organization } = await createUser({
+    const { user } = await createUser({
       db: ctx.db,
       user: {
         avatarUrl: generateFallbackAvatarUrl({
@@ -87,6 +96,10 @@ export const authEmailValidateOtpRoute = procedure
         email: input.email,
         name: userName,
       },
+    })
+    const { organization, organizationMember } = await createDefaultOrganization({
+      db: ctx.db,
+      userId: user.id,
     })
 
     const session = await createSession({ ctx, organizationMember })

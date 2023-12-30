@@ -17,8 +17,6 @@ import {
 } from 'lucide-react'
 import { Link, matchPath, useLocation } from 'react-router-dom'
 
-type Props = {}
-
 const menuItems = [
   {
     Icon: LayoutDashboardIcon,
@@ -42,7 +40,7 @@ const menuItems = [
   },
 ]
 
-export function Navbar(props: Props) {
+export function Navbar() {
   const location = useLocation()
 
   return (

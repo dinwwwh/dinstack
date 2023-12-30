@@ -1,3 +1,4 @@
+import { createDefaultOrganization } from './helpers/create-default-organization'
 import { createSession } from './helpers/create-session'
 import { createUser } from './helpers/create-user'
 import { getOauthUser } from './helpers/get-oauth-user'
@@ -24,16 +25,19 @@ export const authOauthLoginRoute = procedure
 
     const oauthAccount = await ctx.db.query.OauthAccounts.findFirst({
       with: {
-        organizationMembers: {
+        user: {
           with: {
-            user: true,
-            organization: {
+            organizationMembers: {
               with: {
-                members: true,
+                organization: {
+                  with: {
+                    members: true,
+                  },
+                },
               },
+              limit: 1,
             },
           },
-          limit: 1,
         },
       },
       where(t, { eq, and }) {
@@ -42,20 +46,30 @@ export const authOauthLoginRoute = procedure
     })
 
     if (oauthAccount) {
-      const organizationMember = oauthAccount.organizationMembers[0]
-      if (!organizationMember) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to find organization member',
+      const organizationMember = await (async () => {
+        if (oauthAccount.user.organizationMembers[0])
+          return oauthAccount.user.organizationMembers[0]
+
+        const { organization, organizationMember } = await createDefaultOrganization({
+          db: ctx.db,
+          userId: oauthAccount.user.id,
         })
-      }
+
+        return {
+          ...organizationMember,
+          organization: {
+            ...organization,
+            members: [organizationMember],
+          },
+        }
+      })()
 
       const session = await createSession({ ctx, organizationMember })
 
       return {
         session: {
           ...session,
-          user: organizationMember.user,
+          user: oauthAccount.user,
           organization: organizationMember.organization,
           organizationMember,
         },
@@ -77,7 +91,7 @@ export const authOauthLoginRoute = procedure
       })
     }
 
-    const { organizationMember, user, organization } = await createUser({
+    const { user } = await createUser({
       db: ctx.db,
       user: {
         name: oauthUser.name,
@@ -89,6 +103,11 @@ export const authOauthLoginRoute = procedure
         providerUserId: oauthUser.id,
         identifier: oauthUser.identifier,
       },
+    })
+
+    const { organization, organizationMember } = await createDefaultOrganization({
+      db: ctx.db,
+      userId: user.id,
     })
 
     const session = await createSession({ ctx, organizationMember })

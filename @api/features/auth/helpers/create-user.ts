@@ -1,4 +1,4 @@
-import { OauthAccounts, OrganizationMembers, Organizations, Users } from '@api/database/schema'
+import { OauthAccounts, Users } from '@api/database/schema'
 import type { Db } from '@api/lib/db'
 import { TRPCError } from '@trpc/server'
 
@@ -34,37 +34,6 @@ export async function createUser(ctx: {
       })
     }
 
-    const [organization] = await ctx.db
-      .insert(Organizations)
-      .values({
-        name: `${user.name}'s Organization`,
-        logoUrl: ctx.user.avatarUrl,
-      })
-      .returning()
-
-    if (!organization) {
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Failed to create organization',
-      })
-    }
-
-    const [organizationMember] = await trx
-      .insert(OrganizationMembers)
-      .values({
-        organizationId: organization.id,
-        userId: user.id,
-        role: 'admin',
-      })
-      .returning()
-
-    if (!organizationMember) {
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Failed to create organization member',
-      })
-    }
-
     if (ctx.oauth) {
       await trx.insert(OauthAccounts).values({
         provider: ctx.oauth.provider,
@@ -76,11 +45,6 @@ export async function createUser(ctx: {
 
     return {
       user,
-      organization: organization,
-      organizationMember: {
-        ...organizationMember,
-        organization,
-      },
     }
   })
 }

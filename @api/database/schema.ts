@@ -28,6 +28,7 @@ export const Users = pgTable('users', {
 export const UserRelations = relations(Users, ({ many }) => ({
   oauthAccounts: many(OauthAccounts),
   organizationMembers: many(OrganizationMembers),
+  sessions: many(Sessions),
 }))
 
 export const userSchema = createSelectSchema(Users, {
@@ -56,12 +57,11 @@ export const OauthAccounts = pgTable(
   }),
 )
 
-export const OauthAccountRelations = relations(OauthAccounts, ({ one, many }) => ({
+export const OauthAccountRelations = relations(OauthAccounts, ({ one }) => ({
   user: one(Users, {
     fields: [OauthAccounts.userId],
     references: [Users.id],
   }),
-  organizationMembers: many(OrganizationMembers),
 }))
 
 export const oauthAccountSchema = createSelectSchema(OauthAccounts)
@@ -119,7 +119,7 @@ export const OrganizationMembers = pgTable(
   }),
 )
 
-export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one, many }) => ({
+export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one }) => ({
   organization: one(Organizations, {
     fields: [OrganizationMembers.organizationId],
     references: [Organizations.id],
@@ -128,11 +128,6 @@ export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one
     fields: [OrganizationMembers.userId],
     references: [Users.id],
   }),
-  _oauthAccount: one(OauthAccounts, {
-    fields: [OrganizationMembers.userId],
-    references: [OauthAccounts.userId],
-  }),
-  sessions: many(Sessions),
 }))
 
 export const organizationMemberSchema = createSelectSchema(OrganizationMembers)
