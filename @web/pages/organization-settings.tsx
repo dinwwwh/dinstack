@@ -1,13 +1,16 @@
 import { uppercaseFirstLetter } from '@api/lib/utils'
+import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog'
 import { GeneralError } from '@web/components/general-error'
 import { GeneralSkeleton } from '@web/components/general-skeleton'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
+import { OrganizationLeaveAlertDialog } from '@web/components/organization/leave-alert-dialog'
 import { OrganizationMemberInviteSheet } from '@web/components/organization/member-invite-sheet'
 import { OrganizationMemberUpdateSheet } from '@web/components/organization/member-update-sheet'
 import { OrganizationUpdateLogoFn } from '@web/components/organization/update-logo-fn'
 import { OrganizationUpdateSheet } from '@web/components/organization/update-sheet'
 import { Avatar, AvatarFallback, AvatarImage } from '@web/components/ui/avatar'
 import { Badge } from '@web/components/ui/badge'
+import { Button } from '@web/components/ui/button'
 import { SheetTrigger } from '@web/components/ui/sheet'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
@@ -181,6 +184,37 @@ export function Component() {
                       </button>
                     </SheetTrigger>
                   </OrganizationMemberInviteSheet>
+                </div>
+              </div>
+
+              <div className="bg-destructive/10 p-6 rounded-md">
+                <h2 className="text-base font-semibold leading-7 text-destructive">Danger zone</h2>
+                <p className="mt-1 text-sm leading-6 text-destructive/80">
+                  Be careful what you do here.
+                </p>
+
+                <div className="mt-6 space-y-6 divide-y border-t text-sm leading-6 divide-destructive/25 border-destructive/25">
+                  <div className="pt-6 sm:flex items-center justify-between">
+                    <div className="font-medium text-foreground sm:flex-none sm:pr-6">
+                      You will leave &quot;{query.data.organization.name}&quot; organization
+                    </div>
+                    <OrganizationLeaveAlertDialog organizationId={params.organizationId}>
+                      <AlertDialogTrigger asChild>
+                        <Button type="button" variant="destructive">
+                          Leave this organization
+                        </Button>
+                      </AlertDialogTrigger>
+                    </OrganizationLeaveAlertDialog>
+                  </div>
+                  <div className="pt-6 sm:flex items-center justify-between">
+                    <div className="font-medium text-foreground sm:flex-none sm:pr-6">
+                      All data of &quot;{query.data.organization.name}&quot; organization will be
+                      deleted
+                    </div>
+                    <Button type="button" variant="destructive">
+                      Delete this organization
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
