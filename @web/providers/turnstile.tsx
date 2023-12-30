@@ -42,6 +42,7 @@ export function TurnstileProvider(props: { children: React.ReactNode }) {
               token: null,
               instance: turnstileRef.current,
             }))
+            turnstileRef.current?.reset()
           }}
           onExpire={() => {
             useTurnstileStore.setState(() => ({
