@@ -213,24 +213,26 @@ export function Component() {
                       </AlertDialogTrigger>
                     </OrganizationLeaveAlertDialog>
                   </div>
-                  <div className="pt-6 sm:flex items-center justify-between">
-                    <div className="font-medium text-foreground sm:flex-none sm:pr-6">
-                      All data of &quot;{query.data.organization.name}&quot; organization will be
-                      deleted
+                  {organizationMember?.role === 'admin' && (
+                    <div className="pt-6 sm:flex items-center justify-between">
+                      <div className="font-medium text-foreground sm:flex-none sm:pr-6">
+                        All data of &quot;{query.data.organization.name}&quot; organization will be
+                        deleted
+                      </div>
+                      <OrganizationDeleteAlertDialog
+                        organizationId={params.organizationId}
+                        onSuccess={() => {
+                          navigate('/')
+                        }}
+                      >
+                        <AlertDialogTrigger asChild>
+                          <Button type="button" variant="destructive">
+                            Delete this organization
+                          </Button>
+                        </AlertDialogTrigger>
+                      </OrganizationDeleteAlertDialog>
                     </div>
-                    <OrganizationDeleteAlertDialog
-                      organizationId={params.organizationId}
-                      onSuccess={() => {
-                        navigate('/')
-                      }}
-                    >
-                      <AlertDialogTrigger asChild>
-                        <Button type="button" variant="destructive">
-                          Delete this organization
-                        </Button>
-                      </AlertDialogTrigger>
-                    </OrganizationDeleteAlertDialog>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
