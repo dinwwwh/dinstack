@@ -2,8 +2,7 @@ node_modules
 out/
 dist/
 build/
-.env.*
-!.env.example
+.env
 .dev.vars
 
 .*/
