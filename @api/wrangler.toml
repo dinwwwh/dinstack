@@ -1,5 +1,6 @@
 name = "dinstack-api"
 main = "core/worker.ts"
+compatibility_date = "2023-12-30"
 compatibility_flags = ["nodejs_compat"]
 
 [placement]
