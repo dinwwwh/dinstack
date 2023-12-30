@@ -1,5 +1,6 @@
 import { organizationChangeLogoRoute } from './change-logo'
 import { organizationCreateRoute } from './create'
+import { organizationDeleteRoute } from './delete'
 import { organizationDetailRoute } from './detail'
 import { organizationLeaveRoute } from './leave'
 import { organizationListRoute } from './list'
@@ -18,6 +19,7 @@ export const organizationRouter = router({
   update: organizationUpdateRoute,
   changeLogo: organizationChangeLogoRoute,
   leave: organizationLeaveRoute,
+  delete: organizationDeleteRoute,
   member: router({
     invite: organizationMemberInviteRoute,
     invitationInfo: organizationMemberInvitationInfoRoute,

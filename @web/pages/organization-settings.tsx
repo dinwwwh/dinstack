@@ -3,6 +3,7 @@ import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog'
 import { GeneralError } from '@web/components/general-error'
 import { GeneralSkeleton } from '@web/components/general-skeleton'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
+import { OrganizationDeleteAlertDialog } from '@web/components/organization/delete-alert-dialog'
 import { OrganizationLeaveAlertDialog } from '@web/components/organization/leave-alert-dialog'
 import { OrganizationMemberInviteSheet } from '@web/components/organization/member-invite-sheet'
 import { OrganizationMemberUpdateSheet } from '@web/components/organization/member-update-sheet'
@@ -16,7 +17,7 @@ import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { cn } from '@web/lib/utils'
 import { useAuthedStore } from '@web/stores/auth'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
 
@@ -27,6 +28,7 @@ export function Component() {
     })
     .parse(useParams())
   const user = useAuthedStore().session.user
+  const navigate = useNavigate()
 
   const query = api.organization.detail.useQuery({
     organizationId: params.organizationId,
@@ -198,7 +200,12 @@ export function Component() {
                     <div className="font-medium text-foreground sm:flex-none sm:pr-6">
                       You will leave &quot;{query.data.organization.name}&quot; organization
                     </div>
-                    <OrganizationLeaveAlertDialog organizationId={params.organizationId}>
+                    <OrganizationLeaveAlertDialog
+                      organizationId={params.organizationId}
+                      onSuccess={() => {
+                        navigate('/')
+                      }}
+                    >
                       <AlertDialogTrigger asChild>
                         <Button type="button" variant="destructive">
                           Leave this organization
@@ -211,9 +218,18 @@ export function Component() {
                       All data of &quot;{query.data.organization.name}&quot; organization will be
                       deleted
                     </div>
-                    <Button type="button" variant="destructive">
-                      Delete this organization
-                    </Button>
+                    <OrganizationDeleteAlertDialog
+                      organizationId={params.organizationId}
+                      onSuccess={() => {
+                        navigate('/')
+                      }}
+                    >
+                      <AlertDialogTrigger asChild>
+                        <Button type="button" variant="destructive">
+                          Delete this organization
+                        </Button>
+                      </AlertDialogTrigger>
+                    </OrganizationDeleteAlertDialog>
                   </div>
                 </div>
               </div>

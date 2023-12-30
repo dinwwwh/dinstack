@@ -17,14 +17,14 @@ type Props = React.ComponentPropsWithoutRef<typeof AlertDialog> & {
   onSuccess?: () => void
 }
 
-export function OrganizationLeaveAlertDialog({
+export function OrganizationDeleteAlertDialog({
   organizationId,
   children,
   onSuccess,
   ...props
 }: Props) {
   const cancelRef = useRef<HTMLButtonElement>(null)
-  const mutation = api.organization.leave.useMutation({
+  const mutation = api.organization.delete.useMutation({
     onSuccess() {
       cancelRef.current?.click()
       onSuccess?.()
@@ -38,7 +38,8 @@ export function OrganizationLeaveAlertDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. You will no longer be able to access this organization.
+            This action cannot be undone. All data associated with this organization will be
+            deleted.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

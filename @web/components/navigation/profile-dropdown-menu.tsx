@@ -18,7 +18,7 @@ import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { useAuthStore, useAuthedStore } from '@web/stores/auth'
 import { ChevronRightIcon, LogOutIcon, PlusIcon, UserRoundIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { match } from 'ts-pattern'
 
 type Props = React.ComponentPropsWithoutRef<typeof DropdownMenu>
@@ -223,8 +223,13 @@ function LogoutDropdownMenuItem() {
 }
 
 function CreateOrganizationDropdownMenuItem() {
+  const navigate = useNavigate()
   return (
-    <OrganizationCreateSheet>
+    <OrganizationCreateSheet
+      onSuccess={(data) => {
+        navigate(`/organizations/${data.organization.id}`)
+      }}
+    >
       <SheetTrigger asChild>
         <Button
           type="button"

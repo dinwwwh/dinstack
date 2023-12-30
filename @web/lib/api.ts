@@ -15,10 +15,10 @@ export const api = createTRPCReact<AppRouter>({
          * The order here allows route changes in `onSuccess` without
          * having a flash of content change whilst redirecting.
          **/
-        // Invalidate all queries in the react-query cache:
-        await opts.queryClient.invalidateQueries()
         // Calls the `onSuccess` defined in the `useQuery()`-options:
         await opts.originalFn()
+        // Invalidate all queries in the react-query cache:
+        await opts.queryClient.invalidateQueries()
       },
     },
   },

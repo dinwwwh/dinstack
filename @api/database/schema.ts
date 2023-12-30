@@ -28,7 +28,6 @@ export const Users = pgTable('users', {
 export const UserRelations = relations(Users, ({ many }) => ({
   oauthAccounts: many(OauthAccounts),
   organizationMembers: many(OrganizationMembers),
-  sessions: many(Sessions),
 }))
 
 export const userSchema = createSelectSchema(Users, {

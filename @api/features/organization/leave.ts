@@ -1,5 +1,5 @@
 import { authProcedure, organizationMemberMiddleware } from '@api/core/trpc'
-import { OrganizationMembers } from '@api/database/schema'
+import { OrganizationMembers, Sessions } from '@api/database/schema'
 import { TRPCError } from '@trpc/server'
 import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
@@ -12,7 +12,7 @@ export const organizationLeaveRoute = authProcedure
   )
   .use(organizationMemberMiddleware)
   .mutation(async ({ ctx, input }) => {
-    if (ctx.auth.session.userId === input.organizationId) {
+    if (ctx.auth.session.organizationId === input.organizationId) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
         message: 'Please switch to another organization before leaving this one.',
@@ -43,12 +43,23 @@ export const organizationLeaveRoute = authProcedure
       })
     }
 
-    await ctx.db
-      .delete(OrganizationMembers)
-      .where(
-        and(
-          eq(OrganizationMembers.organizationId, input.organizationId),
-          eq(OrganizationMembers.userId, ctx.auth.session.userId),
-        ),
-      )
+    await ctx.db.transaction(async (trx) => {
+      await trx
+        .delete(Sessions)
+        .where(
+          and(
+            eq(Sessions.userId, ctx.auth.session.userId),
+            eq(Sessions.organizationId, input.organizationId),
+          ),
+        )
+
+      await trx
+        .delete(OrganizationMembers)
+        .where(
+          and(
+            eq(OrganizationMembers.userId, ctx.auth.session.userId),
+            eq(OrganizationMembers.organizationId, input.organizationId),
+          ),
+        )
+    })
   })
