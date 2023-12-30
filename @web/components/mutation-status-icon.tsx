@@ -41,11 +41,7 @@ export function MutationStatusIcon(props: {
       showSuccess ? <CheckIcon className={cn('h-4 w-4', props.className)} /> : props.children,
     )
     .with('error', () =>
-      showError ? (
-        <XIcon className={cn('h-4 w-4 text-destructive', props.className)} />
-      ) : (
-        props.children
-      ),
+      showError ? <XIcon className={cn('h-4 w-4', props.className)} /> : props.children,
     )
     .exhaustive()
 }
