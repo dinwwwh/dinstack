@@ -40,8 +40,8 @@ bucket_name = 'dinstack-public-preview'
 
 # ------------------------------------------------------------------------------------------------------------
 
-[env.production]
-logpush = true
+# [env.production]
+# logpush = true
 
 [env.production.route]
 pattern = "dinstack-api.dinsterizer.com"
