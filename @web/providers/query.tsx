@@ -13,12 +13,22 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
-        queryCache: new QueryCache(),
+        queryCache: new QueryCache({
+          onError(err) {
+            if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
+              useAuthStore.setState({ session: null })
+            }
+          },
+        }),
         mutationCache: new MutationCache({
           onError(err) {
             if (err instanceof TRPCClientError) {
               const code = err.data?.code
               const message = err.message
+
+              if (code === 'UNAUTHORIZED') {
+                useAuthStore.setState({ session: null })
+              }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
                 toast({

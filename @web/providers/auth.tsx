@@ -1,30 +1,29 @@
+import { TRPCClientError } from '@trpc/client'
+import { useEffectOnce } from '@web/hooks/use-effect-once'
 import { api } from '@web/lib/api'
 import { useAuthStore } from '@web/stores/auth'
-import { useEffect } from 'react'
 
 export function AuthProvider(props: { children: React.ReactNode }) {
-  const authStore = useAuthStore()
+  const utils = api.useUtils()
 
-  return (
-    <>
-      {authStore.session ? <SyncAuth /> : null}
-      {props.children}
-    </>
-  )
-}
+  useEffectOnce(() => {
+    ;(async () => {
+      if (!useAuthStore.getState().session) return
 
-function SyncAuth() {
-  const query = api.auth.infos.useQuery()
+      try {
+        const data = await utils.auth.infos.fetch()
+        useAuthStore.setState({ session: data.session })
+      } catch (err) {
+        if (err instanceof TRPCClientError) {
+          const code = err.data?.code
 
-  useEffect(() => {
-    if (query.status === 'error') {
-      useAuthStore.setState({ session: null })
-    }
+          if (code === 'UNAUTHORIZED') {
+            useAuthStore.setState({ session: null })
+          }
+        }
+      }
+    })()
+  })
 
-    if (query.status === 'success') {
-      useAuthStore.setState({ session: query.data.session })
-    }
-  }, [query.data, query.status])
-
-  return null
+  return props.children
 }
