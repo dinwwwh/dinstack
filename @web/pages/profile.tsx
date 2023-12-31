@@ -1,3 +1,4 @@
+import { LogoutOtherDevicesAlertDialog } from '@web/components/auth/logout-other-devices-alert-dialog'
 import { GeneralError } from '@web/components/general-error'
 import { GeneralSkeleton } from '@web/components/general-skeleton'
 import { GoogleLogoColorfulIcon } from '@web/components/icons/google-logo'
@@ -7,6 +8,7 @@ import { ProfileUpdateLogoFn } from '@web/components/profile/update-logo-fn'
 import { ProfileUpdateSheet } from '@web/components/profile/update-sheet'
 import { AlertDialogTrigger } from '@web/components/ui/alert-dialog'
 import { Avatar, AvatarFallback, AvatarImage } from '@web/components/ui/avatar'
+import { Button } from '@web/components/ui/button'
 import { SheetTrigger } from '@web/components/ui/sheet'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
@@ -160,6 +162,28 @@ export function Component() {
                     )
                   })}
                 </ul>
+              </div>
+
+              <div className="bg-destructive/10 p-6 rounded-md">
+                <h2 className="text-base font-semibold leading-7 text-destructive">Danger zone</h2>
+                <p className="mt-1 text-sm leading-6 text-destructive/80">
+                  Be careful what you do here.
+                </p>
+
+                <div className="mt-6 space-y-6 divide-y border-t text-sm leading-6 divide-destructive/25 border-destructive/25">
+                  <div className="pt-6 flex items-center justify-between flex-wrap gap-2">
+                    <div className="font-medium text-foreground">
+                      You will be logged out from all other devices (except this one)
+                    </div>
+                    <LogoutOtherDevicesAlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button type="button" variant="destructive">
+                          Logout from all other devices
+                        </Button>
+                      </AlertDialogTrigger>
+                    </LogoutOtherDevicesAlertDialog>
+                  </div>
+                </div>
               </div>
             </div>
           ))

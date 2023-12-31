@@ -196,8 +196,8 @@ export function Component() {
                 </p>
 
                 <div className="mt-6 space-y-6 divide-y border-t text-sm leading-6 divide-destructive/25 border-destructive/25">
-                  <div className="pt-6 sm:flex items-center justify-between">
-                    <div className="font-medium text-foreground sm:flex-none sm:pr-6">
+                  <div className="pt-6 flex items-center justify-between flex-wrap gap-2">
+                    <div className="font-medium text-foreground">
                       You will leave &quot;{query.data.organization.name}&quot; organization
                     </div>
                     <OrganizationLeaveAlertDialog
@@ -214,8 +214,8 @@ export function Component() {
                     </OrganizationLeaveAlertDialog>
                   </div>
                   {organizationMember?.role === 'admin' && (
-                    <div className="pt-6 sm:flex items-center justify-between">
-                      <div className="font-medium text-foreground sm:flex-none sm:pr-6">
+                    <div className="pt-6 flex items-center justify-between flex-wrap gap-2">
+                      <div className="font-medium text-foreground">
                         All data of &quot;{query.data.organization.name}&quot; organization will be
                         deleted
                       </div>
