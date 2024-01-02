@@ -2,6 +2,7 @@ import { organizationChangeLogoRoute } from './change-logo'
 import { organizationCreateRoute } from './create'
 import { organizationDeleteRoute } from './delete'
 import { organizationDetailRoute } from './detail'
+import { organizationInvitationDeleteRoute } from './invitation.delete'
 import { organizationLeaveRoute } from './leave'
 import { organizationListRoute } from './list'
 import { organizationMemberAcceptInvitationRoute } from './member.accept-invitation'
@@ -26,5 +27,8 @@ export const organizationRouter = router({
     acceptInvitation: organizationMemberAcceptInvitationRoute,
     remove: organizationMemberRemoveRoute,
     update: organizationMemberUpdateRoute,
+  }),
+  invitation: router({
+    delete: organizationInvitationDeleteRoute,
   }),
 })

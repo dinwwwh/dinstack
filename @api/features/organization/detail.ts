@@ -17,6 +17,16 @@ export const organizationDetailRoute = authProcedure
             user: true,
           },
         },
+        invitations: {
+          columns: {
+            role: true,
+            email: true,
+            createdAt: true,
+          },
+          where(t, { gt }) {
+            return gt(t.expiresAt, new Date())
+          },
+        },
       },
       where(t, { eq }) {
         return eq(t.id, input.organizationId)

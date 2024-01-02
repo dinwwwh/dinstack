@@ -4,6 +4,7 @@ import { GeneralError } from '@web/components/general-error'
 import { GeneralSkeleton } from '@web/components/general-skeleton'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import { OrganizationDeleteAlertDialog } from '@web/components/organization/delete-alert-dialog'
+import { InvitationDeleteAlertDialog } from '@web/components/organization/invitation-delete-alert-dialog'
 import { OrganizationLeaveAlertDialog } from '@web/components/organization/leave-alert-dialog'
 import { OrganizationMemberInviteSheet } from '@web/components/organization/member-invite-sheet'
 import { OrganizationMemberUpdateSheet } from '@web/components/organization/member-update-sheet'
@@ -169,6 +170,41 @@ export function Component() {
                     </li>
                   ))}
                 </ul>
+
+                {organizationMember?.role === 'admin' && (
+                  <ul role="list" className="mt-6 divide-y border-t text-sm leading-6">
+                    {query.data.organization.invitations.map((invitation) => (
+                      <li
+                        key={`invitations/${invitation.email}`}
+                        className="flex justify-between gap-x-6 py-6 flex-wrap gap-2"
+                      >
+                        <div className="flex items-center gap-1.5 flex-1 justify-start flex-wrap">
+                          <span className="truncate font-medium">{invitation.email}</span>
+                          <Badge variant={'secondary'}>
+                            {uppercaseFirstLetter(invitation.role)}
+                          </Badge>
+                          <Badge className="shrink-0">Waiting for acceptance</Badge>
+                        </div>
+                        <InvitationDeleteAlertDialog
+                          organizationId={params.organizationId}
+                          invitationEmail={invitation.email}
+                        >
+                          <AlertDialogTrigger asChild>
+                            <button
+                              type="button"
+                              className={cn(
+                                'font-semibold text-destructive hover:text-destructive/80',
+                                organizationMember?.role !== 'admin' && 'invisible',
+                              )}
+                            >
+                              Delete
+                            </button>
+                          </AlertDialogTrigger>
+                        </InvitationDeleteAlertDialog>
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
                 <div
                   className={cn(
