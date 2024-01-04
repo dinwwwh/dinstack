@@ -37,5 +37,9 @@ export async function findSessionForAuth({
     })
   }
 
-  return session
+  return {
+    ...session,
+    user: session.organizationMember.user,
+    organization: session.organizationMember.organization,
+  }
 }

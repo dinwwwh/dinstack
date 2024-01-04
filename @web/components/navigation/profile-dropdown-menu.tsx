@@ -144,7 +144,8 @@ function OrganizationListItem(props: {
 }) {
   const utils = api.useUtils()
   const mutation = api.auth.organization.switch.useMutation({
-    onSuccess() {
+    onSuccess(data) {
+      useAuthStore.setState({ session: data.session })
       utils.invalidate()
       props.onSuccess?.()
     },
