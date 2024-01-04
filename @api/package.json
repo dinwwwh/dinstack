@@ -13,6 +13,7 @@
     "deploy:production": "wrangler deploy --env production"
   },
   "dependencies": {
+    "@lemonsqueezy/lemonsqueezy.js": "^1.2.2",
     "@neondatabase/serverless": "^0.6.0",
     "@trpc/server": "^10.45.0",
     "arctic": "^0.3.6",

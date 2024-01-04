@@ -16,6 +16,8 @@ export const envSchema = z.object({
   PUBLIC_BUCKET: z.custom<R2Bucket>((value) => {
     return typeof value === 'object' && value !== null
   }),
+  LEMONSQUEEZY_API_KEY: z.string(),
+  LEMONSQUEEZY_STORE_ID: z.number(),
 })
 
 export type Env = z.infer<typeof envSchema>
