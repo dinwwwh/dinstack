@@ -6,6 +6,7 @@ import { authLogoutOtherDevicesRoute } from './logout-other-devices'
 import { authOauthAuthorizationUrlRoute } from './oauth.authorization-url'
 import { authOauthConnectRoute } from './oauth.connect'
 import { authOauthDisconnectRoute } from './oauth.disconnect'
+import { authOauthInfosRoute } from './oauth.infos'
 import { authOauthLoginRoute } from './oauth.login'
 import { authOrganizationSwitchRoute } from './organization-switch'
 import { authProfileRouter } from './profile'
@@ -21,6 +22,7 @@ export const authRouter = router({
     login: authOauthLoginRoute,
     connect: authOauthConnectRoute,
     disconnect: authOauthDisconnectRoute,
+    infos: authOauthInfosRoute,
   }),
   organization: router({
     switch: authOrganizationSwitchRoute,

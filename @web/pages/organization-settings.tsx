@@ -41,7 +41,7 @@ export function Component() {
 
   return (
     <div className="mx-auto max-w-5xl py-6 md:py-8 xl:py-12 px-4">
-      <h1 className="text-2xl font-semibold tracking-tight">Organization settings</h1>
+      <h1 className="text-2xl font-medium tracking-wide">Organization settings</h1>
 
       <main className="mt-8 md:mt-10 xl:mt-14">
         {match(query)

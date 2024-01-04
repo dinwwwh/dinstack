@@ -1,5 +1,6 @@
 import type * as _A from '@remix-run/router'
 import { AuthLayout } from '@web/layouts/auth'
+import { ProfileLayout } from '@web/layouts/profile'
 import { WithSidebarLayout } from '@web/layouts/with-sidebar'
 import { ErrorPage } from '@web/pages/error'
 import { createBrowserRouter } from 'react-router-dom'
@@ -20,7 +21,21 @@ export const router = createBrowserRouter([
               },
               {
                 path: '/profile',
-                lazy: () => import('../pages/profile'),
+                Component: () => <ProfileLayout />,
+                children: [
+                  {
+                    index: true,
+                    lazy: () => import('../pages/profile-general'),
+                  },
+                  {
+                    path: 'accounts',
+                    lazy: () => import('../pages/profile-accounts'),
+                  },
+                  {
+                    path: 'billing',
+                    lazy: () => import('../pages/profile-billing'),
+                  },
+                ],
               },
               {
                 path: '/organizations/:organizationId',
