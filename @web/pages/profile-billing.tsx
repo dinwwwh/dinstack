@@ -74,9 +74,15 @@ function UnpaidStatus() {
       <div className="p-8 sm:p-10 lg:flex-auto">
         <h3 className="text-2xl font-bold tracking-tight">Lifetime membership</h3>
         <p className="mt-6 text-base leading-7 text-muted-foreground">
-          Unlock a world of endless possibilities, where the only limit is your imagination. Never
-          miss a beat, and always stay ahead of the curve with exclusive access and lifetime
-          benefits.
+          Gain exclusive access and receive lifetime support with a{' '}
+          <span className="font-medium text-foreground/75">14-day money-back guarantee</span>. For
+          any questions or concerns, please don&apos;t hesitate to contact us at{' '}
+          <a
+            href={`mailto:${env.SUPPORT_EMAIL}`}
+            className="font-medium text-foreground/75 hover:text-foreground "
+          >
+            {env.SUPPORT_EMAIL}
+          </a>
         </p>
         <div className="mt-10 flex items-center gap-x-4">
           <h4 className="flex-none text-sm font-semibold leading-6 text-primary">
