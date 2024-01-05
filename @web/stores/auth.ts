@@ -2,6 +2,7 @@ import {
   organizationMemberSchema,
   organizationSchema,
   sessionSchema,
+  subscriptionSchema,
   userSchema,
 } from '@api/database/schema'
 import { createSuperJSONStorage } from '@web/lib/zustand'
@@ -13,7 +14,11 @@ const authStoreSchema = z.object({
   session: sessionSchema
     .and(
       z.object({
-        user: userSchema,
+        user: userSchema.and(
+          z.object({
+            subscriptions: z.array(subscriptionSchema),
+          }),
+        ),
         organization: organizationSchema.and(
           z.object({
             members: z.array(organizationMemberSchema),

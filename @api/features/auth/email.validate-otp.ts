@@ -39,6 +39,7 @@ export const authEmailValidateOtpRoute = procedure
 
     const existingUser = await ctx.db.query.Users.findFirst({
       with: {
+        subscriptions: true,
         organizationMembers: {
           with: {
             organization: {
@@ -107,7 +108,10 @@ export const authEmailValidateOtpRoute = procedure
     return {
       session: {
         ...session,
-        user,
+        user: {
+          ...user,
+          subscriptions: [],
+        },
         organization: {
           ...organization,
           members: [organizationMember],

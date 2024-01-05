@@ -24,7 +24,11 @@ export async function findSessionForAuth({
               },
             },
           },
-          user: true,
+          user: {
+            with: {
+              subscriptions: true,
+            },
+          },
         },
       },
     },
