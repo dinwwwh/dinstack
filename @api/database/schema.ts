@@ -10,6 +10,7 @@ import {
   jsonb,
   foreignKey,
   unique,
+  integer,
 } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { alphabet, generateRandomString } from 'oslo/random'
@@ -28,6 +29,7 @@ export const Users = pgTable('users', {
 export const UserRelations = relations(Users, ({ many }) => ({
   oauthAccounts: many(OauthAccounts),
   organizationMembers: many(OrganizationMembers),
+  subscriptions: many(Subscriptions),
 }))
 
 export const userSchema = createSelectSchema(Users, {
@@ -183,7 +185,7 @@ export const OrganizationInvitations = pgTable(
   }),
 )
 
-export const OrganizationsInvitationRelations = relations(OrganizationInvitations, ({ one }) => ({
+export const OrganizationInvitationRelations = relations(OrganizationInvitations, ({ one }) => ({
   organization: one(Organizations, {
     fields: [OrganizationInvitations.organizationId],
     references: [Organizations.id],
@@ -195,4 +197,50 @@ export const organizationInvitationSchema = createSelectSchema(OrganizationInvit
 })
 export const organizationInvitationInsertSchema = createInsertSchema(OrganizationInvitations, {
   email: z.string().max(255).email().toLowerCase(),
+})
+
+export type SubscriptionLemonSqueezyId = `order_${number}` | `subscription_${number}`
+
+export const Subscriptions = pgTable(
+  'subscriptions',
+  {
+    id: uuid('id')
+      .primaryKey()
+      .default(sql`uuid_generate_v7()`),
+    lemonSqueezyId: varchar('lemon_squeezy_id', { length: 255 })
+      .notNull()
+      .unique()
+      .$type<SubscriptionLemonSqueezyId>(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => Users.id),
+    variantId: integer('variant_id').notNull(),
+    expiresAt: timestamp('expired_at'), // null for lifetime
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => ({
+    pu: unique().on(t.variantId, t.userId),
+  }),
+)
+
+export const SubscriptionRelations = relations(Subscriptions, ({ one }) => ({
+  user: one(Users, {
+    fields: [Subscriptions.userId],
+    references: [Users.id],
+  }),
+}))
+
+export const subscriptionSchema = createSelectSchema(Subscriptions, {
+  lemonSqueezyId: z.custom<SubscriptionLemonSqueezyId>(
+    (val) =>
+      z.string().startsWith('order_').or(z.string().startsWith('subscription_')).safeParse(val)
+        .success,
+  ),
+})
+export const subscriptionInsertSchema = createInsertSchema(Subscriptions, {
+  lemonSqueezyId: z.custom<SubscriptionLemonSqueezyId>(
+    (val) =>
+      z.string().startsWith('order_').or(z.string().startsWith('subscription_')).safeParse(val)
+        .success,
+  ),
 })
