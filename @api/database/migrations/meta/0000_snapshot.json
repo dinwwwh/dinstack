@@ -1,5 +1,5 @@
 {
-  "id": "ef55bbfc-6a28-4291-80aa-678916367e80",
+  "id": "48561394-9b14-4a9b-bb9b-cc27d2e073c1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -328,9 +328,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "lemon_squeezy_id": {
-          "name": "lemon_squeezy_id",
-          "type": "varchar(255)",
+        "ls_customer_id": {
+          "name": "ls_customer_id",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
@@ -366,13 +366,7 @@
           "columns": ["variant_id", "user_id"]
         }
       },
-      "uniqueConstraints": {
-        "subscriptions_lemon_squeezy_id_unique": {
-          "name": "subscriptions_lemon_squeezy_id_unique",
-          "nullsNotDistinct": false,
-          "columns": ["lemon_squeezy_id"]
-        }
-      }
+      "uniqueConstraints": {}
     },
     "users": {
       "name": "users",

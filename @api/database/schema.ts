@@ -208,10 +208,7 @@ export const Subscriptions = pgTable(
       .notNull()
       .references(() => Users.id),
     variantId: integer('variant_id').notNull(),
-    lemonSqueezyId: varchar('lemon_squeezy_id', { length: 255 })
-      .notNull()
-      .unique()
-      .$type<SubscriptionLemonSqueezyId>(),
+    lsCustomerId: integer('ls_customer_id').notNull(),
     expiresAt: timestamp('expired_at'), // null for lifetime
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
@@ -227,17 +224,5 @@ export const SubscriptionRelations = relations(Subscriptions, ({ one }) => ({
   }),
 }))
 
-export const subscriptionSchema = createSelectSchema(Subscriptions, {
-  lemonSqueezyId: z.custom<SubscriptionLemonSqueezyId>(
-    (val) =>
-      z.string().startsWith('order_').or(z.string().startsWith('subscription_')).safeParse(val)
-        .success,
-  ),
-})
-export const subscriptionInsertSchema = createInsertSchema(Subscriptions, {
-  lemonSqueezyId: z.custom<SubscriptionLemonSqueezyId>(
-    (val) =>
-      z.string().startsWith('order_').or(z.string().startsWith('subscription_')).safeParse(val)
-        .success,
-  ),
-})
+export const subscriptionSchema = createSelectSchema(Subscriptions)
+export const subscriptionInsertSchema = createInsertSchema(Subscriptions)

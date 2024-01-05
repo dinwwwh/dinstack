@@ -65,11 +65,10 @@ CREATE TABLE IF NOT EXISTS "sessions" (
 CREATE TABLE IF NOT EXISTS "subscriptions" (
 	"user_id" uuid NOT NULL,
 	"variant_id" integer NOT NULL,
-	"lemon_squeezy_id" varchar(255) NOT NULL,
+	"ls_customer_id" integer NOT NULL,
 	"expired_at" timestamp,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT subscriptions_variant_id_user_id_pk PRIMARY KEY("variant_id","user_id"),
-	CONSTRAINT "subscriptions_lemon_squeezy_id_unique" UNIQUE("lemon_squeezy_id")
+	CONSTRAINT subscriptions_variant_id_user_id_pk PRIMARY KEY("variant_id","user_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (

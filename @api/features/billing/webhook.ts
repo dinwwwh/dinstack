@@ -25,6 +25,7 @@ export async function handleWebhookRequest(ctx: Context & { request: Request }) 
         id: z.coerce.number(),
         attributes: z.object({
           status: z.enum(['pending', 'failed', 'paid', 'refunded']),
+          customer_id: z.number(),
           first_order_item: z.object({
             variant_id: z.number(),
           }),
@@ -54,13 +55,13 @@ export async function handleWebhookRequest(ctx: Context & { request: Request }) 
         .values({
           userId: e.meta.custom_data.user_id,
           variantId: e.data.attributes.first_order_item.variant_id,
-          lemonSqueezyId: `order_${e.data.id}`,
+          lsCustomerId: e.data.attributes.customer_id,
           expiresAt,
         })
         .onConflictDoUpdate({
           target: [Subscriptions.variantId, Subscriptions.userId],
           set: {
-            lemonSqueezyId: `order_${e.data.id}`,
+            lsCustomerId: e.data.attributes.customer_id,
             expiresAt,
           },
         })

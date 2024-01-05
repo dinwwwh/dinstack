@@ -1,4 +1,4 @@
-import { Subscriptions } from '@api/database/schema'
+import type { Subscriptions } from '@api/database/schema'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
@@ -38,7 +38,7 @@ function PaidStatus(props: { subscription: typeof Subscriptions.$inferSelect }) 
           <span className="font-medium text-foreground/75">
             {props.subscription.createdAt.toDateString()}
           </span>
-          . For any questions or concerns, please don't hesitate to contact us at{' '}
+          . For any questions or concerns, please don&apos;t hesitate to contact us at{' '}
           <a
             href={`mailto:${env.SUPPORT_EMAIL}`}
             className="font-medium text-foreground/75 hover:text-foreground "
