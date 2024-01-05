@@ -8,6 +8,7 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 import { appRouter } from './router'
+import { handleWebhookRequest } from '@api/features/billing/webhook'
 import { createContext } from '@api/lib/context'
 import { envSchema } from '@api/lib/env'
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
@@ -32,6 +33,10 @@ export default {
           if (error.code === 'INTERNAL_SERVER_ERROR') console.error(error)
         },
       })
+    }
+
+    if (!response && url.pathname.startsWith('/billing/webhook') && request.method === 'POST') {
+      response = await handleWebhookRequest({ ...context, request })
     }
 
     if (!response && url.pathname.startsWith('/public') && request.method.toUpperCase() === 'GET') {

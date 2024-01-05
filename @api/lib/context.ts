@@ -7,7 +7,7 @@ import {
 import { createDb } from './db'
 import { createSendEmailFn } from './email'
 import type { Env } from './env'
-import { createLemonSqueezy } from './ls'
+import { createLemonSqueezy } from './lemon-squeezy'
 
 export function createContext({
   env,
@@ -24,7 +24,7 @@ export function createContext({
   const authGoogle = createAuthGoogle({ env })
   const authGithub = createAuthGithub({ env })
   const sendEmail = createSendEmailFn({ env })
-  const lemonSqueezy = createLemonSqueezy({ lemonsqueezyApiKey: env.LEMONSQUEEZY_API_KEY })
+  const lemonSqueezy = createLemonSqueezy({ env })
 
   return {
     env,
