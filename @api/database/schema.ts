@@ -204,22 +204,19 @@ export type SubscriptionLemonSqueezyId = `order_${number}` | `subscription_${num
 export const Subscriptions = pgTable(
   'subscriptions',
   {
-    id: uuid('id')
-      .primaryKey()
-      .default(sql`uuid_generate_v7()`),
-    lemonSqueezyId: varchar('lemon_squeezy_id', { length: 255 })
-      .notNull()
-      .unique()
-      .$type<SubscriptionLemonSqueezyId>(),
     userId: uuid('user_id')
       .notNull()
       .references(() => Users.id),
     variantId: integer('variant_id').notNull(),
+    lemonSqueezyId: varchar('lemon_squeezy_id', { length: 255 })
+      .notNull()
+      .unique()
+      .$type<SubscriptionLemonSqueezyId>(),
     expiresAt: timestamp('expired_at'), // null for lifetime
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (t) => ({
-    pu: unique().on(t.variantId, t.userId),
+    pk: primaryKey({ columns: [t.variantId, t.userId] }),
   }),
 )
 

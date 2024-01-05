@@ -62,6 +62,16 @@ CREATE TABLE IF NOT EXISTS "sessions" (
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "subscriptions" (
+	"user_id" uuid NOT NULL,
+	"variant_id" integer NOT NULL,
+	"lemon_squeezy_id" varchar(255) NOT NULL,
+	"expired_at" timestamp,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT subscriptions_variant_id_user_id_pk PRIMARY KEY("variant_id","user_id"),
+	CONSTRAINT "subscriptions_lemon_squeezy_id_unique" UNIQUE("lemon_squeezy_id")
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
 	"id" uuid PRIMARY KEY DEFAULT uuid_generate_v7() NOT NULL,
 	"name" varchar(255) NOT NULL,
@@ -97,6 +107,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_organization_id_fkey" FOREIGN KEY ("user_id","organization_id") REFERENCES "organization_members"("user_id","organization_id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "subscriptions" ADD CONSTRAINT "subscriptions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

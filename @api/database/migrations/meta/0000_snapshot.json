@@ -1,5 +1,5 @@
 {
-  "id": "18e1f6c0-bd33-48f9-bf23-0257f114c1af",
+  "id": "ef55bbfc-6a28-4291-80aa-678916367e80",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -311,6 +311,68 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
+    },
+    "subscriptions": {
+      "name": "subscriptions",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "variant_id": {
+          "name": "variant_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lemon_squeezy_id": {
+          "name": "lemon_squeezy_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expired_at": {
+          "name": "expired_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "subscriptions_user_id_users_id_fk": {
+          "name": "subscriptions_user_id_users_id_fk",
+          "tableFrom": "subscriptions",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "subscriptions_variant_id_user_id_pk": {
+          "name": "subscriptions_variant_id_user_id_pk",
+          "columns": ["variant_id", "user_id"]
+        }
+      },
+      "uniqueConstraints": {
+        "subscriptions_lemon_squeezy_id_unique": {
+          "name": "subscriptions_lemon_squeezy_id_unique",
+          "nullsNotDistinct": false,
+          "columns": ["lemon_squeezy_id"]
+        }
+      }
     },
     "users": {
       "name": "users",
