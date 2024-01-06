@@ -16,7 +16,7 @@ import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 export default {
   async fetch(request: Request, unvalidatedEnv: unknown, ec: ExecutionContext) {
     const env = envSchema.parse(unvalidatedEnv)
-    const context = createContext({ env, ec, request })
+    const context = createContext({ env, ec })
     const url = new URL(request.url)
 
     let response: Response | undefined

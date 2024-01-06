@@ -9,15 +9,7 @@ import { createSendEmailFn } from './email'
 import type { Env } from './env'
 import { createLemonSqueezy } from './lemon-squeezy'
 
-export function createContext({
-  env,
-  ec,
-  request,
-}: {
-  env: Env
-  ec: ExecutionContext
-  request?: Request
-}) {
+export function createContext({ env, ec }: { env: Env; ec: ExecutionContext }) {
   const db = createDb({ env })
   const createAuthJwt = createCreateAuthJwtFn({ env })
   const validateAuthJwt = createValidateAuthJwtFn({ env })
@@ -30,7 +22,6 @@ export function createContext({
     env,
     ec,
     db,
-    request,
     lemonSqueezy,
     email: {
       send: sendEmail,
