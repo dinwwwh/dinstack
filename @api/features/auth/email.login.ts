@@ -3,12 +3,13 @@ import { createSession } from './helpers/create-session'
 import { createUser } from './helpers/create-user'
 import { procedure } from '@api/core/trpc'
 import { EmailOtps, emailOtpSchema } from '@api/database/schema'
+import { signAuthJwt } from '@api/lib/auth'
 import { generateFallbackAvatarUrl } from '@api/lib/utils'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
-export const authEmailValidateOtpRoute = procedure
+export const authEmailLoginRoute = procedure
   .input(
     z.object({
       email: emailOtpSchema.shape.email,
@@ -75,10 +76,19 @@ export const authEmailValidateOtpRoute = procedure
       })()
 
       const session = await createSession({ ctx, organizationMember })
+      const jwt = await signAuthJwt({
+        env: ctx.env,
+        payload: {
+          sessionSecretKey: session.secretKey,
+          userId: existingUser.id,
+          organizationId: organizationMember.organizationId,
+          organizationRole: organizationMember.role,
+        },
+      })
 
       return {
-        session: {
-          ...session,
+        auth: {
+          jwt,
           user: existingUser,
           organization: organizationMember.organization,
           organizationMember,
@@ -104,10 +114,19 @@ export const authEmailValidateOtpRoute = procedure
     })
 
     const session = await createSession({ ctx, organizationMember })
+    const jwt = await signAuthJwt({
+      env: ctx.env,
+      payload: {
+        sessionSecretKey: session.secretKey,
+        userId: user.id,
+        organizationId: organizationMember.organizationId,
+        organizationRole: organizationMember.role,
+      },
+    })
 
     return {
-      session: {
-        ...session,
+      auth: {
+        jwt,
         user: {
           ...user,
           subscriptions: [],

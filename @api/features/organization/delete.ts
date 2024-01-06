@@ -12,7 +12,7 @@ export const organizationDeleteRoute = authProcedure
   )
   .use(organizationAdminMiddleware)
   .mutation(async ({ ctx, input }) => {
-    if (ctx.auth.session.organizationId === input.organizationId) {
+    if (ctx.auth.organizationId === input.organizationId) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
         message: 'Please switch to another organization before deleting this one.',

@@ -145,7 +145,7 @@ function OrganizationListItem(props: {
   const utils = api.useUtils()
   const mutation = api.auth.organization.switch.useMutation({
     onSuccess(data) {
-      useAuthStore.setState({ session: data.session })
+      useAuthStore.setState({ state: data.auth })
       utils.invalidate()
       props.onSuccess?.()
     },
@@ -203,10 +203,10 @@ function OrganizationListItem(props: {
 function LogoutDropdownMenuItem() {
   const mutation = api.auth.logout.useMutation({
     onSuccess() {
-      useAuthStore.setState({ session: null })
+      useAuthStore.setState({ state: null })
     },
     onError() {
-      useAuthStore.setState({ session: null })
+      useAuthStore.setState({ state: null })
     },
   })
   return (

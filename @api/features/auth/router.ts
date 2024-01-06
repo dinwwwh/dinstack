@@ -1,5 +1,5 @@
+import { authEmailLoginRoute } from './email.login'
 import { authEmailSendOtpRoute } from './email.send-otp'
-import { authEmailValidateOtpRoute } from './email.validate-otp'
 import { authInfosRoute } from './infos'
 import { authLogoutRoute } from './logout'
 import { authLogoutOtherDevicesRoute } from './logout-other-devices'
@@ -15,7 +15,7 @@ import { router } from '@api/core/trpc'
 export const authRouter = router({
   email: router({
     sendOtp: authEmailSendOtpRoute,
-    validateOtp: authEmailValidateOtpRoute,
+    login: authEmailLoginRoute,
   }),
   oauth: router({
     authorizationUrl: authOauthAuthorizationUrlRoute,

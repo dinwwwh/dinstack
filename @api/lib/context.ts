@@ -1,9 +1,4 @@
-import {
-  createAuthGithub,
-  createAuthGoogle,
-  createCreateAuthJwtFn,
-  createValidateAuthJwtFn,
-} from './auth'
+import { createAuthGithub, createAuthGoogle } from './auth'
 import { createDb } from './db'
 import { createSendEmailFn } from './email'
 import type { Env } from './env'
@@ -11,8 +6,6 @@ import { createLemonSqueezy } from './lemon-squeezy'
 
 export function createContext({ env, ec }: { env: Env; ec: ExecutionContext }) {
   const db = createDb({ env })
-  const createAuthJwt = createCreateAuthJwtFn({ env })
-  const validateAuthJwt = createValidateAuthJwtFn({ env })
   const authGoogle = createAuthGoogle({ env })
   const authGithub = createAuthGithub({ env })
   const sendEmail = createSendEmailFn({ env })
@@ -29,8 +22,6 @@ export function createContext({ env, ec }: { env: Env; ec: ExecutionContext }) {
     auth: {
       google: authGoogle,
       github: authGithub,
-      createJwt: createAuthJwt,
-      validateJwt: validateAuthJwt,
     },
   }
 }

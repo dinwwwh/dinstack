@@ -12,7 +12,7 @@ export const billingCheckoutRoute = authProcedure
   .mutation(async ({ ctx, input }) => {
     const user = await ctx.db.query.Users.findFirst({
       where(t, { eq }) {
-        return eq(t.id, ctx.auth.session.userId)
+        return eq(t.id, ctx.auth.userId)
       },
     })
 

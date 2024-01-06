@@ -27,7 +27,7 @@ export const organizationListRoute = authProcedure
             .where(
               and(
                 eq(t.id, OrganizationMembers.organizationId),
-                eq(OrganizationMembers.userId, ctx.auth.session.userId),
+                eq(OrganizationMembers.userId, ctx.auth.userId),
               ),
             ),
         )

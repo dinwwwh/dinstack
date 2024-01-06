@@ -19,6 +19,7 @@
     "arctic": "^0.3.6",
     "drizzle-orm": "^0.29.1",
     "drizzle-zod": "^0.5.1",
+    "jose": "^5.2.0",
     "lodash-es": "^4.17.21",
     "oslo": "^0.23.5",
     "postgres": "^3.4.3",

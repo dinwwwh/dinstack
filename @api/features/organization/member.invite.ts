@@ -33,7 +33,7 @@ export const organizationMemberInviteRoute = authProcedure
 
     const findUser = ctx.db.query.Users.findFirst({
       where(t, { eq }) {
-        return eq(t.id, ctx.auth.session.userId)
+        return eq(t.id, ctx.auth.userId)
       },
     })
 

@@ -20,7 +20,7 @@ export const authProfileRouter = router({
         .set({
           name: input.user.name,
         })
-        .where(eq(Users.id, ctx.auth.session.userId))
+        .where(eq(Users.id, ctx.auth.userId))
     }),
   updateAvatarUrl: authProcedure
     .input(
@@ -42,7 +42,7 @@ export const authProfileRouter = router({
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.db.query.Users.findFirst({
         where(t, { eq }) {
-          return eq(t.id, ctx.auth.session.userId)
+          return eq(t.id, ctx.auth.userId)
         },
       })
 
@@ -53,7 +53,7 @@ export const authProfileRouter = router({
         })
       }
 
-      const objectName = `user/${ctx.auth.session.userId}/avatar/${input.avatar.name}`
+      const objectName = `user/${ctx.auth.userId}/avatar/${input.avatar.name}`
       const deleteOldAvatar = ctx.env.PUBLIC_BUCKET.delete(user.avatarUrl)
       const uploadNewAvatar = ctx.env.PUBLIC_BUCKET.put(objectName, input.avatar.base64)
       const updateAvatarUrl = ctx.db
@@ -61,7 +61,7 @@ export const authProfileRouter = router({
         .set({
           avatarUrl: objectName,
         })
-        .where(eq(Users.id, ctx.auth.session.userId))
+        .where(eq(Users.id, ctx.auth.userId))
 
       await Promise.all([deleteOldAvatar, uploadNewAvatar, updateAvatarUrl])
     }),

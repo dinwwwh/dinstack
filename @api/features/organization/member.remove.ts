@@ -13,7 +13,7 @@ export const organizationMemberRemoveRoute = authProcedure
   )
   .use(organizationAdminMiddleware)
   .mutation(async ({ ctx, input }) => {
-    if (input.userId === ctx.auth.session.userId) {
+    if (input.userId === ctx.auth.userId) {
       throw new TRPCError({
         code: 'FORBIDDEN',
         message: 'You cannot remove yourself from the organization',

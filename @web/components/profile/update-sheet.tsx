@@ -60,7 +60,7 @@ export function ProfileUpdateSheet({ children, onSuccess, ...props }: Props) {
           .with({ status: 'success' }, (query) => (
             <form className="space-y-4 mt-6" onSubmit={onSubmit}>
               <div className="space-y-1">
-                <Input disabled defaultValue={query.data.session.user.email} />
+                <Input disabled defaultValue={query.data.auth.user.email} />
               </div>
 
               <div className="space-y-1">
@@ -74,7 +74,7 @@ export function ProfileUpdateSheet({ children, onSuccess, ...props }: Props) {
                   name="name"
                   required
                   minLength={3}
-                  defaultValue={query.data.session.user.name}
+                  defaultValue={query.data.auth.user.name}
                 />
               </div>
 

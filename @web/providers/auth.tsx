@@ -8,17 +8,17 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
   useEffectOnce(() => {
     ;(async () => {
-      if (!useAuthStore.getState().session) return
+      if (!useAuthStore.getState().state) return
 
       try {
         const data = await utils.auth.infos.fetch()
-        useAuthStore.setState({ session: data.session })
+        useAuthStore.setState({ state: data.auth })
       } catch (err) {
         if (err instanceof TRPCClientError) {
           const code = err.data?.code
 
           if (code === 'UNAUTHORIZED') {
-            useAuthStore.setState({ session: null })
+            useAuthStore.setState({ state: null })
           }
         }
       }

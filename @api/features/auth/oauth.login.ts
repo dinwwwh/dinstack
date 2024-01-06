@@ -4,6 +4,7 @@ import { createUser } from './helpers/create-user'
 import { getOauthUser } from './helpers/get-oauth-user'
 import { procedure } from '@api/core/trpc'
 import { oauthAccountSchema } from '@api/database/schema'
+import { signAuthJwt } from '@api/lib/auth'
 import { uppercaseFirstLetter } from '@api/lib/utils'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
@@ -66,10 +67,19 @@ export const authOauthLoginRoute = procedure
       })()
 
       const session = await createSession({ ctx, organizationMember })
+      const jwt = await signAuthJwt({
+        env: ctx.env,
+        payload: {
+          sessionSecretKey: session.secretKey,
+          userId: oauthAccount.user.id,
+          organizationId: organizationMember.organizationId,
+          organizationRole: organizationMember.role,
+        },
+      })
 
       return {
-        session: {
-          ...session,
+        auth: {
+          jwt,
           user: oauthAccount.user,
           organization: organizationMember.organization,
           organizationMember,
@@ -112,10 +122,19 @@ export const authOauthLoginRoute = procedure
     })
 
     const session = await createSession({ ctx, organizationMember })
+    const jwt = await signAuthJwt({
+      env: ctx.env,
+      payload: {
+        sessionSecretKey: session.secretKey,
+        userId: user.id,
+        organizationId: organizationMember.organizationId,
+        organizationRole: organizationMember.role,
+      },
+    })
 
     return {
-      session: {
-        ...session,
+      auth: {
+        jwt,
         user: {
           ...user,
           subscriptions: [],

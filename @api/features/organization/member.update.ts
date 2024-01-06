@@ -14,7 +14,7 @@ export const organizationMemberUpdateRoute = authProcedure
   )
   .use(organizationAdminMiddleware)
   .mutation(async ({ ctx, input }) => {
-    if (input.userId === ctx.auth.session.userId) {
+    if (input.userId === ctx.auth.userId) {
       throw new TRPCError({
         code: 'FORBIDDEN',
         message: 'You cannot update yourself from the organization',

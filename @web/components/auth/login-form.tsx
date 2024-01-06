@@ -49,7 +49,7 @@ export function LoginForm() {
           <ValidateOtpForm
             email={email}
             onSuccess={(data) => {
-              useAuthStore.setState({ session: data.session, emailAuthorization: null })
+              useAuthStore.setState({ state: data.auth, emailAuthorization: null })
             }}
             onBack={() => {
               setStep('send-otp')
@@ -123,12 +123,12 @@ function SendOtpForm(props: { onSuccess?: ({ email }: { email: string }) => void
 
 function ValidateOtpForm(props: {
   email: string
-  onSuccess?: (data: ApiOutputs['auth']['email']['validateOtp']) => void
+  onSuccess?: (data: ApiOutputs['auth']['email']['login']) => void
   onBack?: () => void
 }) {
   const [otp, setOtp] = useState<string>('')
   const sendOtpMutation = api.auth.email.sendOtp.useMutation()
-  const mutation = api.auth.email.validateOtp.useMutation({
+  const mutation = api.auth.email.login.useMutation({
     onSuccess(data) {
       props.onSuccess?.(data)
     },
