@@ -1,5 +1,5 @@
 import { findSessionForAuth } from './helpers/find-session-for-auth'
-import { authProcedure } from '@api/core/trpc'
+import { authProcedure, organizationMemberMiddleware } from '@api/core/trpc'
 import { Sessions, organizationSchema } from '@api/database/schema'
 import { signAuthJwt } from '@api/lib/auth'
 import { eq } from 'drizzle-orm'
@@ -11,6 +11,7 @@ export const authOrganizationSwitchRoute = authProcedure
       organizationId: organizationSchema.shape.id,
     }),
   )
+  .use(organizationMemberMiddleware)
   .mutation(async ({ ctx, input }) => {
     await ctx.db
       .update(Sessions)
