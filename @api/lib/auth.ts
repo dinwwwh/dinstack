@@ -1,8 +1,5 @@
+import type { OrganizationMembers, Organizations, Sessions, Users } from '@api/database/schema'
 import {
-  OrganizationMembers,
-  Organizations,
-  Sessions,
-  Users,
   organizationMemberSchema,
   organizationSchema,
   sessionSchema,
@@ -16,6 +13,7 @@ import { z } from 'zod'
 const encoder = new TextEncoder()
 
 export const AUTH_JWT_ALGORITHM = 'HS256'
+export const AUTH_JWT_LIVE_TIME_IN_SECONDS = 60 * 60
 
 const jwtPayloadSchema = z.object({
   ssk: sessionSchema.shape.secretKey,
@@ -42,7 +40,7 @@ export async function signAuthJwt(opts: { env: Env; payload: InteractionAuth }) 
   return await new SignJWT(jwtPayloadSchema.parse(payload))
     .setProtectedHeader({ alg: AUTH_JWT_ALGORITHM })
     .setIssuedAt()
-    .setExpirationTime(Date.now() / 1000 + 60 * 60)
+    .setExpirationTime(Date.now() / 1000 + AUTH_JWT_LIVE_TIME_IN_SECONDS)
     .sign(encoder.encode(opts.env.AUTH_SECRET))
 }
 

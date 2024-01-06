@@ -1,7 +1,6 @@
 import {
   organizationMemberSchema,
   organizationSchema,
-  sessionSchema,
   subscriptionSchema,
   userSchema,
 } from '@api/database/schema'
