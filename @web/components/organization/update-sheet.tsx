@@ -13,6 +13,7 @@ import {
   SheetTitle,
 } from '@web/components/ui/sheet'
 import { type ApiOutputs, api } from '@web/lib/api'
+import { useAuthStore } from '@web/stores/auth'
 import { useId, useRef } from 'react'
 import { match } from 'ts-pattern'
 
@@ -30,9 +31,23 @@ export function OrganizationUpdateSheet({ organizationId, children, onSuccess, .
   })
 
   const mutation = api.organization.update.useMutation({
-    onSuccess(data) {
+    onSuccess(data, params) {
       onSuccess?.(data)
       closeElement.current?.click()
+
+      const authState = useAuthStore.getState().state
+      if (!authState) return
+      if (authState.organization.id !== params.organization.id) return
+
+      useAuthStore.setState({
+        state: {
+          ...authState,
+          organization: {
+            ...authState.organization,
+            ...params.organization,
+          },
+        },
+      })
     },
   })
 

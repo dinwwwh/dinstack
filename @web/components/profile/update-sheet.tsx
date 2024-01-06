@@ -13,6 +13,7 @@ import {
   SheetTitle,
 } from '@web/components/ui/sheet'
 import { api } from '@web/lib/api'
+import { useAuthStore } from '@web/stores/auth'
 import { useId, useRef } from 'react'
 import { match } from 'ts-pattern'
 
@@ -27,9 +28,22 @@ export function ProfileUpdateSheet({ children, onSuccess, ...props }: Props) {
   const query = api.auth.infos.useQuery()
 
   const mutation = api.auth.profile.update.useMutation({
-    onSuccess() {
+    onSuccess(_, params) {
       onSuccess?.()
       closeElement.current?.click()
+
+      const authState = useAuthStore.getState().state
+      if (!authState) return
+
+      useAuthStore.setState({
+        state: {
+          ...authState,
+          user: {
+            ...authState.user,
+            ...params.user,
+          },
+        },
+      })
     },
   })
 

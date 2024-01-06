@@ -10,7 +10,7 @@ export const authProfileRouter = router({
     .input(
       z.object({
         user: z.object({
-          name: z.string().min(3).max(255).optional(),
+          name: z.string().min(3).max(255),
         }),
       }),
     )
@@ -64,5 +64,9 @@ export const authProfileRouter = router({
         .where(eq(Users.id, ctx.auth.userId))
 
       await Promise.all([deleteOldAvatar, uploadNewAvatar, updateAvatarUrl])
+
+      return {
+        avatarUrl: objectName,
+      }
     }),
 })
