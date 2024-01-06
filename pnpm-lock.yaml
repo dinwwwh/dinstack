@@ -47,6 +47,9 @@ importers:
 
   '@api':
     dependencies:
+      '@lemonsqueezy/lemonsqueezy.js':
+        specifier: ^1.2.2
+        version: 1.2.2
       '@neondatabase/serverless':
         specifier: ^0.6.0
         version: 0.6.0
@@ -1240,6 +1243,10 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
+
+  /@lemonsqueezy/lemonsqueezy.js@1.2.2:
+    resolution: {integrity: sha512-6laXtCHYv89boG1TGM0fZtWrp3B8XWIDIeCWVyj37XO4ECyR1EeVIgMQlPbxixuuf7IL+UOGjkQX60Gi8DJKNQ==}
+    dev: false
 
   /@marsidev/react-turnstile@0.4.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-U0lwTWQhP04AnIdWEbLpF/phpqtblNbrnE4yJMdvGyeOZOTmuHW3wB+V8X+BO55pTXZitp2GgJsrGkbUjwJIeQ==}

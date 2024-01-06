@@ -37,6 +37,7 @@ export const authOauthLoginRoute = procedure
               },
               limit: 1,
             },
+            subscriptions: true,
           },
         },
       },
@@ -115,7 +116,10 @@ export const authOauthLoginRoute = procedure
     return {
       session: {
         ...session,
-        user,
+        user: {
+          ...user,
+          subscriptions: [],
+        },
         organization: {
           ...organization,
           members: [organizationMember],
