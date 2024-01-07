@@ -1,7 +1,6 @@
 import {
   organizationMemberSchema,
   organizationSchema,
-  sessionSchema,
   subscriptionSchema,
   userSchema,
 } from '@api/database/schema'
@@ -11,22 +10,21 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 const authStoreSchema = z.object({
-  session: sessionSchema
-    .and(
-      z.object({
-        user: userSchema.and(
-          z.object({
-            subscriptions: z.array(subscriptionSchema),
-          }),
-        ),
-        organization: organizationSchema.and(
-          z.object({
-            members: z.array(organizationMemberSchema),
-          }),
-        ),
-        organizationMember: organizationMemberSchema,
-      }),
-    )
+  state: z
+    .object({
+      jwt: z.string(),
+      user: userSchema.and(
+        z.object({
+          subscriptions: z.array(subscriptionSchema),
+        }),
+      ),
+      organization: organizationSchema.and(
+        z.object({
+          members: z.array(organizationMemberSchema),
+        }),
+      ),
+      organizationMember: organizationMemberSchema,
+    })
     .nullable(),
   oauthAuthorization: z
     .object({
@@ -46,7 +44,7 @@ const authStoreSchema = z.object({
 export const useAuthStore = create(
   persist<z.infer<typeof authStoreSchema>>(
     () => ({
-      session: null,
+      state: null,
       oauthAuthorization: null,
       emailAuthorization: null,
     }),
@@ -60,7 +58,7 @@ export const useAuthStore = create(
 
 export function useAuthedStore() {
   const authStore = useAuthStore()
-  const session = authStore.session
+  const session = authStore.state
 
   if (!session) {
     throw new Error('Requires user to be logged in')

@@ -1,6 +1,8 @@
+import { decodeAuthJwt, verifyAuthJwt } from '@api/lib/auth'
 import type { Context } from '@api/lib/context'
 import type { Db } from '@api/lib/db'
 import { TRPCError, experimental_standaloneMiddleware, initTRPC } from '@trpc/server'
+import { JWTExpired } from 'jose/errors'
 import SuperJSON from 'superjson'
 
 const t = initTRPC.context<Context & { request: Request }>().create({
@@ -38,31 +40,50 @@ const turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
 export const procedure = t.procedure.use(turnstileMiddleware)
 
 const authMiddleware = middleware(async ({ ctx, next }) => {
-  const bearer = ctx.request.headers.get('Authorization')
-  if (!bearer) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
-  const sessionSecretKey = bearer.replace(/^Bearer /, '')
-  const session = await ctx.db.query.Sessions.findFirst({
-    with: {
-      organizationMember: {
-        columns: {
-          organizationId: true,
-          role: true,
-          createdAt: true,
-        },
-      },
-    },
-    where(t, { eq }) {
-      return eq(t.secretKey, sessionSecretKey)
-    },
-  })
-  if (!session) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' })
+  const jwt = ctx.request.headers.get('Authorization')?.replace(/^Bearer /, '')
+
+  if (!jwt) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
+  }
+
+  const auth: Awaited<ReturnType<typeof verifyAuthJwt>> | null = await (async () => {
+    try {
+      return await verifyAuthJwt({ env: ctx.env, jwt })
+    } catch (e) {
+      if (e instanceof JWTExpired) {
+        const payload = decodeAuthJwt({ jwt })
+
+        const session = await ctx.db.query.Sessions.findFirst({
+          where(t, { eq }) {
+            return eq(t.secretKey, payload.sessionSecretKey)
+          },
+          with: {
+            organizationMember: true,
+          },
+        })
+
+        if (session) {
+          return {
+            sessionSecretKey: session.secretKey,
+            userId: session.userId,
+            organizationId: session.organizationId,
+            organizationRole: session.organizationMember.role,
+          }
+        }
+      }
+
+      return null
+    }
+  })()
+
+  if (!auth) throw new TRPCError({ code: 'UNAUTHORIZED' })
 
   return next({
     ctx: {
       ...ctx,
       auth: {
         ...ctx.auth,
-        session,
+        ...auth,
       },
     },
   })
@@ -71,14 +92,14 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
 export const authProcedure = procedure.use(authMiddleware)
 
 export const organizationMemberMiddleware = experimental_standaloneMiddleware<{
-  ctx: { auth: { session: { userId: string } }; db: Db }
+  ctx: { auth: { userId: string }; db: Db }
   input: { organizationId: string } | { organization: { id: string } }
 }>().create(async ({ ctx, next, input }) => {
   const organizationId = 'organizationId' in input ? input.organizationId : input.organization.id
 
   const organizationMember = await ctx.db.query.OrganizationMembers.findFirst({
     where(t, { and, eq }) {
-      return and(eq(t.organizationId, organizationId), eq(t.userId, ctx.auth.session.userId))
+      return and(eq(t.organizationId, organizationId), eq(t.userId, ctx.auth.userId))
     },
   })
 
@@ -92,7 +113,7 @@ export const organizationMemberMiddleware = experimental_standaloneMiddleware<{
 })
 
 export const organizationAdminMiddleware = experimental_standaloneMiddleware<{
-  ctx: { auth: { session: { userId: string } }; db: Db }
+  ctx: { auth: { userId: string }; db: Db }
   input: { organizationId: string } | { organization: { id: string } }
 }>().create(async ({ ctx, next, input }) => {
   const organizationId = 'organizationId' in input ? input.organizationId : input.organization.id
@@ -101,7 +122,7 @@ export const organizationAdminMiddleware = experimental_standaloneMiddleware<{
     where(t, { and, eq }) {
       return and(
         eq(t.organizationId, organizationId),
-        eq(t.userId, ctx.auth.session.userId),
+        eq(t.userId, ctx.auth.userId),
         eq(t.role, 'admin'),
       )
     },

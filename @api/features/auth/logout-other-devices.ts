@@ -7,8 +7,8 @@ export const authLogoutOtherDevicesRoute = authProcedure.mutation(async ({ ctx }
     .delete(Sessions)
     .where(
       and(
-        eq(Sessions.userId, ctx.auth.session.userId),
-        not(eq(Sessions.secretKey, ctx.auth.session.secretKey)),
+        eq(Sessions.userId, ctx.auth.userId),
+        not(eq(Sessions.secretKey, ctx.auth.sessionSecretKey)),
       ),
     )
 })

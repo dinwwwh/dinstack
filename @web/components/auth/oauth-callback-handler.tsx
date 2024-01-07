@@ -16,7 +16,7 @@ export function OauthCallbackHandler(props: {
 
   const loginMutation = api.auth.oauth.login.useMutation({
     onSuccess(data) {
-      useAuthStore.setState({ session: data.session })
+      useAuthStore.setState({ state: data.auth })
     },
     onSettled() {
       const url = authStore.oauthAuthorization?.redirectUrl

@@ -12,7 +12,7 @@ export const organizationLeaveRoute = authProcedure
   )
   .use(organizationMemberMiddleware)
   .mutation(async ({ ctx, input }) => {
-    if (ctx.auth.session.organizationId === input.organizationId) {
+    if (ctx.auth.organizationId === input.organizationId) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
         message: 'Please switch to another organization before leaving this one.',
@@ -35,7 +35,7 @@ export const organizationLeaveRoute = authProcedure
     const adminMembers = allMembers.filter((member) => member.role === 'admin')
     if (
       adminMembers.length === 1 &&
-      adminMembers.filter((member) => member.userId === ctx.auth.session.userId).length === 1
+      adminMembers.filter((member) => member.userId === ctx.auth.userId).length === 1
     ) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
@@ -48,7 +48,7 @@ export const organizationLeaveRoute = authProcedure
         .delete(Sessions)
         .where(
           and(
-            eq(Sessions.userId, ctx.auth.session.userId),
+            eq(Sessions.userId, ctx.auth.userId),
             eq(Sessions.organizationId, input.organizationId),
           ),
         )
@@ -57,7 +57,7 @@ export const organizationLeaveRoute = authProcedure
         .delete(OrganizationMembers)
         .where(
           and(
-            eq(OrganizationMembers.userId, ctx.auth.session.userId),
+            eq(OrganizationMembers.userId, ctx.auth.userId),
             eq(OrganizationMembers.organizationId, input.organizationId),
           ),
         )

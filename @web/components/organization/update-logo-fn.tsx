@@ -1,4 +1,5 @@
 import { api } from '@web/lib/api'
+import { useAuthStore } from '@web/stores/auth'
 import imageCompression from 'browser-image-compression'
 import { Base64 } from 'js-base64'
 import { useRef } from 'react'
@@ -13,7 +14,24 @@ type Props = {
 
 export function OrganizationUpdateLogoFn(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const mutation = api.organization.changeLogo.useMutation()
+  const mutation = api.organization.changeLogo.useMutation({
+    onSuccess(data, params) {
+      const authState = useAuthStore.getState().state
+
+      if (!authState) return
+      if (authState.organization.id !== params.organization.id) return
+
+      useAuthStore.setState({
+        state: {
+          ...authState,
+          organization: {
+            ...authState.organization,
+            logoUrl: data.logoUrl,
+          },
+        },
+      })
+    },
+  })
 
   const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]

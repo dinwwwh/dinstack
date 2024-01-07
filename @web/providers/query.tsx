@@ -16,7 +16,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         queryCache: new QueryCache({
           onError(err) {
             if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
-              useAuthStore.setState({ session: null })
+              useAuthStore.setState({ state: null })
             }
           },
         }),
@@ -27,7 +27,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
               const message = err.message
 
               if (code === 'UNAUTHORIZED') {
-                useAuthStore.setState({ session: null })
+                useAuthStore.setState({ state: null })
               }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
@@ -44,6 +44,11 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
             }
           },
         }),
+        defaultOptions: {
+          queries: {
+            refetchOnMount: false,
+          },
+        },
       }),
   )
 
@@ -56,9 +61,9 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
           async headers() {
             const headers: Record<string, string> = {}
 
-            const session = useAuthStore.getState().session
-            if (session) {
-              headers['Authorization'] = `Bearer ${session.secretKey}`
+            const auth = useAuthStore.getState().state
+            if (auth) {
+              headers['Authorization'] = `Bearer ${auth.jwt}`
             }
 
             return headers

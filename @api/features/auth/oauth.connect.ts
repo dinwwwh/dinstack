@@ -28,7 +28,7 @@ export const authOauthConnectRoute = authProcedure
 
     const findUserOauthAccount = ctx.db.query.OauthAccounts.findFirst({
       where(t, { eq, and }) {
-        return and(eq(t.provider, input.provider), eq(t.userId, ctx.auth.session.userId))
+        return and(eq(t.provider, input.provider), eq(t.userId, ctx.auth.userId))
       },
     })
 
@@ -58,7 +58,7 @@ export const authOauthConnectRoute = authProcedure
     await ctx.db.insert(OauthAccounts).values({
       provider: input.provider,
       providerUserId: oauthUser.id,
-      userId: ctx.auth.session.userId,
+      userId: ctx.auth.userId,
       identifier: oauthUser.identifier,
     })
   })

@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 export function AuthLayout() {
   const authStore = useAuthStore()
 
-  if (!authStore.session) {
+  if (!authStore.state) {
     return (
       <section className="flex h-full">
         <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">

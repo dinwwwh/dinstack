@@ -51,4 +51,8 @@ export const organizationChangeLogoRoute = authProcedure
       .where(eq(Organizations.id, input.organization.id))
 
     await Promise.all([deleteOldLogo, uploadNewLogo, updateLogoUrl])
+
+    return {
+      logoUrl: objectName,
+    }
   })

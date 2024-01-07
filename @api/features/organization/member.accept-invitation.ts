@@ -38,10 +38,7 @@ export const organizationMemberAcceptInvitationRoute = authProcedure
 
     const existingMember = await ctx.db.query.OrganizationMembers.findFirst({
       where(t, { and, eq }) {
-        return and(
-          eq(t.organizationId, invitation.organizationId),
-          eq(t.userId, ctx.auth.session.userId),
-        )
+        return and(eq(t.organizationId, invitation.organizationId), eq(t.userId, ctx.auth.userId))
       },
     })
 
@@ -55,7 +52,7 @@ export const organizationMemberAcceptInvitationRoute = authProcedure
     await ctx.db.transaction(async (trx) => {
       await trx.insert(OrganizationMembers).values({
         organizationId: invitation.organizationId,
-        userId: ctx.auth.session.userId,
+        userId: ctx.auth.userId,
         role: invitation.role,
       })
 
@@ -69,5 +66,5 @@ export const organizationMemberAcceptInvitationRoute = authProcedure
       .set({
         organizationId: invitation.organizationId,
       })
-      .where(eq(Sessions.secretKey, ctx.auth.session.secretKey))
+      .where(eq(Sessions.secretKey, ctx.auth.sessionSecretKey))
   })

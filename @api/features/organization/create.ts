@@ -41,7 +41,7 @@ export const organizationCreateRoute = authProcedure
         .insert(OrganizationMembers)
         .values({
           organizationId: organization.id,
-          userId: ctx.auth.session.userId,
+          userId: ctx.auth.userId,
           role: 'admin',
         })
         .returning()
@@ -57,7 +57,7 @@ export const organizationCreateRoute = authProcedure
       .set({
         organizationId: organization.id,
       })
-      .where(eq(Sessions.secretKey, ctx.auth.session.secretKey))
+      .where(eq(Sessions.secretKey, ctx.auth.sessionSecretKey))
 
     return {
       organization: {

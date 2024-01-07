@@ -25,7 +25,7 @@ export function Component() {
       <Loader2Icon className="h-10 w-10 animate-spin text-muted-foreground" />
 
       <OauthCallbackHandler
-        type={authStore.session ? 'connect' : 'login'}
+        type={authStore.state ? 'connect' : 'login'}
         provider={params.provider}
         code={searchParams.code}
         state={searchParams.state}
