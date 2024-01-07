@@ -33,8 +33,8 @@
     "@trpc/react-query": "^10.45.0",
     "browser-image-compression": "^2.0.2",
     "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
-    "framer-motion": "^10.16.16",
+    "clsx": "^2.1.0",
+    "framer-motion": "^10.17.9",
     "js-base64": "^3.7.5",
     "lucide-react": "^0.302.0",
     "react": "^18.2.0",
@@ -52,16 +52,14 @@
     "@remix-run/router": "^1.14.1",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/node": "20.10.1",
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "@typescript-eslint/eslint-plugin": "^6.14.0",
-    "@typescript-eslint/parser": "^6.14.0",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.16",
     "code-inspector-plugin": "^0.3.2",
-    "postcss": "^8.4.32",
-    "tailwindcss": "^3.3.6",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
-    "vite": "^5.0.8"
+    "vite": "^5.0.11"
   }
 }
