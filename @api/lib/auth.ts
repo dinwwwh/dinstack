@@ -1,8 +1,15 @@
-import type { OrganizationMembers, Organizations, Sessions, Users } from '@api/database/schema'
+import type {
+  OrganizationMembers,
+  Organizations,
+  Sessions,
+  Subscriptions,
+  Users,
+} from '@api/database/schema'
 import {
   organizationMemberSchema,
   organizationSchema,
   sessionSchema,
+  subscriptionSchema,
   userSchema,
 } from '@api/database/schema'
 import type { Env } from '@api/lib/env'
@@ -20,6 +27,7 @@ const jwtPayloadSchema = z.object({
   ui: userSchema.shape.id,
   oi: organizationSchema.shape.id,
   or: organizationMemberSchema.shape.role,
+  asvi: z.array(subscriptionSchema.shape.variantId),
 })
 
 type InteractionAuth = {
@@ -27,6 +35,7 @@ type InteractionAuth = {
   userId: (typeof Users.$inferSelect)['id']
   organizationId: (typeof Organizations.$inferSelect)['id']
   organizationRole: (typeof OrganizationMembers.$inferSelect)['role']
+  activeSubscriptionVariantIds: (typeof Subscriptions.$inferSelect)['variantId'][]
 }
 
 export async function signAuthJwt(opts: { env: Env; payload: InteractionAuth }) {
@@ -35,12 +44,13 @@ export async function signAuthJwt(opts: { env: Env; payload: InteractionAuth }) 
     ui: opts.payload.userId,
     oi: opts.payload.organizationId,
     or: opts.payload.organizationRole,
+    asvi: opts.payload.activeSubscriptionVariantIds,
   } satisfies z.infer<typeof jwtPayloadSchema>
 
   return await new SignJWT(jwtPayloadSchema.parse(payload))
     .setProtectedHeader({ alg: AUTH_JWT_ALGORITHM })
     .setIssuedAt()
-    .setExpirationTime(Date.now() / 1000 + AUTH_JWT_LIVE_TIME_IN_SECONDS)
+    .setExpirationTime(Math.round(Date.now() / 1000) + AUTH_JWT_LIVE_TIME_IN_SECONDS)
     .sign(encoder.encode(opts.env.AUTH_SECRET))
 }
 
@@ -51,6 +61,7 @@ export function decodeAuthJwt(opts: { jwt: string }) {
     userId: payload.ui,
     organizationId: payload.oi,
     organizationRole: payload.or,
+    activeSubscriptionVariantIds: payload.asvi,
   } satisfies InteractionAuth
 }
 
@@ -64,6 +75,7 @@ export async function verifyAuthJwt(opts: { jwt: string; env: Env }) {
     userId: payload.ui,
     organizationId: payload.oi,
     organizationRole: payload.or,
+    activeSubscriptionVariantIds: payload.asvi,
   } satisfies InteractionAuth
 }
 

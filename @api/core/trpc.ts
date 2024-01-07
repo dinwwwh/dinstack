@@ -1,3 +1,4 @@
+import { getActiveSubscriptionVariantIds } from '@api/features/auth/helpers/filter-and-map-active-subscription-variant-ids'
 import { decodeAuthJwt, verifyAuthJwt } from '@api/lib/auth'
 import type { Context } from '@api/lib/context'
 import type { Db } from '@api/lib/db'
@@ -58,7 +59,15 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
             return eq(t.secretKey, payload.sessionSecretKey)
           },
           with: {
-            organizationMember: true,
+            organizationMember: {
+              with: {
+                user: {
+                  with: {
+                    subscriptions: true,
+                  },
+                },
+              },
+            },
           },
         })
 
@@ -68,6 +77,9 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
             userId: session.userId,
             organizationId: session.organizationId,
             organizationRole: session.organizationMember.role,
+            activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(
+              session.organizationMember.user.subscriptions,
+            ),
           }
         }
       }

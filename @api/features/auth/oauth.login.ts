@@ -1,6 +1,7 @@
 import { createDefaultOrganization } from './helpers/create-default-organization'
 import { createSession } from './helpers/create-session'
 import { createUser } from './helpers/create-user'
+import { getActiveSubscriptionVariantIds } from './helpers/filter-and-map-active-subscription-variant-ids'
 import { getOauthUser } from './helpers/get-oauth-user'
 import { procedure } from '@api/core/trpc'
 import { oauthAccountSchema } from '@api/database/schema'
@@ -74,6 +75,9 @@ export const authOauthLoginRoute = procedure
           userId: oauthAccount.user.id,
           organizationId: organizationMember.organizationId,
           organizationRole: organizationMember.role,
+          activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(
+            oauthAccount.user.subscriptions,
+          ),
         },
       })
 
@@ -129,6 +133,7 @@ export const authOauthLoginRoute = procedure
         userId: user.id,
         organizationId: organizationMember.organizationId,
         organizationRole: organizationMember.role,
+        activeSubscriptionVariantIds: [],
       },
     })
 

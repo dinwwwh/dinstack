@@ -1,3 +1,4 @@
+import { getActiveSubscriptionVariantIds } from './helpers/filter-and-map-active-subscription-variant-ids'
 import { findSessionForAuth } from './helpers/find-session-for-auth'
 import { authProcedure } from '@api/core/trpc'
 import { signAuthJwt } from '@api/lib/auth'
@@ -15,6 +16,7 @@ export const authInfosRoute = authProcedure.query(async ({ ctx }) => {
           userId: session.user.id,
           organizationId: session.organizationMember.organizationId,
           organizationRole: session.organizationMember.role,
+          activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(session.user.subscriptions),
         },
       }),
     },

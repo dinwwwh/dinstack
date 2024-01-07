@@ -1,3 +1,4 @@
+import { getActiveSubscriptionVariantIds } from './helpers/filter-and-map-active-subscription-variant-ids'
 import { findSessionForAuth } from './helpers/find-session-for-auth'
 import { authProcedure, organizationMemberMiddleware } from '@api/core/trpc'
 import { Sessions, organizationSchema } from '@api/database/schema'
@@ -30,6 +31,9 @@ export const authOrganizationSwitchRoute = authProcedure
             userId: session.user.id,
             organizationId: session.organizationMember.organizationId,
             organizationRole: session.organizationMember.role,
+            activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(
+              session.user.subscriptions,
+            ),
           },
         }),
       },
