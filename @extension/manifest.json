@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Dinstack - browser extension",
+  "version": "1.0.0",
+  "homepage_url": "https://dinsterizer.com",
+  "icons": {
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "permissions": ["sidePanel", "contextMenus"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["pages/content/theme.ts"]
+    }
+  ],
+  "action": {
+    "default_popup": "pages/popup/index.html"
+  },
+  "side_panel": {
+    "default_path": "pages/sidepanel/index.html"
+  },
+  "background": {
+    "service_worker": "pages/background/index.ts"
+  }
+}
