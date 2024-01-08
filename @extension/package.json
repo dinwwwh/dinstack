@@ -14,6 +14,7 @@
     "@dinstack/web": "workspace:^",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
     "ts-pattern": "^5.0.6"
   },
   "devDependencies": {

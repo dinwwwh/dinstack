@@ -13,16 +13,16 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["pages/content/theme.ts"]
+      "js": ["content/theme.ts"]
     }
   ],
   "action": {
-    "default_popup": "pages/popup/index.html"
+    "default_popup": "popup/index.html"
   },
   "side_panel": {
-    "default_path": "pages/sidepanel/index.html"
+    "default_path": "sidepanel/index.html"
   },
   "background": {
-    "service_worker": "pages/background/index.ts"
+    "service_worker": "background/index.ts"
   }
 }
