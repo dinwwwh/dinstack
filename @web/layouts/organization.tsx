@@ -1,19 +1,26 @@
 import { ScrollArea, ScrollBar } from '@web/components/ui/scroll-area'
 import { cn } from '@web/lib/utils'
+import { Helmet } from 'react-helmet-async'
 import { Link, Outlet, matchPath, useLocation, useParams } from 'react-router-dom'
 import { z } from 'zod'
 
 export function OrganizationLayout() {
   return (
-    <div className="mx-auto max-w-5xl py-6 md:py-8 xl:py-12 px-4">
-      <h1 className="text-2xl font-medium tracking-wide">Organization Settings</h1>
-      <ScrollArea className="mt-6 xl:mt-8 border-b">
-        <Nav />
+    <>
+      <Helmet>
+        <title>Organization Settings</title>
+      </Helmet>
 
-        <ScrollBar orientation="horizontal" className="h-1.5" />
-      </ScrollArea>
-      <Outlet />
-    </div>
+      <div className="mx-auto max-w-5xl py-6 md:py-8 xl:py-12 px-4">
+        <h1 className="text-2xl font-medium tracking-wide">Organization Settings</h1>
+        <ScrollArea className="mt-6 xl:mt-8 border-b">
+          <Nav />
+
+          <ScrollBar orientation="horizontal" className="h-1.5" />
+        </ScrollArea>
+        <Outlet />
+      </div>
+    </>
   )
 }
 
