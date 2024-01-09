@@ -9,23 +9,25 @@ import { z } from 'zod'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+export const authStateSchema = z
+  .object({
+    jwt: z.string(),
+    user: userSchema.and(
+      z.object({
+        subscriptions: z.array(subscriptionSchema),
+      }),
+    ),
+    organization: organizationSchema.and(
+      z.object({
+        members: z.array(organizationMemberSchema),
+      }),
+    ),
+    organizationMember: organizationMemberSchema,
+  })
+  .nullable()
+
 const authStoreSchema = z.object({
-  state: z
-    .object({
-      jwt: z.string(),
-      user: userSchema.and(
-        z.object({
-          subscriptions: z.array(subscriptionSchema),
-        }),
-      ),
-      organization: organizationSchema.and(
-        z.object({
-          members: z.array(organizationMemberSchema),
-        }),
-      ),
-      organizationMember: organizationMemberSchema,
-    })
-    .nullable(),
+  state: authStateSchema,
   oauthAuthorization: z
     .object({
       redirectUrl: z.custom<URL>((url) => url instanceof URL),

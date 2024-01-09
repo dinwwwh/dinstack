@@ -1,3 +1,4 @@
+import { useAuthStore } from '@extension/stores/auth'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { api } from '@web/lib/api'
@@ -12,8 +13,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
         queryCache: new QueryCache({
           onError(err) {
             if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
-              // TODO
-              // useAuthStore.setState({ state: null })
+              useAuthStore.setState({ state: null })
             }
           },
         }),
@@ -24,8 +24,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
               const message = err.message
 
               if (code === 'UNAUTHORIZED') {
-                // TODO
-                // useAuthStore.setState({ state: null })
+                useAuthStore.setState({ state: null })
               }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
@@ -61,11 +60,10 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
           async headers() {
             const headers: Record<string, string> = {}
 
-            // TODO
-            // const auth = useAuthStore.getState().state
-            // if (auth) {
-            //   headers['Authorization'] = `Bearer ${auth.jwt}`
-            // }
+            const auth = useAuthStore.getState().state
+            if (auth) {
+              headers['Authorization'] = `Bearer ${auth.jwt}`
+            }
 
             return headers
           },
