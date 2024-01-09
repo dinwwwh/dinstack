@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "env-cmd -f ../@web/.env.local vite",
+    "build": "tsc && env-cmd -f ../@web/.env.local vite build",
+    "build:preview": "tsc && env-cmd -f ../@web/.env.preview vite build --mode=preview",
+    "build:production": "tsc && env-cmd -f ../@web/.env.production vite build --mode=production",
     "typecheck": "tsc --noEmit",
-    "preview": "vite build"
+    "preview": "env-cmd -f ../@web/.env.local vite build"
   },
   "dependencies": {
     "@dinstack/api": "workspace:^",
@@ -15,7 +17,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
-    "ts-pattern": "^5.0.6"
+    "superjson": "^2.2.1",
+    "ts-pattern": "^5.0.6",
+    "zod": "^3.22.4",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "2.0.0-beta.21",
