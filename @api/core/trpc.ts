@@ -13,7 +13,8 @@ const t = initTRPC.context<Context & { request: Request }>().create({
 export const middleware = t.middleware
 export const router = t.router
 
-const turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
+// TODO: use this extension when you not using @extension or turnstile support browser extension (not support for now 9-1-2024)
+const _turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
   if (type === 'mutation') {
     const formData = new FormData()
     formData.append('secret', ctx.env.TURNSTILE_SECRET_KEY)
@@ -38,7 +39,7 @@ const turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
   })
 })
 
-export const procedure = t.procedure.use(turnstileMiddleware)
+export const procedure = t.procedure
 
 const authMiddleware = middleware(async ({ ctx, next }) => {
   const jwt = ctx.request.headers.get('Authorization')?.replace(/^Bearer /, '')
