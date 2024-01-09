@@ -9,7 +9,10 @@
     "48": "icon-48.png",
     "128": "icon-128.png"
   },
-  "permissions": ["sidePanel", "contextMenus"],
+  "permissions": ["sidePanel", "contextMenus", "storage"],
+  "externally_connectable": {
+    "matches": ["http://localhost:4000/*", "https://*.dinsterizer.com/*"]
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
