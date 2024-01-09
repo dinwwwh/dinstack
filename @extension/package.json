@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "env-cmd -f ../@web/.env.local vite",
-    "build": "tsc && env-cmd -f ../@web/.env.local vite build",
-    "build:preview": "tsc && env-cmd -f ../@web/.env.preview vite build --mode=preview",
-    "build:production": "tsc && env-cmd -f ../@web/.env.production vite build --mode=production",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:preview": "tsc && vite build --mode=preview",
+    "build:production": "tsc && vite build --mode=production",
     "typecheck": "tsc --noEmit",
-    "preview": "env-cmd -f ../@web/.env.local vite build"
+    "preview": "vite build"
   },
   "dependencies": {
     "@dinstack/api": "workspace:^",

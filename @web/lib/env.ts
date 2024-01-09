@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const env = z
   .object({
+    WEB_BASE_URL: z.string().url(),
     SUPPORT_EMAIL: z.string().email(),
     API_TRPC_BASE_URL: z.string().url(),
     TURNSTILE_SITE_KEY: z.string(),
@@ -17,4 +18,5 @@ export const env = z
     LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: import.meta.env
       .VITE_LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID,
     EXTENSION_ID: import.meta.env.VITE_EXTENSION_ID,
+    WEB_BASE_URL: import.meta.env.VITE_WEB_BASE_URL,
   })

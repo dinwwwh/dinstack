@@ -1,5 +1,6 @@
 import { useAuthStore } from '@extension/stores/auth'
 import { api } from '@web/lib/api'
+import { env } from '@web/lib/env'
 
 export function Component() {
   const query = api.ping.useQuery()
@@ -15,9 +16,20 @@ export function Component() {
       <button type="button" onClick={() => query.refetch()}>
         refresh
       </button>
-      <button type="button" onClick={() => useAuthStore.setState({ state: null })}>
-        logout
-      </button>
+      {authStore.state ? (
+        <button type="button" onClick={() => useAuthStore.setState({ state: null })}>
+          logout
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => {
+            chrome.tabs.create({ url: new URL('extension/login', env.WEB_BASE_URL).toString() })
+          }}
+        >
+          Login
+        </button>
+      )}
     </div>
   )
 }

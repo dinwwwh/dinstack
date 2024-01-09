@@ -1,9 +1,11 @@
+import { Button } from '@web/components/ui/button'
 import { useEffectOnce } from '@web/hooks/use-effect-once'
 import { env } from '@web/lib/env'
 import { useAuthedStore } from '@web/stores/auth'
-import { Chrome, Loader2Icon } from 'lucide-react'
+import { Loader2Icon } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 import SuperJSON from 'superjson'
 
 export function Component() {
@@ -27,6 +29,7 @@ export function Component() {
       )
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(window.chrome.runtime as any).sendMessage(env.EXTENSION_ID, {
       type: 'login',
       data: SuperJSON.stringify({ auth: auth.state }),
@@ -43,10 +46,19 @@ export function Component() {
 
       <div className="flex items-center justify-center h-full">
         {done ? (
-          <p className="text-muted-foreground text-sm">
-            You have successfully logged in to the browser extensions. You may now safely close this
-            tab.
-          </p>
+          <div>
+            <p className="text-muted-foreground text-sm">
+              You have successfully logged in to the browser extensions. You may now safely close
+              this tab.
+            </p>
+            <div className="flex justify-center">
+              <Button variant={'link'} asChild>
+                <Link to="/" className="text-muted-foreground text-sm text-center">
+                  Go to home page
+                </Link>
+              </Button>
+            </div>
+          </div>
         ) : (
           <Loader2Icon className="h-10 w-10 animate-spin text-muted-foreground" />
         )}
