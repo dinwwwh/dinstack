@@ -1,6 +1,7 @@
 import { router } from './router'
 import { AuthProvider } from '@extension/providers/auth'
 import { QueryProvider } from '@extension/providers/query'
+import '@web/core/global.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'

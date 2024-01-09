@@ -1,4 +1,5 @@
 import { useAuthStore } from '@extension/stores/auth'
+import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
 
@@ -7,29 +8,31 @@ export function Component() {
   const authStore = useAuthStore()
 
   return (
-    <div>
+    <div className="p-5 space-y-4">
       <pre>userName: {authStore.state?.user.name}</pre>
       <pre>
         status: {query.status} data: {JSON.stringify(query.data, null, 2)} fetching:{' '}
         {query.isFetching ? 'true' : 'false'}
       </pre>
-      <button type="button" onClick={() => query.refetch()}>
-        refresh
-      </button>
-      {authStore.state ? (
-        <button type="button" onClick={() => useAuthStore.setState({ state: null })}>
-          logout
-        </button>
-      ) : (
-        <button
-          type="button"
-          onClick={() => {
-            chrome.tabs.create({ url: new URL('extension/login', env.WEB_BASE_URL).toString() })
-          }}
-        >
-          Login
-        </button>
-      )}
+      <div className="flex gap-4">
+        <Button type="button" onClick={() => query.refetch()}>
+          refresh
+        </Button>
+        {authStore.state ? (
+          <Button type="button" onClick={() => useAuthStore.setState({ state: null })}>
+            logout
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            onClick={() => {
+              chrome.tabs.create({ url: new URL('extension/login', env.WEB_BASE_URL).toString() })
+            }}
+          >
+            Login
+          </Button>
+        )}
+      </div>
     </div>
   )
 }
