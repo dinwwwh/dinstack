@@ -1,16 +1,16 @@
 import { router } from './router'
+import { AuthProvider } from '@extension/providers/auth'
 import { QueryProvider } from '@extension/providers/query'
-import { AuthProvider } from '@web/providers/auth'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <QueryProvider>
+    <QueryProvider>
+      <AuthProvider>
         <RouterProvider router={router} />
-      </QueryProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </QueryProvider>
   </React.StrictMode>,
 )
