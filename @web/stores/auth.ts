@@ -4,6 +4,7 @@ import {
   subscriptionSchema,
   userSchema,
 } from '@api/database/schema'
+import { config } from '@web/lib/config'
 import { createSuperJSONStorage } from '@web/lib/zustand'
 import { z } from 'zod'
 import { create } from 'zustand'
@@ -53,7 +54,7 @@ export const useAuthStore = create(
     {
       version: 0,
       name: '@web/stores/auth',
-      storage: createSuperJSONStorage(() => localStorage, authStoreSchema),
+      storage: createSuperJSONStorage(config.stores.auth.getStorage, authStoreSchema),
     },
   ),
 )

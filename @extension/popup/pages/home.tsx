@@ -1,7 +1,7 @@
-import { useAuthStore } from '@extension/stores/auth'
 import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
+import { useAuthStore } from '@web/stores/auth'
 
 export function Component() {
   const query = api.ping.useQuery()

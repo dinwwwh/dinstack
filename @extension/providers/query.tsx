@@ -1,8 +1,8 @@
-import { useAuthStore } from '@extension/stores/auth'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
+import { useAuthStore } from '@web/stores/auth'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
 
