@@ -1,10 +1,13 @@
 import { Button } from '@web/components/ui/button'
+import { useToast } from '@web/components/ui/use-toast'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
 import { useAuthStore } from '@web/stores/auth'
 
 export function Component() {
+  const { toast } = useToast()
   const query = api.ping.useQuery()
+  const mutation = api.pingMutation.useMutation()
   const authStore = useAuthStore()
 
   return (
@@ -17,6 +20,15 @@ export function Component() {
       <div className="flex gap-4">
         <Button type="button" onClick={() => query.refetch()}>
           refresh
+        </Button>
+        <Button type="button" onClick={() => mutation.mutate()}>
+          mutation
+        </Button>
+        <Button
+          type="button"
+          onClick={() => toast({ title: 'hi from test', variant: 'destructive' })}
+        >
+          test toast
         </Button>
         {authStore.state ? (
           <Button type="button" onClick={() => useAuthStore.setState({ state: null })}>
