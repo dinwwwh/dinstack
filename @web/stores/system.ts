@@ -1,3 +1,4 @@
+import { config } from '@web/lib/config'
 import { createSuperJSONStorage } from '@web/lib/zustand'
 import { z } from 'zod'
 import { create } from 'zustand'
@@ -17,7 +18,7 @@ export const useSystemStore = create(
     {
       name: '@web/stores/system',
       version: 0,
-      storage: createSuperJSONStorage(() => localStorage, systemStoreSchema),
+      storage: createSuperJSONStorage(config.getPersistStorage, systemStoreSchema),
     },
   ),
 )

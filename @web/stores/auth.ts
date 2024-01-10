@@ -54,7 +54,7 @@ export const useAuthStore = create(
     {
       version: 0,
       name: '@web/stores/auth',
-      storage: createSuperJSONStorage(config.stores.auth.getStorage, authStoreSchema),
+      storage: createSuperJSONStorage(config.getPersistStorage, authStoreSchema),
     },
   ),
 )
