@@ -13,29 +13,22 @@ export function Component() {
   const auth = useAuthedStore()
 
   useEffectOnce(() => {
-    if (!('chrome' in window)) {
-      throw new Error(
-        "This feature needs a browser setting that isn't available here. It might work better in Chrome.",
-      )
+    try {
+      window.chrome.runtime.sendMessage(env.EXTENSION_ID, {
+        type: 'login',
+        data: SuperJSON.stringify({ auth: auth.state }),
+      })
+
+      setDone(true)
+    } catch {
+      if (!('chrome' in window)) {
+        throw new Error(
+          "This feature needs a browser setting that isn't available here. It might work better in Chrome.",
+        )
+      } else {
+        throw new Error('To use this feature, please install our browser extension first.')
+      }
     }
-
-    if (
-      typeof window.chrome !== 'object' ||
-      window.chrome === null ||
-      !('runtime' in window.chrome)
-    ) {
-      throw new Error(
-        "To use this feature, please install the browser extension. It's quick and easy!",
-      )
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ;(window.chrome.runtime as any).sendMessage(env.EXTENSION_ID, {
-      type: 'login',
-      data: SuperJSON.stringify({ auth: auth.state }),
-    })
-
-    setDone(true)
   })
 
   return (
