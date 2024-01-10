@@ -1,3 +1,4 @@
+import { AuthLayout } from '@extension/layouts/auth'
 import type * as _A from '@remix-run/router'
 import { createMemoryRouter } from 'react-router-dom'
 
@@ -7,8 +8,13 @@ export const router = createMemoryRouter([
     errorElement: <div>Error!</div>,
     children: [
       {
-        path: '/',
-        lazy: () => import('./pages/home'),
+        Component: () => <AuthLayout />,
+        children: [
+          {
+            path: '/',
+            lazy: () => import('./pages/home'),
+          },
+        ],
       },
     ],
   },

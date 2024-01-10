@@ -12,6 +12,7 @@ const config = {
     resolve(__dirname, './popup/**/*.{js,ts,jsx,tsx}'),
     resolve(__dirname, './providers/**/*.{js,ts,jsx,tsx}'),
     resolve(__dirname, './sidepanel/**/*.{js,ts,jsx,tsx}'),
+    resolve(__dirname, './layouts/**/*.{js,ts,jsx,tsx}'),
   ],
 } satisfies Config
 
