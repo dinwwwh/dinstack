@@ -5,6 +5,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:web": "turbo run dev:web",
     "preview": "turbo run preview",
     "lint": "eslint --max-warnings 0 --report-unused-disable-directives . && prettier --check .",
     "lint:fix": "eslint --fix --max-warnings 0 --report-unused-disable-directives . && prettier --write .",
