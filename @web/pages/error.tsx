@@ -5,6 +5,8 @@ import { Link, useRouteError } from 'react-router-dom'
 export function ErrorPage() {
   const error = useRouteError()
 
+  console.error(error)
+
   const status =
     typeof error === 'object' &&
     error !== null &&

@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@dinstack/web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -52,6 +52,7 @@
   "devDependencies": {
     "@remix-run/router": "^1.14.1",
     "@tailwindcss/container-queries": "^0.1.1",
+    "@types/chrome": "^0.0.256",
     "@types/node": "20.10.1",
     "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",

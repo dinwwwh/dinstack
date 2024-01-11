@@ -8,7 +8,13 @@ import { useAuthStore } from '@web/stores/auth'
 import { useState } from 'react'
 import SuperJSON from 'superjson'
 
-export function QueryProvider({ children }: { children: React.ReactNode }) {
+export function QueryProvider({
+  children,
+  disableTurnstile = false,
+}: {
+  children: React.ReactNode
+  disableTurnstile?: boolean
+}) {
   const { toast } = useToast()
   const [queryClient] = useState(
     () =>
@@ -70,7 +76,7 @@ export function QueryProvider({ children }: { children: React.ReactNode }) {
           },
           async fetch(input, init) {
             const method = init?.method?.toUpperCase() ?? 'GET'
-            if (method === 'POST' && init) {
+            if (method === 'POST' && init && !disableTurnstile) {
               const token = await getTurnstileToken()
 
               init.headers = {

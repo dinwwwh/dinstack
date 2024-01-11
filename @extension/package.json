@@ -1,0 +1,38 @@
+{
+  "name": "@dinstack/extension",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:preview": "tsc && vite build --mode=preview",
+    "build:production": "tsc && vite build --mode=production",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite build"
+  },
+  "dependencies": {
+    "@dinstack/api": "workspace:^",
+    "@dinstack/web": "workspace:^",
+    "lucide-react": "^0.302.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
+    "superjson": "^2.2.1",
+    "ts-pattern": "^5.0.6",
+    "zod": "^3.22.4",
+    "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "2.0.0-beta.21",
+    "@total-typescript/ts-reset": "^0.5.1",
+    "@types/chrome": "^0.0.256",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "vite": "^4.5.1"
+  }
+}

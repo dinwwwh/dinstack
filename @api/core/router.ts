@@ -6,6 +6,7 @@ import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 export const appRouter = router({
   ping: procedure.query(() => 'pong'),
+  pingMutation: procedure.mutation(() => 'pong'),
   auth: authRouter,
   organization: organizationRouter,
   billing: billingRouter,

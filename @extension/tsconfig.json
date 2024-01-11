@@ -18,17 +18,21 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
-      "@web/*": ["./*"],
-      "@api/*": ["../@api/*"]
+      "@extension/*": ["./*"],
+      "@api/*": ["../@api/*"],
+      "@web/*": ["../@web/*"]
     },
 
     "strict": true,
     "noUncheckedIndexedAccess": true
   },
-  "exclude": ["build", "vite.config.ts", "dist", "tailwind.config.ts", "postcss.config.ts"],
+  "exclude": ["build", "vite.config.ts", "tailwind.config.ts", "postcss.config.ts"],
   "references": [
     {
       "path": "../@api/tsconfig.json"
+    },
+    {
+      "path": "../@web/tsconfig.json"
     }
   ]
 }
