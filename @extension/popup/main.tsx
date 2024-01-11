@@ -11,8 +11,8 @@ import { RouterProvider } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {/* TODO: enable turnstile when it support chrome extension */}
     <ThemeProvider>
+      {/* TODO: enable turnstile when it support chrome extension */}
       <QueryProvider disableTurnstile={true}>
         <AuthProvider>
           <RouterProvider router={router} />
