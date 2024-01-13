@@ -1,0 +1,18 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@content/*": ["./*"],
+      "@web/*": ["../@web/*"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
+  "exclude": ["tailwind.config.ts", "build", "dist", "astro.config.mjs"],
+  "references": [
+    {
+      "path": "../@web/tsconfig.json"
+    }
+  ]
+}

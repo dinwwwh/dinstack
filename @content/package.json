@@ -1,0 +1,29 @@
+{
+  "name": "@dinstack/content",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "env-cmd -f .env.local astro dev --port 3000",
+    "dev:content": "pnpm run dev",
+    "build": "env-cmd -f .env.local astro build",
+    "typecheck": "astro check",
+    "preview": "pnpm run build && astro preview --port 3000",
+    "deploy:preview": "env-cmd -f .env.preview astro build && wrangler pages deploy --project-name=dinstack-content-preview --branch=main ./dist",
+    "deploy:production": "env-cmd -f .env.production astro build && wrangler pages deploy --project-name=dinstack-content-production --branch=main ./dist"
+  },
+  "dependencies": {
+    "astro": "^4.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.4.1",
+    "@astrojs/cloudflare": "^8.1.0",
+    "@astrojs/react": "^3.0.9",
+    "@astrojs/tailwind": "^5.1.0",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
+  }
+}
