@@ -51,7 +51,7 @@
 
 @layer base {
   * {
-    @apply border-border font-sans;
+    @apply border-border font-sans min-w-0;
   }
   body {
     @apply bg-background text-foreground;

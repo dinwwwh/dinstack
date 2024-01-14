@@ -1,0 +1,28 @@
+{
+  "name": "@dinstack/content",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "dev:content": "pnpm run dev",
+    "build": "next build",
+    "typecheck": "tsc --noEmit",
+    "preview": "next build && pnpm dlx serve@latest out"
+  },
+  "dependencies": {
+    "@dinstack/web": "workspace:^",
+    "next": "14.0.4",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@total-typescript/ts-reset": "^0.5.1",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
+}

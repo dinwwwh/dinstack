@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 4000",
+    "dev:extension": "pnpm run dev",
     "dev:web": "pnpm run dev",
     "build": "tsc --build && tsc-alias",
     "ui:add": "pnpm dlx shadcn-ui@latest add -y",

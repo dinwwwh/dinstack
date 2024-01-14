@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:extension": "pnpm run dev",
     "build": "tsc && vite build",
     "build:preview": "tsc && vite build --mode=preview",
     "build:production": "tsc && vite build --mode=production",
