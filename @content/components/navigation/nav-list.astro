@@ -1,0 +1,30 @@
+---
+import { navigationMenuTriggerStyle } from '@web/components/ui/navigation-menu'
+
+const links = [
+  {
+    title: 'Blog',
+    href: '/blog',
+  },
+  {
+    title: 'Docs',
+    href: '/docs/getting-started',
+  },
+  {
+    title: 'FAQ',
+    href: '/faq',
+  },
+  {
+    title: 'About',
+    href: '/about',
+  },
+]
+---
+
+{
+  links.map((link) => (
+    <a href={link.href} class={navigationMenuTriggerStyle()}>
+      {link.title}
+    </a>
+  ))
+}

@@ -1,0 +1,47 @@
+---
+import { cn } from '@web/lib/utils'
+import { Icon } from 'astro-icon/components'
+import NavList from './nav-list.astro'
+import { buttonVariants } from '@web/components/ui/button'
+import { SheetBasic } from '../ui/sheet-basic'
+
+type Props = {
+  className?: string
+}
+
+const { className } = Astro.props
+---
+
+<header class={cn('flex items-center h-16 md:h-18 z-50 sticky top-0 bg-background', className)}>
+  <div class="relative container flex items-center justify-between w-full">
+    <div class="flex items-center gap-6 md:gap-8 lg:gap-10">
+      <a href="/" class="hidden items-center space-x-2 md:flex">
+        <Icon name="stars-outline" class="size-8" />
+        <span class="hidden font-bold sm:inline-block">Dinstack</span>
+      </a>
+
+      <div class="block md:hidden">
+        <SheetBasic side="left" client:load>
+          <NavList />
+        </SheetBasic>
+      </div>
+
+      <div class="hidden md:flex">
+        <NavList />
+      </div>
+    </div>
+
+    <!-- logo mobile center -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-4 -translate-y-4 md:hidden">
+      <a href="/" aria-label="Astronomy homepage">
+        <Icon name="stars-outline" class="size-8" />
+      </a>
+    </div>
+
+    <nav>
+      <a href="/login" class={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'px-4')}>
+        Login
+      </a>
+    </nav>
+  </div>
+</header>
