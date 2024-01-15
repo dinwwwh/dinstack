@@ -1,12 +1,12 @@
 'use client'
 
-import { Button } from '@web/components/ui/button'
+import { Button } from '@ui/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@web/components/ui/dropdown-menu'
+} from '@ui/components/ui/dropdown-menu'
 import { useSystemStore } from '@web/stores/system'
 import { MoonIcon, SunIcon } from 'lucide-react'
 

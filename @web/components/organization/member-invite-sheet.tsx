@@ -1,8 +1,8 @@
 import { MutationStatusIcon } from '../mutation-status-icon'
-import { Button } from '@web/components/ui/button'
-import { Checkbox } from '@web/components/ui/checkbox'
-import { Input } from '@web/components/ui/input'
-import { Label } from '@web/components/ui/label'
+import { Button } from '@ui/components/ui/button'
+import { Checkbox } from '@ui/components/ui/checkbox'
+import { Input } from '@ui/components/ui/input'
+import { Label } from '@ui/components/ui/label'
 import {
   Sheet,
   SheetClose,
@@ -10,7 +10,7 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from '@web/components/ui/sheet'
+} from '@ui/components/ui/sheet'
 import type { ApiOutputs } from '@web/lib/api'
 import { api } from '@web/lib/api'
 import { useId, useRef } from 'react'

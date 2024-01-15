@@ -1,6 +1,6 @@
 import '../init'
 import { router } from './router'
-import { Toaster } from '@web/components/ui/toaster'
+import { Toaster } from '@ui/components/ui/toaster'
 import '@web/core/global.css'
 import { AuthProvider } from '@web/providers/auth'
 import { QueryProvider } from '@web/providers/query'

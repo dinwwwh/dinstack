@@ -20,7 +20,8 @@
     "paths": {
       "@extension/*": ["./*"],
       "@api/*": ["../@api/*"],
-      "@web/*": ["../@web/*"]
+      "@web/*": ["../@web/*"],
+      "@ui/*": ["../@ui/*"]
     },
 
     "strict": true,
@@ -33,6 +34,9 @@
     },
     {
       "path": "../@web/tsconfig.json"
+    },
+    {
+      "path": "../@ui/tsconfig.json"
     }
   ]
 }

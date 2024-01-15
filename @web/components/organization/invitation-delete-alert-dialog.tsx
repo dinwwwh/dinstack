@@ -7,8 +7,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '../ui/alert-dialog'
-import { Button } from '../ui/button'
+} from '@ui/components/ui/alert-dialog'
+import { Button } from '@ui/components/ui/button'
 import { api } from '@web/lib/api'
 import { useRef } from 'react'
 

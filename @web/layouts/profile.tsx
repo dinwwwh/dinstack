@@ -1,5 +1,5 @@
-import { ScrollArea, ScrollBar } from '@web/components/ui/scroll-area'
-import { cn } from '@web/lib/utils'
+import { ScrollArea, ScrollBar } from '@ui/components/ui/scroll-area'
+import { cn } from '@ui/lib/utils'
 import { Helmet } from 'react-helmet-async'
 import { Link, Outlet, matchPath, useLocation } from 'react-router-dom'
 

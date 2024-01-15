@@ -1,4 +1,4 @@
-import { cn } from '@web/lib/utils'
+import { cn } from '@ui/lib/utils'
 import { CheckIcon, Loader2Icon, XIcon } from 'lucide-react'
 import { useState, useLayoutEffect } from 'react'
 import { match } from 'ts-pattern'

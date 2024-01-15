@@ -6,7 +6,7 @@
     "target": "es2021",
     "useDefineForClassFields": true,
     "lib": ["es2021", "DOM", "DOM.Iterable"],
-    "types": ["@total-typescript/ts-reset", "@types/chrome"],
+    "types": ["@total-typescript/ts-reset"],
     "module": "ESNext",
     "skipLibCheck": true,
     "incremental": true,
@@ -18,21 +18,17 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
-      "@web/*": ["./*"],
-      "@api/*": ["../@api/*"],
-      "@ui/*": ["../@ui/*"]
+      "@ui/*": ["./*"],
+      "@api/*": ["../@api/*"]
     },
 
     "strict": true,
     "noUncheckedIndexedAccess": true
   },
-  "exclude": ["build", "vite.config.ts", "dist", "tailwind.config.ts", "postcss.config.ts"],
+  "exclude": ["build", "tailwind.config.ts"],
   "references": [
     {
       "path": "../@api/tsconfig.json"
-    },
-    {
-      "path": "../@ui/tsconfig.json"
     }
   ]
 }

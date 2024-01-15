@@ -1,5 +1,5 @@
-import { Button } from '@web/components/ui/button'
-import { Skeleton } from '@web/components/ui/skeleton'
+import { Button } from '@ui/components/ui/button'
+import { Skeleton } from '@ui/components/ui/skeleton'
 import { useAuthStore } from '@web/stores/auth'
 import { LogOutIcon, SettingsIcon } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'

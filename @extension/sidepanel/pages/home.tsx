@@ -1,5 +1,5 @@
-import { Button } from '@web/components/ui/button'
-import { useToast } from '@web/components/ui/use-toast'
+import { Button } from '@ui/components/ui/button'
+import { useToast } from '@ui/components/ui/use-toast'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
 import { useAuthStore } from '@web/stores/auth'

@@ -1,4 +1,4 @@
-import { Button } from '@web/components/ui/button'
+import { Button } from '@ui/components/ui/button'
 import { useEffectOnce } from '@web/hooks/use-effect-once'
 import { env } from '@web/lib/env'
 import { useAuthedStore } from '@web/stores/auth'

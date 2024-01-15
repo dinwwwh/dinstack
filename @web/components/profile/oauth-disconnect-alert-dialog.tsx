@@ -1,4 +1,5 @@
 import { MutationStatusIcon } from '../mutation-status-icon'
+import type { OauthAccounts } from '@api/database/schema'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -7,9 +8,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '../ui/alert-dialog'
-import { Button } from '../ui/button'
-import type { OauthAccounts } from '@api/database/schema'
+} from '@ui/components/ui/alert-dialog'
+import { Button } from '@ui/components/ui/button'
 import { api } from '@web/lib/api'
 import { useRef } from 'react'
 

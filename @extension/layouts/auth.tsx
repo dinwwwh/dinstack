@@ -1,4 +1,4 @@
-import { Button } from '@web/components/ui/button'
+import { Button } from '@ui/components/ui/button'
 import { env } from '@web/lib/env'
 import { useAuthStore } from '@web/stores/auth'
 import { Outlet } from 'react-router-dom'

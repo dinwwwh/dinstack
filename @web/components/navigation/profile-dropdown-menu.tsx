@@ -1,18 +1,18 @@
 import { MutationStatusIcon } from '../mutation-status-icon'
 import { OrganizationCreateSheet } from '../organization/create-sheet'
 import { ViewportBlock } from '../viewport-block'
-import { Avatar, AvatarFallback, AvatarImage } from '@web/components/ui/avatar'
-import { Button } from '@web/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@ui/components/ui/avatar'
+import { Button } from '@ui/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from '@web/components/ui/dropdown-menu'
-import { ScrollArea } from '@web/components/ui/scroll-area'
-import { SheetTrigger } from '@web/components/ui/sheet'
-import { Skeleton } from '@web/components/ui/skeleton'
+} from '@ui/components/ui/dropdown-menu'
+import { ScrollArea } from '@ui/components/ui/scroll-area'
+import { SheetTrigger } from '@ui/components/ui/sheet'
+import { Skeleton } from '@ui/components/ui/skeleton'
 import { api } from '@web/lib/api'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { useAuthStore, useAuthedStore } from '@web/stores/auth'

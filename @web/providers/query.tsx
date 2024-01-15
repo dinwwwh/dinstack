@@ -1,6 +1,6 @@
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
-import { useToast } from '@web/components/ui/use-toast'
+import { useToast } from '@ui/components/ui/use-toast'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
 import { getTurnstileToken } from '@web/lib/turnstile'

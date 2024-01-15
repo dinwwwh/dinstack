@@ -1,6 +1,6 @@
 import type { Subscriptions } from '@api/database/schema'
+import { Button } from '@ui/components/ui/button'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
-import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
 import { useAuthedStore } from '@web/stores/auth'

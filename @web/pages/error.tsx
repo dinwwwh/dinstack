@@ -1,4 +1,4 @@
-import { Button } from '@web/components/ui/button'
+import { Button } from '@ui/components/ui/button'
 import { Helmet } from 'react-helmet-async'
 import { Link, useRouteError } from 'react-router-dom'
 

@@ -3,7 +3,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from '@web/components/ui/dropdown-menu'
+} from '@ui/components/ui/dropdown-menu'
 import { GithubIcon, TwitterIcon, HomeIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 

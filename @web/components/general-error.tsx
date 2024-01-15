@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, AlertDescription } from './ui/alert'
+import { Alert, AlertTitle, AlertDescription } from '@ui/components/ui/alert'
 import { AlertTriangleIcon } from 'lucide-react'
 import type { ComponentPropsWithoutRef } from 'react'
 
