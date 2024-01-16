@@ -1,7 +1,9 @@
+import { Button } from '@web/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@web/components/ui/sheet'
+import { MenuIcon } from 'lucide-react'
 import * as React from 'react'
 
-export function SheetBasic(props: {
+export function NavMobile(props: {
   children: React.ReactNode
   side: 'left' | 'right' | 'top' | 'bottom'
 }) {
@@ -9,7 +11,11 @@ export function SheetBasic(props: {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger>active</SheetTrigger>
+      <SheetTrigger asChild>
+        <Button variant={'outline'} size={'icon'}>
+          <MenuIcon className="size-5" />
+        </Button>
+      </SheetTrigger>
       <SheetContent side={props.side} className="pr-0">
         {props.children}
       </SheetContent>

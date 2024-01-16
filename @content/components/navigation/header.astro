@@ -3,7 +3,7 @@ import { cn } from '@web/lib/utils'
 import { Icon } from 'astro-icon/components'
 import NavList from './nav-list.astro'
 import { buttonVariants } from '@web/components/ui/button'
-import { SheetBasic } from '../ui/sheet-basic'
+import { NavMobile } from './nav-mobile'
 
 type Props = {
   className?: string
@@ -21,9 +21,18 @@ const { className } = Astro.props
       </a>
 
       <div class="block md:hidden">
-        <SheetBasic side="left" client:load>
-          <NavList />
-        </SheetBasic>
+        <NavMobile side="left" client:load>
+          <div>
+            <a href="/" class="flex items-center gap-2 p-2">
+              <Icon name="stars-outline" class="size-8" />
+              <span class="font-bold">Dinstack</span>
+            </a>
+
+            <div class="flex flex-col pl-8 mt-6 gap-3">
+              <NavList />
+            </div>
+          </div>
+        </NavMobile>
       </div>
 
       <div class="hidden md:flex">

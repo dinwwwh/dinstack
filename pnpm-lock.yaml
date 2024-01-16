@@ -129,6 +129,9 @@ importers:
       astro-seo:
         specifier: ^0.8.0
         version: 0.8.0
+      lucide-react:
+        specifier: ^0.302.0
+        version: 0.302.0(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
