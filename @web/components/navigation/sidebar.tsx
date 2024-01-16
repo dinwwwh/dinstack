@@ -6,7 +6,6 @@ import { ProfileDropdownMenu } from './profile-dropdown-menu'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
-import { Skeleton } from '@web/components/ui/skeleton'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { useAuthedStore } from '@web/stores/auth'
 import {

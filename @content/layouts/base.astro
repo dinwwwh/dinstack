@@ -19,6 +19,23 @@ import { ScrollArea } from '@web/components/ui/scroll-area'
     <link rel="preload" href="/fonts/inter.ttf" as="font" type="font/ttf" crossorigin />
     <meta name="generator" content={Astro.generator} />
 
+    <script is:inline>
+      const raw = localStorage.getItem('@web/stores/system')
+      let theme = raw
+        ? JSON.parse(localStorage.getItem('@web/stores/system'))['json']['state']['theme']
+        : 'system'
+
+      if (theme === 'system') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      }
+
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark')
+      } else {
+        document.documentElement.classList.add('dark')
+      }
+    </script>
+
     <script>
       import { useSystemStore } from '@web/stores/system'
       import { match } from 'ts-pattern'
@@ -39,7 +56,6 @@ import { ScrollArea } from '@web/components/ui/scroll-area'
         }
       }
 
-      initTheme()
       document.addEventListener('astro:after-swap', initTheme)
 
       useSystemStore.subscribe(
