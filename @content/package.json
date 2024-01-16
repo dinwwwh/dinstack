@@ -3,13 +3,13 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "env-cmd -f .env.local astro dev --port 3000",
+    "dev": "env-cmd -f ../@web/.env.local astro dev --port 3000",
     "dev:content": "pnpm run dev",
-    "build": "env-cmd -f .env.local astro build",
+    "build": "env-cmd -f ../@web/.env.local astro build",
     "typecheck": "astro check",
     "preview": "pnpm run build && astro preview --port 3000",
-    "deploy:preview": "env-cmd -f .env.preview astro build && wrangler pages deploy --project-name=dinstack-content-preview --branch=main ./dist",
-    "deploy:production": "env-cmd -f .env.production astro build && wrangler pages deploy --project-name=dinstack-content-production --branch=main ./dist"
+    "deploy:preview": "env-cmd -f ../@web/.env.preview astro build && wrangler pages deploy --project-name=dinstack-content-preview --branch=main ./dist",
+    "deploy:production": "env-cmd -f ../@web/.env.production astro build && wrangler pages deploy --project-name=dinstack-content-production --branch=main ./dist"
   },
   "dependencies": {
     "astro": "^4.1.2",
