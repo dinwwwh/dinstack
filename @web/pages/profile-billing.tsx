@@ -144,7 +144,7 @@ function CheckoutButton() {
       onClick={() => {
         mutation.mutate({
           variantId: env.LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID,
-          darkMode: document.body.classList.contains('dark'),
+          darkMode: document.documentElement.classList.contains('dark'),
         })
       }}
     >

@@ -17,7 +17,8 @@
     "astro-seo": "^0.8.0",
     "lucide-react": "^0.302.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "ts-pattern": "^5.0.6"
   },
   "devDependencies": {
     "@astrojs/check": "^0.4.1",
