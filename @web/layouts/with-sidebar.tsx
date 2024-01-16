@@ -1,5 +1,6 @@
 'use client'
 
+import { Logo } from '@web/components/logo'
 import { Navbar } from '@web/components/navigation/sidebar'
 import { Button } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
@@ -33,7 +34,7 @@ function SmallScreenNavbar() {
   }, [location])
 
   return (
-    <div className="px-4 py-3 md:hidden flex justify-between gap-4 border-b  border-border/50">
+    <div className="relative px-4 py-3 md:hidden flex justify-between gap-4 border-b  border-border/50">
       <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
         <SheetTrigger asChild>
           <Button type="button" variant={'outline'} size={'icon'}>
@@ -45,7 +46,9 @@ function SmallScreenNavbar() {
         </SheetContent>
       </Sheet>
 
-      <Skeleton className="h-9 w-32" />
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <Logo variant="icon" size={36} />
+      </div>
       <Skeleton className="h-9 w-9" />
     </div>
   )

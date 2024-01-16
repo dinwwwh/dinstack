@@ -12,7 +12,7 @@ export function NavMobile(props: {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant={'outline'} size={'icon'}>
+        <Button variant={'ghost'} size={'icon'}>
           <MenuIcon className="size-5" />
         </Button>
       </SheetTrigger>

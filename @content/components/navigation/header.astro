@@ -4,6 +4,8 @@ import { Icon } from 'astro-icon/components'
 import NavList from './nav-list.astro'
 import { buttonVariants } from '@web/components/ui/button'
 import { NavMobile } from './nav-mobile'
+import { env } from '@web/lib/env'
+import { Logo } from '@web/components/logo'
 
 type Props = {
   className?: string
@@ -16,19 +18,17 @@ const { className } = Astro.props
   <div class="relative container flex items-center justify-between w-full">
     <div class="flex items-center gap-6 md:gap-8 lg:gap-10">
       <a href="/" class="hidden items-center space-x-2 md:flex">
-        <Icon name="stars-outline" class="size-8" />
-        <span class="hidden font-bold sm:inline-block">Dinstack</span>
+        <Logo size={36} />
       </a>
 
       <div class="block md:hidden">
         <NavMobile side="left" client:load>
           <div>
             <a href="/" class="flex items-center gap-2 p-2">
-              <Icon name="stars-outline" class="size-8" />
-              <span class="font-bold">Dinstack</span>
+              <Logo size={36} />
             </a>
 
-            <div class="flex flex-col pl-8 mt-6 gap-3">
+            <div class="flex flex-col mt-6 gap-3">
               <NavList />
             </div>
           </div>
@@ -40,16 +40,16 @@ const { className } = Astro.props
       </div>
     </div>
 
-    <!-- logo mobile center -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-4 -translate-y-4 md:hidden">
-      <a href="/" aria-label="Astronomy homepage">
-        <Icon name="stars-outline" class="size-8" />
-      </a>
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:hidden">
+      <Logo variant="icon" size={36} />
     </div>
 
     <nav>
-      <a href="/login" class={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'px-4')}>
-        Login
+      <a
+        href={env.WEB_BASE_URL}
+        class={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'px-4')}
+      >
+        Get started
       </a>
     </nav>
   </div>

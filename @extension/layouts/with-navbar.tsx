@@ -1,3 +1,4 @@
+import { Logo } from '@web/components/logo'
 import { Button } from '@web/components/ui/button'
 import { Skeleton } from '@web/components/ui/skeleton'
 import { useAuthStore } from '@web/stores/auth'
@@ -10,7 +11,7 @@ export function WithNavbarLayout() {
       <nav className="p-3 border-b">
         <div className="flex justify-between items-center">
           <div>
-            <Skeleton className="w-8 h-8" />
+            <Logo variant="icon" size={32} />
           </div>
 
           <div className="flex items-center">

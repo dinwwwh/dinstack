@@ -38,7 +38,9 @@ import { env } from '@web/lib/env'
     }}
   />
 
-  <Header />
+  <div class="border-b border-border/40">
+    <Header />
+  </div>
 
   <h1 class="text-destructive">Astro</h1>
   <div class="h-screen bg-red-100">{env.CONTENT_BASE_URL}</div>
