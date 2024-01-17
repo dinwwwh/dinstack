@@ -16,13 +16,16 @@
     "astro-icon": "^1.0.2",
     "astro-seo": "^0.8.0",
     "lucide-react": "^0.302.0",
+    "mdast-util-toc": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "remark": "^15.0.1",
     "ts-pattern": "^5.0.6"
   },
   "devDependencies": {
     "@astrojs/check": "^0.4.1",
     "@astrojs/cloudflare": "^8.1.0",
+    "@astrojs/mdx": "^2.0.4",
     "@astrojs/react": "^3.0.9",
     "@astrojs/tailwind": "^5.1.0",
     "@iconify-json/lucide": "^1.1.154",

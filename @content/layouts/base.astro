@@ -66,9 +66,11 @@ import { ScrollArea } from '@web/components/ui/scroll-area'
 
     <slot name="head-bottom" />
   </head>
-  <body>
-    <ScrollArea className="h-screen" client:load>
+  <ScrollArea className="h-screen" client:load>
+    <div class="h-screen">
       <slot />
-    </ScrollArea>
-  </body>
+    </div>
+  </ScrollArea>
+
+
 </html>

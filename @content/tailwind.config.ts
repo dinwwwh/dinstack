@@ -9,7 +9,7 @@ const config = {
     resolve(__dirname, './layouts/**/*.{js,ts,jsx,tsx,astro}'),
     resolve(__dirname, './components/**/*.{js,ts,jsx,tsx,astro}'),
     resolve(__dirname, './pages/**/*.{js,ts,jsx,tsx,astro}'),
-    resolve(__dirname, './content/**/*.{js,ts,jsx,tsx,astro}'),
+    resolve(__dirname, './content/**/*.{md,mdx}'),
     resolve(__dirname, './lib/**/*.{js,ts,jsx,tsx,astro}'),
   ],
 } satisfies Config

@@ -1,4 +1,5 @@
 import cloudflare from '@astrojs/cloudflare'
+import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import tailwind from '@astrojs/tailwind'
 import icon from 'astro-icon'
@@ -9,6 +10,11 @@ export default defineConfig({
   srcDir: './',
   output: 'hybrid',
   integrations: [
+    mdx({
+      syntaxHighlight: 'shiki',
+      shikiConfig: { theme: 'github-dark-dimmed' },
+      gfm: true,
+    }),
     tailwind({
       applyBaseStyles: false,
     }),
