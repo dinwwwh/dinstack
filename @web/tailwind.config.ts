@@ -83,7 +83,14 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/container-queries')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/container-queries'),
+    require('tailwindcss-animate'),
+    require('tailwindcss-debug-screens'),
+  ],
 } satisfies Config
 
 export default config

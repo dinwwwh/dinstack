@@ -95,8 +95,14 @@ export const MdxComponents = {
     />
   ),
   pre: ({ className, ...props }: Props) => (
-    <pre
-      className={cn('mb-4 mt-6 overflow-x-auto rounded-lg border bg-black p-4', className)}
+    <pre className={cn('mb-4 mt-6 overflow-x-auto rounded-lg border p-4', className)} {...props} />
+  ),
+  code: ({ className, ...props }: Props) => (
+    <code
+      className={cn(
+        '[p>&]:relative [p>&]:rounded [p>&]:border [p>&]:px-[0.3rem] [p>&]:py-[0.2rem] [p>&]:font-mono [p>&]:text-sm [p>&]:bg-background [p>&]:text-foreground ',
+        className,
+      )}
       {...props}
     />
   ),
