@@ -1,0 +1,71 @@
+---
+import BlogCard from '@content/components/content/blog-card.astro'
+import BaseLayout from '@content/layouts/base.astro'
+import { SEO } from 'astro-seo'
+import { getPosts } from '@content/lib/blog'
+import Header from '@content/components/navigation/header.astro'
+import Footer from '@content/components/navigation/footer.astro'
+
+const posts = await getPosts()
+---
+
+<BaseLayout>
+  <SEO
+    slot="head-bottom"
+    title="Blog | Dinstack"
+    description="Posts for SEO"
+    openGraph={{
+      basic: {
+        title: 'Blog | Dinstack',
+        type: 'website',
+        image:
+          'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
+      },
+    }}
+    twitter={{
+      creator: '@dinsterizer',
+    }}
+    extend={{
+      // extending the default link tags
+      link: [{ rel: 'icon', href: '/favicon.ico' }],
+      // extending the default meta tags
+      meta: [
+        {
+          name: 'twitter:image',
+          content:
+            'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
+        },
+        { name: 'twitter:title', content: 'Blog | Dinstack' },
+        { name: 'twitter:description', content: 'Posts for SEO' },
+      ],
+    }}
+  />
+
+  <div>
+    <div class="sticky top-0 bg-background z-50">
+      <Header className="h-16 container" />
+    </div>
+
+    <section class="container py-10 max-w-4xl">
+      <div class="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
+        <div class="flex-1 space-y-4">
+          <h1 class="inline-block font-heading text-4xl tracking-tight lg:text-5xl">Blog</h1><p
+            class="text-xl text-muted-foreground"
+          >
+            A blog built using Astro. Posts are written in MDX.
+          </p>
+        </div>
+      </div>
+
+      <hr class="my-8" />
+
+      <div class="grid gap-10 sm:grid-cols-2">
+        {posts.map((post) => <BlogCard {...post} />)}
+      </div>
+    </section>
+  </div>
+
+  <div class="border-border/40">
+    <Footer className="container" />
+  </div>
+</BaseLayout>
