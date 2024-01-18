@@ -1,5 +1,5 @@
 ---
-import { navigationMenuTriggerStyle } from '@web/components/ui/navigation-menu'
+import { cn } from '@web/lib/utils'
 
 const links = [
   {
@@ -19,11 +19,19 @@ const links = [
     href: '/docs',
   },
 ]
+
+const { pathname } = Astro.url
 ---
 
 {
   links.map((link) => (
-    <a href={link.href} class={navigationMenuTriggerStyle()}>
+    <a
+      href={link.href}
+      class={cn(
+        'flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm text-foreground/60',
+        pathname.startsWith(link.href) && 'text-foreground',
+      )}
+    >
       {link.title}
     </a>
   ))
