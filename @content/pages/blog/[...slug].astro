@@ -25,7 +25,7 @@ const { Content } = await post.render()
 
 <BaseLayout>
   <SEO
-    slot="head-bottom"
+    slot="seo"
     title={`${post.data.title} | Dinstack`}
     description={post.data.description}
     openGraph={{
@@ -56,8 +56,8 @@ const { Content } = await post.render()
   />
 
   <div>
-    <div class="sticky top-0 bg-background z-50">
-      <Header className="h-16 container" />
+    <div class="sticky top-0 bg-background z-50 h-16">
+      <Header className="h-full container" />
     </div>
 
     <section class="relative container max-w-screen-md py-10">

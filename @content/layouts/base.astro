@@ -1,6 +1,7 @@
 ---
 import '@web/core/global.css'
 import { ScrollArea } from '@web/components/ui/scroll-area'
+import { SEO } from 'astro-seo'
 ---
 
 <!doctype html>
@@ -62,7 +63,37 @@ import { ScrollArea } from '@web/components/ui/scroll-area'
       )
     </script>
 
-    <slot name="head-bottom" />
+    <slot name="seo">
+      <SEO
+        title="Dinstack - content"
+        description="Content for SEO"
+        openGraph={{
+          basic: {
+            title: 'Dinstack - content',
+            type: 'website',
+            image:
+              'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
+          },
+        }}
+        twitter={{
+          creator: '@dinsterizer',
+        }}
+        extend={{
+          // extending the default link tags
+          link: [{ rel: 'icon', href: '/favicon.ico' }],
+          // extending the default meta tags
+          meta: [
+            {
+              name: 'twitter:image',
+              content:
+                'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
+            },
+            { name: 'twitter:title', content: 'Dinstack - content' },
+            { name: 'twitter:description', content: 'Content for SEO' },
+          ],
+        }}
+      />
+    </slot>
   </head>
   <ScrollArea className="h-screen" client:load>
     <div class="h-screen">

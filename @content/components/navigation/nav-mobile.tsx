@@ -1,4 +1,5 @@
 import { Button } from '@web/components/ui/button'
+import { ScrollArea } from '@web/components/ui/scroll-area'
 import { Sheet, SheetContent, SheetTrigger } from '@web/components/ui/sheet'
 import { MenuIcon } from 'lucide-react'
 import * as React from 'react'
@@ -17,7 +18,7 @@ export function NavMobile(props: {
         </Button>
       </SheetTrigger>
       <SheetContent side={props.side} className="pr-0">
-        {props.children}
+        <ScrollArea className="h-full">{props.children}</ScrollArea>
       </SheetContent>
     </Sheet>
   )

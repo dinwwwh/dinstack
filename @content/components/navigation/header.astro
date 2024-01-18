@@ -27,9 +27,11 @@ const { className } = Astro.props
               <Logo size={36} />
             </a>
 
-            <div class="flex flex-col mt-6 gap-3">
+            <div class="flex flex-col mt-6 gap-2">
               <NavList />
             </div>
+
+            <slot name="extend-mobile-nav-list" />
           </div>
         </NavMobile>
       </div>

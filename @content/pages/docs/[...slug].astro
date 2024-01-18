@@ -33,7 +33,7 @@ const { Content } = await doc.render()
 
 <BaseLayout>
   <SEO
-    slot="head-bottom"
+    slot="seo"
     title={`${doc.data.title} | Dinstack`}
     description={doc.data.description}
     openGraph={{
@@ -64,12 +64,16 @@ const { Content } = await doc.render()
   />
 
   <div>
-    <div class="border-b border-border/40 sticky top-0 bg-background z-50">
-      <Header className="h-16 container" />
+    <div class="border-b border-border/40 sticky top-0 bg-background z-50 h-16">
+      <Header className="h-full container">
+        <div slot="extend-mobile-nav-list" class="mt-6 px-2">
+          <DocsSidebar />
+        </div>
+      </Header>
     </div>
 
     <div class="container flex gap-6">
-      <aside class="w-[220px] lg:w-[240px] sticky top-16 self-start">
+      <aside class="hidden md:block w-[220px] lg:w-[240px] sticky top-16 self-start">
         <ScrollArea className="h-[calc(100vh-4rem)]" client:idle>
           <div class="py-8">
             <DocsSidebar />
@@ -96,8 +100,8 @@ const { Content } = await doc.render()
         </ScrollArea>
       </main>
 
-      <div class="w-[300px] self-start sticky top-16">
-        <ScrollArea className="hidden w-[300px] xl:block h-full" client:load>
+      <div class="hidden xl:block w-[300px] self-start sticky top-16">
+        <ScrollArea className="h-full" client:load>
           <div class="py-8">
             <TableOfContents toc={toc} client:load />
           </div>

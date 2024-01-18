@@ -10,40 +10,9 @@ import { Icon } from 'astro-icon/components'
 ---
 
 <BaseLayout>
-  <SEO
-    slot="head-bottom"
-    title="Dinstack - content"
-    description="Content for SEO"
-    openGraph={{
-      basic: {
-        title: 'Dinstack - content',
-        type: 'website',
-        image:
-          'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
-      },
-    }}
-    twitter={{
-      creator: '@dinsterizer',
-    }}
-    extend={{
-      // extending the default link tags
-      link: [{ rel: 'icon', href: '/favicon.ico' }],
-      // extending the default meta tags
-      meta: [
-        {
-          name: 'twitter:image',
-          content:
-            'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
-        },
-        { name: 'twitter:title', content: 'Dinstack - content' },
-        { name: 'twitter:description', content: 'Content for SEO' },
-      ],
-    }}
-  />
-
   <div>
-    <div class="sticky top-0 bg-background z-50">
-      <Header className="h-16 container" />
+    <div class="sticky top-0 bg-background z-50 h-16">
+      <Header className="h-full container" />
     </div>
 
     <section class="space-y-6 pb-12 pt-16 lg:py-28">

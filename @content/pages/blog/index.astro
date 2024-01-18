@@ -11,7 +11,7 @@ const posts = await getPosts()
 
 <BaseLayout>
   <SEO
-    slot="head-bottom"
+    slot="seo"
     title="Blog | Dinstack"
     description="Posts for SEO"
     openGraph={{
@@ -42,8 +42,8 @@ const posts = await getPosts()
   />
 
   <div>
-    <div class="sticky top-0 bg-background z-50">
-      <Header className="h-16 container" />
+    <div class="sticky top-0 bg-background z-50 h-16">
+      <Header className="h-full container" />
     </div>
 
     <section class="container py-10 max-w-4xl">
