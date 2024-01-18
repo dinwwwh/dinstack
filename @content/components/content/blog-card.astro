@@ -20,7 +20,7 @@ const post = Astro.props
     style="color: transparent;"
     transition:name={`blog/img/${post.slug}`}
   />
-  <h2 class="text-2xl font-extrabold" transition:name={`blog/title/${post.slug}`}>
+  <h2 class="text-2xl font-extrabold font-heading" transition:name={`blog/title/${post.slug}`}>
     {post.data.title}
   </h2>
   <p class="text-muted-foreground">
