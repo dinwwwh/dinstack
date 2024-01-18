@@ -18,10 +18,17 @@ const post = Astro.props
     src={post.data.coverImage}
     alt={post.data.title}
     style="color: transparent;"
-  /><h2 class="text-2xl font-extrabold">{post.data.title}</h2><p class="text-muted-foreground">
+    transition:name={`blog/img/${post.slug}`}
+  />
+  <h2 class="text-2xl font-extrabold" transition:name={`blog/title/${post.slug}`}>
+    {post.data.title}
+  </h2>
+  <p class="text-muted-foreground">
     {post.data.description}
-  </p><p class="text-sm text-muted-foreground">{format(post.data.pubDate, 'LLL dd, y')}</p><a
-    class="absolute inset-0"
-    href={`/blog/${post.slug}/`}><span class="sr-only">View Article</span></a
-  >
+  </p>
+  <p class="text-sm text-muted-foreground">
+    {format(post.data.pubDate, 'LLL dd, y')}
+  </p><a class="absolute inset-0" href={`/blog/${post.slug}/`}>
+    <span class="sr-only">View Article</span>
+  </a>
 </article>

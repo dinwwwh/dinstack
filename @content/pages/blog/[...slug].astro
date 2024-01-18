@@ -80,10 +80,10 @@ const { Content } = await post.render()
           height={510}
           src={post.data.coverImage}
           alt=""
-          transition:name={'img-' + post.slug}
+          transition:name={`blog/img/${post.slug}`}
         />
         <div class="flex items-center justify-between">
-          <span class="font-medium text-muted-foreground" transition:name={'date-' + post.slug}>
+          <span class="font-medium text-muted-foreground">
             {format(post.data.pubDate, 'LLL dd, y')}
             {
               post.data.updatedDate && (
@@ -92,7 +92,7 @@ const { Content } = await post.render()
             }
           </span>
         </div>
-        <h1 class="font-heading text-4xl my-4" transition:name={'title-' + post.slug}>
+        <h1 class="font-heading text-4xl my-4" transition:name={`blog/title/${post.slug}`}>
           {post.data.title}
         </h1>
         <p>{post.data.description}</p>

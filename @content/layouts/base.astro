@@ -2,6 +2,7 @@
 import '@web/core/global.css'
 import { ScrollArea } from '@web/components/ui/scroll-area'
 import { SEO } from 'astro-seo'
+import { ViewTransitions } from 'astro:transitions'
 ---
 
 <!doctype html>
@@ -62,6 +63,8 @@ import { SEO } from 'astro-seo'
         () => initTheme(),
       )
     </script>
+
+    <ViewTransitions />
 
     <slot name="seo">
       <SEO
