@@ -74,9 +74,7 @@ import { Icon } from 'astro-icon/components'
         </p>
 
         <div class="flex justify-center space-x-2 md:space-x-4">
-          <a href="/docs/getting-started/" class={cn(buttonVariants({ size: 'lg' }))}>
-            Get Started</a
-          >
+          <a href={env.WEB_BASE_URL} class={cn(buttonVariants({ size: 'lg' }))}> Get Started</a>
           <a
             href={env.GITHUB_REPOSITORY_URL}
             target="_blank"

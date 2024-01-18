@@ -26,7 +26,6 @@ export const getStaticPaths = (async () => {
 
 type Props = CollectionEntry<'docs'>
 const doc = Astro.props
-const slug = Astro.params.slug
 const toc = await getTableOfContents(doc.body)
 
 const { Content } = await doc.render()
