@@ -7,11 +7,12 @@
     "dev:content": "pnpm run dev",
     "build": "env-cmd -f ../@web/.env.local astro build",
     "typecheck": "astro check",
-    "preview": "pnpm run dev",
+    "preview": "pnpm run build && astro preview --port 3000",
     "deploy:preview": "env-cmd -f ../@web/.env.preview astro build && wrangler pages deploy --project-name=dinstack-content-preview --branch=main ./dist",
     "deploy:production": "env-cmd -f ../@web/.env.production astro build && wrangler pages deploy --project-name=dinstack-content-production --branch=main ./dist"
   },
   "dependencies": {
+    "@orama/plugin-astro": "^2.0.1",
     "astro": "^4.1.2",
     "astro-icon": "^1.0.2",
     "astro-seo": "^0.8.0",

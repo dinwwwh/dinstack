@@ -2,13 +2,13 @@ import cloudflare from '@astrojs/cloudflare'
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import tailwind from '@astrojs/tailwind'
+import orama from '@orama/plugin-astro'
 import icon from 'astro-icon'
 import { defineConfig } from 'astro/config'
 
 // https://astro.build/config
 export default defineConfig({
   srcDir: './',
-  output: 'hybrid',
   integrations: [
     mdx({
       syntaxHighlight: 'shiki',
@@ -22,6 +22,10 @@ export default defineConfig({
     icon({
       iconDir: './icons',
     }),
+    orama({
+      content: {
+        pathMatcher: /(blog\/)|(docs)/,
+      },
+    }),
   ],
-  adapter: cloudflare(),
 })

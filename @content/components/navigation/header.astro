@@ -5,6 +5,7 @@ import { buttonVariants } from '@web/components/ui/button'
 import { NavMobile } from './nav-mobile'
 import { env } from '@web/lib/env'
 import { Logo } from '@web/components/logo'
+import { SearchDialog } from '../search-dialog'
 
 type Props = {
   className?: string
@@ -45,7 +46,9 @@ const { className } = Astro.props
       <Logo variant="icon" size={36} />
     </div>
 
-    <nav>
+    <nav class="flex items-center gap-2">
+      <SearchDialog client:load />
+
       <a
         href={env.WEB_BASE_URL}
         class={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'px-4')}
