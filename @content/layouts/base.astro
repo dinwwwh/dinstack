@@ -21,9 +21,7 @@ import { ScrollArea } from '@web/components/ui/scroll-area'
 
     <script is:inline>
       const raw = localStorage.getItem('@web/stores/system')
-      let theme = raw
-        ? JSON.parse(localStorage.getItem('@web/stores/system'))['json']['state']['theme']
-        : 'system'
+      let theme = raw ? JSON.parse(raw)['json']['state']['theme'] : 'system'
 
       if (theme === 'system') {
         theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
