@@ -24,7 +24,7 @@ export default defineConfig({
     }),
     orama({
       content: {
-        pathMatcher: /(blog\/)|(docs)/,
+        pathMatcher: /(blog\/.+)|(docs)/,
         contentSelectors: ['article', 'main'],
       },
     }),
