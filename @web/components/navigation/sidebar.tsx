@@ -1,3 +1,4 @@
+import { Logo } from '../logo'
 import { ThemeToggle } from '../theme-toggle'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
@@ -5,7 +6,6 @@ import { ProfileDropdownMenu } from './profile-dropdown-menu'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
-import { Skeleton } from '@web/components/ui/skeleton'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { useAuthedStore } from '@web/stores/auth'
 import {
@@ -47,10 +47,7 @@ export function Navbar() {
     <div className="flex flex-col h-full">
       <LogoDropdownMenu>
         <DropdownMenuTrigger>
-          <div className="flex gap-3 items-center">
-            <Skeleton className="h-9 w-9 flex-shrink-0" />
-            <Skeleton className="h-6 w-36" />
-          </div>
+          <Logo size={36} />
         </DropdownMenuTrigger>
       </LogoDropdownMenu>
 

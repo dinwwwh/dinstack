@@ -26,9 +26,9 @@ export function ThemeProvider(props: { children: React.ReactNode }) {
     const theme = systemStore.theme === 'system' ? systemColorSchema : systemStore.theme
 
     if (theme === 'dark') {
-      document.body.classList.add('dark')
+      document.documentElement.classList.add('dark')
     } else {
-      document.body.classList.remove('dark')
+      document.documentElement.classList.remove('dark')
     }
   }, [systemStore.theme, systemColorSchema])
 

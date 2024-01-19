@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { format } from 'date-fns'
+
+type Props = CollectionEntry<'blog'>
+
+const post = Astro.props
+---
+
+<article class="group relative flex flex-col space-y-2">
+  <img
+    fetchpriority="high"
+    width="804"
+    height="452"
+    decoding="async"
+    data-nimg="1"
+    class="rounded-lg border bg-muted transition-colors"
+    src={post.data.coverImage}
+    alt={post.data.title}
+    style="color: transparent;"
+    transition:name={`blog/img/${post.slug}`}
+  />
+  <h2 class="text-2xl font-extrabold font-heading" transition:name={`blog/title/${post.slug}`}>
+    {post.data.title}
+  </h2>
+  <p class="text-muted-foreground">
+    {post.data.description}
+  </p>
+  <p class="text-sm text-muted-foreground">
+    {format(post.data.pubDate, 'LLL dd, y')}
+  </p><a class="absolute inset-0" href={`/blog/${post.slug}/`}>
+    <span class="sr-only">View Article</span>
+  </a>
+</article>

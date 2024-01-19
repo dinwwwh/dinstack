@@ -1,0 +1,97 @@
+---
+import '@web/core/global.css'
+import { ScrollArea } from '@web/components/ui/scroll-area'
+import { SEO } from 'astro-seo'
+import { ViewTransitions } from 'astro:transitions'
+import { getTwitterHandler } from '@content/lib/twitter'
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/fonts/calsans-semibold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href="/fonts/inter.ttf" as="font" type="font/ttf" crossorigin />
+    <meta name="generator" content={Astro.generator} />
+
+    <script is:inline>
+      const raw = localStorage.getItem('@web/stores/system')
+      let theme = raw ? JSON.parse(raw)['json']['state']['theme'] : 'system'
+
+      if (theme === 'system') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      }
+
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark')
+      } else {
+        document.documentElement.classList.add('dark')
+      }
+    </script>
+
+    <script>
+      import { useSystemStore } from '@web/stores/system'
+      import { match } from 'ts-pattern'
+
+      const initTheme = () => {
+        const theme = match(useSystemStore.getState().theme)
+          .with('system', () =>
+            window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+          )
+          .with('light', () => 'light')
+          .with('dark', () => 'dark')
+          .exhaustive()
+
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark')
+        } else {
+          document.documentElement.classList.add('dark')
+        }
+      }
+
+      document.addEventListener('astro:after-swap', initTheme)
+
+      useSystemStore.subscribe(
+        (state) => state.theme,
+        () => initTheme(),
+      )
+    </script>
+
+    <ViewTransitions />
+
+    <slot name="seo">
+      <SEO
+        title={`Dinstack - content`}
+        description={'Dinstack website for SEO part'}
+        openGraph={{
+          basic: {
+            title: `Dinstack - content`,
+            type: 'website',
+            image: '/opengraph-image.jpg',
+          },
+        }}
+        twitter={{
+          creator: getTwitterHandler(),
+          card: 'summary_large_image',
+          title: `Dinstack - content`,
+          description: 'Dinstack website for SEO part',
+        }}
+      />
+    </slot>
+  </head>
+  <ScrollArea className="h-screen" client:load>
+    <div class="h-screen">
+      <slot />
+    </div>
+  </ScrollArea>
+
+
+</html>

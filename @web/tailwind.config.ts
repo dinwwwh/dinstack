@@ -17,7 +17,7 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: '1rem',
       screens: {
         '2xl': '1400px',
       },
@@ -25,6 +25,7 @@ const config = {
     extend: {
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        heading: ['CalSans Semibold', 'Inter', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -82,7 +83,13 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/container-queries')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/container-queries'),
+    require('tailwindcss-animate'),
+    require('tailwindcss-debug-screens'),
+  ],
 } satisfies Config
 
 export default config

@@ -1,0 +1,56 @@
+---
+import { cn } from '@web/lib/utils'
+import NavList from './nav-list.astro'
+import { buttonVariants } from '@web/components/ui/button'
+import { NavMobile } from './nav-mobile'
+import { env } from '@web/lib/env'
+import { Logo } from '@web/components/logo'
+import { SearchDialog } from '../search-dialog'
+
+type Props = {
+  className?: string
+}
+
+const { className } = Astro.props
+---
+
+<header class={cn('flex items-center py-3', className)}>
+  <div class="flex items-center justify-between w-full">
+    <div class="flex items-center gap-6 md:gap-8 lg:gap-10">
+      <a href="/" class="hidden items-center space-x-2 md:flex">
+        <Logo size={36} />
+      </a>
+
+      <div class="block md:hidden">
+        <NavMobile side="left" client:load>
+          <div>
+            <a href="/" class="flex items-center gap-2 p-2">
+              <Logo size={36} />
+            </a>
+
+            <div class="flex flex-col mt-6 gap-6">
+              <NavList />
+            </div>
+
+            <slot name="extend-mobile-nav-list" />
+          </div>
+        </NavMobile>
+      </div>
+
+      <div class="hidden gap-6 md:flex">
+        <NavList />
+      </div>
+    </div>
+
+    <nav class="flex items-center gap-2">
+      <SearchDialog client:load />
+
+      <a
+        href={env.WEB_BASE_URL}
+        class={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'px-4')}
+      >
+        Get started
+      </a>
+    </nav>
+  </div>
+</header>

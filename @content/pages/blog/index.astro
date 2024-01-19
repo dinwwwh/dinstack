@@ -1,0 +1,60 @@
+---
+import BlogCard from '@content/components/content/blog-card.astro'
+import BaseLayout from '@content/layouts/base.astro'
+import { SEO } from 'astro-seo'
+import { getPosts } from '@content/lib/blog'
+import Header from '@content/components/navigation/header.astro'
+import Footer from '@content/components/navigation/footer.astro'
+import { getTwitterHandler } from '@content/lib/twitter'
+
+const posts = await getPosts()
+---
+
+<BaseLayout>
+  <SEO
+    slot="seo"
+    title={`Blog | Dinstack`}
+    description="Dinstack related posts"
+    openGraph={{
+      basic: {
+        title: `Blog | Dinstack`,
+        type: 'website',
+        image: '/opengraph-image.jpg',
+      },
+    }}
+    twitter={{
+      creator: getTwitterHandler(),
+      card: 'summary_large_image',
+      title: `Blog | Dinstack`,
+      description: 'Dinstack related posts',
+    }}
+  />
+
+  <div>
+    <div class="sticky top-0 bg-background z-50 h-16">
+      <Header className="h-full container" />
+    </div>
+
+    <section class="container py-10 max-w-4xl">
+      <div class="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
+        <div class="flex-1 space-y-4">
+          <h1 class="inline-block font-heading text-4xl tracking-tight lg:text-5xl">Blog</h1><p
+            class="text-xl text-muted-foreground"
+          >
+            A blog built using Astro. Posts are written in MDX.
+          </p>
+        </div>
+      </div>
+
+      <hr class="my-8" />
+
+      <div class="grid gap-10 sm:grid-cols-2">
+        {posts.map((post) => <BlogCard {...post} />)}
+      </div>
+    </section>
+  </div>
+
+  <div class="border-border/40">
+    <Footer className="container" />
+  </div>
+</BaseLayout>

@@ -30,6 +30,12 @@
         "react/prop-types": "off",
         "react/no-unknown-property": "off"
       }
+    },
+    {
+      "files": "./@web/hooks/**.*",
+      "rules": {
+        "react-hooks/exhaustive-deps": "off"
+      }
     }
   ]
 }

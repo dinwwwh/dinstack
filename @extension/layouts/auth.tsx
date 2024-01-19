@@ -1,3 +1,4 @@
+import { Logo } from '@web/components/logo'
 import { Button } from '@web/components/ui/button'
 import { env } from '@web/lib/env'
 import { useAuthStore } from '@web/stores/auth'
@@ -11,28 +12,7 @@ export function AuthLayout() {
       <div className="fixed inset-0 flex items-center justify-center">
         <div>
           <div className="flex justify-center">
-            <img
-              alt="Logo"
-              className="dark:hidden"
-              height="100"
-              src="/icon-128.png"
-              style={{
-                aspectRatio: '100/100',
-                objectFit: 'cover',
-              }}
-              width="100"
-            />
-            <img
-              alt="Logo"
-              className="hidden dark:block"
-              height="100"
-              src="/icon-128-dark.png"
-              style={{
-                aspectRatio: '100/100',
-                objectFit: 'cover',
-              }}
-              width="100"
-            />
+            <Logo variant="icon" size={100} />
           </div>
           <div className="space-y-2 mt-4">
             <h2 className="text-2xl font-bold">Welcome to Our App</h2>

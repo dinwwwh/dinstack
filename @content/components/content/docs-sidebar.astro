@@ -1,0 +1,163 @@
+---
+import { cn } from '@web/lib/utils'
+
+export const sidebarNav = [
+  {
+    title: 'Getting Started',
+    items: [
+      {
+        title: 'Introduction',
+        href: '/docs',
+      },
+    ],
+  },
+  {
+    title: 'Documentation',
+    items: [
+      {
+        title: 'Introduction',
+        href: '/docs/documentation',
+      },
+      {
+        title: 'Contentlayer',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'Components',
+        href: '/docs/documentation/components',
+      },
+      {
+        title: 'Code Blocks',
+        href: '/docs/documentation/code-blocks',
+      },
+      {
+        title: 'Style Guide',
+        href: '/docs/documentation/style-guide',
+      },
+      {
+        title: 'Search',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+    ],
+  },
+  {
+    title: 'Blog',
+    items: [
+      {
+        title: 'Introduction',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'Build your own',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'Writing Posts',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+    ],
+  },
+  {
+    title: 'Dashboard',
+    items: [
+      {
+        title: 'Introduction',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'Layouts',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'Server Components',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'Authentication',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'Database with Prisma',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'API Routes',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+    ],
+  },
+  {
+    title: 'Marketing Site',
+    items: [
+      {
+        title: 'Introduction',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'File Structure',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'Tailwind CSS',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+      {
+        title: 'Typography',
+        href: '/docs/in-progress',
+        disabled: true,
+      },
+    ],
+  },
+]
+
+const { pathname } = Astro.url
+---
+
+{
+  sidebarNav.length ? (
+    <div class="w-full space-y-8">
+      {sidebarNav.map((item) => (
+        <div>
+          <h4 class="mb-1 rounded-md px-2 py-1 text-sm font-medium">{item.title}</h4>
+
+          {item.items?.length ? (
+            <div class="grid grid-flow-row auto-rows-max text-sm">
+              {item.items.map((item) =>
+                (!('disabled' in item) || !item.disabled) && item.href ? (
+                  <a
+                    href={item.href}
+                    class={cn('flex w-full items-center rounded-md p-2 hover:underline', {
+                      'bg-muted': pathname === item.href,
+                    })}
+                    target={'external' in item && item.external ? '_blank' : ''}
+                    rel={'external' in item && item.external ? 'noreferrer' : ''}
+                  >
+                    {item.title}
+                  </a>
+                ) : (
+                  <span class="flex w-full cursor-not-allowed items-center rounded-md p-2 opacity-60">
+                    {item.title}
+                  </span>
+                ),
+              )}
+            </div>
+          ) : null}
+        </div>
+      ))}
+    </div>
+  ) : null
+}

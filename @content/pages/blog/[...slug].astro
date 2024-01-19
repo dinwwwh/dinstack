@@ -1,0 +1,97 @@
+---
+import Footer from '@content/components/navigation/footer.astro'
+import Header from '@content/components/navigation/header.astro'
+import BaseLayout from '@content/layouts/base.astro'
+import { cn } from '@web/lib/utils'
+import { SEO } from 'astro-seo'
+import { getCollection, type CollectionEntry } from 'astro:content'
+import { Icon } from 'astro-icon/components'
+import { buttonVariants } from '@web/components/ui/button'
+import { format } from 'date-fns'
+import { getTwitterHandler } from '@content/lib/twitter'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }))
+}
+
+type Props = CollectionEntry<'blog'>
+
+const post = Astro.props
+const { Content } = await post.render()
+---
+
+<BaseLayout>
+  <SEO
+    slot="seo"
+    title={`${post.data.title} | Dinstack`}
+    description={post.data.description}
+    openGraph={{
+      basic: {
+        title: `${post.data.title} | Dinstack`,
+        type: 'article',
+        image: post.data.coverImage,
+      },
+    }}
+    twitter={{
+      creator: getTwitterHandler(),
+      card: 'summary_large_image',
+      title: `${post.data.title} | Dinstack`,
+      description: post.data.description,
+    }}
+  />
+
+  <div>
+    <div class="sticky top-0 bg-background z-50 h-16">
+      <Header className="h-full container" />
+    </div>
+
+    <section class="relative container max-w-screen-md py-10">
+      <a
+        href="/blog"
+        class={cn(
+          buttonVariants({ variant: 'ghost' }),
+          'absolute left-[-200px] top-10 hidden xl:inline-flex text-muted-foreground',
+        )}
+        transition:animate="slide"
+      >
+        <Icon name="lucide:chevron-left" class="mr-2 size-4" />
+        See all posts
+      </a>
+
+      <article class="prose dark:prose-invert max-w-none">
+        <img
+          class="rounded-lg overflow-hidden"
+          width={1020}
+          height={510}
+          src={post.data.coverImage}
+          alt=""
+          transition:name={`blog/img/${post.slug}`}
+        />
+        <div class="flex items-center justify-between">
+          <span class="font-medium text-muted-foreground">
+            {format(post.data.pubDate, 'LLL dd, y')}
+            {
+              post.data.updatedDate && (
+                <span>- Last updated on {format(post.data.updatedDate, 'LLL dd, y')}</span>
+              )
+            }
+          </span>
+        </div>
+        <h1 class="font-heading text-4xl my-4" transition:name={`blog/title/${post.slug}`}>
+          {post.data.title}
+        </h1>
+        <p>{post.data.description}</p>
+        <hr class="my-6" />
+        <Content />
+      </article>
+    </section>
+  </div>
+
+  <div class="">
+    <Footer className="container" />
+  </div>
+</BaseLayout>

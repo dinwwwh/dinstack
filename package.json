@@ -5,6 +5,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:content": "turbo run dev:content",
+    "dev:extension": "turbo run dev:extension",
     "dev:web": "turbo run dev:web",
     "preview": "turbo run preview",
     "lint": "eslint --max-warnings 0 --report-unused-disable-directives . && prettier --check .",
@@ -17,14 +19,16 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "^6.18.0",
     "@typescript-eslint/parser": "^6.18.0",
+    "env-cmd": "^10.1.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^3.1.1",
+    "prettier-plugin-astro": "^0.12.3",
     "tsc-alias": "^1.8.8",
     "turbo": "^1.11.3",
     "typescript": "^5.3.3",
-    "wrangler": "^3.22.3"
+    "wrangler": "^3.23.0"
   }
 }
