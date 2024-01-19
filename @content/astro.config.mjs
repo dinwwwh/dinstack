@@ -25,7 +25,13 @@ export default defineConfig({
     orama({
       content: {
         pathMatcher: /(blog\/)|(docs)/,
+        contentSelectors: ['article', 'main'],
       },
     }),
   ],
+  vite: {
+    ssr: {
+      noExternal: ['react-use'],
+    },
+  },
 })

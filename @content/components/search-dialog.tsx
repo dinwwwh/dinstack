@@ -5,6 +5,7 @@ import { useDebounce } from '@web/hooks/use-debounce'
 import { cn } from '@web/lib/utils'
 import { SearchIcon, Loader2 } from 'lucide-react'
 import { useRef, useState } from 'react'
+import { useKeyPressEvent } from 'react-use'
 
 type Hit = {
   document: {
@@ -18,6 +19,8 @@ type Hit = {
 export function SearchDialog() {
   const [open, setOpen] = useState(false)
   const [term, setTerm] = useState('')
+
+  useKeyPressEvent('/', () => setOpen(true))
 
   useDebounce(
     async () => {
