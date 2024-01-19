@@ -141,6 +141,9 @@ importers:
       mdast-util-toc:
         specifier: ^7.0.0
         version: 7.0.0
+      posthog-js:
+        specifier: ^1.100.0
+        version: 1.100.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -329,6 +332,9 @@ importers:
       lucide-react:
         specifier: ^0.302.0
         version: 0.302.0(react@18.2.0)
+      posthog-js:
+        specifier: ^1.100.0
+        version: 1.100.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -5762,6 +5768,10 @@ packages:
       pend: 1.2.0
     dev: false
 
+  /fflate@0.4.8:
+    resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
+    dev: false
+
   /file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -8215,6 +8225,12 @@ packages:
   /postgres@3.4.3:
     resolution: {integrity: sha512-iHJn4+M9vbTdHSdDzNkC0crHq+1CUdFhx+YqCE+SqWxPjm+Zu63jq7yZborOBF64c8pc58O5uMudyL1FQcHacA==}
     engines: {node: '>=12'}
+    dev: false
+
+  /posthog-js@1.100.0:
+    resolution: {integrity: sha512-r2XZEiHQ9mBK7D1G9k57I8uYZ2kZTAJ0OCX6K/OOdCWN8jKPhw3h5F9No5weilP6eVAn+hrsy7NvPV7SCX7gMg==}
+    dependencies:
+      fflate: 0.4.8
     dev: false
 
   /prebuild-install@7.1.1:

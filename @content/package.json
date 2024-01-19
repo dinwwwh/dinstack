@@ -19,6 +19,7 @@
     "date-fns": "^3.2.0",
     "lucide-react": "^0.302.0",
     "mdast-util-toc": "^7.0.0",
+    "posthog-js": "^1.100.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-use": "^17.4.3",

@@ -5,22 +5,31 @@ import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
 import { getTurnstileToken } from '@web/lib/turnstile'
 import { useAuthStore } from '@web/stores/auth'
-import { useState } from 'react'
+import { usePostHog } from 'posthog-js/react'
+import { useMemo } from 'react'
 import SuperJSON from 'superjson'
 
 export function QueryProvider({
   children,
-  disableTurnstile = false,
+  enableTurnstile = false,
+  enablePostHog = false,
 }: {
   children: React.ReactNode
-  disableTurnstile?: boolean
+  enableTurnstile?: boolean
+  enablePostHog?: boolean
 }) {
+  const ph = usePostHog()
   const { toast } = useToast()
-  const [queryClient] = useState(
+
+  const queryClient = useMemo(
     () =>
       new QueryClient({
         queryCache: new QueryCache({
           onError(err) {
+            if (enablePostHog) {
+              ph.startSessionRecording()
+            }
+
             if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
               useAuthStore.setState({ state: null })
             }
@@ -28,6 +37,10 @@ export function QueryProvider({
         }),
         mutationCache: new MutationCache({
           onError(err) {
+            if (enablePostHog) {
+              ph.startSessionRecording()
+            }
+
             if (err instanceof TRPCClientError) {
               const code = err.data?.code
               const message = err.message
@@ -56,40 +69,43 @@ export function QueryProvider({
           },
         },
       }),
+    [toast, ph],
   )
 
-  const [trpcClient] = useState(() =>
-    api.createClient({
-      transformer: SuperJSON,
-      links: [
-        httpBatchLink({
-          url: env.API_TRPC_BASE_URL,
-          async headers() {
-            const headers: Record<string, string> = {}
+  const trpcClient = useMemo(
+    () =>
+      api.createClient({
+        transformer: SuperJSON,
+        links: [
+          httpBatchLink({
+            url: env.API_TRPC_BASE_URL,
+            async headers() {
+              const headers: Record<string, string> = {}
 
-            const auth = useAuthStore.getState().state
-            if (auth) {
-              headers['Authorization'] = `Bearer ${auth.jwt}`
-            }
-
-            return headers
-          },
-          async fetch(input, init) {
-            const method = init?.method?.toUpperCase() ?? 'GET'
-            if (method === 'POST' && init && !disableTurnstile) {
-              const token = await getTurnstileToken()
-
-              init.headers = {
-                ...init.headers,
-                'X-Turnstile-Token': `${token}`,
+              const auth = useAuthStore.getState().state
+              if (auth) {
+                headers['Authorization'] = `Bearer ${auth.jwt}`
               }
-            }
 
-            return await fetch(input, init)
-          },
-        }),
-      ],
-    }),
+              return headers
+            },
+            async fetch(input, init) {
+              const method = init?.method?.toUpperCase() ?? 'GET'
+              if (method === 'POST' && init && enableTurnstile) {
+                const token = await getTurnstileToken()
+
+                init.headers = {
+                  ...init.headers,
+                  'X-Turnstile-Token': `${token}`,
+                }
+              }
+
+              return await fetch(input, init)
+            },
+          }),
+        ],
+      }),
+    [],
   )
 
   return (
