@@ -8,6 +8,7 @@ import { getCollection, type CollectionEntry } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 import { buttonVariants } from '@web/components/ui/button'
 import { format } from 'date-fns'
+import { getTwitterHandler } from '@content/lib/twitter'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -31,27 +32,15 @@ const { Content } = await post.render()
     openGraph={{
       basic: {
         title: `${post.data.title} | Dinstack`,
-        type: 'website',
-        image:
-          'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
+        type: 'article',
+        image: post.data.coverImage,
       },
     }}
     twitter={{
-      creator: '@dinsterizer',
-    }}
-    extend={{
-      // extending the default link tags
-      link: [{ rel: 'icon', href: '/favicon.ico' }],
-      // extending the default meta tags
-      meta: [
-        {
-          name: 'twitter:image',
-          content:
-            'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
-        },
-        { name: 'twitter:title', content: `${post.data.title} | Dinstack` },
-        { name: 'twitter:description', content: post.data.description },
-      ],
+      creator: getTwitterHandler(),
+      card: 'summary_large_image',
+      title: `${post.data.title} | Dinstack`,
+      description: post.data.description,
     }}
   />
 

@@ -11,6 +11,7 @@ import Footer from '@content/components/navigation/footer.astro'
 import { ScrollArea } from '@web/components/ui/scroll-area'
 import { TableOfContents } from '@content/components/content/toc'
 import DocsPager from '@content/components/content/docs-pager.astro'
+import { getTwitterHandler } from '@content/lib/twitter'
 
 export const getStaticPaths = (async () => {
   const DEFAULT_DOC_SLUG = 'getting-started' satisfies CollectionEntry<'docs'>['slug']
@@ -40,26 +41,14 @@ const { Content } = await doc.render()
       basic: {
         title: `${doc.data.title} | Dinstack`,
         type: 'website',
-        image:
-          'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
+        image: '/opengraph-image.jpg',
       },
     }}
     twitter={{
-      creator: '@dinsterizer',
-    }}
-    extend={{
-      // extending the default link tags
-      link: [{ rel: 'icon', href: '/favicon.ico' }],
-      // extending the default meta tags
-      meta: [
-        {
-          name: 'twitter:image',
-          content:
-            'https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png',
-        },
-        { name: 'twitter:title', content: `${doc.data.title} | Dinstack` },
-        { name: 'twitter:description', content: doc.data.description },
-      ],
+      creator: getTwitterHandler(),
+      card: 'summary_large_image',
+      title: `${doc.data.title} | Dinstack`,
+      description: doc.data.description,
     }}
   />
 
