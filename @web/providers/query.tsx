@@ -69,7 +69,7 @@ export function QueryProvider({
           },
         },
       }),
-    [toast, ph],
+    [toast, ph, enablePostHog],
   )
 
   const trpcClient = useMemo(
@@ -105,7 +105,7 @@ export function QueryProvider({
           }),
         ],
       }),
-    [],
+    [enableTurnstile],
   )
 
   return (

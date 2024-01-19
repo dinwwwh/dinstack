@@ -2,6 +2,7 @@ import type * as _B from '../../node_modules/@trpc/react-query/dist/createTRPCRe
 import type { AppRouter, AppRouterInputs, AppRouterOutputs } from '@api/core/router'
 import type * as _C from '@api/node_modules/@lemonsqueezy/lemonsqueezy.js/dist/index.cjs'
 import type * as _A from '@api/node_modules/arctic/dist'
+import type * as _D from '@api/node_modules/posthog-node/lib'
 import { createTRPCReact } from '@trpc/react-query'
 
 export const api = createTRPCReact<AppRouter>({

@@ -10,7 +10,7 @@ export function ErrorPage() {
 
   useEffect(() => {
     ph.startSessionRecording()
-  }, [])
+  }, [ph])
 
   console.error(error)
 
