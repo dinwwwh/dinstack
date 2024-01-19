@@ -20,6 +20,8 @@ export const envSchema = z.object({
   LEMONSQUEEZY_STORE_ID: z.number(),
   LEMONSQUEEZY_WEBHOOK_SIGNING_SECRET: z.string(),
   LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: z.number(),
+  POSTHOG_HOST: z.string().url(),
+  POSTHOG_API_KEY: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>

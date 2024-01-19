@@ -39,7 +39,39 @@ const _turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
   })
 })
 
-export const procedure = t.procedure
+export const procedure = t.procedure.use(
+  middleware(async ({ ctx, next, path, type }) => {
+    const start = Date.now()
+    const result = await next({ ctx })
+    const executionTime = Date.now() - start
+
+    if (type === 'query' && executionTime > 200) {
+      ctx.ph.capture({
+        distinctId: '__API__',
+        event: 'trpc_slow_route',
+        properties: {
+          path,
+          type,
+          executionTime,
+        },
+      })
+    }
+
+    if (type === 'mutation' && executionTime > 400) {
+      ctx.ph.capture({
+        distinctId: '__API__',
+        event: 'trpc_slow_route',
+        properties: {
+          path,
+          type,
+          executionTime,
+        },
+      })
+    }
+
+    return result
+  }),
+)
 
 const authMiddleware = middleware(async ({ ctx, next }) => {
   const jwt = ctx.request.headers.get('Authorization')?.replace(/^Bearer /, '')
