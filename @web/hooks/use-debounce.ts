@@ -1,10 +1,11 @@
 import { useTimeoutFn } from './use-timeout-fn'
-import { DependencyList, useEffect } from 'react'
+import type { DependencyList } from 'react'
+import { useEffect } from 'react'
 
 export type UseDebounceReturn = [() => boolean | null, () => void]
 
 export function useDebounce(
-  fn: Function,
+  fn: () => void | Promise<void>,
   ms: number = 0,
   deps: DependencyList = [],
 ): UseDebounceReturn {

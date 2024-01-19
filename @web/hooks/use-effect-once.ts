@@ -6,7 +6,5 @@ export function useEffectOnce(fn: React.EffectCallback) {
     if (hasRun.current) return
     hasRun.current = true
     return fn()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }

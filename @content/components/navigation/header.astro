@@ -15,7 +15,7 @@ const { className } = Astro.props
 ---
 
 <header class={cn('flex items-center py-3', className)}>
-  <div class="relative flex items-center justify-between w-full">
+  <div class="flex items-center justify-between w-full">
     <div class="flex items-center gap-6 md:gap-8 lg:gap-10">
       <a href="/" class="hidden items-center space-x-2 md:flex">
         <Logo size={36} />
@@ -40,10 +40,6 @@ const { className } = Astro.props
       <div class="hidden gap-6 md:flex">
         <NavList />
       </div>
-    </div>
-
-    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:hidden">
-      <Logo variant="icon" size={36} />
     </div>
 
     <nav class="flex items-center gap-2">

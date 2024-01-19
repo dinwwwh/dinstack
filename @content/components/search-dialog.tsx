@@ -1,21 +1,10 @@
 import { getOramaDB, search } from '@orama/plugin-astro/client'
 import { Button } from '@web/components/ui/button'
-import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from '@web/components/ui/command'
+import { CommandDialog, CommandInput, CommandItem, CommandList } from '@web/components/ui/command'
 import { useDebounce } from '@web/hooks/use-debounce'
 import { cn } from '@web/lib/utils'
-import { Command as CommandPrimitive } from 'cmdk'
-import { SearchIcon, FileIcon, Loader2, Badge } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { SearchIcon, Loader2 } from 'lucide-react'
+import { useRef, useState } from 'react'
 
 type Hit = {
   document: {
@@ -42,7 +31,6 @@ export function SearchDialog() {
         await new Promise((resolve) => setTimeout(resolve, 2_000))
 
         setHits(results.hits as unknown as Hit[])
-      } catch {
       } finally {
         setLoading((v) => v - 1)
       }
@@ -56,8 +44,8 @@ export function SearchDialog() {
 
   return (
     <>
-      <Button type="button" variant={'ghost'} onClick={() => setOpen((v) => !v)}>
-        <SearchIcon className="size-5" />
+      <Button type="button" variant={'ghost'} onClick={() => setOpen((v) => !v)} className="group">
+        <SearchIcon className="size-5 text-muted-foreground group-hover:text-foreground" />
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen} commandProps={{ shouldFilter: false }}>
         <CommandInput

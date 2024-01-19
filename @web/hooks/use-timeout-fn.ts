@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react'
 
 export type UseTimeoutFnReturn = [() => boolean | null, () => void, () => void]
 
-export function useTimeoutFn(fn: Function, ms: number = 0): UseTimeoutFnReturn {
+export function useTimeoutFn(fn: () => void | Promise<void>, ms: number = 0): UseTimeoutFnReturn {
   const ready = useRef<boolean | null>(false)
   const timeout = useRef<ReturnType<typeof setTimeout>>()
   const callback = useRef(fn)
