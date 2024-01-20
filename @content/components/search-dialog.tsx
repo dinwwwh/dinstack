@@ -47,6 +47,7 @@ export function SearchDialog() {
   return (
     <>
       <Button type="button" variant={'ghost'} onClick={() => setOpen((v) => !v)} className="group">
+        <span className="sr-only">Search</span>
         <SearchIcon className="size-5 text-muted-foreground group-hover:text-foreground" />
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen} commandProps={{ shouldFilter: false }}>
