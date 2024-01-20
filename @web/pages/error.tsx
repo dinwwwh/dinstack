@@ -9,10 +9,12 @@ export function ErrorPage() {
   const ph = usePostHog()
 
   useEffect(() => {
+    console.error(error)
+  }, [error])
+
+  useEffect(() => {
     ph.startSessionRecording()
   }, [ph])
-
-  console.error(error)
 
   const status =
     typeof error === 'object' &&

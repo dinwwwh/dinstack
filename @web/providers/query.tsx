@@ -26,6 +26,8 @@ export function QueryProvider({
       new QueryClient({
         queryCache: new QueryCache({
           onError(err) {
+            console.error(err)
+
             if (enablePostHog) {
               ph.startSessionRecording()
             }
@@ -37,6 +39,8 @@ export function QueryProvider({
         }),
         mutationCache: new MutationCache({
           onError(err) {
+            console.error(err)
+
             if (enablePostHog) {
               ph.startSessionRecording()
             }
