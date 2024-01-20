@@ -47,6 +47,7 @@ export function Navbar() {
     <div className="flex flex-col h-full">
       <LogoDropdownMenu>
         <DropdownMenuTrigger>
+          <span className="sr-only">Open Main Menu</span>
           <Logo size={36} />
         </DropdownMenuTrigger>
       </LogoDropdownMenu>

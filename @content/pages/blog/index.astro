@@ -6,6 +6,7 @@ import { getPosts } from '@content/lib/blog'
 import Header from '@content/components/navigation/header.astro'
 import Footer from '@content/components/navigation/footer.astro'
 import { getTwitterHandler } from '@content/lib/twitter'
+import { env } from '@web/lib/env'
 
 const posts = await getPosts()
 ---
@@ -13,11 +14,11 @@ const posts = await getPosts()
 <BaseLayout>
   <SEO
     slot="seo"
-    title={`Blog | Dinstack`}
-    description="Dinstack related posts"
+    title={`Blog | ${env.APP_NAME}`}
+    description=`${env.APP_NAME} related posts`
     openGraph={{
       basic: {
-        title: `Blog | Dinstack`,
+        title: `Blog | ${env.APP_NAME}`,
         type: 'website',
         image: '/opengraph-image.jpg',
       },
@@ -25,8 +26,8 @@ const posts = await getPosts()
     twitter={{
       creator: getTwitterHandler(),
       card: 'summary_large_image',
-      title: `Blog | Dinstack`,
-      description: 'Dinstack related posts',
+      title: `Blog | ${env.APP_NAME}`,
+      description: `${env.APP_NAME} related posts`,
     }}
   />
 

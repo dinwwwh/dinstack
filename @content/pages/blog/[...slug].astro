@@ -9,6 +9,7 @@ import { Icon } from 'astro-icon/components'
 import { buttonVariants } from '@web/components/ui/button'
 import { format } from 'date-fns'
 import { getTwitterHandler } from '@content/lib/twitter'
+import { env } from '@web/lib/env'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -27,11 +28,11 @@ const { Content } = await post.render()
 <BaseLayout>
   <SEO
     slot="seo"
-    title={`${post.data.title} | Dinstack`}
+    title={`${post.data.title} | ${env.APP_NAME}`}
     description={post.data.description}
     openGraph={{
       basic: {
-        title: `${post.data.title} | Dinstack`,
+        title: `${post.data.title} | ${env.APP_NAME}`,
         type: 'article',
         image: post.data.coverImage,
       },
@@ -39,7 +40,7 @@ const { Content } = await post.render()
     twitter={{
       creator: getTwitterHandler(),
       card: 'summary_large_image',
-      title: `${post.data.title} | Dinstack`,
+      title: `${post.data.title} | ${env.APP_NAME}`,
       description: post.data.description,
     }}
   />

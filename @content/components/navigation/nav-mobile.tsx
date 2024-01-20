@@ -14,6 +14,7 @@ export function NavMobile(props: {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant={'ghost'} size={'icon'}>
+          <span className="sr-only">Open Sidebar Menu</span>
           <MenuIcon className="size-5" />
         </Button>
       </SheetTrigger>

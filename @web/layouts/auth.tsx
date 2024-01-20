@@ -20,6 +20,7 @@ export function AuthLayout() {
             <div className="mx-auto w-full max-w-sm lg:w-96">
               <div>
                 <a href={env.CONTENT_BASE_URL}>
+                  <span className="sr-only">Home Page</span>
                   <Logo size={42} />
                 </a>
                 <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-foreground">
