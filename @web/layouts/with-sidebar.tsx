@@ -1,6 +1,8 @@
 'use client'
 
+import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Logo } from '@web/components/logo'
+import { LogoDropdownMenu } from '@web/components/navigation/logo-dropdown-menu'
 import { Navbar } from '@web/components/navigation/sidebar'
 import { Button } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
@@ -38,6 +40,7 @@ function SmallScreenNavbar() {
       <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
         <SheetTrigger asChild>
           <Button type="button" variant={'outline'} size={'icon'}>
+            <span className="sr-only">Open Sidebar Menu</span>
             <MenuIcon className="h-4 w-4" />
           </Button>
         </SheetTrigger>
@@ -47,7 +50,12 @@ function SmallScreenNavbar() {
       </Sheet>
 
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <Logo variant="icon" size={36} />
+        <LogoDropdownMenu>
+          <DropdownMenuTrigger>
+            <span className="sr-only">Open Main Menu</span>
+            <Logo variant="icon" size={36} />
+          </DropdownMenuTrigger>
+        </LogoDropdownMenu>
       </div>
       <Skeleton className="h-9 w-9" />
     </div>
@@ -77,6 +85,7 @@ function LargeScreenNavbar() {
               className="h-5 w-5 bg-background"
               onClick={() => useSystemStore.setState({ sidebarSize: 'icon' })}
             >
+              <span className="sr-only">Collapse sidebar</span>
               <ChevronLeft className="h-4 w-4" />
             </Button>
           ))
@@ -88,6 +97,7 @@ function LargeScreenNavbar() {
               className="h-5 w-5 bg-background"
               onClick={() => useSystemStore.setState({ sidebarSize: 'default' })}
             >
+              <span className="sr-only">Uncollapse sidebar</span>
               <ChevronRight className="h-4 w-4" />
             </Button>
           ))

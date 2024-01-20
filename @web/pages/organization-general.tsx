@@ -106,8 +106,10 @@ export function Component() {
             </div>
 
             <div className="bg-destructive/10 p-6 rounded-md">
-              <h2 className="text-base font-semibold leading-7 text-destructive">Danger zone</h2>
-              <p className="mt-1 text-sm leading-6 text-destructive/80">
+              <h2 className="text-base font-semibold leading-7 text-destructive dark:text-foreground">
+                Danger zone
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-destructive/80 dark:text-muted-foreground">
                 Be careful what you do here.
               </p>
 

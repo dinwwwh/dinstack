@@ -62,7 +62,9 @@ export function Component() {
                       <div className="flex flex-col items-start flex-1 overflow-hidden">
                         <div className="flex items-start gap-1.5">
                           <span className="truncate w-full font-medium">{member.user.name}</span>
-                          <Badge variant={'secondary'}>{uppercaseFirstLetter(member.role)}</Badge>
+                          <Badge variant={'secondary'} className="min-w-max">
+                            {uppercaseFirstLetter(member.role)}
+                          </Badge>
                         </div>
                         <span className="text-muted-foreground font-normal text-xs">
                           {member.user.email}
