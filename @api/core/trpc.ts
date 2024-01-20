@@ -85,35 +85,39 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
       return await verifyAuthJwt({ env: ctx.env, jwt })
     } catch (e) {
       if (e instanceof JWTExpired) {
-        const payload = decodeAuthJwt({ jwt })
+        try {
+          const payload = decodeAuthJwt({ jwt })
 
-        const session = await ctx.db.query.Sessions.findFirst({
-          where(t, { eq }) {
-            return eq(t.secretKey, payload.sessionSecretKey)
-          },
-          with: {
-            organizationMember: {
-              with: {
-                user: {
-                  with: {
-                    subscriptions: true,
+          const session = await ctx.db.query.Sessions.findFirst({
+            where(t, { eq }) {
+              return eq(t.secretKey, payload.sessionSecretKey)
+            },
+            with: {
+              organizationMember: {
+                with: {
+                  user: {
+                    with: {
+                      subscriptions: true,
+                    },
                   },
                 },
               },
             },
-          },
-        })
+          })
 
-        if (session) {
-          return {
-            sessionSecretKey: session.secretKey,
-            userId: session.userId,
-            organizationId: session.organizationId,
-            organizationRole: session.organizationMember.role,
-            activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(
-              session.organizationMember.user.subscriptions,
-            ),
+          if (session) {
+            return {
+              sessionSecretKey: session.secretKey,
+              userId: session.userId,
+              organizationId: session.organizationId,
+              organizationRole: session.organizationMember.role,
+              activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(
+                session.organizationMember.user.subscriptions,
+              ),
+            }
           }
+        } catch {
+          return null
         }
       }
 
