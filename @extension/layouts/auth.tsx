@@ -11,9 +11,16 @@ export function AuthLayout() {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
         <div>
-          <div className="flex justify-center">
+          <button
+            type="button"
+            className="flex justify-center w-full"
+            onClick={() => {
+              chrome.tabs.create({ url: new URL(env.CONTENT_BASE_URL).toString() })
+            }}
+          >
+            <span className="sr-only">Go Home Page</span>
             <Logo variant="icon" size={100} />
-          </div>
+          </button>
           <div className="space-y-2 mt-4">
             <h2 className="text-2xl font-bold">Welcome to Our App</h2>
             <p className="text-muted-foreground text-center">Please login to continue</p>
