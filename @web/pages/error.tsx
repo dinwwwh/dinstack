@@ -1,11 +1,20 @@
 import { Button } from '@web/components/ui/button'
+import { usePostHog } from 'posthog-js/react'
+import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link, useRouteError } from 'react-router-dom'
 
 export function ErrorPage() {
   const error = useRouteError()
+  const ph = usePostHog()
 
-  console.error(error)
+  useEffect(() => {
+    console.error(error)
+  }, [error])
+
+  useEffect(() => {
+    ph.startSessionRecording()
+  }, [ph])
 
   const status =
     typeof error === 'object' &&

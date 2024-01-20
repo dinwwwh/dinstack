@@ -75,6 +75,8 @@ export default {
       /* empty */
     }
 
+    ec.waitUntil(context.ph.shutdownAsync())
+
     return response
   },
 }

@@ -39,7 +39,39 @@ const _turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
   })
 })
 
-export const procedure = t.procedure
+export const procedure = t.procedure.use(
+  middleware(async ({ ctx, next, path, type }) => {
+    const start = Date.now()
+    const result = await next({ ctx })
+    const executionTime = Date.now() - start
+
+    if (type === 'query' && executionTime > 200) {
+      ctx.ph.capture({
+        distinctId: '__API__',
+        event: 'trpc_slow_route',
+        properties: {
+          path,
+          type,
+          executionTime,
+        },
+      })
+    }
+
+    if (type === 'mutation' && executionTime > 400) {
+      ctx.ph.capture({
+        distinctId: '__API__',
+        event: 'trpc_slow_route',
+        properties: {
+          path,
+          type,
+          executionTime,
+        },
+      })
+    }
+
+    return result
+  }),
+)
 
 const authMiddleware = middleware(async ({ ctx, next }) => {
   const jwt = ctx.request.headers.get('Authorization')?.replace(/^Bearer /, '')
@@ -53,35 +85,39 @@ const authMiddleware = middleware(async ({ ctx, next }) => {
       return await verifyAuthJwt({ env: ctx.env, jwt })
     } catch (e) {
       if (e instanceof JWTExpired) {
-        const payload = decodeAuthJwt({ jwt })
+        try {
+          const payload = decodeAuthJwt({ jwt })
 
-        const session = await ctx.db.query.Sessions.findFirst({
-          where(t, { eq }) {
-            return eq(t.secretKey, payload.sessionSecretKey)
-          },
-          with: {
-            organizationMember: {
-              with: {
-                user: {
-                  with: {
-                    subscriptions: true,
+          const session = await ctx.db.query.Sessions.findFirst({
+            where(t, { eq }) {
+              return eq(t.secretKey, payload.sessionSecretKey)
+            },
+            with: {
+              organizationMember: {
+                with: {
+                  user: {
+                    with: {
+                      subscriptions: true,
+                    },
                   },
                 },
               },
             },
-          },
-        })
+          })
 
-        if (session) {
-          return {
-            sessionSecretKey: session.secretKey,
-            userId: session.userId,
-            organizationId: session.organizationId,
-            organizationRole: session.organizationMember.role,
-            activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(
-              session.organizationMember.user.subscriptions,
-            ),
+          if (session) {
+            return {
+              sessionSecretKey: session.secretKey,
+              userId: session.userId,
+              organizationId: session.organizationId,
+              organizationRole: session.organizationMember.role,
+              activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(
+                session.organizationMember.user.subscriptions,
+              ),
+            }
           }
+        } catch {
+          return null
         }
       }
 

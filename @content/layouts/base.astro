@@ -38,6 +38,16 @@ import { getTwitterHandler } from '@content/lib/twitter'
     </script>
 
     <script>
+      import posthog from 'posthog-js'
+      import { env } from '@web/lib/env'
+
+      posthog.init(env.POSTHOG_API_KEY, {
+        api_host: env.POSTHOG_HOST,
+        disable_session_recording: true,
+      })
+    </script>
+
+    <script>
       import { useSystemStore } from '@web/stores/system'
       import { match } from 'ts-pattern'
 

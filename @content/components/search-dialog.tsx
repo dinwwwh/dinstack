@@ -1,11 +1,10 @@
 import { getOramaDB, search } from '@orama/plugin-astro/client'
 import { Button } from '@web/components/ui/button'
 import { CommandDialog, CommandInput, CommandItem, CommandList } from '@web/components/ui/command'
-import { useDebounce } from '@web/hooks/use-debounce'
 import { cn } from '@web/lib/utils'
 import { SearchIcon, Loader2 } from 'lucide-react'
 import { useRef, useState } from 'react'
-import { useKeyPressEvent } from 'react-use'
+import { useKeyPressEvent, useDebounce } from 'react-use'
 
 type Hit = {
   document: {

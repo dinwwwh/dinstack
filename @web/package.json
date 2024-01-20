@@ -39,6 +39,7 @@
     "framer-motion": "^10.17.9",
     "js-base64": "^3.7.5",
     "lucide-react": "^0.302.0",
+    "posthog-js": "^1.100.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.4",

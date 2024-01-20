@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider>
       {/* TODO: enable turnstile when it support chrome extension */}
-      <QueryProvider disableTurnstile={true}>
+      <QueryProvider>
         <AuthProvider>
           <ScrollArea className="h-screen">
             <RouterProvider router={router} />
