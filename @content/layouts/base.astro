@@ -4,6 +4,7 @@ import { ScrollArea } from '@web/components/ui/scroll-area'
 import { SEO } from 'astro-seo'
 import { ViewTransitions } from 'astro:transitions'
 import { getTwitterHandler } from '@content/lib/twitter'
+import { env } from '@web/lib/env'
 ---
 
 <!doctype html>
@@ -79,11 +80,11 @@ import { getTwitterHandler } from '@content/lib/twitter'
 
     <slot name="seo">
       <SEO
-        title={`Dinstack - content`}
-        description={'Dinstack website for SEO part'}
+        title={`${env.APP_NAME} Homepage`}
+        description={`${env.APP_NAME} website for SEO part`}
         openGraph={{
           basic: {
-            title: `Dinstack - content`,
+            title: `${env.APP_NAME} Homepage`,
             type: 'website',
             image: '/opengraph-image.jpg',
           },
@@ -91,8 +92,8 @@ import { getTwitterHandler } from '@content/lib/twitter'
         twitter={{
           creator: getTwitterHandler(),
           card: 'summary_large_image',
-          title: `Dinstack - content`,
-          description: 'Dinstack website for SEO part',
+          title: `${env.APP_NAME} Homepage`,
+          description: `${env.APP_NAME} website for SEO part`,
         }}
       />
     </slot>

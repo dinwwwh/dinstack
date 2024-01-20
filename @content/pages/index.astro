@@ -313,7 +313,7 @@ import { Icon } from 'astro-icon/components'
       </div>
       <div class="mx-auto text-center md:max-w-[58rem]">
         <p class="leading-normal text-muted-foreground sm:text-lg sm:leading-7 balance-text">
-          Dinstack also includes a blog and a full-featured documentation site built using Markdown
+          {env.APP_NAME} also includes a blog and a full-featured documentation site built using Markdown
           and MDX from Astro.
         </p>
       </div>
@@ -327,7 +327,7 @@ import { Icon } from 'astro-icon/components'
           Proudly Open Source
         </h2>
         <p class="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          Dinstack is open source and powered by open source software. <br />{' '}
+          {env.APP_NAME} is open source and powered by open source software. <br />{' '}
           The code is available on{' '}
           <a
             href={env.GITHUB_REPOSITORY_URL}

@@ -2,6 +2,8 @@ import { z } from 'zod'
 
 export const env = z
   .object({
+    APP_NAME: z.string(),
+
     API_TRPC_BASE_URL: z.string().url(),
     CONTENT_BASE_URL: z.string().url(),
     EXTENSION_ID: z.string(),
@@ -19,6 +21,8 @@ export const env = z
     LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: z.coerce.number(),
   })
   .parse({
+    APP_NAME: import.meta.env.PUBLIC_APP_NAME,
+
     API_TRPC_BASE_URL: import.meta.env.PUBLIC_API_TRPC_BASE_URL,
     CONTENT_BASE_URL: import.meta.env.PUBLIC_CONTENT_BASE_URL,
     WEB_BASE_URL: import.meta.env.PUBLIC_WEB_BASE_URL,
