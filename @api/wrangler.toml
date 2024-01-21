@@ -10,9 +10,9 @@ mode = "smart"
 
 [env.local.vars]
 WORKER_ENV = "development"
-WEB_BASE_URL = "http://localhost:4000/"
+WEB_BASE_URL = "https://localhost:4000/"
 RESEND_FROM = "Dinstack <dinstack-local@dinsterizer.com>"
-GOOGLE_REDIRECT_URL = "http://localhost:4000/oauth/google/callback"
+GOOGLE_REDIRECT_URL = "https://localhost:4000/oauth/google/callback"
 GOOGLE_CLIENT_ID = "1019692203340-au9j2o73f5f97vlt7hplbp98bcdq57dj.apps.googleusercontent.com"
 GITHUB_CLIENT_ID = "8e47226c06dc296d8ac2"
 LEMONSQUEEZY_STORE_ID = 62784

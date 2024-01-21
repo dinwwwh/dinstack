@@ -11,7 +11,7 @@
   },
   "permissions": ["sidePanel", "contextMenus", "storage"],
   "externally_connectable": {
-    "matches": ["http://localhost:4000/*", "https://*.dinsterizer.com/*"]
+    "matches": ["https://localhost:4000/*", "https://*.dinsterizer.com/*"]
   },
   "content_scripts": [
     {
