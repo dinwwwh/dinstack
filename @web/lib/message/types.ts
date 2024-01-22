@@ -1,5 +1,11 @@
+import type { pushSubscriptionSchema } from '@api/database/schema'
+import type { z } from 'zod'
+
 export type MessageDir = {
-  test: {
-    key: 'light' | 'dark'
+  handlePushSubscription: {
+    subscription: z.infer<typeof pushSubscriptionSchema>
+  }
+  subscribePushNotification: {
+    //
   }
 }

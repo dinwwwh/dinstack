@@ -3,6 +3,8 @@ import { authEmailSendOtpRoute } from './email.send-otp'
 import { authInfosRoute } from './infos'
 import { authLogoutRoute } from './logout'
 import { authLogoutOtherDevicesRoute } from './logout-other-devices'
+import { authNotificationPushPostTestRoute } from './notification.push.post-test'
+import { authNotificationPushRegisterRoute } from './notification.push.register'
 import { authOauthAuthorizationUrlRoute } from './oauth.authorization-url'
 import { authOauthConnectRoute } from './oauth.connect'
 import { authOauthDisconnectRoute } from './oauth.disconnect'
@@ -31,4 +33,10 @@ export const authRouter = router({
   profile: authProfileRouter,
   logout: authLogoutRoute,
   logoutOtherDevices: authLogoutOtherDevicesRoute,
+  notification: router({
+    push: router({
+      register: authNotificationPushRegisterRoute,
+      postTest: authNotificationPushPostTestRoute,
+    }),
+  }),
 })

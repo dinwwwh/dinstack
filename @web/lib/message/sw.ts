@@ -1,4 +1,4 @@
-import { MessageDir } from './types'
+import type { MessageDir } from './types'
 import { match } from 'ts-pattern'
 
 declare let self: ServiceWorkerGlobalScope

@@ -1,4 +1,4 @@
-import { MessageDir } from './types'
+import type { MessageDir } from './types'
 
 export function postMessageToSW<T extends keyof MessageDir>(type: T, data: MessageDir[T]) {
   navigator.serviceWorker.controller?.postMessage({

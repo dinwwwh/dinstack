@@ -22,6 +22,9 @@ export const envSchema = z.object({
   LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: z.number(),
   POSTHOG_HOST: z.string().url(),
   POSTHOG_API_KEY: z.string(),
+  VAPID_PRIVATE_KEY: z.string(),
+  VAPID_PUBLIC_KEY: z.string(),
+  SUPPORT_EMAIL: z.string().email(),
 })
 
 export type Env = z.infer<typeof envSchema>

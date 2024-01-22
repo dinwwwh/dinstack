@@ -1,4 +1,5 @@
 import { Logo } from '../logo'
+import { PushNotificationPermissionRequest } from '../push-notification-alert'
 import { ThemeToggle } from '../theme-toggle'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
@@ -44,7 +45,7 @@ export function Navbar() {
   const location = useLocation()
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full @container">
       <LogoDropdownMenu>
         <DropdownMenuTrigger>
           <span className="sr-only">Open Main Menu</span>
@@ -71,9 +72,12 @@ export function Navbar() {
 
       <ScrollArea className="flex-1 mt-8">{/* SOME THING */}</ScrollArea>
 
-      <div className="flex flex-row-reverse flex-wrap gap-4">
-        <ThemeToggle />
+      <div className="mt-8 hidden @[200px]:block">
+        <PushNotificationPermissionRequest onDismiss={() => {}} />
+      </div>
 
+      <div className="flex flex-row-reverse flex-wrap gap-4 mt-8">
+        <ThemeToggle />
         <OrganizationButton />
       </div>
     </div>

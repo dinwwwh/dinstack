@@ -36,6 +36,10 @@ export const router = createBrowserRouter([
                     path: 'billing',
                     lazy: () => import('../pages/profile-billing'),
                   },
+                  {
+                    path: 'notification',
+                    lazy: () => import('../pages/profile-notification'),
+                  },
                 ],
               },
               {

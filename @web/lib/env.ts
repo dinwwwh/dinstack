@@ -19,6 +19,7 @@ export const env = z
     TURNSTILE_SITE_KEY: z.string(),
     PUBLIC_BUCKET_BASE_URL: z.string().url(),
     LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: z.coerce.number(),
+    VAPID_PUBLIC_KEY: z.string(),
   })
   .parse({
     APP_NAME: import.meta.env.PUBLIC_APP_NAME,
@@ -39,4 +40,5 @@ export const env = z
     PUBLIC_BUCKET_BASE_URL: import.meta.env.PUBLIC_PUBLIC_BUCKET_BASE_URL,
     LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: import.meta.env
       .PUBLIC_LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID,
+    VAPID_PUBLIC_KEY: import.meta.env.PUBLIC_VAPID_PUBLIC_KEY,
   })

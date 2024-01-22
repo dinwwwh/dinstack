@@ -8,6 +8,13 @@
       "when": 1704461192772,
       "tag": "0000_magenta_whizzer",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1705891710679,
+      "tag": "0001_clammy_vulcan",
+      "breakpoints": true
     }
   ]
 }
