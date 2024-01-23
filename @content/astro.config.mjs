@@ -30,6 +30,7 @@ export default defineConfig({
     }),
   ],
   vite: {
+    envPrefix: ['VITE_', 'PUBLIC_'],
     ssr: {
       noExternal: ['react-use'],
     },
