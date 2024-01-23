@@ -9,6 +9,7 @@ import { Button } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { useAuthedStore } from '@web/stores/auth'
+import { useSystemStore } from '@web/stores/system'
 import {
   ChevronsUpDownIcon,
   LayoutDashboardIcon,
@@ -43,6 +44,7 @@ const menuItems = [
 
 export function Navbar() {
   const location = useLocation()
+  const systemStore = useSystemStore()
 
   return (
     <div className="flex flex-col h-full @container">
@@ -73,7 +75,15 @@ export function Navbar() {
       <ScrollArea className="flex-1 mt-8">{/* SOME THING */}</ScrollArea>
 
       <div className="mt-8 hidden @[200px]:block">
-        <PushNotificationPermissionRequest onDismiss={() => {}} />
+        {systemStore.dismissedPushNotificationAlertAt &&
+        systemStore.dismissedPushNotificationAlertAt >=
+          new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) ? null : (
+          <PushNotificationPermissionRequest
+            onDismiss={() => {
+              useSystemStore.setState({ dismissedPushNotificationAlertAt: new Date() })
+            }}
+          />
+        )}
       </div>
 
       <div className="flex flex-row-reverse flex-wrap gap-4 mt-8">
