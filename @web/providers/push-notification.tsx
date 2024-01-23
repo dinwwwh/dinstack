@@ -6,32 +6,37 @@ import { useEffect } from 'react'
 import { P, match } from 'ts-pattern'
 
 export function PushNotificationProvider(props: { children: React.ReactNode }) {
-  const useId = useAuthStore().state?.user.id
+  const userId = useAuthStore().state?.session.userId
+  const registeredPushNotification = !!useAuthStore().state?.session.pushSubscription
   const { permission } = useNotificationPermission()
+  const { mutate } = api.auth.notification.push.register.useMutation()
 
-  const mutation = api.auth.notification.push.register.useMutation()
-
-  // TODO: optimize it
   useEffect(() => {
-    match(permission)
+    if (!userId) return
+
+    return match(permission)
       .with(P.union('default', 'denied'), () => {
-        mutation.mutate({
+        if (!registeredPushNotification) return
+
+        mutate({
           subscription: null,
         })
       })
       .with('granted', () => {
+        if (registeredPushNotification) return
+
+        const unsub = onSWMessage('handlePushSubscription', async (data) => {
+          mutate({
+            subscription: data.subscription,
+          })
+        })
+
         postMessageToSW('subscribePushNotification', {})
+
+        return unsub
       })
       .exhaustive()
-  }, [mutation, permission, useId])
-
-  useEffect(() => {
-    return onSWMessage('handlePushSubscription', async (data) => {
-      mutation.mutate({
-        subscription: data.subscription,
-      })
-    })
-  }, [mutation])
+  }, [mutate, permission, userId, registeredPushNotification])
 
   return props.children
 }

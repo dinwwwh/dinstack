@@ -20,22 +20,24 @@ export const authOrganizationSwitchRoute = authProcedure
       .where(eq(Sessions.secretKey, ctx.auth.sessionSecretKey))
 
     const session = await findSessionForAuth({ ctx, sessionSecretKey: ctx.auth.sessionSecretKey })
+    const jwt = await signAuthJwt({
+      env: ctx.env,
+      payload: {
+        sessionSecretKey: session.secretKey,
+        userId: session.user.id,
+        organizationId: session.organizationMember.organizationId,
+        organizationRole: session.organizationMember.role,
+        activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(session.user.subscriptions),
+      },
+    })
 
     return {
       auth: {
-        ...session,
-        jwt: await signAuthJwt({
-          env: ctx.env,
-          payload: {
-            sessionSecretKey: session.secretKey,
-            userId: session.user.id,
-            organizationId: session.organizationMember.organizationId,
-            organizationRole: session.organizationMember.role,
-            activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(
-              session.user.subscriptions,
-            ),
-          },
-        }),
+        jwt,
+        session,
+        user: session.user,
+        organization: session.organization,
+        organizationMember: session.organizationMember,
       },
     }
   })

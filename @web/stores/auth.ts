@@ -1,6 +1,7 @@
 import {
   organizationMemberSchema,
   organizationSchema,
+  sessionSchema,
   subscriptionSchema,
   userSchema,
 } from '@api/database/schema'
@@ -13,6 +14,7 @@ import { persist } from 'zustand/middleware'
 export const authStateSchema = z
   .object({
     jwt: z.string(),
+    session: sessionSchema,
     user: userSchema.and(
       z.object({
         subscriptions: z.array(subscriptionSchema),

@@ -23,6 +23,8 @@ export const authNotificationPushPostTestRoute = authProcedure.mutation(async ({
     })
   }
 
+  await new Promise((resolve) => setTimeout(resolve, 10_000))
+
   const payload = await buildPushPayload(
     {
       data: "You've got mail!",

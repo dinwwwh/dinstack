@@ -32,7 +32,7 @@ export function Component() {
                 <div className="pt-6 sm:flex items-center">
                   <dt className="font-medium text-foreground sm:w-64 sm:flex-none sm:pr-6">ID</dt>
                   <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                    <div className="text-muted-foreground">{query.data.auth.userId}</div>
+                    <div className="text-muted-foreground">{query.data.auth.user.id}</div>
                   </dd>
                 </div>
                 <div className="pt-6 sm:flex items-center">
