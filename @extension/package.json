@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "env-cmd -f ../@web/.env.local vite",
     "dev:extension": "pnpm run dev",
     "build": "tsc --build && tsc-alias",
     "typecheck": "tsc --noEmit",
