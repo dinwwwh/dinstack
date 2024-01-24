@@ -1,0 +1,30 @@
+{
+  "$schema": "https://unpkg.com/knip@4/schema.json",
+  "workspaces": {
+    "@api": {
+      "entry": ["core/*.{ts,tsx}"],
+      "project": "**/*.{ts,tsx}"
+    },
+    "@content": {
+      "entry": ["pages/**/*.{ts,tsx,astro}", "content/**/*.{ts,md,mdx}"],
+      "project": "**/*.{ts,tsx,astro}"
+    },
+    "@extension": {
+      "entry": [
+        "background/index.ts",
+        "content/*.ts",
+        "popup/main.tsx",
+        "popup/pages/*.tsx",
+        "sidepanel/main.tsx",
+        "sidepanel/pages/*.tsx",
+        "vite.config.ts"
+      ],
+      "project": "**/*.{ts,tsx,astro}",
+      "vite": false
+    },
+    "@web": {
+      "entry": ["core/*.{ts,tsx}", "pages/*.tsx", "components/ui/**.{ts,tsx}"],
+      "project": "**/*.{ts,tsx}"
+    }
+  }
+}

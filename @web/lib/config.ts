@@ -1,6 +1,6 @@
 import type { StateStorage } from 'zustand/middleware'
 
-export type Config = {
+type Config = {
   getPersistStorage: () => StateStorage
 }
 
