@@ -19,7 +19,7 @@ import { z } from 'zod'
 
 const encoder = new TextEncoder()
 
-export const AUTH_JWT_ALGORITHM = 'HS256'
+const AUTH_JWT_ALGORITHM = 'HS256'
 export const AUTH_JWT_LIVE_TIME_IN_SECONDS = 60 * 60
 
 const jwtPayloadSchema = z.object({

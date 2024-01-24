@@ -13,8 +13,7 @@
     "deploy:production": "env-cmd -f ../@web/.env.production vite build"
   },
   "dependencies": {
-    "@dinstack/api": "workspace:^",
-    "@dinstack/web": "workspace:^",
+    "@web": "workspace:@dinstack/web@^",
     "lucide-react": "^0.302.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

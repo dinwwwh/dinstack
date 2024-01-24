@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@orama/plugin-astro": "^2.0.1",
+    "@web": "workspace:@dinstack/web@^",
     "astro": "^4.2.1",
     "astro-icon": "^1.0.2",
     "astro-seo": "^0.8.0",
@@ -24,7 +25,8 @@
     "react-dom": "^18.2.0",
     "react-use": "^17.4.3",
     "remark": "^15.0.1",
-    "ts-pattern": "^5.0.6"
+    "ts-pattern": "^5.0.6",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.4.1",
