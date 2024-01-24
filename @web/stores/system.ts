@@ -7,6 +7,7 @@ import { persist, subscribeWithSelector } from 'zustand/middleware'
 const systemStoreSchema = z.object({
   theme: z.enum(['dark', 'light', 'system']),
   sidebarSize: z.enum(['icon', 'default']),
+  dismissedPushNotificationAlertAt: z.date().nullable(),
 })
 
 export const useSystemStore = create(
@@ -15,6 +16,7 @@ export const useSystemStore = create(
       () => ({
         theme: 'system',
         sidebarSize: 'default',
+        dismissedPushNotificationAlertAt: null,
       }),
       {
         name: '@web/stores/system',

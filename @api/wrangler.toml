@@ -10,15 +10,17 @@ mode = "smart"
 
 [env.local.vars]
 WORKER_ENV = "development"
-WEB_BASE_URL = "http://localhost:4000/"
+WEB_BASE_URL = "https://localhost:4000/"
 RESEND_FROM = "Dinstack <dinstack-local@dinsterizer.com>"
-GOOGLE_REDIRECT_URL = "http://localhost:4000/oauth/google/callback"
+GOOGLE_REDIRECT_URL = "https://localhost:4000/oauth/google/callback"
 GOOGLE_CLIENT_ID = "1019692203340-au9j2o73f5f97vlt7hplbp98bcdq57dj.apps.googleusercontent.com"
 GITHUB_CLIENT_ID = "8e47226c06dc296d8ac2"
 LEMONSQUEEZY_STORE_ID = 62784
 LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID = 202053
 POSTHOG_HOST = "https://us.posthog.com"
 POSTHOG_API_KEY = "phc_crWHQabJDjkR3ho9RLs8PY5lzut61EhMv7ghEKoIFwH"
+VAPID_PUBLIC_KEY = "BAz2kVvLQrJ07YcgOENLJWvS-jSmj1GAVjruzB3DpBgp9js4rWiNSEe2MCFypVr9-mbo2tcGicyQbchQ5AohKkQ"
+SUPPORT_EMAIL = "dinsterizer@gmail.com"
 
 
 [[env.local.r2_buckets]]
@@ -42,6 +44,8 @@ LEMONSQUEEZY_STORE_ID = 62787
 LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID = 202054
 POSTHOG_HOST = "https://us.posthog.com"
 POSTHOG_API_KEY = "phc_gklhvpYMslkQq2pki2H4TuG53uAfSViDll6fJN7C8Ny"
+VAPID_PUBLIC_KEY = "BDmLMy5m2igFDW-7np8yFKNhi7giPW54Q1G8VBaYCjyRFutiX8Pptv9BUKqeG3qM9UbPlXKg1aCX5GjWHULzIR0"
+SUPPORT_EMAIL = "dinsterizer@gmail.com"
 
 [[env.preview.r2_buckets]]
 binding = 'PUBLIC_BUCKET'
@@ -67,6 +71,8 @@ LEMONSQUEEZY_STORE_ID = 62788
 LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID = 202055
 POSTHOG_HOST = "https://us.posthog.com"
 POSTHOG_API_KEY = "phc_jkWq40BEKkhB00QCm00j5Oc9uxmvA0YObvGdv5Hnr92"
+VAPID_PUBLIC_KEY = "BO4basw58Dsx6651vfW0MvgtHGyZBdE05A5YNKqyDo8u41wGP09GN7Oxezk5JhBTTQZxqvfV6719kZEHKNOItYg"
+SUPPORT_EMAIL = "dinsterizer@gmail.com"
 
 [[env.production.r2_buckets]]
 binding = 'PUBLIC_BUCKET'

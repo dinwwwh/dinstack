@@ -134,6 +134,15 @@ export const OrganizationMemberRelations = relations(OrganizationMembers, ({ one
 export const organizationMemberSchema = createSelectSchema(OrganizationMembers)
 export const organizationMemberInsertSchema = createInsertSchema(OrganizationMembers)
 
+export const pushSubscriptionSchema = z.object({
+  endpoint: z.string().url(),
+  expirationTime: z.null(),
+  keys: z.object({
+    auth: z.string(),
+    p256dh: z.string(),
+  }),
+})
+
 export const Sessions = pgTable(
   'sessions',
   {
@@ -143,6 +152,7 @@ export const Sessions = pgTable(
       .$defaultFn(() => generateRandomString(64, alphabet('a-z', 'A-Z', '0-9'))),
     userId: uuid('user_id').notNull(),
     organizationId: uuid('organization_id').notNull(),
+    pushSubscription: jsonb('push_subscription').$type<z.infer<typeof pushSubscriptionSchema>>(),
     headers: jsonb('headers').notNull().$type<Record<string, string>>(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
@@ -162,8 +172,12 @@ export const SessionRelations = relations(Sessions, ({ one }) => ({
   }),
 }))
 
-export const sessionSchema = createSelectSchema(Sessions)
-export const sessionInsertSchema = createInsertSchema(Sessions)
+export const sessionSchema = createSelectSchema(Sessions, {
+  pushSubscription: pushSubscriptionSchema,
+})
+export const sessionInsertSchema = createInsertSchema(Sessions, {
+  pushSubscription: pushSubscriptionSchema,
+})
 
 export const OrganizationInvitations = pgTable(
   'organization_invitations',

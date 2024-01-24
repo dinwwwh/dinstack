@@ -6,11 +6,11 @@
   "scripts": {
     "dev": "vite",
     "dev:extension": "pnpm run dev",
-    "build": "tsc && vite build",
-    "build:preview": "tsc && vite build --mode=preview",
-    "build:production": "tsc && vite build --mode=production",
+    "build": "tsc --build && tsc-alias",
     "typecheck": "tsc --noEmit",
-    "preview": "vite build"
+    "preview": "env-cmd -f ../@web/.env.local vite build",
+    "deploy:preview": "env-cmd -f ../@web/.env.preview vite build",
+    "deploy:production": "env-cmd -f ../@web/.env.production vite build"
   },
   "dependencies": {
     "@dinstack/api": "workspace:^",
@@ -35,6 +35,6 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
-    "vite": "^5.0.11"
+    "vite": "^4.5.2"
   }
 }

@@ -12,9 +12,16 @@ export function sendMessage<T extends keyof MessageDir>(type: T, data: MessageDi
 }
 
 export function onMessage<T extends keyof MessageDir>(type: T, fn: (data: MessageDir[T]) => void) {
-  chrome.runtime.onMessage.addListener((message) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const listener = (message: any) => {
     if (message.type === type) {
       fn(message.data as MessageDir[T])
     }
-  })
+  }
+
+  chrome.runtime.onMessage.addListener(listener)
+
+  return () => {
+    chrome.runtime.onMessage.removeListener(listener)
+  }
 }

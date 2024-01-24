@@ -27,6 +27,7 @@ const tabs = [
   { name: 'General', href: '/profile' },
   { name: 'Accounts', href: '/profile/accounts' },
   { name: 'Billing', href: '/profile/billing' },
+  { name: 'Notification', href: '/profile/notification' },
 ]
 
 function Nav() {

@@ -91,6 +91,7 @@ export const authEmailLoginRoute = procedure
       return {
         auth: {
           jwt,
+          session,
           user: existingUser,
           organization: organizationMember.organization,
           organizationMember,
@@ -130,6 +131,7 @@ export const authEmailLoginRoute = procedure
     return {
       auth: {
         jwt,
+        session,
         user: {
           ...user,
           subscriptions: [],

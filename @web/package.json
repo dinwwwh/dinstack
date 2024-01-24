@@ -9,10 +9,10 @@
     "dev:web": "pnpm run dev",
     "build": "tsc --build && tsc-alias",
     "ui:add": "pnpm dlx shadcn-ui@latest add -y",
-    "preview": "vite build && vite preview --port 4000",
+    "preview": "env-cmd -f .env.local vite build && vite preview --port 4000",
     "typecheck": "tsc --noEmit",
-    "deploy:preview": "vite build --mode=preview && wrangler pages deploy --project-name=dinstack-web-preview --branch=main ./dist",
-    "deploy:production": "vite build --mode=production && wrangler pages deploy --project-name=dinstack-web-production --branch=main ./dist"
+    "deploy:preview": "env-cmd -f .env.preview vite build && wrangler pages deploy --project-name=dinstack-web-preview --branch=main ./dist",
+    "deploy:production": "env-cmd -f .env.production vite build && wrangler pages deploy --project-name=dinstack-web-production --branch=main ./dist"
   },
   "dependencies": {
     "@dinstack/api": "workspace:^",
@@ -49,6 +49,9 @@
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.2.0",
     "ts-pattern": "^5.0.6",
+    "workbox-core": "^7.0.0",
+    "workbox-precaching": "^7.0.0",
+    "workbox-routing": "^7.0.0",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"
   },
@@ -69,6 +72,8 @@
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-debug-screens": "^2.2.1",
-    "vite": "^5.0.11"
+    "vite": "^5.0.11",
+    "vite-plugin-mkcert": "^1.17.3",
+    "vite-plugin-pwa": "^0.17.4"
   }
 }
