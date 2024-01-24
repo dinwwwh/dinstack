@@ -7,76 +7,61 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
+import * as _A from '../node_modules/hono/dist/types/context'
 import { appRouter } from './router'
 import { handleWebhookRequest } from '@api/features/billing/webhook'
+import type { Context } from '@api/lib/context'
 import { createContext } from '@api/lib/context'
-import { envSchema } from '@api/lib/env'
+import { type Env, envSchema } from '@api/lib/env'
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
+import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 
-export default {
-  async fetch(request: Request, unvalidatedEnv: unknown, ec: ExecutionContext) {
-    const env = envSchema.parse(unvalidatedEnv)
-    const context = createContext({ env, ec })
-    const url = new URL(request.url)
+type Variables = {
+  context: Context
+}
 
-    let response: Response | undefined
+const app = new Hono<{ Variables: Variables; Bindings: Env }>()
+  .use('*', cors())
+  .use('*', async (c, next) => {
+    // VALIDATE ENV FOR ENSURE
+    const env = envSchema.parse(c.env)
+    const context = createContext({ env, ec: c.executionCtx })
 
-    if (request.method === 'OPTIONS') response = new Response()
+    c.set('context', context)
 
-    if (!response && url.pathname.startsWith('/trpc')) {
-      response = await fetchRequestHandler({
-        endpoint: '/trpc',
-        req: request,
-        router: appRouter,
-        createContext: () => ({ ...context, request }),
-        onError({ error }) {
-          if (error.code === 'INTERNAL_SERVER_ERROR') console.error(error)
-        },
+    await next()
+
+    c.executionCtx.waitUntil(context.ph.shutdownAsync())
+  })
+  .all('/trpc/*', async (c) => {
+    return await fetchRequestHandler({
+      endpoint: '/trpc',
+      req: c.req.raw,
+      router: appRouter,
+      createContext: () => ({ ...c.get('context'), request: c.req.raw }),
+      onError({ error }) {
+        if (error.code === 'INTERNAL_SERVER_ERROR') console.error(error)
+      },
+    })
+  })
+  .post('/billing/webhook', async (c) => {
+    return await handleWebhookRequest({ ...c.get('context'), request: c.req.raw })
+  })
+  .get('/public/:objectName{.+}', async (c) => {
+    const object = await c.env.PUBLIC_BUCKET.get(c.req.param('objectName'))
+
+    if (object) {
+      const headers = new Headers()
+      object.writeHttpMetadata(headers)
+      headers.set('etag', object.httpEtag)
+
+      return new Response(object.body, {
+        headers,
       })
     }
+  })
 
-    if (!response && url.pathname.startsWith('/billing/webhook') && request.method === 'POST') {
-      response = await handleWebhookRequest({ ...context, request })
-    }
-
-    if (!response && url.pathname.startsWith('/public') && request.method.toUpperCase() === 'GET') {
-      const objectName = url.pathname.replace('/public/', '')
-      const object = await env.PUBLIC_BUCKET.get(objectName)
-
-      if (object) {
-        const headers = new Headers()
-        object.writeHttpMetadata(headers)
-        headers.set('etag', object.httpEtag)
-
-        return new Response(object.body, {
-          headers,
-        })
-      }
-    }
-
-    response ??= new Response(
-      JSON.stringify({
-        message: 'Not found',
-      }),
-      {
-        status: 404,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-
-    try {
-      response.headers.set('Access-Control-Allow-Origin', '*')
-      response.headers.set('Access-Control-Allow-Methods', '*')
-      response.headers.set('Access-Control-Allow-Headers', '*')
-      response.headers.set('Access-Control-Max-Age', '86400')
-    } catch (e) {
-      /* empty */
-    }
-
-    ec.waitUntil(context.ph.shutdownAsync())
-
-    return response
-  },
+export default {
+  fetch: app.fetch,
 }

@@ -22,6 +22,7 @@
     "arctic": "^0.3.6",
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
+    "hono": "^3.12.6",
     "jose": "^5.2.0",
     "oslo": "^0.23.5",
     "postgres": "^3.4.3",
