@@ -1,6 +1,7 @@
 import { ClerkLoaded, ClerkLoading, ClerkProvider } from '@clerk/clerk-react'
 import { dark } from '@clerk/themes'
 import { LoadingScreen } from '@web/components/loading-screen'
+import { CardContent } from '@web/components/ui/card'
 import { env } from '@web/lib/env'
 import { useSystemStore } from '@web/stores/system'
 import { ComponentPropsWithoutRef } from 'react'
@@ -22,7 +23,7 @@ const lightAppearance = {
     colorInputBackground: 'hsl(0 0% 100%)',
   },
   elements: {
-    card: 'border border-border',
+    card: 'rounded-lg border bg-card text-card-foreground shadow-sm border-border',
   },
 } satisfies Appearance
 
@@ -40,7 +41,7 @@ const darkAppearance = {
     colorInputBackground: 'hsl(224 71.4% 4.1%)',
   },
   elements: {
-    card: 'border border-border',
+    card: 'rounded-lg border bg-card text-card-foreground shadow-sm border-border',
   },
 } satisfies Appearance
 
