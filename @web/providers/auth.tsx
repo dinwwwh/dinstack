@@ -1,37 +1,28 @@
-import { AUTH_JWT_LIVE_TIME_IN_SECONDS } from '@api/lib/auth'
-import { TRPCClientError } from '@trpc/client'
-import { api } from '@web/lib/api'
-import { useAuthStore } from '@web/stores/auth'
-import { useEffect } from 'react'
+import { ClerkLoaded, ClerkLoading, ClerkProvider } from '@clerk/clerk-react'
+import { LoadingScreen } from '@web/components/loading-screen'
+import { env } from '@web/lib/env'
+import { Loader2Icon } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 export function AuthProvider(props: { children: React.ReactNode }) {
-  const utils = api.useUtils()
-  useEffect(() => {
-    const handler = async () => {
-      if (!useAuthStore.getState().state) return
+  const navigate = useNavigate()
 
-      try {
-        const data = await utils.auth.infos.fetch()
-        useAuthStore.setState({ state: data.auth })
-      } catch (err) {
-        if (err instanceof TRPCClientError) {
-          const code = err.data?.code
+  return (
+    <>
+      <ClerkProvider
+        publishableKey={env.CLERK_PUBLISHABLE_KEY}
+        navigate={navigate}
+        signInUrl="/sign-in"
+        signUpUrl="/sign-up"
+        afterSignInUrl="/"
+        afterSignUpUrl="/"
+      >
+        <ClerkLoading>
+          <LoadingScreen />
+        </ClerkLoading>
 
-          if (code === 'UNAUTHORIZED') {
-            useAuthStore.setState({ state: null })
-          }
-        }
-      }
-    }
-
-    handler()
-
-    const id = window.setInterval(handler, AUTH_JWT_LIVE_TIME_IN_SECONDS * 0.8 * 1000)
-
-    return () => {
-      window.clearInterval(id)
-    }
-  }, [utils])
-
-  return props.children
+        <ClerkLoaded>{props.children}</ClerkLoaded>
+      </ClerkProvider>
+    </>
+  )
 }

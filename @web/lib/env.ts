@@ -20,6 +20,7 @@ export const env = z
     PUBLIC_BUCKET_BASE_URL: z.string().url(),
     LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: z.coerce.number(),
     VAPID_PUBLIC_KEY: z.string(),
+    CLERK_PUBLISHABLE_KEY: z.string(),
   })
   .parse({
     APP_NAME: import.meta.env.VITE_APP_NAME,
@@ -41,4 +42,5 @@ export const env = z
     LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: import.meta.env
       .VITE_LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID,
     VAPID_PUBLIC_KEY: import.meta.env.VITE_VAPID_PUBLIC_KEY,
+    CLERK_PUBLISHABLE_KEY: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
   })

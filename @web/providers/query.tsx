@@ -1,10 +1,10 @@
+import { useAuth } from '@clerk/clerk-react'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
 import { useToast } from '@web/components/ui/use-toast'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
 import { getTurnstileToken } from '@web/lib/turnstile'
-import { useAuthStore } from '@web/stores/auth'
 import { usePostHog } from 'posthog-js/react'
 import { useMemo } from 'react'
 import SuperJSON from 'superjson'
@@ -19,6 +19,7 @@ export function QueryProvider({
   enablePostHog?: boolean
 }) {
   const ph = usePostHog()
+  const { getToken, signOut } = useAuth()
   const { toast } = useToast()
 
   const queryClient = useMemo(
@@ -33,7 +34,7 @@ export function QueryProvider({
             }
 
             if (err instanceof TRPCClientError && err.data?.code === 'UNAUTHORIZED') {
-              useAuthStore.setState({ state: null })
+              signOut()
             }
           },
         }),
@@ -50,7 +51,7 @@ export function QueryProvider({
               const message = err.message
 
               if (code === 'UNAUTHORIZED') {
-                useAuthStore.setState({ state: null })
+                signOut()
               }
 
               if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
@@ -73,7 +74,7 @@ export function QueryProvider({
           },
         },
       }),
-    [toast, ph, enablePostHog],
+    [toast, ph, enablePostHog, signOut],
   )
 
   const trpcClient = useMemo(
@@ -86,9 +87,9 @@ export function QueryProvider({
             async headers() {
               const headers: Record<string, string> = {}
 
-              const auth = useAuthStore.getState().state
-              if (auth) {
-                headers['Authorization'] = `Bearer ${auth.jwt}`
+              const token = await getToken()
+              if (token) {
+                headers['Authorization'] = `Bearer ${token}`
               }
 
               return headers
@@ -109,7 +110,7 @@ export function QueryProvider({
           }),
         ],
       }),
-    [enableTurnstile],
+    [enableTurnstile, getToken],
   )
 
   return (

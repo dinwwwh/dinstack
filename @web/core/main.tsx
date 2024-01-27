@@ -1,5 +1,5 @@
 import './global.css'
-import { router } from './router'
+import { routes } from './routes'
 import { ScrollArea } from '@web/components/ui/scroll-area'
 import { Toaster } from '@web/components/ui/toaster'
 import { AuthProvider } from '@web/providers/auth'
@@ -11,26 +11,44 @@ import { TurnstileProvider } from '@web/providers/turnstile'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
-import { RouterProvider } from 'react-router-dom'
+import {
+  Outlet,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from 'react-router-dom'
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route
+      element={
+        <AuthProvider>
+          <PostHogProvider>
+            <TurnstileProvider>
+              <QueryProvider enablePostHog enableTurnstile>
+                <PushNotificationProvider>
+                  <Outlet />
+                </PushNotificationProvider>
+              </QueryProvider>
+            </TurnstileProvider>
+          </PostHogProvider>
+        </AuthProvider>
+      }
+    >
+      {routes}
+    </Route>,
+  ),
+)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider context={{}}>
       <ThemeProvider>
         <ScrollArea className="h-screen">
-          <PostHogProvider>
-            <TurnstileProvider>
-              <QueryProvider enablePostHog enableTurnstile>
-                <AuthProvider>
-                  <PushNotificationProvider>
-                    <div className="h-screen">
-                      <RouterProvider router={router} />
-                    </div>
-                  </PushNotificationProvider>
-                </AuthProvider>
-              </QueryProvider>
-            </TurnstileProvider>
-          </PostHogProvider>
+          <div className="h-screen">
+            <RouterProvider router={router} />
+          </div>
         </ScrollArea>
       </ThemeProvider>
     </HelmetProvider>
