@@ -17,6 +17,7 @@
   "dependencies": {
     "@api": "workspace:@dinstack/api@^",
     "@clerk/clerk-react": "^4.30.3",
+    "@clerk/themes": "^1.7.9",
     "@marsidev/react-turnstile": "^0.4.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
