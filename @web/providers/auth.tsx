@@ -23,7 +23,7 @@ const lightAppearance = {
     colorInputBackground: 'hsl(0 0% 100%)',
   },
   elements: {
-    card: 'rounded-lg border bg-card text-card-foreground shadow-sm border-border',
+    cardBox: 'rounded-lg border bg-card text-card-foreground shadow-sm border-border',
   },
 } satisfies Appearance
 
@@ -41,7 +41,7 @@ const darkAppearance = {
     colorInputBackground: 'hsl(224 71.4% 4.1%)',
   },
   elements: {
-    card: 'rounded-lg border bg-card text-card-foreground shadow-sm border-border',
+    cardBox: 'rounded-lg border bg-card text-card-foreground shadow-sm border-border',
   },
 } satisfies Appearance
 
@@ -60,7 +60,8 @@ export function AuthProvider(props: { children: React.ReactNode }) {
   return (
     <ClerkProvider
       publishableKey={env.CLERK_PUBLISHABLE_KEY}
-      navigate={navigate}
+      routerPush={navigate}
+      routerReplace={navigate}
       signInUrl="/sign-in"
       signUpUrl="/sign-up"
       afterSignInUrl="/"

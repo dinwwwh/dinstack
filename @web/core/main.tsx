@@ -2,6 +2,7 @@ import './global.css'
 import { routes } from './routes'
 import { ScrollArea } from '@web/components/ui/scroll-area'
 import { Toaster } from '@web/components/ui/toaster'
+import { ErrorPage } from '@web/pages/error'
 import { AuthProvider } from '@web/providers/auth'
 import { PostHogProvider } from '@web/providers/post-hog'
 import { PushNotificationProvider } from '@web/providers/push-notification'
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
           </PostHogProvider>
         </AuthProvider>
       }
+      errorElement={<ErrorPage />}
     >
       {routes}
     </Route>,

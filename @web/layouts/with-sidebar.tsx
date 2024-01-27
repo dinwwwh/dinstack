@@ -53,7 +53,7 @@ function SmallScreenNavbar() {
         <LogoDropdownMenu>
           <DropdownMenuTrigger>
             <span className="sr-only">Open Main Menu</span>
-            <Logo variant="icon" size={36} />
+            <Logo variant="icon" size={32} />
           </DropdownMenuTrigger>
         </LogoDropdownMenu>
       </div>
@@ -69,8 +69,8 @@ function LargeScreenNavbar() {
     <div className="h-full p-4 px-3 pb-6 relative z-10 hidden md:block border-r border-border/50">
       <motion.div
         className="h-full"
-        initial={{ width: sidebarSize === 'default' ? 288 : 36 }}
-        animate={{ width: sidebarSize === 'default' ? 288 : 36 }}
+        initial={{ width: sidebarSize === 'default' ? 288 : 32 }}
+        animate={{ width: sidebarSize === 'default' ? 288 : 32 }}
       >
         <Navbar />
       </motion.div>
