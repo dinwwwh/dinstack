@@ -1,5 +1,5 @@
+import { useUser } from '@clerk/clerk-react'
 import { env } from '@web/lib/env'
-import { useAuthStore } from '@web/stores/auth'
 import { PostHogProvider as Base, usePostHog } from 'posthog-js/react'
 import { useEffect } from 'react'
 
@@ -25,19 +25,19 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 }
 
 function IdentifyUser() {
-  const auth = useAuthStore()
+  const { user } = useUser()
   const posthog = usePostHog()
 
   useEffect(() => {
-    if (auth.state) {
-      posthog.identify(auth.state.user.id, {
-        name: auth.state.user.name,
-        email: auth.state.user.email,
+    if (user) {
+      posthog.identify(user.id, {
+        name: user.fullName,
+        email: user.primaryEmailAddress?.emailAddress,
       })
     } else {
       posthog.reset()
     }
-  }, [auth, posthog])
+  }, [user, posthog])
 
   return null
 }

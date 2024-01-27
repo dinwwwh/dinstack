@@ -1,8 +1,7 @@
 import { Logo } from '../logo'
-import { PushNotificationPermissionRequest } from '../push-notification-alert'
 import { ThemeToggle } from '../theme-toggle'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
-import { OrganizationSwitcher, UserButton } from '@clerk/clerk-react'
+import { OrganizationSwitcher, UserButton, UserProfile } from '@clerk/clerk-react'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
@@ -78,35 +77,21 @@ export function Navbar() {
 
       <ScrollArea className="flex-1 mt-8">{/* SOME THING */}</ScrollArea>
 
-      <div className="mt-8 hidden @[200px]:block">
-        {systemStore.dismissedPushNotificationAlertAt &&
-        systemStore.dismissedPushNotificationAlertAt >=
-          new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) ? null : (
-          <PushNotificationPermissionRequest
-            onDismiss={() => {
-              useSystemStore.setState({ dismissedPushNotificationAlertAt: new Date() })
+      <div className="flex items-center justify-between mt-8 gap-2">
+        <div className="shrink-0">
+          <UserButton
+            appearance={{
+              elements: {
+                userButtonTrigger: cn('[&_.cl-userButtonAvatarBox]:size-8'),
+              },
             }}
           />
-        )}
-      </div>
+        </div>
 
-      <div className="flex items-center justify-between mt-8 overflow-hidden">
-        <div className="flex gap-4 shrink-0">
-          <div className="shrink-0">
-            <UserButton
-              appearance={{
-                elements: {
-                  userButtonTrigger: cn('[&_.cl-userButtonAvatarBox]:size-8'),
-                },
-              }}
-            />
-          </div>
+        <div className="hidden @[120px]:flex items-center gap-2">
           <div>
             <ThemeToggle />
           </div>
-        </div>
-
-        <div>
           <LogoDropdownMenu>
             <DropdownMenuTrigger>
               <span className="sr-only">Open Main Menu</span>

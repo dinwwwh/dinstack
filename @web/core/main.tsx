@@ -5,7 +5,6 @@ import { Toaster } from '@web/components/ui/toaster'
 import { ErrorPage } from '@web/pages/error'
 import { AuthProvider } from '@web/providers/auth'
 import { PostHogProvider } from '@web/providers/post-hog'
-import { PushNotificationProvider } from '@web/providers/push-notification'
 import { QueryProvider } from '@web/providers/query'
 import { ThemeProvider } from '@web/providers/theme'
 import { TurnstileProvider } from '@web/providers/turnstile'
@@ -28,9 +27,7 @@ const router = createBrowserRouter(
           <PostHogProvider>
             <TurnstileProvider>
               <QueryProvider enablePostHog enableTurnstile>
-                <PushNotificationProvider>
-                  <Outlet />
-                </PushNotificationProvider>
+                <Outlet />
               </QueryProvider>
             </TurnstileProvider>
           </PostHogProvider>

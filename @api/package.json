@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@block65/webcrypto-web-push": "^0.3.2",
+    "@clerk/backend": "^0.37.3",
     "@lemonsqueezy/lemonsqueezy.js": "1.2.2",
     "@neondatabase/serverless": "^0.6.1",
     "@trpc/server": "^10.45.0",

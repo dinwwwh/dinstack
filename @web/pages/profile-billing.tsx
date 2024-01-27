@@ -3,7 +3,6 @@ import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
-import { useAuthedStore } from '@web/stores/auth'
 import { CheckIcon } from 'lucide-react'
 
 const includedFeatures = [
@@ -13,13 +12,9 @@ const includedFeatures = [
   'Official member t-shirt',
 ]
 
+// TODO: move it to userBillingPage
 export function Component() {
-  const authStore = useAuthedStore()
-  const subscription = authStore.session.user.subscriptions.find(
-    (s) =>
-      s.variantId === env.LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID &&
-      (s.expiresAt?.getTime() || 0) <= Date.now(),
-  )
+  const subscription = null
 
   return (
     <main className="mt-6 md:mt-8 xl:mt-12">

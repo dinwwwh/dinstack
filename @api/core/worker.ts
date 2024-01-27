@@ -13,12 +13,17 @@ import { handleWebhookRequest } from '@api/features/billing/webhook'
 import type { Context } from '@api/lib/context'
 import { createContext } from '@api/lib/context'
 import { type Env, envSchema } from '@api/lib/env'
+import { Clerk } from '@clerk/backend'
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 
+type ClerkAuth = Awaited<ReturnType<ReturnType<typeof Clerk>['authenticateRequest']>>['toAuth']
+
 type Variables = {
   context: Context
+  clerk: ReturnType<typeof Clerk>
+  clerkAuth: ReturnType<ClerkAuth>
 }
 
 const app = new Hono<{ Variables: Variables; Bindings: Env }>()
@@ -33,6 +38,21 @@ const app = new Hono<{ Variables: Variables; Bindings: Env }>()
     await next()
 
     c.executionCtx.waitUntil(context.ph.shutdownAsync())
+  })
+  .use('*', async (c, next) => {
+    const ctx = c.get('context')
+    const start = Date.now()
+
+    const requestState = await ctx.clerk.authenticateRequest({
+      request: c.req.raw,
+    })
+
+    c.set('clerkAuth', requestState.toAuth())
+
+    console.log('-===--=-=-=: ' + (Date.now() - start))
+    console.log(c.get('clerkAuth'))
+
+    await next()
   })
   .all('/trpc/*', async (c) => {
     return await fetchRequestHandler({

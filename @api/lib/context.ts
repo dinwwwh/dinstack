@@ -1,17 +1,19 @@
-import { createAuthGithub, createAuthGoogle } from './auth'
 import { createDb } from './db'
 import { createSendEmailFn } from './email'
 import type { Env } from './env'
 import { createLemonSqueezy } from './lemon-squeezy'
 import { createPostHog } from './post-hog'
+import { Clerk } from '@clerk/backend'
 
 export function createContext({ env, ec }: { env: Env; ec: ExecutionContext }) {
   const db = createDb({ env })
-  const authGoogle = createAuthGoogle({ env })
-  const authGithub = createAuthGithub({ env })
   const sendEmail = createSendEmailFn({ env })
   const lemonSqueezy = createLemonSqueezy({ env })
   const ph = createPostHog({ env })
+  const clerk = Clerk({
+    secretKey: env.CLERK_SECRET_KEY,
+    publishableKey: env.CLERK_PUBLISHABLE_KEY,
+  })
 
   return {
     env,
@@ -19,12 +21,9 @@ export function createContext({ env, ec }: { env: Env; ec: ExecutionContext }) {
     db,
     lemonSqueezy,
     ph,
+    clerk,
     email: {
       send: sendEmail,
-    },
-    auth: {
-      google: authGoogle,
-      github: authGithub,
     },
   }
 }

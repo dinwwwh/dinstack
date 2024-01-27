@@ -10,10 +10,14 @@ export const billingCheckoutRoute = authProcedure
     }),
   )
   .mutation(async ({ ctx, input }) => {
+    if (1) {
+      throw new Error('TODO')
+    }
+
     const user = await ctx.db.query.Users.findFirst({
-      where(t, { eq }) {
-        return eq(t.id, ctx.auth.userId)
-      },
+      // where(t, { eq }) {
+      //   // return eq(t.id, ctx.auth.userId)
+      // },
     })
 
     if (!user) {

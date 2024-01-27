@@ -1,23 +1,20 @@
 import { Button } from '@web/components/ui/button'
 import { useEffectOnce } from '@web/hooks/use-effect-once'
-import { env } from '@web/lib/env'
-import { useAuthedStore } from '@web/stores/auth'
 import { Loader2Icon } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
-import SuperJSON from 'superjson'
 
 export function Component() {
   const [done, setDone] = useState(false)
-  const auth = useAuthedStore()
 
   useEffectOnce(() => {
     try {
-      window.chrome.runtime.sendMessage(env.EXTENSION_ID, {
-        type: 'login',
-        data: SuperJSON.stringify({ auth: auth.state }),
-      })
+      // TODO: implement it
+      // window.chrome.runtime.sendMessage(env.EXTENSION_ID, {
+      //   type: 'login',
+      //   data: SuperJSON.stringify({ auth: auth.state }),
+      // })
 
       setDone(true)
     } catch {

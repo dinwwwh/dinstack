@@ -1,9 +1,6 @@
-import { getActiveSubscriptionVariantIds } from '@api/features/auth/helpers/filter-and-map-active-subscription-variant-ids'
-import { decodeAuthJwt, verifyAuthJwt } from '@api/lib/auth'
 import type { Context } from '@api/lib/context'
 import type { Db } from '@api/lib/db'
 import { TRPCError, experimental_standaloneMiddleware, initTRPC } from '@trpc/server'
-import { JWTExpired } from 'jose/errors'
 import SuperJSON from 'superjson'
 
 const t = initTRPC.context<Context & { request: Request }>().create({
@@ -74,66 +71,16 @@ export const procedure = t.procedure.use(
 )
 
 const authMiddleware = middleware(async ({ ctx, next }) => {
-  const jwt = ctx.request.headers.get('Authorization')?.replace(/^Bearer /, '')
+  const auth = {}
 
-  if (!jwt) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' })
-  }
-
-  const auth: Awaited<ReturnType<typeof verifyAuthJwt>> | null = await (async () => {
-    try {
-      return await verifyAuthJwt({ env: ctx.env, jwt })
-    } catch (e) {
-      if (e instanceof JWTExpired) {
-        try {
-          const payload = decodeAuthJwt({ jwt })
-
-          const session = await ctx.db.query.Sessions.findFirst({
-            where(t, { eq }) {
-              return eq(t.secretKey, payload.sessionSecretKey)
-            },
-            with: {
-              organizationMember: {
-                with: {
-                  user: {
-                    with: {
-                      subscriptions: true,
-                    },
-                  },
-                },
-              },
-            },
-          })
-
-          if (session) {
-            return {
-              sessionSecretKey: session.secretKey,
-              userId: session.userId,
-              organizationId: session.organizationId,
-              organizationRole: session.organizationMember.role,
-              activeSubscriptionVariantIds: getActiveSubscriptionVariantIds(
-                session.organizationMember.user.subscriptions,
-              ),
-            }
-          }
-        } catch {
-          return null
-        }
-      }
-
-      return null
-    }
-  })()
+  throw new Error('Does not implement')
 
   if (!auth) throw new TRPCError({ code: 'UNAUTHORIZED' })
 
   return next({
     ctx: {
       ...ctx,
-      auth: {
-        ...ctx.auth,
-        ...auth,
-      },
+      auth,
     },
   })
 })

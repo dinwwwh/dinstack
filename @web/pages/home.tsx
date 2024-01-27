@@ -4,8 +4,6 @@ import { api } from '@web/lib/api'
 import { Helmet } from 'react-helmet-async'
 
 export function Component() {
-  const testPushNotificationMutation = api.auth.notification.push.postTest.useMutation()
-
   return (
     <>
       <Helmet>
@@ -14,10 +12,6 @@ export function Component() {
 
       <div>
         <div className="h-screen p-6 space-y-8">
-          <Button type="button" onClick={() => testPushNotificationMutation.mutate()}>
-            Test Push notification
-          </Button>
-
           <SignOutButton />
 
           <OrganizationSwitcher />
