@@ -1,1 +1,0 @@
-ALTER TABLE "sessions" ADD COLUMN "push_subscription" jsonb;

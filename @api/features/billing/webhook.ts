@@ -1,4 +1,3 @@
-import { Subscriptions } from '@api/database/schema'
 import type { Context } from '@api/lib/context'
 import { verifyWebhookRequest } from '@api/lib/lemon-squeezy'
 import { P, match } from 'ts-pattern'
@@ -50,21 +49,22 @@ export async function handleWebhookRequest(ctx: Context & { request: Request }) 
         .with('paid', () => null)
         .exhaustive()
 
-      await ctx.db
-        .insert(Subscriptions)
-        .values({
-          userId: e.meta.custom_data.user_id,
-          variantId: e.data.attributes.first_order_item.variant_id,
-          lsCustomerId: e.data.attributes.customer_id,
-          expiresAt,
-        })
-        .onConflictDoUpdate({
-          target: [Subscriptions.variantId, Subscriptions.userId],
-          set: {
-            lsCustomerId: e.data.attributes.customer_id,
-            expiresAt,
-          },
-        })
+      // TODO
+      // await ctx.db
+      //   .insert(Subscriptions)
+      //   .values({
+      //     userId: e.meta.custom_data.user_id,
+      //     variantId: e.data.attributes.first_order_item.variant_id,
+      //     lsCustomerId: e.data.attributes.customer_id,
+      //     expiresAt,
+      //   })
+      //   .onConflictDoUpdate({
+      //     target: [Subscriptions.variantId, Subscriptions.userId],
+      //     set: {
+      //       lsCustomerId: e.data.attributes.customer_id,
+      //       expiresAt,
+      //     },
+      //   })
     })
     .exhaustive()
 

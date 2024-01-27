@@ -1,4 +1,3 @@
-import type { Subscriptions } from '@api/database/schema'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
@@ -23,7 +22,7 @@ export function Component() {
   )
 }
 
-function PaidStatus(props: { subscription: typeof Subscriptions.$inferSelect }) {
+function PaidStatus(props: { subscription: 'TODO' }) {
   return (
     <div className="rounded-2xl border lg:mx-0 lg:flex">
       <div className="p-8 sm:p-10 lg:flex-auto">
@@ -31,7 +30,7 @@ function PaidStatus(props: { subscription: typeof Subscriptions.$inferSelect }) 
         <p className="mt-6 text-base leading-7 text-muted-foreground">
           Enjoying a Lifetime of Membership! You locked in your membership on{' '}
           <span className="font-medium text-foreground/75">
-            {props.subscription.createdAt.toDateString()}
+            {/* {props.subscription.createdAt.toDateString()} TODO */}
           </span>
           . For any questions or concerns, please don&apos;t hesitate to contact us at{' '}
           <a
