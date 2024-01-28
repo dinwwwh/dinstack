@@ -19,7 +19,6 @@ export const env = z
     TURNSTILE_SITE_KEY: z.string(),
     PUBLIC_BUCKET_BASE_URL: z.string().url(),
     LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: z.coerce.number(),
-    VAPID_PUBLIC_KEY: z.string(),
     CLERK_PUBLISHABLE_KEY: z.string(),
   })
   .parse({
@@ -37,6 +36,7 @@ export const env = z
     POSTHOG_HOST: import.meta.env.VITE_POSTHOG_HOST,
     POSTHOG_API_KEY: import.meta.env.VITE_POSTHOG_API_KEY,
 
+    PUBLIC_BUCKET_BASE_URL: import.meta.env.VITE_PUBLIC_BUCKET_BASE_URL,
     TURNSTILE_SITE_KEY: import.meta.env.VITE_TURNSTILE_SITE_KEY,
     LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: import.meta.env
       .VITE_LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID,

@@ -1,4 +1,10 @@
-import { OrganizationSwitcher, SignOutButton, UserButton, UserProfile } from '@clerk/clerk-react'
+import {
+  OrganizationSwitcher,
+  SignOutButton,
+  UserButton,
+  UserProfile,
+  useAuth,
+} from '@clerk/clerk-react'
 import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
 import { Helmet } from 'react-helmet-async'

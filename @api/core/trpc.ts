@@ -1,9 +1,10 @@
-import type { Context } from '@api/lib/context'
+import type { ContextWithRequest } from '@api/lib/context'
 import type { Db } from '@api/lib/db'
-import { TRPCError, experimental_standaloneMiddleware, initTRPC } from '@trpc/server'
+import { TRPCError, initTRPC } from '@trpc/server'
 import SuperJSON from 'superjson'
+import { match } from 'ts-pattern'
 
-const t = initTRPC.context<Context & { request: Request }>().create({
+const t = initTRPC.context<ContextWithRequest>().create({
   transformer: SuperJSON,
 })
 
@@ -71,9 +72,7 @@ export const procedure = t.procedure.use(
 )
 
 const authMiddleware = middleware(async ({ ctx, next }) => {
-  const auth = {}
-
-  throw new Error('Does not implement')
+  const auth = ctx.auth
 
   if (!auth) throw new TRPCError({ code: 'UNAUTHORIZED' })
 

@@ -5,7 +5,6 @@ import type * as _N from '@api/node_modules/@clerk/backend/dist/types/api/endpoi
 import type * as _H from '@api/node_modules/@clerk/backend/dist/types/tokens/authStatus'
 import type * as _M from '@api/node_modules/@clerk/backend/dist/types/tokens/interstitial'
 import type * as _C from '@api/node_modules/@lemonsqueezy/lemonsqueezy.js/dist/index.cjs'
-import type * as _A from '@api/node_modules/arctic/dist'
 import type * as _D from '@api/node_modules/posthog-node/lib'
 import { createTRPCReact } from '@trpc/react-query'
 
