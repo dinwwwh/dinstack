@@ -1,3 +1,5 @@
+import type { Subscription } from '@api/lib/subscription'
+import { useUser } from '@clerk/clerk-react'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
@@ -11,18 +13,13 @@ const includedFeatures = [
   'Official member t-shirt',
 ]
 
-// TODO: move it to userBillingPage
-export function Component() {
+export function SubscriptionCard() {
   const subscription = null
 
-  return (
-    <main className="mt-6 md:mt-8 xl:mt-12">
-      {subscription ? <PaidStatus subscription={subscription} /> : <UnpaidStatus />}
-    </main>
-  )
+  return <div>{subscription ? <PaidStatus subscription={subscription} /> : <UnpaidStatus />}</div>
 }
 
-function PaidStatus(props: { subscription: 'TODO' }) {
+function PaidStatus(props: { subscription: Subscription }) {
   return (
     <div className="rounded-2xl border lg:mx-0 lg:flex">
       <div className="p-8 sm:p-10 lg:flex-auto">
@@ -30,7 +27,7 @@ function PaidStatus(props: { subscription: 'TODO' }) {
         <p className="mt-6 text-base leading-7 text-muted-foreground">
           Enjoying a Lifetime of Membership! You locked in your membership on{' '}
           <span className="font-medium text-foreground/75">
-            {/* {props.subscription.createdAt.toDateString()} TODO */}
+            {props.subscription.createdAt.toDateString()}
           </span>
           . For any questions or concerns, please don&apos;t hesitate to contact us at{' '}
           <a

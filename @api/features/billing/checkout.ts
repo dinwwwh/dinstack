@@ -30,8 +30,8 @@ export const billingCheckoutRoute = authProcedure
         },
         product_options: {
           enabled_variants: [input.variantId],
-          redirect_url: new URL('profile/billing', ctx.env.WEB_BASE_URL),
-          receipt_link_url: new URL('profile/billing', ctx.env.WEB_BASE_URL),
+          redirect_url: ctx.env.WEB_BASE_URL,
+          receipt_link_url: ctx.env.WEB_BASE_URL,
           receipt_button_text: 'Go to your account',
           receipt_thank_you_note: 'Your purchase means the world to us. Thank you for choosing us!',
         },

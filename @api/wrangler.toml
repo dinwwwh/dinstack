@@ -21,6 +21,7 @@ POSTHOG_HOST = "https://us.posthog.com"
 POSTHOG_API_KEY = "phc_crWHQabJDjkR3ho9RLs8PY5lzut61EhMv7ghEKoIFwH"
 VAPID_PUBLIC_KEY = "BAz2kVvLQrJ07YcgOENLJWvS-jSmj1GAVjruzB3DpBgp9js4rWiNSEe2MCFypVr9-mbo2tcGicyQbchQ5AohKkQ"
 SUPPORT_EMAIL = "dinsterizer@gmail.com"
+CLERK_PUBLISHABLE_KEY = "pk_test_YXdha2Uta29hbGEtMC5jbGVyay5hY2NvdW50cy5kZXYk"
 
 
 [[env.local.r2_buckets]]
@@ -46,6 +47,7 @@ POSTHOG_HOST = "https://us.posthog.com"
 POSTHOG_API_KEY = "phc_gklhvpYMslkQq2pki2H4TuG53uAfSViDll6fJN7C8Ny"
 VAPID_PUBLIC_KEY = "BDmLMy5m2igFDW-7np8yFKNhi7giPW54Q1G8VBaYCjyRFutiX8Pptv9BUKqeG3qM9UbPlXKg1aCX5GjWHULzIR0"
 SUPPORT_EMAIL = "dinsterizer@gmail.com"
+CLERK_PUBLISHABLE_KEY = "pk_test_YXdha2Uta29hbGEtMC5jbGVyay5hY2NvdW50cy5kZXYk"
 
 [[env.preview.r2_buckets]]
 binding = 'PUBLIC_BUCKET'
@@ -73,6 +75,7 @@ POSTHOG_HOST = "https://us.posthog.com"
 POSTHOG_API_KEY = "phc_jkWq40BEKkhB00QCm00j5Oc9uxmvA0YObvGdv5Hnr92"
 VAPID_PUBLIC_KEY = "BO4basw58Dsx6651vfW0MvgtHGyZBdE05A5YNKqyDo8u41wGP09GN7Oxezk5JhBTTQZxqvfV6719kZEHKNOItYg"
 SUPPORT_EMAIL = "dinsterizer@gmail.com"
+CLERK_PUBLISHABLE_KEY = "pk_live_Y2xlcmsuZGluc3Rlcml6ZXIuY29tJA"
 
 [[env.production.r2_buckets]]
 binding = 'PUBLIC_BUCKET'

@@ -64,14 +64,16 @@ export async function handleWebhookRequest(ctx: ContextWithRequest & { request: 
         if (index === -1) {
           publicMetadata.subscriptions.push({
             variantId,
-            expiresAt,
             lsCustomerId,
+            createdAt: new Date(),
+            expiresAt,
           })
         } else {
           publicMetadata.subscriptions[index] = {
             variantId,
-            expiresAt,
             lsCustomerId,
+            createdAt: new Date(),
+            expiresAt,
           }
         }
       }
@@ -92,7 +94,7 @@ export async function handleWebhookRequest(ctx: ContextWithRequest & { request: 
         updateMetadata(publicMetadata)
 
         await ctx.clerk.organizations.updateOrganizationMetadata(tenantId, {
-          publicMetadata: {},
+          publicMetadata,
         })
       }
     })

@@ -9,8 +9,8 @@ const authSchema = z
   .and(
     z
       .object({
-        organizationId: z.null(),
-        organizationRole: z.null(),
+        organizationId: z.undefined(),
+        organizationRole: z.undefined(),
       })
       .or(
         z.object({
@@ -30,22 +30,23 @@ export async function authenticateRequestToAuth(opts: {
     request: opts.request,
   })
 
-  const authClerk = requestState.toAuth()
-  const claims = authClerk?.sessionClaims
+  if (!requestState.isSignedIn) return null
 
-  if (!claims) return null
+  const authClerk = requestState.toAuth()
 
   try {
     const raw = {
-      userId: claims.sub,
-      organizationId: claims.org_id,
-      organizationRole: claims.org_role,
+      userId: authClerk?.userId,
+      organizationId: authClerk?.orgId,
+      organizationRole: authClerk?.orgRole,
     }
 
     expectType<Record<keyof z.infer<typeof authSchema>, any>>(raw)
 
     return authSchema.parse(raw)
-  } catch {
+  } catch (e) {
+    console.error(e)
+
     return null
   }
 }
