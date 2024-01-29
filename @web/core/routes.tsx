@@ -7,7 +7,8 @@ export const routes = (
     <Route element={<AuthLayout />}>
       <Route path="/" lazy={() => import('../pages/home')} />
 
-      <Route path="/extension/login" lazy={() => import('../pages/extension-login')} />
+      <Route path="/extension/sign-in" lazy={() => import('../pages/extension-sign-in')} />
+      <Route path="/extension/sign-out" lazy={() => import('../pages/extension-sign-out')} />
     </Route>
 
     <Route path="/sign-in/*" lazy={() => import('../pages/sign-in')} />

@@ -9,17 +9,20 @@ import { usePostHog } from 'posthog-js/react'
 import { useMemo } from 'react'
 import SuperJSON from 'superjson'
 
-export function QueryProvider({
+export function BaseQueryProvider({
   children,
+  getAuthToken,
+  signOut,
   enableTurnstile = false,
   enablePostHog = false,
 }: {
   children: React.ReactNode
+  getAuthToken: () => Promise<string | null | undefined> | string | null | undefined
+  signOut: () => void
   enableTurnstile?: boolean
   enablePostHog?: boolean
 }) {
   const ph = usePostHog()
-  const { getToken, signOut } = useAuth()
   const { toast } = useToast()
 
   const queryClient = useMemo(
@@ -87,7 +90,7 @@ export function QueryProvider({
             async headers() {
               const headers: Record<string, string> = {}
 
-              const token = await getToken()
+              const token = await getAuthToken()
               if (token) {
                 headers['Authorization'] = `Bearer ${token}`
               }
@@ -110,7 +113,7 @@ export function QueryProvider({
           }),
         ],
       }),
-    [enableTurnstile, getToken],
+    [enableTurnstile, getAuthToken],
   )
 
   return (
@@ -118,4 +121,12 @@ export function QueryProvider({
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </api.Provider>
   )
+}
+
+export function QueryProvider(
+  props: Omit<React.ComponentPropsWithoutRef<typeof BaseQueryProvider>, 'getAuthToken' | 'signOut'>,
+) {
+  const { getToken, signOut } = useAuth()
+
+  return <BaseQueryProvider {...props} getAuthToken={getToken} signOut={signOut} />
 }

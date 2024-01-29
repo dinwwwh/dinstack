@@ -1,8 +1,8 @@
+import { useAuthStore } from '@extension/stores/auth'
 import { Button } from '@web/components/ui/button'
 import { useToast } from '@web/components/ui/use-toast'
 import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
-import { useAuthStore } from '@web/stores/auth'
 
 export function Component() {
   const { toast } = useToast()
@@ -12,7 +12,6 @@ export function Component() {
 
   return (
     <div className="p-5 space-y-4">
-      <pre>userName: {authStore.state?.user.name}</pre>
       <pre>
         status: {query.status} data: {JSON.stringify(query.data, null, 2)} fetching:{' '}
         {query.isFetching ? 'true' : 'false'}
@@ -31,14 +30,21 @@ export function Component() {
           test toast
         </Button>
         {authStore.state ? (
-          <Button type="button" onClick={() => useAuthStore.setState({ state: null })}>
+          <Button
+            type="button"
+            onClick={() => {
+              chrome.tabs.create({
+                url: new URL('extension/sign-out', env.WEB_BASE_URL).toString(),
+              })
+            }}
+          >
             logout
           </Button>
         ) : (
           <Button
             type="button"
             onClick={() => {
-              chrome.tabs.create({ url: new URL('extension/login', env.WEB_BASE_URL).toString() })
+              chrome.tabs.create({ url: new URL('extension/sign-in', env.WEB_BASE_URL).toString() })
             }}
           >
             Login

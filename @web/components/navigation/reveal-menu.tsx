@@ -64,11 +64,11 @@ export function RevealMenu({ position = 'top' }: Props) {
           </SignedIn>
           <SignedOut>
             <Button variant={'link'} size={'sm'} className="text-muted-foreground h-6 px-1" asChild>
-              <Link to={'/sign-up'}>Sign Up</Link>
+              <Link to={'/sign-up'}>Sign up</Link>
             </Button>
 
             <Button variant={'link'} size={'sm'} className="h-6 px-1" asChild>
-              <Link to={'/sign-in'}>Sign In</Link>
+              <Link to={'/sign-in'}>Sign in</Link>
             </Button>
           </SignedOut>
         </div>

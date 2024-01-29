@@ -1,7 +1,7 @@
+import { useAuthStore } from '@extension/stores/auth'
 import { Logo } from '@web/components/logo'
 import { Button } from '@web/components/ui/button'
 import { env } from '@web/lib/env'
-import { useAuthStore } from '@web/stores/auth'
 import { Outlet } from 'react-router-dom'
 
 export function AuthLayout() {
@@ -23,16 +23,16 @@ export function AuthLayout() {
           </button>
           <div className="space-y-2 mt-4">
             <h2 className="text-2xl font-bold">Welcome to Our App</h2>
-            <p className="text-muted-foreground text-center">Please login to continue</p>
+            <p className="text-muted-foreground text-center">Please sign in to continue</p>
           </div>
           <Button
             type="button"
             className="w-full mt-6"
             onClick={() => {
-              chrome.tabs.create({ url: new URL('extension/login', env.WEB_BASE_URL).toString() })
+              chrome.tabs.create({ url: new URL('extension/sign-in', env.WEB_BASE_URL).toString() })
             }}
           >
-            Login
+            Sign in
           </Button>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import { Logo } from '@web/components/logo'
 import { Button } from '@web/components/ui/button'
 import { env } from '@web/lib/env'
-import { useAuthStore } from '@web/stores/auth'
 import { LogOutIcon, SettingsIcon } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
 
@@ -33,10 +32,12 @@ export function WithNavbarLayout() {
               size={'icon'}
               className="h-8 w-8"
               onClick={() => {
-                useAuthStore.setState({ state: null })
+                chrome.tabs.create({
+                  url: new URL('extension/sign-out', env.WEB_BASE_URL).toString(),
+                })
               }}
             >
-              <span className="sr-only">Logout</span>
+              <span className="sr-only">Sign Out</span>
               <LogOutIcon className="h-4 w-4" />
             </Button>
           </div>

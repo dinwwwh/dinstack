@@ -9,7 +9,7 @@ export function Component() {
   return (
     <>
       <Helmet>
-        <title>Sign Up</title>
+        <title>Sign up</title>
       </Helmet>
 
       <div className="relative h-screen flex items-center justify-center container">

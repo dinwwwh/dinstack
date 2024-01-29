@@ -1,10 +1,15 @@
-import { type authStateSchema, useAuthStore } from '@web/stores/auth'
+import { useAuthStore } from '@extension/stores/auth'
+import { extensionAuthStateSchema } from '@web/lib/extension'
 import SuperJSON from 'superjson'
-import type { z } from 'zod'
+import { z } from 'zod'
 
 chrome.runtime.onMessageExternal.addListener((message) => {
-  if (message.type === 'login') {
-    const data = SuperJSON.parse(message.data) as { auth: z.infer<typeof authStateSchema> }
+  if (message.type === 'auth') {
+    const data = z
+      .object({
+        auth: extensionAuthStateSchema,
+      })
+      .parse(SuperJSON.parse(message.data))
 
     useAuthStore.setState({ state: data.auth })
   }

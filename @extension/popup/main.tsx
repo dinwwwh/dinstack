@@ -1,9 +1,8 @@
 import '../init'
 import { router } from './router'
+import { QueryProvider } from '@extension/providers/query'
 import { Toaster } from '@web/components/ui/toaster'
 import '@web/core/global.css'
-import { AuthProvider } from '@web/providers/auth'
-import { QueryProvider } from '@web/providers/query'
 import { ThemeProvider } from '@web/providers/theme'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -14,9 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ThemeProvider>
       {/* TODO: enable turnstile when it support chrome extension */}
       <QueryProvider>
-        <AuthProvider>
-          <RouterProvider router={router} />
-        </AuthProvider>
+        <RouterProvider router={router} />
       </QueryProvider>
     </ThemeProvider>
 
