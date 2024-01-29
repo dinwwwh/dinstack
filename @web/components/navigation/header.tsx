@@ -8,29 +8,27 @@ import { BellIcon } from 'lucide-react'
 
 export function Header() {
   return (
-    <header className="flex justify-between">
+    <header className="flex items-center justify-between">
       <div className="flex items-center">
         <LogoDropdownMenu>
           <DropdownMenuTrigger>
-            <Logo size={28} variant="icon" />
+            <Logo size={24} variant="icon" />
           </DropdownMenuTrigger>
         </LogoDropdownMenu>
         <span className="text-muted-foreground/50 px-3 font-thin">|</span>
-        <div className="h-7 ">
-          <OrganizationSwitcher
-            appearance={{
-              elements: {
-                rootBox: '[&.cl-organizationSwitcher-root]:h-7',
-                organizationSwitcherTrigger: cn(
-                  'w-full p-0',
-                  '[&_.cl-organizationPreviewMainIdentifier]:text-sm',
-                  '[&_.cl-userPreviewAvatarBox]:size-7',
-                  '[&_.cl-organizationPreviewAvatarBox]:size-7',
-                ),
-              },
-            }}
-          />
-        </div>
+        <OrganizationSwitcher
+          appearance={{
+            elements: {
+              rootBox: '[&.cl-organizationSwitcher-root]:h-6',
+              organizationSwitcherTrigger: cn(
+                'w-full p-0',
+                '[&_.cl-organizationPreviewMainIdentifier]:text-sm',
+                '[&_.cl-userPreviewAvatarBox]:size-6',
+                '[&_.cl-organizationPreviewAvatarBox]:size-6',
+              ),
+            },
+          }}
+        />
       </div>
 
       <div className="flex items-center gap-4">

@@ -28,6 +28,7 @@ export function Component() {
 
         <div className="h-screen p-6 space-y-8 bg-green-200"></div>
         <div className="h-screen bg-red-200"></div>
+        <div className="h-screen "></div>
       </div>
     </>
   )

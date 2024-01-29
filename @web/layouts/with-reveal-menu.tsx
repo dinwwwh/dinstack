@@ -31,10 +31,8 @@ export function WithRevealMenuLayout() {
         <div className="min-h-screen">
           <Outlet />
         </div>
-        <div className="border-t border-border/40">
-          <div className="container">
-            <RevealMenu position="button" />
-          </div>
+        <div className="container">
+          <RevealMenu position="button" />
         </div>
       </ScrollArea>
     </div>

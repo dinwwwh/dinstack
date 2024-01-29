@@ -13,17 +13,17 @@ type Appearance = ComponentPropsWithoutRef<typeof ClerkProvider>['appearance']
 const lightAppearance = {
   variables: {
     borderRadius: '0.3rem',
-    colorText: 'hsl(224 71.4% 4.1%)',
+    colorText: 'hsl(240 10% 3.9%)',
     colorDanger: 'hsl(0 84.2% 60.2%)',
-    colorPrimary: 'hsl(262.1 83.3% 57.8%)',
-    colorTextOnPrimaryBackground: 'hsl(210 20% 98%)',
+    colorPrimary: 'hsl(240 5.9% 10%)',
+    colorTextOnPrimaryBackground: 'hsl(0 0% 98%)',
     colorBackground: 'hsl(0 0% 100%)',
-    colorInputText: 'hsl(224 71.4% 4.1%)',
-    colorTextSecondary: 'hsl(220 8.9% 46.1%)',
+    colorInputText: 'hsl(240 10% 3.9%)',
+    colorTextSecondary: 'hsl(240 3.8% 46.1%)',
     colorInputBackground: 'hsl(0 0% 100%)',
   },
   elements: {
-    cardBox: 'rounded-lg border bg-card text-card-foreground shadow-sm border-border',
+    cardBox: 'rounded-xl border bg-card text-card-foreground shadow border-border',
   },
 } satisfies Appearance
 
@@ -31,17 +31,17 @@ const darkAppearance = {
   baseTheme: dark,
   variables: {
     borderRadius: '0.3rem',
-    colorText: 'hsl(210 20% 98%)',
+    colorText: 'hsl(0 0% 98%)',
     colorDanger: 'hsl(0 62.8% 30.6%)',
-    colorPrimary: 'hsl(263.4 70% 50.4%)',
-    colorTextOnPrimaryBackground: 'hsl(210 20% 98%)',
-    colorBackground: 'hsl(224 71.4% 4.1%)',
-    colorInputText: 'hsl(210 20% 98%)',
-    colorTextSecondary: 'hsl(217.9 10.6% 64.9%)',
-    colorInputBackground: 'hsl(224 71.4% 4.1%)',
+    colorPrimary: 'hsl(0 0% 98%)',
+    colorTextOnPrimaryBackground: 'hsl(0 0% 98%)',
+    colorBackground: 'hsl(240 10% 3.9%)',
+    colorInputText: 'hsl(0 0% 98%)',
+    colorTextSecondary: 'hsl(240 5% 64.9%)',
+    colorInputBackground: 'hsl(240 10% 3.9%)',
   },
   elements: {
-    cardBox: 'rounded-lg border bg-card text-card-foreground shadow-sm border-border',
+    cardBox: 'rounded-xl border bg-card text-card-foreground shadow border-border',
   },
 } satisfies Appearance
 
