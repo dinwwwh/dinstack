@@ -28,7 +28,7 @@ const { pathname } = Astro.url
     <a
       href={link.href}
       class={cn(
-        'flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm text-foreground/60',
+        'flex items-center text-base font-medium transition-colors hover:text-foreground/80 sm:text-sm text-foreground/60',
         pathname.startsWith(link.href) && 'text-foreground',
       )}
     >
