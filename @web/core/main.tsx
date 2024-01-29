@@ -1,6 +1,5 @@
 import './global.css'
 import { routes } from './routes'
-import { ScrollArea } from '@web/components/ui/scroll-area'
 import { Toaster } from '@web/components/ui/toaster'
 import { ErrorPage } from '@web/pages/error'
 import { AuthProvider } from '@web/providers/auth'
@@ -44,11 +43,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider context={{}}>
       <ThemeProvider>
-        <ScrollArea className="h-screen">
-          <div className="h-screen">
-            <RouterProvider router={router} />
-          </div>
-        </ScrollArea>
+        <RouterProvider router={router} />
       </ThemeProvider>
     </HelmetProvider>
 

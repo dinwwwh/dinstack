@@ -1,6 +1,5 @@
 import { ContextWithoutRequest } from './context'
 import { expectType } from 'ts-expect'
-import 'type-fest'
 import { z } from 'zod'
 
 const authSchema = z

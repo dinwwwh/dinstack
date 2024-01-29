@@ -12,14 +12,14 @@ export function Component() {
         <title>Sign Up</title>
       </Helmet>
 
-      <div className="relative h-full flex items-center justify-center container">
+      <div className="relative h-screen flex items-center justify-center container">
         <Button
-          variant={'secondary'}
-          className="absolute top-4 left-4 gap-1.5 rounded-full pl-2.5"
+          variant={'link'}
+          className="absolute top-4 left-4 gap-1 text-muted-foreground"
           asChild
         >
           <Link to={env.CONTENT_BASE_URL}>
-            <ChevronLeftIcon className="size-4" />
+            <ChevronLeftIcon strokeWidth={1.5} className="size-4" />
             Home
           </Link>
         </Button>
