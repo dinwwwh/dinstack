@@ -1,11 +1,19 @@
 import { Auth } from './auth'
+import { subscriptionSchema } from './subscription'
 import { match } from 'ts-pattern'
+import { z } from 'zod'
 
-type Tenant = {
+export type Tenant = {
   type: 'organization' | 'user'
   id: string
   role: 'admin' | 'member'
 }
+
+export const tenantPublicMetadataSchema = z.object({
+  subscriptions: z.array(subscriptionSchema).catch([]),
+})
+
+export type TenantPublicMetadata = z.infer<typeof tenantPublicMetadataSchema>
 
 export async function authToTenant(opts: { auth: Auth }): Promise<Tenant> {
   return opts.auth.organizationId

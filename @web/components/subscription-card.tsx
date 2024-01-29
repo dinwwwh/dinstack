@@ -3,6 +3,7 @@ import { useUser } from '@clerk/clerk-react'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
+import { useTenant } from '@web/lib/auth'
 import { env } from '@web/lib/env'
 import { CheckIcon } from 'lucide-react'
 
@@ -14,7 +15,11 @@ const includedFeatures = [
 ]
 
 export function SubscriptionCard() {
-  const subscription = null
+  const tenant = useTenant()
+
+  const subscription = tenant.publicMetadata.subscriptions.find(
+    (s) => s.variantId === env.LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID && s.expiresAt === null,
+  )
 
   return <div>{subscription ? <PaidStatus subscription={subscription} /> : <UnpaidStatus />}</div>
 }

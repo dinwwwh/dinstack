@@ -1,6 +1,3 @@
-import { subscriptionSchema } from './subscription'
-import { z } from 'zod'
+import { tenantPublicMetadataSchema } from './tenant'
 
-export const userPublicMetadataSchema = z.object({
-  subscriptions: z.array(subscriptionSchema).catch([]),
-})
+export const userPublicMetadataSchema = tenantPublicMetadataSchema
