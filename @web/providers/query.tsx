@@ -6,7 +6,7 @@ import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
 import { getTurnstileToken } from '@web/lib/turnstile'
 import { usePostHog } from 'posthog-js/react'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import SuperJSON from 'superjson'
 
 export function BaseQueryProvider({
@@ -15,12 +15,14 @@ export function BaseQueryProvider({
   signOut,
   enableTurnstile = false,
   enablePostHog = false,
+  auth,
 }: {
   children: React.ReactNode
   getAuthToken: () => Promise<string | null | undefined> | string | null | undefined
   signOut: () => void
   enableTurnstile?: boolean
   enablePostHog?: boolean
+  auth: object | null
 }) {
   const ph = usePostHog()
   const { toast } = useToast()
@@ -116,6 +118,17 @@ export function BaseQueryProvider({
     [enableTurnstile, getAuthToken],
   )
 
+  const once = useRef(false)
+
+  useEffect(() => {
+    if (!once.current) {
+      once.current = true
+      return
+    }
+
+    queryClient.invalidateQueries()
+  }, [auth])
+
   return (
     <api.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -124,9 +137,14 @@ export function BaseQueryProvider({
 }
 
 export function QueryProvider(
-  props: Omit<React.ComponentPropsWithoutRef<typeof BaseQueryProvider>, 'getAuthToken' | 'signOut'>,
+  props: Omit<
+    React.ComponentPropsWithoutRef<typeof BaseQueryProvider>,
+    'getAuthToken' | 'signOut' | 'auth'
+  >,
 ) {
-  const { getToken, signOut } = useAuth()
+  const auth = useAuth()
 
-  return <BaseQueryProvider {...props} getAuthToken={getToken} signOut={signOut} />
+  return (
+    <BaseQueryProvider {...props} getAuthToken={auth.getToken} signOut={auth.signOut} auth={auth} />
+  )
 }

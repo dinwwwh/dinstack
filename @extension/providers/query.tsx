@@ -10,7 +10,12 @@ function signOut() {
 }
 
 export function QueryProvider(
-  props: Omit<React.ComponentPropsWithoutRef<typeof BaseQueryProvider>, 'getAuthToken' | 'signOut'>,
+  props: Omit<
+    React.ComponentPropsWithoutRef<typeof BaseQueryProvider>,
+    'getAuthToken' | 'signOut' | 'auth'
+  >,
 ) {
-  return <BaseQueryProvider {...props} getAuthToken={getAuthToken} signOut={signOut} />
+  const auth = useAuthStore().state
+
+  return <BaseQueryProvider {...props} getAuthToken={getAuthToken} signOut={signOut} auth={auth} />
 }
