@@ -6,7 +6,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export const authStoreSchema = z.object({
-  state: extensionAuthStateSchema.nullable(),
+  state: extensionAuthStateSchema,
 })
 
 export type AuthStoreSchema = z.infer<typeof authStoreSchema>

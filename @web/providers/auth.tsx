@@ -1,10 +1,11 @@
-import { ClerkLoaded, ClerkLoading, ClerkProvider } from '@clerk/clerk-react'
+import { ClerkLoaded, ClerkLoading, ClerkProvider, useAuth } from '@clerk/clerk-react'
 import { dark } from '@clerk/themes'
 import { LoadingScreen } from '@web/components/loading-screen'
 import { CardContent } from '@web/components/ui/card'
 import { env } from '@web/lib/env'
+import { sendAuthToExtension } from '@web/lib/extension'
 import { useSystemStore } from '@web/stores/system'
-import { ComponentPropsWithoutRef } from 'react'
+import { ComponentPropsWithoutRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { match } from 'ts-pattern'
 
@@ -72,7 +73,26 @@ export function AuthProvider(props: { children: React.ReactNode }) {
         <LoadingScreen />
       </ClerkLoading>
 
-      <ClerkLoaded>{props.children}</ClerkLoaded>
+      <ClerkLoaded>
+        {props.children}
+        <SyncAuthWithExtension />
+      </ClerkLoaded>
     </ClerkProvider>
   )
+}
+
+function SyncAuthWithExtension() {
+  const auth = useAuth()
+
+  useEffect(() => {
+    auth.getToken().then((token) => {
+      if (token) {
+        sendAuthToExtension({ authState: { token } })
+      } else {
+        sendAuthToExtension({ authState: null })
+      }
+    })
+  }, [auth])
+
+  return null
 }
