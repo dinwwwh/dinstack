@@ -1,24 +1,15 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
 import * as _A from '../node_modules/hono/dist/types/context'
 import { appRouter } from './router'
 import { handleWebhookRequest } from '@api/features/billing/webhook'
-import type { Context } from '@api/lib/context'
-import { createContext } from '@api/lib/context'
+import type { ContextWithRequest } from '@api/lib/context'
+import { createContextWithRequest } from '@api/lib/context'
 import { type Env, envSchema } from '@api/lib/env'
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 
 type Variables = {
-  context: Context
+  contextWithRequest: ContextWithRequest
 }
 
 const app = new Hono<{ Variables: Variables; Bindings: Env }>()
@@ -26,27 +17,31 @@ const app = new Hono<{ Variables: Variables; Bindings: Env }>()
   .use('*', async (c, next) => {
     // VALIDATE ENV FOR ENSURE
     const env = envSchema.parse(c.env)
-    const context = createContext({ env, ec: c.executionCtx })
+    const contextWithRequest = await createContextWithRequest({
+      env,
+      ec: c.executionCtx,
+      request: c.req.raw,
+    })
 
-    c.set('context', context)
+    c.set('contextWithRequest', contextWithRequest)
 
     await next()
 
-    c.executionCtx.waitUntil(context.ph.shutdownAsync())
+    c.executionCtx.waitUntil(contextWithRequest.ph.shutdownAsync())
   })
   .all('/trpc/*', async (c) => {
     return await fetchRequestHandler({
       endpoint: '/trpc',
       req: c.req.raw,
       router: appRouter,
-      createContext: () => ({ ...c.get('context'), request: c.req.raw }),
+      createContext: () => c.get('contextWithRequest'),
       onError({ error }) {
         if (error.code === 'INTERNAL_SERVER_ERROR') console.error(error)
       },
     })
   })
   .post('/billing/webhook', async (c) => {
-    return await handleWebhookRequest({ ...c.get('context'), request: c.req.raw })
+    return await handleWebhookRequest({ ...c.get('contextWithRequest'), request: c.req.raw })
   })
   .get('/public/:objectName{.+}', async (c) => {
     const object = await c.env.PUBLIC_BUCKET.get(c.req.param('objectName'))

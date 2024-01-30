@@ -1,10 +1,11 @@
-import { Subscriptions } from '@api/database/schema'
-import type { Context } from '@api/lib/context'
+import type { ContextWithRequest } from '@api/lib/context'
 import { verifyWebhookRequest } from '@api/lib/lemon-squeezy'
+import { organizationPublicMetadataSchema } from '@api/lib/organization'
+import { userPublicMetadataSchema } from '@api/lib/user'
 import { P, match } from 'ts-pattern'
 import { z } from 'zod'
 
-export async function handleWebhookRequest(ctx: Context & { request: Request }) {
+export async function handleWebhookRequest(ctx: ContextWithRequest & { request: Request }) {
   const isValidRequest = await verifyWebhookRequest({ env: ctx.env, request: ctx.request })
   if (!isValidRequest) {
     return new Response('Invalid request', {
@@ -17,7 +18,7 @@ export async function handleWebhookRequest(ctx: Context & { request: Request }) 
       meta: z.object({
         event_name: z.enum(['order_created', 'order_refunded']),
         custom_data: z.object({
-          user_id: z.string().uuid(),
+          tenant_id: z.string(),
         }),
       }),
       data: z.object({
@@ -49,22 +50,53 @@ export async function handleWebhookRequest(ctx: Context & { request: Request }) 
         .with('refunded', () => new Date())
         .with('paid', () => null)
         .exhaustive()
+      const tenantId = e.meta.custom_data.tenant_id
+      const variantId = e.data.attributes.first_order_item.variant_id
+      const lsCustomerId = e.data.attributes.customer_id
 
-      await ctx.db
-        .insert(Subscriptions)
-        .values({
-          userId: e.meta.custom_data.user_id,
-          variantId: e.data.attributes.first_order_item.variant_id,
-          lsCustomerId: e.data.attributes.customer_id,
-          expiresAt,
-        })
-        .onConflictDoUpdate({
-          target: [Subscriptions.variantId, Subscriptions.userId],
-          set: {
-            lsCustomerId: e.data.attributes.customer_id,
+      const updateMetadata = (
+        publicMetadata:
+          | z.infer<typeof userPublicMetadataSchema>
+          | z.infer<typeof organizationPublicMetadataSchema>,
+      ) => {
+        const index = publicMetadata.subscriptions.findIndex((s) => s.variantId === variantId)
+
+        if (index === -1) {
+          publicMetadata.subscriptions.push({
+            variantId,
+            lsCustomerId,
+            createdAt: new Date(),
             expiresAt,
-          },
+          })
+        } else {
+          publicMetadata.subscriptions[index] = {
+            variantId,
+            lsCustomerId,
+            createdAt: new Date(),
+            expiresAt,
+          }
+        }
+      }
+
+      if (tenantId.startsWith('user_')) {
+        const user = await ctx.clerk.users.getUser(tenantId)
+        const publicMetadata = userPublicMetadataSchema.parse(user.publicMetadata)
+
+        updateMetadata(publicMetadata)
+
+        await ctx.clerk.users.updateUserMetadata(tenantId, {
+          publicMetadata,
         })
+      } else {
+        const org = await ctx.clerk.organizations.getOrganization({ organizationId: tenantId })
+        const publicMetadata = organizationPublicMetadataSchema.parse(org.publicMetadata)
+
+        updateMetadata(publicMetadata)
+
+        await ctx.clerk.organizations.updateOrganizationMetadata(tenantId, {
+          publicMetadata,
+        })
+      }
     })
     .exhaustive()
 

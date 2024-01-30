@@ -15,6 +15,7 @@
   "dependencies": {
     "@web": "workspace:@dinstack/web@^",
     "lucide-react": "^0.302.0",
+    "oslo": "^1.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",

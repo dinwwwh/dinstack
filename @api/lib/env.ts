@@ -4,14 +4,6 @@ export const envSchema = z.object({
   WORKER_ENV: z.enum(['development', 'production']).default('production'),
   WEB_BASE_URL: z.string().url(),
   DATABASE_URL: z.string().url(),
-  AUTH_SECRET: z.string(),
-  GOOGLE_CLIENT_ID: z.string(),
-  GOOGLE_CLIENT_SECRET: z.string(),
-  GOOGLE_REDIRECT_URL: z.string().url(),
-  GITHUB_CLIENT_ID: z.string(),
-  GITHUB_CLIENT_SECRET: z.string(),
-  RESEND_API_KEY: z.string(),
-  RESEND_FROM: z.string(),
   TURNSTILE_SECRET_KEY: z.string(),
   PUBLIC_BUCKET: z.custom<R2Bucket>((value) => {
     return typeof value === 'object' && value !== null
@@ -22,9 +14,9 @@ export const envSchema = z.object({
   LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID: z.number(),
   POSTHOG_HOST: z.string().url(),
   POSTHOG_API_KEY: z.string(),
-  VAPID_PRIVATE_KEY: z.string(),
-  VAPID_PUBLIC_KEY: z.string(),
   SUPPORT_EMAIL: z.string().email(),
+  CLERK_PUBLISHABLE_KEY: z.string(),
+  CLERK_SECRET_KEY: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>

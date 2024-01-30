@@ -29,7 +29,7 @@ export function ErrorPage() {
     error !== null &&
     'message' in error &&
     typeof error.message === 'string' &&
-    error.message.length < 50
+    error.message.length < 100
       ? error.message
       : 'Please try again later.'
 

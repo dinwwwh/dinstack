@@ -1,23 +1,22 @@
-import { Button } from '@web/components/ui/button'
-import { api } from '@web/lib/api'
+import { Header } from '@web/components/navigation/header'
+import { SubscriptionCard } from '@web/components/subscription-card'
 import { Helmet } from 'react-helmet-async'
 
 export function Component() {
-  const testPushNotificationMutation = api.auth.notification.push.postTest.useMutation()
-
   return (
     <>
       <Helmet>
         <title>Home</title>
       </Helmet>
 
-      <div>
-        <div className="h-screen p-6">
-          <Button type="button" onClick={() => testPushNotificationMutation.mutate()}>
-            Test Push notification
-          </Button>
+      <div className="container max-w-5xl">
+        <div className="py-6">
+          <Header />
         </div>
-        <div className="h-screen bg-red-200"></div>
+
+        <section className="mt-6 md:mt-8 xl:mt-12">
+          <SubscriptionCard />
+        </section>
       </div>
     </>
   )
