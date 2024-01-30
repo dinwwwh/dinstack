@@ -8,7 +8,7 @@ import { BellIcon } from 'lucide-react'
 
 export function Header() {
   return (
-    <header className="flex items-center justify-between">
+    <header className="flex items-center justify-between gap-2">
       <div className="flex items-center">
         <LogoDropdownMenu>
           <DropdownMenuTrigger>

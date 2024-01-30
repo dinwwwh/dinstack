@@ -7,7 +7,7 @@ import { Link, Outlet } from 'react-router-dom'
 export function WithNavbarLayout() {
   return (
     <div>
-      <nav className="p-3 border-b">
+      <nav className="px-3 py-2 border-b">
         <div className="flex justify-between items-center">
           <button
             type="button"
@@ -16,11 +16,11 @@ export function WithNavbarLayout() {
             }}
           >
             <span className="sr-only">Go Home Page</span>
-            <Logo variant="icon" size={32} />
+            <Logo variant="icon" size={24} />
           </button>
 
           <div className="flex items-center">
-            <Button variant={'ghost'} size={'icon'} className="h-8 w-8" asChild>
+            <Button variant={'ghost'} size={'icon'} className="size-7" asChild>
               <Link to="/settings">
                 <span className="sr-only">Settings</span>
                 <SettingsIcon className="h-4 w-4" />
@@ -30,7 +30,7 @@ export function WithNavbarLayout() {
               type="button"
               variant={'ghost'}
               size={'icon'}
-              className="h-8 w-8"
+              className="size-7"
               onClick={() => {
                 chrome.tabs.create({
                   url: new URL('extension/sign-out', env.WEB_BASE_URL).toString(),

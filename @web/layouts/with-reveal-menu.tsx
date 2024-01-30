@@ -28,7 +28,7 @@ export function WithRevealMenuLayout() {
             <RevealMenu />
           </div>
         </div>
-        <div className="min-h-screen">
+        <div className="min-h-screen pb-8">
           <Outlet />
         </div>
         <div className="container">
