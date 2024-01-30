@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 export const extensionAuthStateSchema = z
   .object({
-    token: z.string().nullable(),
+    token: z.string(),
   })
   .nullable()
 

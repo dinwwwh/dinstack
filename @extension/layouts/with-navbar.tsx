@@ -19,7 +19,7 @@ export function WithNavbarLayout() {
             <Logo variant="icon" size={24} />
           </button>
 
-          <div className="flex items-center">
+          <div className="flex items-center gap-1">
             <Button variant={'ghost'} size={'icon'} className="size-7" asChild>
               <Link to="/settings">
                 <span className="sr-only">Settings</span>

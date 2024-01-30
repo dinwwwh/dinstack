@@ -85,7 +85,7 @@ function SyncAuthWithExtension() {
   const auth = useAuth()
 
   useEffect(() => {
-    auth.getToken().then((token) => {
+    auth.getToken({ template: 'browser-extension' }).then((token) => {
       if (token) {
         sendAuthToExtension({ authState: { token } })
       } else {
