@@ -1,11 +1,11 @@
 import { ClerkLoaded, ClerkLoading, ClerkProvider, useAuth } from '@clerk/clerk-react'
 import { dark } from '@clerk/themes'
 import { LoadingScreen } from '@web/components/loading-screen'
-import { CardContent } from '@web/components/ui/card'
 import { env } from '@web/lib/env'
 import { sendAuthToExtension } from '@web/lib/extension'
 import { useSystemStore } from '@web/stores/system'
-import { ComponentPropsWithoutRef, useEffect } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { match } from 'ts-pattern'
 

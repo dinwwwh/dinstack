@@ -1,6 +1,5 @@
 import { authenticateRequestToAuth } from './auth'
 import { createDb } from './db'
-import { createSendEmailFn } from './email'
 import type { Env } from './env'
 import { createLemonSqueezy } from './lemon-squeezy'
 import { createPostHog } from './post-hog'
@@ -9,7 +8,6 @@ import { Clerk } from '@clerk/backend'
 
 export async function createContextWithoutRequest({ env, ec }: { env: Env; ec: ExecutionContext }) {
   const db = createDb({ env })
-  const sendEmail = createSendEmailFn({ env })
   const lemonSqueezy = createLemonSqueezy({ env })
   const ph = createPostHog({ env })
   const clerk = Clerk({
@@ -24,9 +22,6 @@ export async function createContextWithoutRequest({ env, ec }: { env: Env; ec: E
     lemonSqueezy,
     ph,
     clerk,
-    email: {
-      send: sendEmail,
-    },
   }
 }
 

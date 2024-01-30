@@ -4,8 +4,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from '@web/components/ui/dropdown-menu'
+import { env } from '@web/lib/env'
 import { GithubIcon, TwitterIcon, HomeIcon } from 'lucide-react'
-import { Link } from 'react-router-dom'
 
 export function LogoDropdownMenu({ children, ...props }: { children: React.ReactNode }) {
   return (
@@ -13,10 +13,10 @@ export function LogoDropdownMenu({ children, ...props }: { children: React.React
       {children}
       <DropdownMenuContent className="w-56">
         <DropdownMenuItem asChild>
-          <Link to="/">
+          <a href={env.CONTENT_BASE_URL}>
             <HomeIcon className="mr-2 h-4 w-4" />
             <span>Home</span>
-          </Link>
+          </a>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>

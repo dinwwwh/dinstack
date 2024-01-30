@@ -29,8 +29,8 @@ export function Component() {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                You will be logged out of {env.APP_NAME} and its browser extension. You'll need to
-                log in again to access the website or its browser extension.
+                You will be logged out of {env.APP_NAME} and its browser extension. You&apos;ll need
+                to log in again to access the website or its browser extension.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

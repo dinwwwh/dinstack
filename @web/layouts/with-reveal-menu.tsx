@@ -32,7 +32,7 @@ export function WithRevealMenuLayout() {
           <Outlet />
         </div>
         <div className="container">
-          <RevealMenu position="button" />
+          <RevealMenu />
         </div>
       </ScrollArea>
     </div>

@@ -6,7 +6,7 @@ import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
 import { getTurnstileToken } from '@web/lib/turnstile'
 import { usePostHog } from 'posthog-js/react'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo } from 'react'
 import SuperJSON from 'superjson'
 
 export function BaseQueryProvider({
@@ -118,16 +118,9 @@ export function BaseQueryProvider({
     [enableTurnstile, getAuthToken],
   )
 
-  const once = useRef(false)
-
   useEffect(() => {
-    if (!once.current) {
-      once.current = true
-      return
-    }
-
     queryClient.invalidateQueries()
-  }, [auth])
+  }, [auth, queryClient])
 
   return (
     <api.Provider client={trpcClient} queryClient={queryClient}>

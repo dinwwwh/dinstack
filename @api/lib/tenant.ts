@@ -1,4 +1,4 @@
-import { Auth } from './auth'
+import type { Auth } from './auth'
 import { subscriptionSchema } from './subscription'
 import { match } from 'ts-pattern'
 import { z } from 'zod'

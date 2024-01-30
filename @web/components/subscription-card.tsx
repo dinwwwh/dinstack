@@ -1,5 +1,4 @@
 import type { Subscription } from '@api/lib/subscription'
-import { useUser } from '@clerk/clerk-react'
 import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'

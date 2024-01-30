@@ -1,4 +1,4 @@
-import { ContextWithoutRequest } from './context'
+import type { ContextWithoutRequest } from './context'
 import { expectType } from 'ts-expect'
 import { z } from 'zod'
 
@@ -41,7 +41,7 @@ export async function authenticateRequestToAuth(opts: {
       organizationRole: authClerk?.orgRole,
     }
 
-    expectType<Record<keyof z.infer<typeof authSchema>, any>>(raw)
+    expectType<Record<keyof z.infer<typeof authSchema>, unknown>>(raw)
 
     return authSchema.parse(raw)
   } catch (e) {

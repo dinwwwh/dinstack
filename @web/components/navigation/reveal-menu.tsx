@@ -1,31 +1,25 @@
 import { Logo } from '../logo'
+import { ThemeToggle } from '../theme-toggle'
 import { Button } from '../ui/button'
-import { LogoDropdownMenu } from './logo-dropdown-menu'
 import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { env } from '@web/lib/env'
-import {
-  BellIcon,
-  HelpCircleIcon,
-  MessageCircleIcon,
-  MessageCircleQuestion,
-  MessageCircleQuestionIcon,
-} from 'lucide-react'
+import { BellIcon, MessageCircleQuestionIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-type Props = {
-  position?: 'top' | 'button'
-}
-
-export function RevealMenu({ position = 'top' }: Props) {
+export function RevealMenu() {
   return (
-    <div className="py-2">
+    <div className="py-2 @container">
       <div className="flex items-center justify-between">
         <div>
           <Button variant={'link'} size={'sm'} className="h-6 px-1" asChild>
             <Link to={'/'}>
               <span className="sr-only">Homepage</span>
-              <Logo size={16} />
+              <div className="hidden @md:block">
+                <Logo size={16} />
+              </div>
+              <div className="block @md:hidden">
+                <Logo variant="icon" size={16} />
+              </div>
             </Link>
           </Button>
         </div>
@@ -42,6 +36,7 @@ export function RevealMenu({ position = 'top' }: Props) {
               <MessageCircleQuestionIcon className="size-4" />
             </a>
           </Button>
+          <ThemeToggle variant="link" className="text-muted-foreground size-6 p-0" />
           <SignedIn>
             {/* TODO */}
             <Button

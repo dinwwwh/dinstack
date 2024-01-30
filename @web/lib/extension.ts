@@ -8,7 +8,7 @@ export const extensionAuthStateSchema = z
   })
   .nullable()
 
-export type ExtensionAuthState = z.infer<typeof extensionAuthStateSchema>
+type ExtensionAuthState = z.infer<typeof extensionAuthStateSchema>
 
 export function sendAuthToExtension(opts: { authState: ExtensionAuthState }) {
   try {

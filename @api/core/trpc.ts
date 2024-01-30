@@ -1,8 +1,6 @@
 import type { ContextWithRequest } from '@api/lib/context'
-import type { Db } from '@api/lib/db'
 import { TRPCError, initTRPC } from '@trpc/server'
 import SuperJSON from 'superjson'
-import { match } from 'ts-pattern'
 
 const t = initTRPC.context<ContextWithRequest>().create({
   transformer: SuperJSON,

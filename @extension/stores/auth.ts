@@ -6,11 +6,11 @@ import { z } from 'zod'
 import { create } from 'zustand'
 import { persist, subscribeWithSelector } from 'zustand/middleware'
 
-export const authStoreSchema = z.object({
+const authStoreSchema = z.object({
   state: extensionAuthStateSchema,
 })
 
-export type AuthStoreSchema = z.infer<typeof authStoreSchema>
+type AuthStoreSchema = z.infer<typeof authStoreSchema>
 
 export const useAuthStore = create(
   subscribeWithSelector(
