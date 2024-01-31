@@ -1,4 +1,4 @@
-import * as _A from '../node_modules/hono/dist/types/context'
+import type * as _A from '../node_modules/hono/dist/types/context'
 import { appRouter } from './router'
 import { handleWebhookRequest } from '@api/features/billing/webhook'
 import type { ContextWithRequest } from '@api/lib/context'
