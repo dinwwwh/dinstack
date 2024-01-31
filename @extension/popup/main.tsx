@@ -1,7 +1,7 @@
 import '../init'
 import { router } from './router'
 import { QueryProvider } from '@extension/providers/query'
-import { Toaster } from '@web/components/ui/toaster'
+import { Toaster } from '@web/components/ui/sonner'
 import '@web/core/global.css'
 import { ThemeProvider } from '@web/providers/theme'
 import React from 'react'
