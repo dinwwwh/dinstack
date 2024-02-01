@@ -1,3 +1,4 @@
+import { PingQuery } from './ping'
 import { useAuth } from '@clerk/clerk-react'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
@@ -103,16 +104,10 @@ export function BaseQueryProvider({
     <api.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         {children}
-        <MutationToasts />
+        <PingQuery />
       </QueryClientProvider>
     </api.Provider>
   )
-}
-
-function MutationToasts() {
-  // TODO
-
-  return null
 }
 
 export function QueryProvider(

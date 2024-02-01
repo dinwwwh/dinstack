@@ -3,7 +3,6 @@ import { SubscriptionCard } from '@web/components/subscription-card'
 import { Button } from '@web/components/ui/button'
 import { api } from '@web/lib/api'
 import { Helmet } from 'react-helmet-async'
-import { toast } from 'sonner'
 
 export function Component() {
   return (
@@ -28,15 +27,15 @@ export function Component() {
 }
 
 function TestMutation() {
-  const mutation = api.pingMutation.useMutation({
-    onMutate() {
-      toast.error('huhu')
-    },
-  })
+  const query = api.ping.useQuery()
+  const mutation = api.pingMutation.useMutation()
 
   return (
-    <section className="mt-6">
-      <Button onClick={() => mutation.mutate()}>Mutate</Button>
+    <section className="mt-6 ">
+      <Button disabled={mutation.isPending} onClick={() => mutation.mutate()}>
+        Mutate
+      </Button>
+      <span className="ml-4">{query.data}</span>
     </section>
   )
 }

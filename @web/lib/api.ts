@@ -6,7 +6,8 @@ import type * as _H from '@api/node_modules/@clerk/backend/dist/types/tokens/aut
 import type * as _M from '@api/node_modules/@clerk/backend/dist/types/tokens/interstitial'
 import type * as _C from '@api/node_modules/@lemonsqueezy/lemonsqueezy.js/dist/index.cjs'
 import type * as _D from '@api/node_modules/posthog-node/lib'
-import { createTRPCReact } from '@trpc/react-query'
+import { TRPCClientErrorLike, createTRPCReact } from '@trpc/react-query'
+import type { TRPCInferrable } from '@trpc/server/unstable-core-do-not-import'
 
 export const api = createTRPCReact<AppRouter>({
   overrides: {
@@ -23,10 +24,22 @@ export const api = createTRPCReact<AppRouter>({
         // Calls the `onSuccess` defined in the `useQuery()`-options:
         await opts.originalFn()
         // Invalidate all queries in the react-query cache:
-        await opts.queryClient.invalidateQueries()
+        // await opts.queryClient.invalidateQueries()
       },
     },
   },
 })
+
+export function parseMessageFromTRPCClientError(
+  err: TRPCClientErrorLike<TRPCInferrable>,
+  defaultMessage: string = 'Something went wrong',
+) {
+  const code = err.data?.code
+  const message = err.message
+
+  if (message === code || code === 'INTERNAL_SERVER_ERROR') return defaultMessage
+
+  return message
+}
 
 export type ApiOutputs = AppRouterOutputs
