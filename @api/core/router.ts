@@ -3,8 +3,14 @@ import { billingRouter } from '@api/features/billing/router'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 export const appRouter = router({
-  ping: procedure.query(() => 'pong' + Date.now()),
-  pingMutation: procedure.mutation(() => 'pong'),
+  ping: procedure.query(() => 'pong:' + Date.now()),
+  pingMutation: procedure.mutation(async () => {
+    await new Promise((r) => {
+      setTimeout(r, 2_000)
+    })
+
+    return 'pong:' + Date.now()
+  }),
   billing: billingRouter,
 })
 

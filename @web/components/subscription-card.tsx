@@ -1,9 +1,8 @@
 import type { Subscription } from '@api/lib/subscription'
-import { MutationStatusIcon } from '@web/components/mutation-status-icon'
 import { Button } from '@web/components/ui/button'
-import { api } from '@web/lib/api'
 import { useTenant } from '@web/lib/auth'
 import { env } from '@web/lib/env'
+import { trpc } from '@web/lib/trpc'
 import { CheckIcon } from 'lucide-react'
 
 const includedFeatures = [
@@ -121,7 +120,7 @@ function UnpaidStatus() {
 }
 
 function CheckoutButton() {
-  const mutation = api.billing.checkout.useMutation({
+  const mutation = trpc.billing.checkout.useMutation({
     onSuccess(data) {
       if ('LemonSqueezy' in window) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -136,6 +135,7 @@ function CheckoutButton() {
     <Button
       type="button"
       className="mt-10 w-full gap-2"
+      disabled={mutation.isPending}
       onClick={() => {
         mutation.mutate({
           variantId: env.LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID,
@@ -143,7 +143,7 @@ function CheckoutButton() {
         })
       }}
     >
-      Get access <MutationStatusIcon status={mutation.status} />
+      Get access
     </Button>
   )
 }

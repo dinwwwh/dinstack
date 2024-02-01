@@ -1,9 +1,10 @@
+import { BillingQuery } from './billing'
+import { PingQuery } from './ping'
 import { useAuth } from '@clerk/clerk-react'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
-import { useToast } from '@web/components/ui/use-toast'
-import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
+import { trpc } from '@web/lib/trpc'
 import { getTurnstileToken } from '@web/lib/turnstile'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect, useMemo } from 'react'
@@ -25,7 +26,6 @@ export function BaseQueryProvider({
   auth: object | null
 }) {
   const ph = usePostHog()
-  const { toast } = useToast()
 
   const queryClient = useMemo(
     () =>
@@ -50,27 +50,6 @@ export function BaseQueryProvider({
             if (enablePostHog) {
               ph.startSessionRecording()
             }
-
-            if (err instanceof TRPCClientError) {
-              const code = err.data?.code
-              const message = err.message
-
-              if (code === 'UNAUTHORIZED') {
-                signOut()
-              }
-
-              if (message !== code && code !== 'INTERNAL_SERVER_ERROR') {
-                toast({
-                  variant: 'destructive',
-                  title: message,
-                })
-              } else {
-                toast({
-                  variant: 'destructive',
-                  title: 'Something went wrong, please try again later',
-                })
-              }
-            }
           },
         }),
         defaultOptions: {
@@ -79,12 +58,12 @@ export function BaseQueryProvider({
           },
         },
       }),
-    [toast, ph, enablePostHog, signOut],
+    [ph, enablePostHog, signOut],
   )
 
   const trpcClient = useMemo(
     () =>
-      api.createClient({
+      trpc.createClient({
         transformer: SuperJSON,
         links: [
           httpBatchLink({
@@ -123,9 +102,13 @@ export function BaseQueryProvider({
   }, [auth, queryClient])
 
   return (
-    <api.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </api.Provider>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <PingQuery />
+        <BillingQuery />
+      </QueryClientProvider>
+    </trpc.Provider>
   )
 }
 

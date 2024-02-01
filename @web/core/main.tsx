@@ -1,6 +1,6 @@
 import './global.css'
 import { routes } from './routes'
-import { Toaster } from '@web/components/ui/toaster'
+import { Toaster } from '@web/components/ui/sonner'
 import { ErrorPage } from '@web/pages/error'
 import { AuthProvider } from '@web/providers/auth'
 import { PostHogProvider } from '@web/providers/post-hog'
@@ -47,6 +47,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </ThemeProvider>
     </HelmetProvider>
 
-    <Toaster />
+    <Toaster pauseWhenPageIsHidden visibleToasts={5} richColors />
   </React.StrictMode>,
 )

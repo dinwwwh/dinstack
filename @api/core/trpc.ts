@@ -14,8 +14,8 @@ const _turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
   if (type === 'mutation') {
     const formData = new FormData()
     formData.append('secret', ctx.env.TURNSTILE_SECRET_KEY)
-    formData.append('response', ctx.request.headers.get('X-Turnstile-Token'))
-    formData.append('remoteip', ctx.request.headers.get('CF-Connecting-IP'))
+    formData.append('response', ctx.request.headers.get('X-Turnstile-Token') || '')
+    formData.append('remoteip', ctx.request.headers.get('CF-Connecting-IP') || '')
 
     const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       body: formData,
@@ -25,7 +25,7 @@ const _turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
     if (!outcome.success) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
-        message: 'You are behaving like an automated bot.',
+        message: 'You are behaving like an automated bot',
       })
     }
   }
@@ -72,7 +72,11 @@ export const procedure = t.procedure.use(
 const authMiddleware = middleware(async ({ ctx, next }) => {
   const auth = ctx.auth
 
-  if (!auth) throw new TRPCError({ code: 'UNAUTHORIZED' })
+  if (!auth)
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Please sign in and try again',
+    })
 
   return next({
     ctx: {

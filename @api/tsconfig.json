@@ -6,7 +6,7 @@
     "target": "es2021",
     "useDefineForClassFields": true,
     "lib": ["es2021"],
-    "types": ["@total-typescript/ts-reset", "@cloudflare/workers-types", "undici-types"],
+    "types": ["@total-typescript/ts-reset", "@cloudflare/workers-types"],
     "module": "ESNext",
     "skipLibCheck": true,
     "incremental": true,

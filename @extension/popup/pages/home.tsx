@@ -1,13 +1,12 @@
 import { useAuthStore } from '@extension/stores/auth'
 import { Button } from '@web/components/ui/button'
-import { useToast } from '@web/components/ui/use-toast'
-import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
+import { trpc } from '@web/lib/trpc'
+import { toast } from 'sonner'
 
 export function Component() {
-  const { toast } = useToast()
-  const query = api.ping.useQuery()
-  const mutation = api.pingMutation.useMutation()
+  const query = trpc.ping.useQuery()
+  const mutation = trpc.pingMutation.useMutation()
   const authStore = useAuthStore()
 
   return (
@@ -23,10 +22,7 @@ export function Component() {
         <Button type="button" onClick={() => mutation.mutate()}>
           mutation
         </Button>
-        <Button
-          type="button"
-          onClick={() => toast({ title: 'hi from test', variant: 'destructive' })}
-        >
+        <Button type="button" onClick={() => toast('hi from test')}>
           test toast
         </Button>
         {authStore.state ? (
