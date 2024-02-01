@@ -6,7 +6,8 @@ import type * as _H from '@api/node_modules/@clerk/backend/dist/types/tokens/aut
 import type * as _M from '@api/node_modules/@clerk/backend/dist/types/tokens/interstitial'
 import type * as _C from '@api/node_modules/@lemonsqueezy/lemonsqueezy.js/dist/index.cjs'
 import type * as _D from '@api/node_modules/posthog-node/lib'
-import { TRPCClientErrorLike, createTRPCReact } from '@trpc/react-query'
+import type { TRPCClientErrorLike } from '@trpc/react-query'
+import { createTRPCReact } from '@trpc/react-query'
 import type { TRPCInferrable } from '@trpc/server/unstable-core-do-not-import'
 
 export const trpc = createTRPCReact<AppRouter>({
