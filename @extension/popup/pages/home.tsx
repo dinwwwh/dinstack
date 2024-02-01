@@ -1,12 +1,12 @@
 import { useAuthStore } from '@extension/stores/auth'
 import { Button } from '@web/components/ui/button'
-import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
+import { trpc } from '@web/lib/trpc'
 import { toast } from 'sonner'
 
 export function Component() {
-  const query = api.ping.useQuery()
-  const mutation = api.pingMutation.useMutation()
+  const query = trpc.ping.useQuery()
+  const mutation = trpc.pingMutation.useMutation()
   const authStore = useAuthStore()
 
   return (

@@ -1,9 +1,9 @@
 import { useListenToTRPCMutation } from '@web/hooks/use-listen-to-trpc-mutation'
-import { api, parseMessageFromTRPCClientError } from '@web/lib/api'
+import { trpc, parseMessageFromTRPCClientError } from '@web/lib/trpc'
 import { toast } from 'sonner'
 
 export function BillingQuery() {
-  useListenToTRPCMutation(api.billing.checkout, {
+  useListenToTRPCMutation(trpc.billing.checkout, {
     onMutate({ id }) {
       toast.loading('Creating checkout popup...', {
         id,

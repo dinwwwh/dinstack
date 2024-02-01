@@ -9,7 +9,7 @@ import type * as _D from '@api/node_modules/posthog-node/lib'
 import { TRPCClientErrorLike, createTRPCReact } from '@trpc/react-query'
 import type { TRPCInferrable } from '@trpc/server/unstable-core-do-not-import'
 
-export const api = createTRPCReact<AppRouter>({
+export const trpc = createTRPCReact<AppRouter>({
   overrides: {
     useMutation: {
       /**

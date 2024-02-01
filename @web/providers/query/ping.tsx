@@ -1,11 +1,11 @@
 import { useListenToTRPCMutation } from '@web/hooks/use-listen-to-trpc-mutation'
-import { api, parseMessageFromTRPCClientError } from '@web/lib/api'
+import { trpc, parseMessageFromTRPCClientError } from '@web/lib/trpc'
 import { toast } from 'sonner'
 
 export function PingQuery() {
-  const utils = api.useUtils()
+  const utils = trpc.useUtils()
 
-  useListenToTRPCMutation(api.pingMutation, {
+  useListenToTRPCMutation(trpc.pingMutation, {
     onMutate({ id }) {
       toast.loading('Mutating ping...', {
         id,

@@ -1,8 +1,8 @@
 import type { Subscription } from '@api/lib/subscription'
 import { Button } from '@web/components/ui/button'
-import { api } from '@web/lib/api'
 import { useTenant } from '@web/lib/auth'
 import { env } from '@web/lib/env'
+import { trpc } from '@web/lib/trpc'
 import { CheckIcon } from 'lucide-react'
 
 const includedFeatures = [
@@ -120,7 +120,7 @@ function UnpaidStatus() {
 }
 
 function CheckoutButton() {
-  const mutation = api.billing.checkout.useMutation({
+  const mutation = trpc.billing.checkout.useMutation({
     onSuccess(data) {
       if ('LemonSqueezy' in window) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

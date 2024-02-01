@@ -3,8 +3,8 @@ import { PingQuery } from './ping'
 import { useAuth } from '@clerk/clerk-react'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { TRPCClientError, httpBatchLink } from '@trpc/client'
-import { api } from '@web/lib/api'
 import { env } from '@web/lib/env'
+import { trpc } from '@web/lib/trpc'
 import { getTurnstileToken } from '@web/lib/turnstile'
 import { usePostHog } from 'posthog-js/react'
 import { useEffect, useMemo } from 'react'
@@ -63,7 +63,7 @@ export function BaseQueryProvider({
 
   const trpcClient = useMemo(
     () =>
-      api.createClient({
+      trpc.createClient({
         transformer: SuperJSON,
         links: [
           httpBatchLink({
@@ -102,13 +102,13 @@ export function BaseQueryProvider({
   }, [auth, queryClient])
 
   return (
-    <api.Provider client={trpcClient} queryClient={queryClient}>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         {children}
         <PingQuery />
         <BillingQuery />
       </QueryClientProvider>
-    </api.Provider>
+    </trpc.Provider>
   )
 }
 

@@ -1,7 +1,7 @@
 import { Header } from '@web/components/navigation/header'
 import { SubscriptionCard } from '@web/components/subscription-card'
 import { Button } from '@web/components/ui/button'
-import { api } from '@web/lib/api'
+import { trpc } from '@web/lib/trpc'
 import { Helmet } from 'react-helmet-async'
 
 export function Component() {
@@ -27,8 +27,8 @@ export function Component() {
 }
 
 function TestMutation() {
-  const query = api.ping.useQuery()
-  const mutation = api.pingMutation.useMutation()
+  const query = trpc.ping.useQuery()
+  const mutation = trpc.pingMutation.useMutation()
 
   return (
     <section className="mt-6 ">
