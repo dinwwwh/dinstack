@@ -2,17 +2,15 @@ import { useListenToTRPCMutation } from '@web/hooks/use-listen-to-trpc-mutation'
 import { api, parseMessageFromTRPCClientError } from '@web/lib/api'
 import { toast } from 'sonner'
 
-export function PingQuery() {
-  const utils = api.useUtils()
-
-  useListenToTRPCMutation(api.pingMutation, {
+export function BillingQuery() {
+  useListenToTRPCMutation(api.billing.checkout, {
     onMutate({ id }) {
-      toast.loading('Mutating ping...', {
+      toast.loading('Creating checkout popup...', {
         id,
       })
     },
     onSuccess({ id }) {
-      toast.success('Ping has been mutate successfully', {
+      toast.success('Your checkout popup is up and running', {
         id,
       })
     },
@@ -20,9 +18,6 @@ export function PingQuery() {
       toast.error(parseMessageFromTRPCClientError(error), {
         id,
       })
-    },
-    onSettled() {
-      utils.ping.invalidate()
     },
   })
 

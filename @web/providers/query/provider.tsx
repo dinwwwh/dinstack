@@ -1,3 +1,4 @@
+import { BillingQuery } from './billing'
 import { PingQuery } from './ping'
 import { useAuth } from '@clerk/clerk-react'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -105,6 +106,7 @@ export function BaseQueryProvider({
       <QueryClientProvider client={queryClient}>
         {children}
         <PingQuery />
+        <BillingQuery />
       </QueryClientProvider>
     </api.Provider>
   )
