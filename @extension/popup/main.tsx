@@ -17,6 +17,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </QueryProvider>
     </ThemeProvider>
 
-    <Toaster />
+    <Toaster position="top-right" richColors />
   </React.StrictMode>,
 )
