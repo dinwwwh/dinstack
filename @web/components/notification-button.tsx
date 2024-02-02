@@ -1,11 +1,6 @@
 import { Button } from './ui/button'
 import { useAuth } from '@clerk/clerk-react'
-import {
-  KnockProvider,
-  KnockFeedProvider,
-  NotificationFeedPopover,
-  NotificationCell,
-} from '@knocklabs/react'
+import { KnockProvider, KnockFeedProvider, NotificationFeedPopover } from '@knocklabs/react'
 import { env } from '@web/lib/env'
 import { cn } from '@web/lib/utils'
 import { BellIcon } from 'lucide-react'

@@ -1,11 +1,9 @@
 import { Logo } from '../logo'
 import { NotificationButton } from '../notification-button'
-import { Button } from '../ui/button'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
 import { OrganizationSwitcher, UserButton } from '@clerk/clerk-react'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { cn } from '@web/lib/utils'
-import { BellIcon } from 'lucide-react'
 
 export function Header() {
   return (

@@ -4,7 +4,7 @@ import { ThemeToggle } from '../theme-toggle'
 import { Button } from '../ui/button'
 import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
 import { env } from '@web/lib/env'
-import { BellIcon, MessageCircleQuestionIcon } from 'lucide-react'
+import { MessageCircleQuestionIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export function RevealMenu() {
