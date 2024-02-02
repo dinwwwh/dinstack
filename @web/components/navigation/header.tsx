@@ -1,4 +1,5 @@
 import { Logo } from '../logo'
+import { NotificationButton } from '../notification-button'
 import { Button } from '../ui/button'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
 import { OrganizationSwitcher, UserButton } from '@clerk/clerk-react'
@@ -32,16 +33,13 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* TODO */}
-        <Button
-          type="button"
-          size={'sm'}
-          className="size-7 p-0 text-muted-foreground"
-          variant={'ghost'}
-        >
-          <span className="sr-only">Notifications</span>
-          <BellIcon className="size-5" />
-        </Button>
+        <NotificationButton
+          buttonProps={{
+            size: 'sm',
+            variant: 'ghost',
+            className: 'size-7 p-0 text-muted-foreground',
+          }}
+        />
 
         <UserButton
           appearance={{

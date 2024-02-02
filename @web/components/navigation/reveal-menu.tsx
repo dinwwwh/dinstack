@@ -1,4 +1,5 @@
 import { Logo } from '../logo'
+import { NotificationButton } from '../notification-button'
 import { ThemeToggle } from '../theme-toggle'
 import { Button } from '../ui/button'
 import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
@@ -38,16 +39,16 @@ export function RevealMenu() {
           </Button>
           <ThemeToggle variant="link" className="text-muted-foreground size-6 p-0" />
           <SignedIn>
-            {/* TODO */}
-            <Button
-              type="button"
-              size={'sm'}
-              className="size-6 p-0 text-muted-foreground"
-              variant={'ghost'}
-            >
-              <span className="sr-only">Notifications</span>
-              <BellIcon className="size-4" />
-            </Button>
+            <NotificationButton
+              buttonProps={{
+                size: 'sm',
+                variant: 'ghost',
+                className: 'size-6 p-0 text-muted-foreground',
+              }}
+              iconProps={{
+                className: 'size-4',
+              }}
+            />
             <UserButton
               appearance={{
                 elements: {
