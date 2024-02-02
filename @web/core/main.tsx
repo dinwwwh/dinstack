@@ -4,6 +4,7 @@ import '@knocklabs/react/dist/index.css'
 import { Toaster } from '@web/components/ui/sonner'
 import { ErrorPage } from '@web/pages/error'
 import { AuthProvider } from '@web/providers/auth'
+import { NotificationProvider } from '@web/providers/notification'
 import { PostHogProvider } from '@web/providers/post-hog'
 import { QueryProvider } from '@web/providers/query'
 import { ThemeProvider } from '@web/providers/theme'
@@ -24,13 +25,15 @@ const router = createBrowserRouter(
     <Route
       element={
         <AuthProvider>
-          <PostHogProvider>
-            <TurnstileProvider>
-              <QueryProvider enablePostHog enableTurnstile>
-                <Outlet />
-              </QueryProvider>
-            </TurnstileProvider>
-          </PostHogProvider>
+          <NotificationProvider>
+            <PostHogProvider>
+              <TurnstileProvider>
+                <QueryProvider enablePostHog enableTurnstile>
+                  <Outlet />
+                </QueryProvider>
+              </TurnstileProvider>
+            </PostHogProvider>
+          </NotificationProvider>
         </AuthProvider>
       }
       errorElement={<ErrorPage />}
