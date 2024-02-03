@@ -1,32 +1,14 @@
-import { Button } from './ui/button'
-import { NotificationFeedPopover } from '@knocklabs/react'
+import { NotificationFeedPopover, NotificationIconButton } from '@knocklabs/react'
 import * as Portal from '@radix-ui/react-portal'
-import { cn } from '@web/lib/utils'
-import { BellIcon } from 'lucide-react'
 import { useState, useRef } from 'react'
 
-type Props = {
-  buttonProps?: React.ComponentPropsWithoutRef<typeof Button>
-  iconProps?: {
-    className?: string
-  }
-}
-
-export function NotificationButton({ buttonProps, iconProps }: Props) {
+export function NotificationButton() {
   const [isVisible, setIsVisible] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
   return (
     <>
-      <Button
-        {...buttonProps}
-        ref={buttonRef}
-        type="button"
-        onClick={() => setIsVisible(!isVisible)}
-      >
-        <span className="sr-only">Notifications</span>
-        <BellIcon className={cn('size-5', iconProps?.className)} />
-      </Button>
+      <NotificationIconButton ref={buttonRef} onClick={() => setIsVisible(!isVisible)} />
       <Portal.Root>
         <NotificationFeedPopover
           buttonRef={buttonRef}

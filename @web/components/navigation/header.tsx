@@ -31,13 +31,14 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4">
-        <NotificationButton
-          buttonProps={{
-            size: 'sm',
-            variant: 'ghost',
-            className: 'size-7 p-0 text-muted-foreground',
-          }}
-        />
+        <div
+          className={cn(
+            '[&_.rnf-notification-icon-button]:size-7 [&_.rnf-notification-icon-button]:text-muted-foreground',
+            '[&_.rnf-notification-icon-button>svg]:size-5',
+          )}
+        >
+          <NotificationButton />
+        </div>
 
         <UserButton
           appearance={{
