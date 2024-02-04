@@ -8,7 +8,11 @@ import { cn } from '@web/lib/utils'
 import { MessageCircleQuestionIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-export function RevealMenu() {
+type Props = {
+  showNotificationButton?: boolean
+}
+
+export function RevealMenu({ showNotificationButton = false }: Props) {
   return (
     <div className="py-2 @container">
       <div className="flex items-center justify-between">
@@ -40,14 +44,16 @@ export function RevealMenu() {
           </Button>
           <ThemeToggle variant="link" className="text-muted-foreground size-6 p-0" />
           <SignedIn>
-            <div
-              className={cn(
-                '[&_.rnf-notification-icon-button]:size-6 [&_.rnf-notification-icon-button]:text-muted-foreground',
-                '[&_.rnf-notification-icon-button>svg]:size-4',
-              )}
-            >
-              <NotificationButton />
-            </div>
+            {showNotificationButton ? (
+              <div
+                className={cn(
+                  '[&_.rnf-notification-icon-button]:size-6 [&_.rnf-notification-icon-button]:text-muted-foreground',
+                  '[&_.rnf-notification-icon-button>svg]:size-4',
+                )}
+              >
+                <NotificationButton />
+              </div>
+            ) : null}
             <UserButton
               appearance={{
                 elements: {

@@ -1,5 +1,4 @@
 import { Logo } from '../logo'
-import { NotificationButton } from '../notification-button'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
 import { OrganizationSwitcher, UserButton } from '@clerk/clerk-react'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
@@ -31,15 +30,6 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4">
-        <div
-          className={cn(
-            '[&_.rnf-notification-icon-button]:size-7 [&_.rnf-notification-icon-button]:text-muted-foreground',
-            '[&_.rnf-notification-icon-button>svg]:size-5',
-          )}
-        >
-          <NotificationButton />
-        </div>
-
         <UserButton
           appearance={{
             elements: {

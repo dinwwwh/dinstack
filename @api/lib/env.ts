@@ -17,6 +17,7 @@ export const envSchema = z.object({
   SUPPORT_EMAIL: z.string().email(),
   CLERK_PUBLISHABLE_KEY: z.string(),
   CLERK_SECRET_KEY: z.string(),
+  KNOCK_API_KEY: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>

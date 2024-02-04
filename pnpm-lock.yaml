@@ -59,6 +59,9 @@ importers:
       '@clerk/backend':
         specifier: ^0.37.3
         version: 0.37.3(react@18.2.0)
+      '@knocklabs/node':
+        specifier: ^0.6.1
+        version: 0.6.1
       '@lemonsqueezy/lemonsqueezy.js':
         specifier: 1.2.2
         version: 1.2.2
@@ -3029,6 +3032,12 @@ packages:
     transitivePeerDependencies:
       - debug
       - react
+    dev: false
+
+  /@knocklabs/node@0.6.1:
+    resolution: {integrity: sha512-vtAOYx0CmuZpAQRnaHu+MbfQmcpFhOf9pRfMoavQn/Feo61oGBqu61OXW8Y6zc/EWxprxyUgh+61YJr3VSfHbQ==}
+    dependencies:
+      jose: 5.2.1
     dev: false
 
   /@knocklabs/react-core@0.1.2(react@18.2.0):
@@ -6059,6 +6068,16 @@ packages:
       is-retry-allowed: 2.2.0
     dev: false
 
+  /axios@1.6.5:
+    resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
+    dependencies:
+      follow-redirects: 1.15.5
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axios@1.6.5(debug@4.3.4):
     resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
     dependencies:
@@ -7942,6 +7961,16 @@ packages:
     resolution: {integrity: sha512-xU99gDEnciIwJdGcBmNHnzTJ/w5AT+VFJOu6sTB6WM8diOYNA3Sa+K1DiEBQ7XH4QikQq3iFW1U+jRVcotQnBw==}
     engines: {node: '>=8'}
 
+  /follow-redirects@1.15.5:
+    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /follow-redirects@1.15.5(debug@4.3.4):
     resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
     engines: {node: '>=4.0'}
@@ -8898,6 +8927,10 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
     dev: true
+
+  /jose@5.2.1:
+    resolution: {integrity: sha512-qiaQhtQRw6YrOaOj0v59h3R6hUY9NvxBmmnMfKemkqYmBB0tEc97NbLP7ix44VP5p9/0YHG8Vyhzuo5YBNwviA==}
+    dev: false
 
   /js-cookie@2.2.1:
     resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
@@ -10759,7 +10792,7 @@ packages:
     resolution: {integrity: sha512-u1lzJiLiYH3ShBS5s+uy/FEiAnpkYfNuKs+GmkYo9Z6hO6UXWKPkib9mtTx3y2pbV7O/+Pjup1+/1Q3CA55Z2Q==}
     engines: {node: '>=15.0.0'}
     dependencies:
-      axios: 1.6.5(debug@4.3.4)
+      axios: 1.6.5
       rusha: 0.8.14
     transitivePeerDependencies:
       - debug
