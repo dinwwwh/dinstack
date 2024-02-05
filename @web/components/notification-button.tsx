@@ -14,7 +14,7 @@ export function NotificationButton() {
     auth.getToken({ template: 'knock' }).then((token) => {
       setUserToken(token)
     })
-  }, [JSON.stringify(auth)])
+  }, [auth])
 
   if (!auth.isSignedIn || !userToken)
     return (

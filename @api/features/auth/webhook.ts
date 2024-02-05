@@ -9,7 +9,7 @@ export async function handleAuthWebhookRequest(ctx: ContextWithRequest) {
 
   if (event.type === 'user.created' || event.type === 'user.updated') {
     await ctx.knock.users.identify(event.data.id, {
-      email: event.data.email_addresses.find((e) => event.data.primary_email_address_id)
+      email: event.data.email_addresses.find((e) => e.id === event.data.primary_email_address_id)
         ?.email_address,
       name: `${event.data.first_name} ${event.data.last_name}`,
     })

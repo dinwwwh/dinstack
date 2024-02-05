@@ -92,7 +92,7 @@ function SyncAuthWithExtension() {
         sendAuthToExtension({ authState: null })
       }
     })
-  }, [JSON.stringify(auth)])
+  }, [auth])
 
   return null
 }

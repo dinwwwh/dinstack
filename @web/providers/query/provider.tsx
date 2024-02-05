@@ -99,7 +99,7 @@ export function BaseQueryProvider({
 
   useEffect(() => {
     queryClient.invalidateQueries()
-  }, [JSON.stringify(auth), queryClient])
+  }, [auth, queryClient])
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
