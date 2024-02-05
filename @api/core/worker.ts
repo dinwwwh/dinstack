@@ -44,7 +44,7 @@ const app = new Hono<{ Variables: Variables; Bindings: Env }>()
   .post('/billing/webhook', async (c) => {
     return await handleBillingWebhookRequest(c.get('contextWithRequest'))
   })
-  .post('/clerk/webhook', async (c) => {
+  .post('/auth/webhook', async (c) => {
     return await handleAuthWebhookRequest(c.get('contextWithRequest'))
   })
   .get('/public/:objectName{.+}', async (c) => {

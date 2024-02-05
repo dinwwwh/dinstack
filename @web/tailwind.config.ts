@@ -89,6 +89,7 @@ const config = {
     require('@tailwindcss/container-queries'),
     require('tailwindcss-animate'),
     require('tailwindcss-debug-screens'),
+    require('tailwind-scrollbar')({ nocompatible: true }),
   ],
 } satisfies Config
 

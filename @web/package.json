@@ -70,6 +70,7 @@
     "autoprefixer": "^10.4.16",
     "code-inspector-plugin": "^0.3.2",
     "postcss": "^8.4.33",
+    "tailwind-scrollbar": "^3.0.5",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-debug-screens": "^2.2.1",
