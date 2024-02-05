@@ -5,7 +5,7 @@ import { userPublicMetadataSchema } from '@api/lib/user'
 import { P, match } from 'ts-pattern'
 import { z } from 'zod'
 
-export async function handleWebhookRequest(ctx: ContextWithRequest & { request: Request }) {
+export async function handleBillingWebhookRequest(ctx: ContextWithRequest) {
   const isValidRequest = await verifyWebhookRequest({ env: ctx.env, request: ctx.request })
   if (!isValidRequest) {
     return new Response('Invalid request', {
