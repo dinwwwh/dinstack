@@ -21,6 +21,8 @@ export function Component() {
         </section>
 
         <TestMutation />
+
+        <TestNotification />
       </div>
     </>
   )
@@ -36,6 +38,18 @@ function TestMutation() {
         Mutate
       </Button>
       <span className="ml-4">{query.data}</span>
+    </section>
+  )
+}
+
+function TestNotification() {
+  const mutation = trpc.notification.test.useMutation()
+
+  return (
+    <section className="mt-6 ">
+      <Button disabled={mutation.isPending} onClick={() => mutation.mutate()}>
+        Test Notification
+      </Button>
     </section>
   )
 }

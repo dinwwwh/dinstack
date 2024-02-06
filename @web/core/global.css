@@ -78,7 +78,7 @@
 }
 
 .rnf-notification-feed-popover .rnf-notification-feed__container {
-  @apply scrollbar-thin scrollbar-track-rounded-full;
+  @apply scrollbar-thin;
 }
 
 .rnf-notification-feed-popover .rnf-notification-feed__knock-branding {
