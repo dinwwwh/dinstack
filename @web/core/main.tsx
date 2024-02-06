@@ -48,6 +48,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </ThemeProvider>
     </HelmetProvider>
 
-    <Toaster pauseWhenPageIsHidden visibleToasts={5} richColors />
+    <Toaster pauseWhenPageIsHidden visibleToasts={5} richColors expand />
   </React.StrictMode>,
 )

@@ -278,6 +278,9 @@ importers:
       '@clerk/themes':
         specifier: 2.0.0-beta-v5.3
         version: 2.0.0-beta-v5.3(react-dom@18.2.0)(react@18.2.0)
+      '@knocklabs/client':
+        specifier: ^0.8.17
+        version: 0.8.17(react@18.2.0)
       '@knocklabs/react':
         specifier: ^0.1.4
         version: 0.1.4(react-dom@18.2.0)(react@18.2.0)
@@ -3026,8 +3029,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@knocklabs/client@0.8.16(react@18.2.0):
-    resolution: {integrity: sha512-vQTeLRvnPF6nOIxXiMeZTgYKxrWD9hbF8fNL5LjSF+kQXvOq3WiCreKh+dIkz3g3dqAHucwEigAXEhjVO0YgrQ==}
+  /@knocklabs/client@0.8.17(react@18.2.0):
+    resolution: {integrity: sha512-6wPikplEfpvPepjGXD2XW4GxAvQ8rYGGSaAnvZ91c+Y0HAi828URtEcgtrAtnq/3doyTYhdbyGWldPTCfR8Qig==}
     dependencies:
       '@babel/runtime': 7.23.9
       axios: 1.6.5(debug@4.3.4)
@@ -3051,7 +3054,7 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
-      '@knocklabs/client': 0.8.16(react@18.2.0)
+      '@knocklabs/client': 0.8.17(react@18.2.0)
       date-fns: 2.30.0
       react: 18.2.0
       zustand: 3.7.2(react@18.2.0)
@@ -3065,7 +3068,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@knocklabs/client': 0.8.16(react@18.2.0)
+      '@knocklabs/client': 0.8.17(react@18.2.0)
       '@knocklabs/react-core': 0.1.2(react@18.2.0)
       '@popperjs/core': 2.11.8
       lodash.debounce: 4.0.8
