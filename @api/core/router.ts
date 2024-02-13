@@ -1,5 +1,6 @@
 import { procedure, router } from './trpc'
 import { billingRouter } from '@api/features/billing/router'
+import { notificationRouter } from '@api/features/notification/router'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
 export const appRouter = router({
@@ -12,6 +13,7 @@ export const appRouter = router({
     return 'pong:' + Date.now()
   }),
   billing: billingRouter,
+  notification: notificationRouter,
 })
 
 export type AppRouter = typeof appRouter

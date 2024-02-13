@@ -5,6 +5,8 @@ import { createLemonSqueezy } from './lemon-squeezy'
 import { createPostHog } from './post-hog'
 import { authToTenant } from './tenant'
 import { Clerk } from '@clerk/backend'
+import { Knock } from '@knocklabs/node'
+import { Webhook } from 'svix'
 
 export async function createContextWithoutRequest({ env, ec }: { env: Env; ec: ExecutionContext }) {
   const db = createDb({ env })
@@ -14,6 +16,8 @@ export async function createContextWithoutRequest({ env, ec }: { env: Env; ec: E
     secretKey: env.CLERK_SECRET_KEY,
     publishableKey: env.CLERK_PUBLISHABLE_KEY,
   })
+  const clerkWebhook = new Webhook(env.CLERK_WEBHOOK_SIGNING_SECRET)
+  const knock = new Knock(env.KNOCK_API_KEY)
 
   return {
     env,
@@ -22,6 +26,8 @@ export async function createContextWithoutRequest({ env, ec }: { env: Env; ec: E
     lemonSqueezy,
     ph,
     clerk,
+    clerkWebhook,
+    knock,
   }
 }
 

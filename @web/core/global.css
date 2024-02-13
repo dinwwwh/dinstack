@@ -76,3 +76,11 @@
     width: 100%;
   }
 }
+
+.rnf-notification-feed-popover .rnf-notification-feed__container {
+  @apply scrollbar-thin;
+}
+
+.rnf-notification-feed-popover .rnf-notification-feed__knock-branding {
+  @apply hidden;
+}

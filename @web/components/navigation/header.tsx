@@ -1,10 +1,8 @@
 import { Logo } from '../logo'
-import { Button } from '../ui/button'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
 import { OrganizationSwitcher, UserButton } from '@clerk/clerk-react'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { cn } from '@web/lib/utils'
-import { BellIcon } from 'lucide-react'
 
 export function Header() {
   return (
@@ -32,17 +30,6 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* TODO */}
-        <Button
-          type="button"
-          size={'sm'}
-          className="size-7 p-0 text-muted-foreground"
-          variant={'ghost'}
-        >
-          <span className="sr-only">Notifications</span>
-          <BellIcon className="size-5" />
-        </Button>
-
         <UserButton
           appearance={{
             elements: {

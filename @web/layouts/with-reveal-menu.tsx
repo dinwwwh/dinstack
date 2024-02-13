@@ -25,7 +25,7 @@ export function WithRevealMenuLayout() {
       <ScrollArea ref={containerRef} className="h-screen">
         <div ref={revealMenuRef} className="border-b border-border/40">
           <div className="container">
-            <RevealMenu />
+            <RevealMenu showNotificationButton />
           </div>
         </div>
         <div className="min-h-screen pb-8">

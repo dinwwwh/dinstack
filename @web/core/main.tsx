@@ -1,5 +1,6 @@
 import './global.css'
 import { routes } from './routes'
+import '@knocklabs/react/dist/index.css'
 import { Toaster } from '@web/components/ui/sonner'
 import { ErrorPage } from '@web/pages/error'
 import { AuthProvider } from '@web/providers/auth'
@@ -47,6 +48,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </ThemeProvider>
     </HelmetProvider>
 
-    <Toaster pauseWhenPageIsHidden visibleToasts={5} richColors />
+    <Toaster pauseWhenPageIsHidden visibleToasts={5} richColors expand />
   </React.StrictMode>,
 )

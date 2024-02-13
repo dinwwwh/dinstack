@@ -1,6 +1,7 @@
 import type * as _A from '../node_modules/hono/dist/types/context'
 import { appRouter } from './router'
-import { handleWebhookRequest } from '@api/features/billing/webhook'
+import { handleAuthWebhookRequest } from '@api/features/auth/webhook'
+import { handleBillingWebhookRequest } from '@api/features/billing/webhook'
 import type { ContextWithRequest } from '@api/lib/context'
 import { createContextWithRequest } from '@api/lib/context'
 import { type Env, envSchema } from '@api/lib/env'
@@ -41,7 +42,10 @@ const app = new Hono<{ Variables: Variables; Bindings: Env }>()
     })
   })
   .post('/billing/webhook', async (c) => {
-    return await handleWebhookRequest({ ...c.get('contextWithRequest'), request: c.req.raw })
+    return await handleBillingWebhookRequest(c.get('contextWithRequest'))
+  })
+  .post('/auth/webhook', async (c) => {
+    return await handleAuthWebhookRequest(c.get('contextWithRequest'))
   })
   .get('/public/:objectName{.+}', async (c) => {
     const object = await c.env.PUBLIC_BUCKET.get(c.req.param('objectName'))
