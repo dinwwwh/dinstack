@@ -12,6 +12,7 @@ export async function handleAuthWebhookRequest(ctx: ContextWithRequest) {
       email: event.data.email_addresses.find((e) => e.id === event.data.primary_email_address_id)
         ?.email_address,
       name: `${event.data.first_name} ${event.data.last_name}`,
+      avatar: event.data.image_url,
     })
   }
 
