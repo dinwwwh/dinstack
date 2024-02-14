@@ -100,7 +100,7 @@ function NotificationToaster() {
           notification.blocks.find((b) => b.name === 'action_url')?.rendered
 
         toast(
-          <div className="flex justify-between w-full">
+          <div className="flex justify-between w-full gap-1 items-center">
             <div
               dangerouslySetInnerHTML={{
                 __html: html,
@@ -112,7 +112,9 @@ function NotificationToaster() {
                 data-button=""
                 className="group-[.toast]:bg-primary group-[.toast]:text-primary-foreground"
                 onClick={() => {
+                  toast.dismiss(id)
                   const url = new URL(actionUrl)
+                  feedClient.markAsSeen(notification)
                   feedClient.markAsRead(notification)
 
                   if (url.origin === window.location.origin) {
@@ -124,7 +126,20 @@ function NotificationToaster() {
               >
                 View
               </button>
-            ) : null}
+            ) : (
+              <button
+                type="button"
+                data-button=""
+                className="group-[.toast]:bg-primary group-[.toast]:text-primary-foreground"
+                onClick={() => {
+                  toast.dismiss(id)
+                  feedClient.markAsSeen(notification)
+                  feedClient.markAsRead(notification)
+                }}
+              >
+                Dismiss
+              </button>
+            )}
           </div>,
           {
             id,
