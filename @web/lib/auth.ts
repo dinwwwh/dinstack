@@ -16,7 +16,7 @@ export function useAuthedUser() {
   return result
 }
 
-type Tenant = BaseTenant & {
+export type Tenant = BaseTenant & {
   publicMetadata: TenantPublicMetadata
 }
 

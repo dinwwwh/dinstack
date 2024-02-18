@@ -17,7 +17,9 @@ export function Component() {
         </div>
 
         <section className="mt-6 md:mt-8 xl:mt-12">
-          <SubscriptionCard />
+          <div className="rounded-2xl border lg:mx-0 ">
+            <SubscriptionCard />
+          </div>
         </section>
 
         <TestMutation />
