@@ -17,6 +17,7 @@ export function useAuthedUser() {
 }
 
 export type Tenant = BaseTenant & {
+  createdAt: Date | null | undefined
   publicMetadata: TenantPublicMetadata
 }
 
@@ -36,6 +37,7 @@ export function useTenant(): Tenant {
         .with('org:admin', () => 'admin' as const)
         .with('org:member', () => 'member' as const)
         .exhaustive(),
+      createdAt: organization?.createdAt,
       publicMetadata: tenantPublicMetadataSchema.parse(organization?.publicMetadata),
     }
   }
@@ -44,6 +46,7 @@ export function useTenant(): Tenant {
     type: 'user',
     id: auth.userId,
     role: 'admin',
+    createdAt: user.createdAt,
     publicMetadata: tenantPublicMetadataSchema.parse(user.publicMetadata),
   }
 }

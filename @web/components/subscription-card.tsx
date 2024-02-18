@@ -1,5 +1,6 @@
 import type { Subscription } from '@api/lib/subscription'
 import { Button } from '@web/components/ui/button'
+import { useLifetimeAccessSubscription } from '@web/hooks/use-lifetime-access-subscription'
 import { Tenant, useTenant } from '@web/lib/auth'
 import { env } from '@web/lib/env'
 import { trpc } from '@web/lib/trpc'
@@ -19,21 +20,7 @@ const teamFeatures = [...personalFeatures, 'Unlimited members']
 export function SubscriptionCard() {
   const tenant = useTenant()
 
-  const subscription = match(tenant.type)
-    .with('user', () => {
-      return tenant.publicMetadata.subscriptions.find(
-        (s) =>
-          s.variantId === env.LEMONSQUEEZY_PERSONAL_LIFETIME_ACCESS_VARIANT_ID &&
-          s.expiresAt === null,
-      )
-    })
-    .with('organization', () => {
-      return tenant.publicMetadata.subscriptions.find(
-        (s) =>
-          s.variantId === env.LEMONSQUEEZY_TEAM_LIFETIME_ACCESS_VARIANT_ID && s.expiresAt === null,
-      )
-    })
-    .exhaustive()
+  const subscription = useLifetimeAccessSubscription()
 
   return (
     <div>
