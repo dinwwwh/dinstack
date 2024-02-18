@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { match } from 'ts-pattern'
 
 type Appearance = ComponentPropsWithoutRef<typeof ClerkProvider>['appearance']
+type RouterFn = ComponentPropsWithoutRef<typeof ClerkProvider>['routerPush']
 
 const lightAppearance = {
   variables: {
@@ -47,7 +48,7 @@ const darkAppearance = {
 } satisfies Appearance
 
 export function AuthProvider(props: { children: React.ReactNode }) {
-  const navigate = useNavigate()
+  const internalNavigate = useNavigate()
   const theme = useSystemStore().theme
 
   const appearance = match(theme)
@@ -57,6 +58,14 @@ export function AuthProvider(props: { children: React.ReactNode }) {
       window.matchMedia('(prefers-color-scheme: dark)').matches ? darkAppearance : lightAppearance,
     )
     .exhaustive()
+
+  const navigate: RouterFn = (to, meta) => {
+    if (meta?.__internal_metadata?.navigationType === 'window') {
+      window.location.href = to
+    } else {
+      internalNavigate(to)
+    }
+  }
 
   return (
     <ClerkProvider

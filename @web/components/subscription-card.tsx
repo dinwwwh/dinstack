@@ -1,34 +1,56 @@
 import type { Subscription } from '@api/lib/subscription'
 import { Button } from '@web/components/ui/button'
+import { useLifetimeAccessSubscription } from '@web/hooks/use-lifetime-access-subscription'
+import type { Tenant } from '@web/lib/auth'
 import { useTenant } from '@web/lib/auth'
 import { env } from '@web/lib/env'
 import { trpc } from '@web/lib/trpc'
 import { CheckIcon } from 'lucide-react'
+import { match } from 'ts-pattern'
 
-const includedFeatures = [
+// TODO: fill these features
+const personalFeatures = [
   'Private forum access',
   'Member resources',
   'Entry to annual conference',
   'Official member t-shirt',
 ]
 
+const teamFeatures = [...personalFeatures, 'Unlimited members']
+
 export function SubscriptionCard() {
   const tenant = useTenant()
 
-  const subscription = tenant.publicMetadata.subscriptions.find(
-    (s) => s.variantId === env.LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID && s.expiresAt === null,
-  )
+  const subscription = useLifetimeAccessSubscription()
 
-  return <div>{subscription ? <PaidStatus subscription={subscription} /> : <UnpaidStatus />}</div>
+  return (
+    <div>
+      {subscription ? (
+        <PaidStatus subscription={subscription} type={tenant.type} />
+      ) : (
+        <UnpaidStatus type={tenant.type} />
+      )}
+    </div>
+  )
 }
 
-function PaidStatus(props: { subscription: Subscription }) {
+function PaidStatus(props: { subscription: Subscription; type: Tenant['type'] }) {
+  const features = match(props.type)
+    .with('user', () => personalFeatures)
+    .with('organization', () => teamFeatures)
+    .exhaustive()
+
+  const title = match(props.type)
+    .with('user', () => 'Lifetime Access (Personal)')
+    .with('organization', () => 'Lifetime Access (Team)')
+    .exhaustive()
+
   return (
-    <div className="rounded-2xl border lg:mx-0 lg:flex">
+    <div className="lg:flex">
       <div className="p-8 sm:p-10 lg:flex-auto">
-        <h3 className="text-2xl font-bold tracking-tight">Lifetime membership</h3>
+        <h3 className="text-2xl font-bold tracking-tight">{title}</h3>
         <p className="mt-6 text-base leading-7 text-muted-foreground">
-          Enjoying a Lifetime of Membership! You locked in your membership on{' '}
+          Enjoying the lifetime Access, which was unlocked on{' '}
           <span className="font-medium text-foreground/75">
             {props.subscription.createdAt.toDateString()}
           </span>
@@ -50,7 +72,7 @@ function PaidStatus(props: { subscription: Subscription }) {
           role="list"
           className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-muted-foreground sm:grid-cols-2 sm:gap-6"
         >
-          {includedFeatures.map((feature) => (
+          {features.map((feature) => (
             <li key={feature} className="flex gap-x-3">
               <CheckIcon className="h-6 w-6 flex-none text-primary" aria-hidden="true" />
               {feature}
@@ -62,11 +84,21 @@ function PaidStatus(props: { subscription: Subscription }) {
   )
 }
 
-function UnpaidStatus() {
+function UnpaidStatus(props: { type: Tenant['type'] }) {
+  const features = match(props.type)
+    .with('user', () => personalFeatures)
+    .with('organization', () => teamFeatures)
+    .exhaustive()
+
+  const title = match(props.type)
+    .with('user', () => 'Lifetime Access (Personal)')
+    .with('organization', () => 'Lifetime Access (Team)')
+    .exhaustive()
+
   return (
-    <div className="rounded-2xl border lg:mx-0 lg:flex">
+    <div className="lg:flex">
       <div className="p-8 sm:p-10 lg:flex-auto">
-        <h3 className="text-2xl font-bold tracking-tight">Lifetime membership</h3>
+        <h3 className="text-2xl font-bold tracking-tight">{title}</h3>
         <p className="mt-6 text-base leading-7 text-muted-foreground">
           Gain exclusive access and receive lifetime support with a{' '}
           <span className="font-medium text-foreground/75">14-day money-back guarantee</span>. For
@@ -88,7 +120,7 @@ function UnpaidStatus() {
           role="list"
           className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-muted-foreground sm:grid-cols-2 sm:gap-6"
         >
-          {includedFeatures.map((feature) => (
+          {features.map((feature) => (
             <li key={feature} className="flex gap-x-3">
               <CheckIcon className="h-6 w-6 flex-none text-primary" aria-hidden="true" />
               {feature}
@@ -103,12 +135,17 @@ function UnpaidStatus() {
               Pay once, own it forever
             </p>
             <p className="mt-6 flex items-baseline justify-center gap-x-2">
-              <span className="text-5xl font-bold tracking-tight">$349</span>
+              <span className="text-5xl font-bold tracking-tight">
+                {match(props.type)
+                  .with('user', () => '$9.9')
+                  .with('organization', () => '$28.9')
+                  .exhaustive()}
+              </span>
               <span className="text-sm font-semibold leading-6 tracking-wide text-muted-foreground">
                 USD
               </span>
             </p>
-            <CheckoutButton />
+            <CheckoutButton type={props.type} />
             <p className="mt-6 text-xs leading-5 text-muted-foreground">
               Invoices and receipts available for easy company reimbursement
             </p>
@@ -119,7 +156,7 @@ function UnpaidStatus() {
   )
 }
 
-function CheckoutButton() {
+function CheckoutButton(props: { type: Tenant['type'] }) {
   const mutation = trpc.billing.checkout.useMutation({
     onSuccess(data) {
       if ('LemonSqueezy' in window) {
@@ -131,6 +168,11 @@ function CheckoutButton() {
     },
   })
 
+  const variantId = match(props.type)
+    .with('user', () => env.LEMONSQUEEZY_PERSONAL_LIFETIME_ACCESS_VARIANT_ID)
+    .with('organization', () => env.LEMONSQUEEZY_TEAM_LIFETIME_ACCESS_VARIANT_ID)
+    .exhaustive()
+
   return (
     <Button
       type="button"
@@ -138,7 +180,7 @@ function CheckoutButton() {
       disabled={mutation.isPending}
       onClick={() => {
         mutation.mutate({
-          variantId: env.LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID,
+          variantId,
           darkMode: document.documentElement.classList.contains('dark'),
         })
       }}

@@ -273,8 +273,8 @@ importers:
         specifier: workspace:@dinstack/api@^
         version: link:../@api
       '@clerk/clerk-react':
-        specifier: 5.0.0-beta-v5.17
-        version: 5.0.0-beta-v5.17(eslint@8.56.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
+        specifier: 5.0.0-beta-v5.18
+        version: 5.0.0-beta-v5.18(eslint@8.56.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
       '@clerk/themes':
         specifier: 2.0.0-beta-v5.3
         version: 2.0.0-beta-v5.3(react-dom@18.2.0)(react@18.2.0)
@@ -1939,19 +1939,18 @@ packages:
       - react
     dev: false
 
-  /@clerk/clerk-react@5.0.0-beta-v5.17(eslint@8.56.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-13d0exEn0p5gXDuo8jlBRkViGbYjBA3NKnhY+0agDMwlRyYpUn8Khr3lqkVdo45YwiTupw7fm3bAbgw/ms/gEQ==}
+  /@clerk/clerk-react@5.0.0-beta-v5.18(eslint@8.56.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-EiY/XK81Auwhg5jB2l9C12jjxdPXQx1cxg/nUjrP4SnfPzNrRcHsf9Nz2VvFUrd6ZRcceZqONqlPUgRdpJqoow==}
     engines: {node: '>=18.17.0'}
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
     dependencies:
-      '@clerk/shared': 2.0.0-beta-v5.11(react-dom@18.2.0)(react@18.2.0)
-      '@clerk/types': 4.0.0-beta-v5.13
+      '@clerk/shared': 2.0.0-beta-v5.12(react-dom@18.2.0)(react@18.2.0)
+      '@clerk/types': 4.0.0-beta-v5.14
       eslint-config-custom: 0.0.0(eslint@8.56.0)(typescript@5.3.3)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      semver: 7.5.4
       tslib: 2.4.1
     transitivePeerDependencies:
       - eslint
@@ -1974,8 +1973,8 @@ packages:
       swr: 2.2.0(react@18.2.0)
     dev: false
 
-  /@clerk/shared@2.0.0-beta-v5.11(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-xEXN9T8/W7ezmC7CL4tyoZic6ZNzgKCNUiOEa8HPeuApDvZKK5JDK1bsxO2GpJxO2aivx4lN4epPJovZq7a5UQ==}
+  /@clerk/shared@2.0.0-beta-v5.12(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-7EdaA+V/hUE5WgvJ+5rrgvldkgqKX7wa1WGJ/Lrkzyd3S8u/FakIgkxXXzOxe0SwD22NtVAN7bB5gA2XHV86Xg==}
     engines: {node: '>=18.17.0'}
     requiresBuild: true
     peerDependencies:
@@ -2013,8 +2012,8 @@ packages:
       csstype: 3.1.1
     dev: false
 
-  /@clerk/types@4.0.0-beta-v5.13:
-    resolution: {integrity: sha512-bnGBwwdtTtpjsp7QBy9KbO+0k62nN7XBvMkOq/Ab0jLtPl27vHTGdq1E8iz8L9Ow7dPjJn24CBu5Fz1mAtK0mQ==}
+  /@clerk/types@4.0.0-beta-v5.14:
+    resolution: {integrity: sha512-v1k2w6Q1xEaneT7ZHSreiFa7JK8eu52rUV0SAxEDqUCJKROW5Hd34dffZWHCvlqrYbtGBkGdYk3DxTYNerJ5EQ==}
     engines: {node: '>=18.17.0'}
     dependencies:
       csstype: 3.1.1
@@ -7535,7 +7534,7 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
     dependencies:
-      '@babel/runtime': 7.23.7
+      '@babel/runtime': 7.23.9
       aria-query: 5.3.0
       array-includes: 3.1.7
       array.prototype.flatmap: 1.3.2

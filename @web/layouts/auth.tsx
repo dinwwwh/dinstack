@@ -1,4 +1,5 @@
 import { RedirectToSignIn, SignedIn, SignedOut } from '@clerk/clerk-react'
+import { BillingProvider } from '@web/providers/billing'
 import { Outlet } from 'react-router-dom'
 
 export function AuthLayout() {
@@ -16,7 +17,9 @@ export function AuthLayout() {
         />
       </SignedOut>
       <SignedIn>
-        <Outlet />
+        <BillingProvider>
+          <Outlet />
+        </BillingProvider>
       </SignedIn>
     </>
   )

@@ -32,6 +32,18 @@
 {}
 ```
 
+4. Webhook
+
+- URL: `<API_BASE_URL>/auth/webhook`
+- Events: `user.created`, `user.updated`, `user.deleted`
+
 ## Knock notification
 
 1. Enable `Enhanced security mode`
+
+## Lemonsqueezy billing
+
+1. Webhook
+
+- URL: `<API_BASE_URL>/billing/webhook`
+- Events: `order_created`, `order_refunded`

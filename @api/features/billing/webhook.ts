@@ -37,13 +37,6 @@ export async function handleBillingWebhookRequest(ctx: ContextWithRequest) {
 
   await match(event)
     .with({ meta: { event_name: P.union('order_created', 'order_refunded') } }, async (e) => {
-      if (
-        e.data.attributes.first_order_item.variant_id !==
-        ctx.env.LEMONSQUEEZY_LIFETIME_MEMBERSHIP_VARIANT_ID
-      ) {
-        throw new Error('Not allow variant_id')
-      }
-
       const expiresAt = match(e.data.attributes.status)
         .with('failed', () => new Date())
         .with('pending', () => new Date())
