@@ -9,7 +9,7 @@ const t = initTRPC.context<ContextWithRequest>().create({
 export const middleware = t.middleware
 export const router = t.router
 
-// TODO: use this extension when you not using @extension or turnstile support browser extension (not support for now 9-1-2024)
+// TODO: use this middleware when you not using @extension or turnstile support browser extension (not support for now 9-1-2024)
 const _turnstileMiddleware = middleware(async ({ ctx, next, type }) => {
   if (type === 'mutation') {
     const formData = new FormData()

@@ -8,18 +8,21 @@ export const envSchema = z.object({
   PUBLIC_BUCKET: z.custom<R2Bucket>((value) => {
     return typeof value === 'object' && value !== null
   }),
+  SUPPORT_EMAIL: z.string().email(),
+  KNOCK_API_KEY: z.string(),
+
   LEMONSQUEEZY_API_KEY: z.string(),
   LEMONSQUEEZY_STORE_ID: z.number(),
   LEMONSQUEEZY_WEBHOOK_SIGNING_SECRET: z.string(),
   LEMONSQUEEZY_PERSONAL_LIFETIME_ACCESS_VARIANT_ID: z.number(),
   LEMONSQUEEZY_TEAM_LIFETIME_ACCESS_VARIANT_ID: z.number(),
+
   POSTHOG_HOST: z.string().url(),
   POSTHOG_API_KEY: z.string(),
-  SUPPORT_EMAIL: z.string().email(),
+
   CLERK_PUBLISHABLE_KEY: z.string(),
   CLERK_SECRET_KEY: z.string(),
   CLERK_WEBHOOK_SIGNING_SECRET: z.string(),
-  KNOCK_API_KEY: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>

@@ -3,6 +3,9 @@ import { z } from 'zod'
 export const env = z
   .object({
     APP_NAME: z.string(),
+    TURNSTILE_SITE_KEY: z.string(),
+    PUBLIC_BUCKET_BASE_URL: z.string().url(),
+    CLERK_PUBLISHABLE_KEY: z.string(),
 
     API_TRPC_BASE_URL: z.string().url(),
     CONTENT_BASE_URL: z.string().url(),
@@ -21,13 +24,12 @@ export const env = z
 
     LEMONSQUEEZY_PERSONAL_LIFETIME_ACCESS_VARIANT_ID: z.coerce.number(),
     LEMONSQUEEZY_TEAM_LIFETIME_ACCESS_VARIANT_ID: z.coerce.number(),
-
-    TURNSTILE_SITE_KEY: z.string(),
-    PUBLIC_BUCKET_BASE_URL: z.string().url(),
-    CLERK_PUBLISHABLE_KEY: z.string(),
   })
   .parse({
     APP_NAME: import.meta.env.VITE_APP_NAME,
+    PUBLIC_BUCKET_BASE_URL: import.meta.env.VITE_PUBLIC_BUCKET_BASE_URL,
+    TURNSTILE_SITE_KEY: import.meta.env.VITE_TURNSTILE_SITE_KEY,
+    CLERK_PUBLISHABLE_KEY: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
 
     API_TRPC_BASE_URL: import.meta.env.VITE_API_TRPC_BASE_URL,
     CONTENT_BASE_URL: import.meta.env.VITE_CONTENT_BASE_URL,
@@ -48,8 +50,4 @@ export const env = z
       .VITE_LEMONSQUEEZY_PERSONAL_LIFETIME_ACCESS_VARIANT_ID,
     LEMONSQUEEZY_TEAM_LIFETIME_ACCESS_VARIANT_ID: import.meta.env
       .VITE_LEMONSQUEEZY_TEAM_LIFETIME_ACCESS_VARIANT_ID,
-
-    PUBLIC_BUCKET_BASE_URL: import.meta.env.VITE_PUBLIC_BUCKET_BASE_URL,
-    TURNSTILE_SITE_KEY: import.meta.env.VITE_TURNSTILE_SITE_KEY,
-    CLERK_PUBLISHABLE_KEY: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
   })
