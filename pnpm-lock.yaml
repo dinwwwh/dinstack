@@ -51,8 +51,8 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       wrangler:
-        specifier: ^3.28.2
-        version: 3.28.2
+        specifier: ^3.28.3
+        version: 3.28.3
 
   '@api':
     dependencies:
@@ -65,24 +65,18 @@ importers:
       '@lemonsqueezy/lemonsqueezy.js':
         specifier: 1.2.2
         version: 1.2.2
-      '@neondatabase/serverless':
-        specifier: ^0.6.1
-        version: 0.6.1
+      '@planetscale/database':
+        specifier: ^1.16.0
+        version: 1.16.0
       '@trpc/server':
         specifier: 11.0.0-next-beta.248
         version: 11.0.0-next-beta.248
       drizzle-orm:
         specifier: ^0.29.3
-        version: 0.29.3(@cloudflare/workers-types@4.20231218.0)(@neondatabase/serverless@0.6.1)(postgres@3.4.3)(react@18.2.0)
-      drizzle-zod:
-        specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.29.3)(zod@3.22.4)
+        version: 0.29.3(@cloudflare/workers-types@4.20231218.0)(@planetscale/database@1.16.0)(mysql2@3.9.1)(react@18.2.0)
       hono:
         specifier: ^3.12.6
         version: 3.12.6
-      postgres:
-        specifier: ^3.4.3
-        version: 3.4.3
       posthog-node:
         specifier: ^3.5.0
         version: 3.5.0
@@ -112,11 +106,11 @@ importers:
         specifier: ^20.11.13
         version: 20.11.13
       drizzle-kit:
-        specifier: ^0.20.13
-        version: 0.20.13
-      tsx:
-        specifier: ^4.7.0
-        version: 4.7.0
+        specifier: ^0.20.14
+        version: 0.20.14
+      mysql2:
+        specifier: ^3.9.1
+        version: 3.9.1
 
   '@content':
     dependencies:
@@ -3123,12 +3117,6 @@ packages:
       - supports-color
     dev: true
 
-  /@neondatabase/serverless@0.6.1:
-    resolution: {integrity: sha512-rZIyWf27WxH4eW0ZRDQT2PxUJH3AphNVEnO4x1AGjBW6XrguH3ChLokup0gNGrX8cxDbP0UyduI7qdy4OLos+A==}
-    dependencies:
-      '@types/pg': 8.6.6
-    dev: false
-
   /@next/eslint-plugin-next@12.3.4:
     resolution: {integrity: sha512-BFwj8ykJY+zc1/jWANsDprDIu2MgwPOIKxNVnrKvPs+f5TPegrVnem8uScND+1veT4B7F6VeqgaNLFW1Hzl9Og==}
     dependencies:
@@ -3677,6 +3665,11 @@ packages:
     engines: {node: '>=14'}
     requiresBuild: true
     dev: true
+
+  /@planetscale/database@1.16.0:
+    resolution: {integrity: sha512-HNUrTqrd8aTRZYMDcsoZ62s36sIWkMMmKZBOehoCWR2WrfNPKq+Q1yQef5okl3pSVlldFnu2h/dbHjOsDTHXug==}
+    engines: {node: '>=16'}
+    dev: false
 
   /@pnpm/constants@7.1.1:
     resolution: {integrity: sha512-31pZqMtjwV+Vaq7MaPrT1EoDFSYwye3dp6BiHIGRJmVThCQwySRKM7hCvqqI94epNkqFAAYoWrNynWoRYosGdw==}
@@ -5306,14 +5299,6 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
-  /@types/pg@8.6.6:
-    resolution: {integrity: sha512-O2xNmXebtwVekJDD+02udOncjVcMZQuTEQEMpKJ0ZRf5E7/9JJX3izhKUcUifBkyKpljyUM6BTgy2trmviKlpw==}
-    dependencies:
-      '@types/node': 20.11.13
-      pg-protocol: 1.6.0
-      pg-types: 2.2.0
-    dev: false
-
   /@types/picomatch@2.3.3:
     resolution: {integrity: sha512-Yll76ZHikRFCyz/pffKGjrCwe/le2CDwOP5F210KQo27kpRE46U2rDnzikNlVn6/ezH3Mhn46bJMTfeVTtcYMg==}
     dev: true
@@ -6828,6 +6813,10 @@ packages:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
 
+  /denque@2.1.0:
+    resolution: {integrity: sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==}
+    engines: {node: '>=0.10'}
+
   /deprecation@2.3.1:
     resolution: {integrity: sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==}
     dev: true
@@ -6937,8 +6926,8 @@ packages:
       wordwrap: 1.0.0
     dev: true
 
-  /drizzle-kit@0.20.13:
-    resolution: {integrity: sha512-j9oZSQXNWG+KBJm0Sg3S/zJpncHGKnpqNfFuM4NUxUMGTcihDHhP9SW6Jncqwb5vsP1Xm0a8JLm3PZUIspC/oA==}
+  /drizzle-kit@0.20.14:
+    resolution: {integrity: sha512-0fHv3YIEaUcSVPSGyaaBfOi9bmpajjhbJNdPsRMIUvYdLVxBu9eGjH8mRc3Qk7HVmEidFc/lhG1YyJhoXrn5yA==}
     hasBin: true
     dependencies:
       '@drizzle-team/studio': 0.0.39
@@ -6959,7 +6948,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.29.3(@cloudflare/workers-types@4.20231218.0)(@neondatabase/serverless@0.6.1)(postgres@3.4.3)(react@18.2.0):
+  /drizzle-orm@0.29.3(@cloudflare/workers-types@4.20231218.0)(@planetscale/database@1.16.0)(mysql2@3.9.1)(react@18.2.0):
     resolution: {integrity: sha512-uSE027csliGSGYD0pqtM+SAQATMREb3eSM/U8s6r+Y0RFwTKwftnwwSkqx3oS65UBgqDOM0gMTl5UGNpt6lW0A==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -7031,19 +7020,9 @@ packages:
         optional: true
     dependencies:
       '@cloudflare/workers-types': 4.20231218.0
-      '@neondatabase/serverless': 0.6.1
-      postgres: 3.4.3
+      '@planetscale/database': 1.16.0
+      mysql2: 3.9.1
       react: 18.2.0
-    dev: false
-
-  /drizzle-zod@0.5.1(drizzle-orm@0.29.3)(zod@3.22.4):
-    resolution: {integrity: sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==}
-    peerDependencies:
-      drizzle-orm: '>=0.23.13'
-      zod: '*'
-    dependencies:
-      drizzle-orm: 0.29.3(@cloudflare/workers-types@4.20231218.0)(@neondatabase/serverless@0.6.1)(postgres@3.4.3)(react@18.2.0)
-      zod: 3.22.4
     dev: false
 
   /dset@3.1.3:
@@ -8087,6 +8066,11 @@ packages:
   /functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
 
+  /generate-function@2.3.1:
+    resolution: {integrity: sha512-eeB5GfMNeevm/GRYq20ShmsaGcmI81kIX2K9XQx5miC8KdHaC6Jm0qQ8ZNeGOi7wYB8OsdxKs+Y2oVuTFuVwKQ==}
+    dependencies:
+      is-property: 1.0.2
+
   /gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
@@ -8528,6 +8512,12 @@ packages:
     dependencies:
       safer-buffer: 2.1.2
 
+  /iconv-lite@0.6.3:
+    resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      safer-buffer: 2.1.2
+
   /idb@7.1.1:
     resolution: {integrity: sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==}
     dev: true
@@ -8779,6 +8769,9 @@ packages:
   /is-promise@2.2.2:
     resolution: {integrity: sha512-+lP4/6lKUBfQjZ2pdxThZvLUAafmZb8OAxFb8XXtiQmS35INgr85hdOGoEs124ez1FCnZJt6jau/T+alh58QFQ==}
     dev: true
+
+  /is-property@1.0.2:
+    resolution: {integrity: sha512-Ks/IoX00TtClbGQr4TWXemAnktAQvYB7HzcCxDGqEZU6oCmb2INHuOoKxbtR+HFkmYWBKv/dOZtGRiAjDhj92g==}
 
   /is-reference@3.0.2:
     resolution: {integrity: sha512-v3rht/LgVcsdZa3O2Nqs+NMowLOxeOm7Ay9+/ARQ2F+qEoANRcqrjAZKGN0v8ymUetZGgkp26LTnGT7H0Qo9Pg==}
@@ -9230,6 +9223,9 @@ packages:
       chalk: 5.3.0
       is-unicode-supported: 1.3.0
 
+  /long@5.2.3:
+    resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}
+
   /longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
 
@@ -9260,6 +9256,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /lru-cache@7.18.3:
+    resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
+    engines: {node: '>=12'}
+
+  /lru-cache@8.0.5:
+    resolution: {integrity: sha512-MhWWlVnuab1RG5/zMRRcVGXZLCXrZTgfwMikgzCegsPnG62yDQo5JnqKkrK4jO5iKqDAZGItAqN5CtKBCBWRUA==}
+    engines: {node: '>=16.14'}
 
   /lru-queue@0.1.0:
     resolution: {integrity: sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==}
@@ -9961,8 +9965,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /miniflare@3.20240129.2:
-    resolution: {integrity: sha512-BPUg8HsPmWQlRFUeiQk274i8M9L0gOvzbkjryuTvCX+M53EwBpP0gM2wyrRr/HokQoJcxWGh3InBu6L8+0bbPw==}
+  /miniflare@3.20240129.3:
+    resolution: {integrity: sha512-PCmLJ+UvtbpPj/fgNzTGbd+U5QBkt3akRNcdks9RBJU2SH+gUCp7iahsaI4GA344NX5MIbC6ctw1A6TfcA+aFA==}
     engines: {node: '>=16.13'}
     hasBin: true
     dependencies:
@@ -10084,6 +10088,19 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: true
 
+  /mysql2@3.9.1:
+    resolution: {integrity: sha512-3njoWAAhGBYy0tWBabqUQcLtczZUxrmmtc2vszQUekg3kTJyZ5/IeLC3Fo04u6y6Iy5Sba7pIIa2P/gs8D3ZeQ==}
+    engines: {node: '>= 8.0'}
+    dependencies:
+      denque: 2.1.0
+      generate-function: 2.3.1
+      iconv-lite: 0.6.3
+      long: 5.2.3
+      lru-cache: 8.0.5
+      named-placeholders: 1.1.3
+      seq-queue: 0.0.5
+      sqlstring: 2.3.3
+
   /mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
     dependencies:
@@ -10091,6 +10108,12 @@ packages:
       object-assign: 4.1.1
       thenify-all: 1.6.0
     dev: true
+
+  /named-placeholders@1.1.3:
+    resolution: {integrity: sha512-eLoBxg6wE/rZkJPhU/xRX1WTpkFEwDJEN96oxFrTsqBdbT5ec295Q+CoHrL9IT0DipqKhmGcaZmwOt8OON5x1w==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      lru-cache: 7.18.3
 
   /nano-css@5.6.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-T2Mhc//CepkTa3X4pUhKgbEheJHYAxD0VptuqFhDbGMUWVV2m+lkNiW/Ieuj35wrfC8Zm0l7HvssQh7zcEttSw==}
@@ -10616,26 +10639,6 @@ packages:
       is-reference: 3.0.2
     dev: true
 
-  /pg-int8@1.0.1:
-    resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
-    engines: {node: '>=4.0.0'}
-    dev: false
-
-  /pg-protocol@1.6.0:
-    resolution: {integrity: sha512-M+PDm637OY5WM307051+bsDia5Xej6d9IR4GwJse1qA1DIhiKlksvrneZOYQq42OM+spubpcNYEo2FcKQrDk+Q==}
-    dev: false
-
-  /pg-types@2.2.0:
-    resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
-    engines: {node: '>=4'}
-    dependencies:
-      pg-int8: 1.0.1
-      postgres-array: 2.0.0
-      postgres-bytea: 1.0.0
-      postgres-date: 1.0.7
-      postgres-interval: 1.2.0
-    dev: false
-
   /phoenix@1.6.16:
     resolution: {integrity: sha512-3vOfu5olbFg6eBNkF4pnwMzNm7unl/4vy24MW+zxKklVgjq1zLnO2EWq9wz6i6r4PbQ0CGxHGtqKJH2VSsnhaA==}
     dev: false
@@ -10766,33 +10769,6 @@ packages:
       nanoid: 3.3.7
       picocolors: 1.0.0
       source-map-js: 1.0.2
-
-  /postgres-array@2.0.0:
-    resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
-    engines: {node: '>=4'}
-    dev: false
-
-  /postgres-bytea@1.0.0:
-    resolution: {integrity: sha512-xy3pmLuQqRBZBXDULy7KbaitYqLcmxigw14Q5sj8QBVLqEwXfeybIKVWiqAXTlcvdvb0+xkOtDbfQMOf4lST1w==}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
-  /postgres-date@1.0.7:
-    resolution: {integrity: sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q==}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
-  /postgres-interval@1.2.0:
-    resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      xtend: 4.0.2
-    dev: false
-
-  /postgres@3.4.3:
-    resolution: {integrity: sha512-iHJn4+M9vbTdHSdDzNkC0crHq+1CUdFhx+YqCE+SqWxPjm+Zu63jq7yZborOBF64c8pc58O5uMudyL1FQcHacA==}
-    engines: {node: '>=12'}
-    dev: false
 
   /posthog-js@1.100.0:
     resolution: {integrity: sha512-r2XZEiHQ9mBK7D1G9k57I8uYZ2kZTAJ0OCX6K/OOdCWN8jKPhw3h5F9No5weilP6eVAn+hrsy7NvPV7SCX7gMg==}
@@ -11674,6 +11650,9 @@ packages:
     dependencies:
       lru-cache: 6.0.0
 
+  /seq-queue@0.0.5:
+    resolution: {integrity: sha512-hr3Wtp/GZIc/6DAGPDcV4/9WoZhjrkXsi5B/07QgX8tsdc6ilr7BFM6PM6rbdAX1kFSDYeZGLipIZZKyQP0O5Q==}
+
   /serialize-javascript@4.0.0:
     resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==}
     dependencies:
@@ -11894,6 +11873,10 @@ packages:
 
   /sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
+
+  /sqlstring@2.3.3:
+    resolution: {integrity: sha512-qC9iz2FlN7DQl3+wjwn3802RTyjCx7sDvfQEXchwa6CWOx07/WVfh91gBmQ9fahw8snwGEWU3xGzOt4tFyHLxg==}
+    engines: {node: '>= 0.6'}
 
   /ssri@10.0.5:
     resolution: {integrity: sha512-bSf16tAFkGeRlUNDjXu8FzaMQt6g2HZJrun7mtMbIPOddxt3GLMSz5VWUWcqTJUPfLEaDIepGxv+bYQW49596A==}
@@ -12525,17 +12508,6 @@ packages:
       tslib: 1.14.1
       typescript: 5.3.3
     dev: false
-
-  /tsx@4.7.0:
-    resolution: {integrity: sha512-I+t79RYPlEYlHn9a+KzwrvEwhJg35h/1zHsLC2JXvhC2mdynMv6Zxzvhv5EMV6VF5qJlLlkSnMVvdZV3PSIGcg==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
-    dependencies:
-      esbuild: 0.19.11
-      get-tsconfig: 4.7.2
-    optionalDependencies:
-      fsevents: 2.3.3
-    dev: true
 
   /tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
@@ -13571,8 +13543,8 @@ packages:
       '@cloudflare/workerd-windows-64': 1.20240129.0
     dev: true
 
-  /wrangler@3.28.2:
-    resolution: {integrity: sha512-hlD4f2avBZuR1+qo9Um6D1prdWrSRtGTo9h6o/AKce+bHQEJWoJgJKHeLmrpZlLtHg/gGR1Xa1xzrexhuIzeJw==}
+  /wrangler@3.28.3:
+    resolution: {integrity: sha512-pLuvWA5W8FhjI/a7Mr5F491KOqNMYzyWVN7dmwr+52sPv2BFrfN1v6btmhHYotSblCH8yfs5DmuxwdKuVPMw9w==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -13587,7 +13559,7 @@ packages:
       blake3-wasm: 2.1.5
       chokidar: 3.5.3
       esbuild: 0.17.19
-      miniflare: 3.20240129.2
+      miniflare: 3.20240129.3
       nanoid: 3.3.7
       path-to-regexp: 6.2.1
       resolve: 1.22.8
@@ -13636,11 +13608,6 @@ packages:
       utf-8-validate:
         optional: true
     dev: true
-
-  /xtend@4.0.2:
-    resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
-    engines: {node: '>=0.4'}
-    dev: false
 
   /xxhash-wasm@1.0.2:
     resolution: {integrity: sha512-ibF0Or+FivM9lNrg+HGJfVX8WJqgo+kCLDc4vx6xMeTce7Aj+DLttKbxxRR/gNLSAelRc1omAPlJ77N/Jem07A==}

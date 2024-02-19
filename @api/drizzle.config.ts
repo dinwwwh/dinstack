@@ -3,8 +3,11 @@ import type { Config } from 'drizzle-kit'
 export default {
   schema: './database/schema.ts',
   out: './database/migrations',
-  driver: 'pg',
+  driver: 'mysql2',
   dbCredentials: {
-    connectionString: process.env.DATABASE_URL!,
+    uri: process.env.DATABASE_URL!,
   },
+  tablesFilter: ['dinstack_*'],
+  strict: true,
+  verbose: true,
 } satisfies Config

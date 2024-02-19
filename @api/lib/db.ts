@@ -1,14 +1,10 @@
 import * as schema from '../database/schema'
 import type { Env } from './env'
-import { neon, neonConfig } from '@neondatabase/serverless'
+import { connect } from '@planetscale/database'
 import type { LogWriter } from 'drizzle-orm/logger'
 import { DefaultLogger } from 'drizzle-orm/logger'
-import { drizzle as drizzleNeon } from 'drizzle-orm/neon-http'
-import { withReplicas } from 'drizzle-orm/pg-core'
-import { drizzle as drizzlePostgres } from 'drizzle-orm/postgres-js'
-import postgres from 'postgres'
-
-neonConfig.fetchConnectionCache = true
+import { withReplicas } from 'drizzle-orm/mysql-core'
+import { drizzle } from 'drizzle-orm/planetscale-serverless'
 
 class MyLogWriter implements LogWriter {
   write(message: string) {
@@ -22,17 +18,20 @@ class MyLogWriter implements LogWriter {
 const logger = new DefaultLogger({ writer: new MyLogWriter() })
 
 export function createDb({ env }: { env: Env }) {
-  const write = drizzlePostgres(postgres(env.DATABASE_URL), {
-    schema,
-    logger: env.WORKER_ENV === 'development' ? logger : false,
+  const dbConnection = connect({
+    url: env.DATABASE_URL,
+    fetch: (opts, init) => {
+      delete init?.cache
+      return fetch(opts, init)
+    },
   })
-  const read = drizzleNeon(neon(env.DATABASE_URL), {
+
+  const write = drizzle(dbConnection, {
     schema,
     logger: env.WORKER_ENV === 'development' ? logger : false,
   })
 
-  // @ts-expect-error TODO: fix type for withReplicas
-  return withReplicas(write, [read])
+  return withReplicas(write, [write])
 }
 
 export type Db = ReturnType<typeof createDb>
