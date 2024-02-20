@@ -14,7 +14,7 @@ This document contains all services and requirements to ensure this repo can run
 
 Required for `@api` , `@content` , and `@web` . Used for analytics feature.
 
-> Create 3 projects respectively for local, preview, and production environments
+> Create 2-3 projects respectively for local, preview, and production environments
 
 
 
@@ -53,13 +53,14 @@ Required for `@api`  and `@web` . Used for billing feature.
 
 
 
-> Create 3 stores respectively for local, preview, and production environments
+> Create 2-3 stores respectively for local, preview, and production environments
 
 
 
 - [ ] Setup webhook
 - URL: `<API_BASE_URL>/billing/webhook` 
 - Events: `order_created` , `order_refunded` 
+> Can use `node -e "console.log(crypto.randomBytes(30).toString('base64').lenth)”` command for generate `LEMONSQUEEZY_WEBHOOK_SIGNING_SECRET`
 
 
 ## Clerk
@@ -69,7 +70,7 @@ Required for `@api` , `@web` , and `@extension` . Used for authentication featur
 
 
 
-- [ ] Use `Clerk's production`  for production and `Clerk's development`  for local and preview environments
+> Use `Clerk's production`  for production and `Clerk's development`  for local and preview environments
 
 
 - [ ] Allow organization feature
@@ -111,7 +112,8 @@ Required for `@api` , `@web` , and `@extension` . Used for authentication featur
 
 Required for `@api`  `@content`  `@web`  `Github Action` . Used for deploying
 
-
+- [ ] Create `dinstack-public-local`, `dinstack-public-preview`, and `dinstack-public-production` R2 buckets respectively for local, preview, and production environments.
+> Use can use `<API_BASE_URL>/public/` for `VITE_PUBLIC_BUCKET_BASE_URL` or use connected domain of R2 bucket for cheaper
 
 - [ ] Ensure you fully prepare the required environment variables contains in the files: `@api/.dev.example.vars` , `@api/.env.example` , `@api/wrangler.toml` , `@web/.env.local` , `@web/.env.preview` , `@web/.env.production` 
 > For example files please duplicate and remove `.example`  in file names.
