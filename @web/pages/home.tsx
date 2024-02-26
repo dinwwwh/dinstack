@@ -24,6 +24,8 @@ export function Component() {
 
         <TestMutation />
 
+        <div className="h-screen"></div>
+
         <TestNotification />
       </div>
     </>

@@ -1,11 +1,13 @@
 import { AuthLayout } from '@web/layouts/auth'
-import { WithRevealMenuLayout } from '@web/layouts/with-reveal-menu'
+import { WithSidebarLayout } from '@web/layouts/with-sidebar'
 import { Route } from 'react-router-dom'
 
 export const routes = (
-  <Route element={<WithRevealMenuLayout />}>
+  <Route>
     <Route element={<AuthLayout />}>
-      <Route path="/" lazy={() => import('../pages/home')} />
+      <Route element={<WithSidebarLayout />}>
+        <Route path="/" lazy={() => import('../pages/home')} />
+      </Route>
 
       <Route path="/extension/sign-in" lazy={() => import('../pages/extension-sign-in')} />
       <Route path="/extension/sign-out" lazy={() => import('../pages/extension-sign-out')} />
