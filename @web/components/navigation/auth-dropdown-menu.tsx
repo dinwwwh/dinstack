@@ -188,7 +188,7 @@ function OrganizationListItem(
             })
         }
       }}
-      className="flex-1 justify-start gap-2 pr-2.5 w-full"
+      className="flex-1 justify-start gap-2 pr-2.5 w-full group"
       disabled={isActive && props.type === 'user'}
       asChild
     >
@@ -225,9 +225,11 @@ function OrganizationListItem(
           </span>
         </div>
         {isActive ? (
-          props.type === 'organization' && <SettingsIcon className="size-4 text-muted-foreground" />
+          props.type === 'organization' && (
+            <SettingsIcon className="size-4 text-muted-foreground group-hover:text-foreground" />
+          )
         ) : (
-          <ArrowDownUpIcon className="size-4 text-muted-foreground" />
+          <ArrowDownUpIcon className="size-4 text-muted-foreground group-hover:text-foreground" />
         )}
       </button>
     </DropdownMenuItem>

@@ -118,7 +118,7 @@ function OrganizationButton() {
       <DropdownMenuTrigger asChild>
         <Button
           type="button"
-          className="flex-1 justify-between w-full overflow-hidden gap-2 pl-0"
+          className="flex-1 justify-between w-full overflow-hidden gap-2 pl-0 group"
           variant={'ghost'}
         >
           {clerkOrganization.organization ? (
@@ -140,10 +140,6 @@ function OrganizationButton() {
                   clerkOrganization.organization.membersCount === 1 ? 'member' : 'members'
                 }`}</span>
               </div>
-
-              <div>
-                <ChevronsUpDownIcon className="h-4 w-4" />
-              </div>
             </>
           ) : (
             <>
@@ -160,11 +156,12 @@ function OrganizationButton() {
                 </span>
                 <span className="text-muted-foreground font-normal text-xs">Personal Only</span>
               </div>
-              <div>
-                <ChevronsUpDownIcon className="h-4 w-4" />
-              </div>
             </>
           )}
+
+          <div>
+            <ChevronsUpDownIcon className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />
+          </div>
         </Button>
       </DropdownMenuTrigger>
     </AuthDropdownMenu>

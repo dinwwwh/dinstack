@@ -44,7 +44,7 @@ function SmallScreenSidebar() {
             <MenuIcon className="h-4 w-4" />
           </Button>
         </SheetTrigger>
-        <SheetContent side={'left'} className="w-[288px]">
+        <SheetContent side={'left'} className="min-w-[280px] min-[360px]:w-[310px]">
           <Sidebar />
         </SheetContent>
       </Sheet>
