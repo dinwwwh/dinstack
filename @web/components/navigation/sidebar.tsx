@@ -1,22 +1,28 @@
 import { Logo } from '../logo'
 import { NotificationButton } from '../notification-button'
+import { SubscriptionCard } from '../subscription-card'
 import { ThemeToggle } from '../theme-toggle'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog'
 import { Skeleton } from '../ui/skeleton'
 import { AuthDropdownMenu } from './auth-dropdown-menu'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
-import { useOrganization, useUser } from '@clerk/clerk-react'
+import { useOrganization } from '@clerk/clerk-react'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button, buttonVariants } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
+import { useLifetimeAccessSubscription } from '@web/hooks/use-lifetime-access-subscription'
 import { useAuthedUser } from '@web/lib/auth'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { env } from '@web/lib/env'
 import { cn } from '@web/lib/utils'
 import {
   ChevronsUpDownIcon,
+  CreditCardIcon,
+  CrownIcon,
   LayoutDashboardIcon,
   MessageCircleQuestionIcon,
+  SearchIcon,
   Settings2Icon,
   Trash2Icon,
   UserRoundIcon,
@@ -58,7 +64,27 @@ export function Sidebar() {
         </DropdownMenuTrigger>
       </LogoDropdownMenu>
 
-      <div className="flex flex-col gap-2 mt-8">
+      <div className="mt-6 space-y-2">
+        <UpgradeButton />
+        <Button
+          variant="outline"
+          className={cn(
+            'p-2.5 relative w-full justify-start bg-background text-sm font-normal text-muted-foreground items-center overflow-hidden',
+          )}
+        >
+          <SearchIcon className="size-4 mr-2 shrink-0" />
+          <div className="flex-1 flex items-center justify-start">
+            <span className="hidden lg:inline-flex">Search documentation...</span>
+            <span className="inline-flex lg:hidden">Search...</span>
+          </div>
+          <kbd className="flex pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
+            <span className="text-xs">⌘</span>K
+          </kbd>
+        </Button>
+      </div>
+
+      <div className="flex flex-col gap-2 mt-6">
+        <h4 className="text-muted-foreground text-sm pb-1 pl-1 invisible @[200px]:visible">Menu</h4>
         {menuItems.map((item) => (
           <Button
             key={item.href}
@@ -67,7 +93,7 @@ export function Sidebar() {
             asChild
           >
             <Link to={item.href}>
-              <item.Icon className="h-4 w-4 mr-2.5 flex-shrink-0" />
+              <item.Icon className="size-4 mr-2.5 flex-shrink-0" />
               <span className="truncate">{item.label}</span>
             </Link>
           </Button>
@@ -96,6 +122,9 @@ export function Sidebar() {
             <MessageCircleQuestionIcon className="size-4" />
           </a>
         </Button>
+        <div className="flex-1 hidden @[200px]:block">
+          <BillingButton />
+        </div>
       </div>
 
       <div className="pt-2">
@@ -160,10 +189,50 @@ function OrganizationButton() {
           )}
 
           <div>
-            <ChevronsUpDownIcon className="h-4 w-4 text-muted-foreground group-hover:text-foreground" />
+            <ChevronsUpDownIcon className="size-4 text-muted-foreground group-hover:text-foreground" />
           </div>
         </Button>
       </DropdownMenuTrigger>
     </AuthDropdownMenu>
+  )
+}
+
+function UpgradeButton() {
+  const subscription = useLifetimeAccessSubscription()
+
+  if (subscription) return null
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="justify-start p-2.5 w-full overflow-hidden">
+          <CrownIcon className="size-4 shrink-0 mr-2.5" />
+          <span>Upgrade Now</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-6xl max-h-screen overflow-auto flex">
+        <ScrollArea className="flex-1 pt-8">
+          <SubscriptionCard />
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function BillingButton() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant={'secondary'} className="justify-start p-2.5 w-full overflow-hidden">
+          <CreditCardIcon className="size-4 shrink-0 mr-2.5" />
+          <span>Billing</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-6xl max-h-screen overflow-auto flex">
+        <ScrollArea className="flex-1 pt-8">
+          <SubscriptionCard />
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
   )
 }

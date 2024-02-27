@@ -1,9 +1,9 @@
 import { MutationStatusIcon } from '../mutation-status-icon'
 import { Badge } from '../ui/badge'
 import { ViewportBlock } from '../viewport-block'
-import { useClerk, useOrganization, useOrganizationList } from '@clerk/clerk-react'
+import type { useOrganization } from '@clerk/clerk-react'
+import { useClerk, useOrganizationList } from '@clerk/clerk-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@web/components/ui/avatar'
-import { Button } from '@web/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,21 +12,11 @@ import {
   DropdownMenuSeparator,
 } from '@web/components/ui/dropdown-menu'
 import { ScrollArea } from '@web/components/ui/scroll-area'
-import { SheetTrigger } from '@web/components/ui/sheet'
 import { Skeleton } from '@web/components/ui/skeleton'
-import { useAuthed, useAuthedUser, useTenant } from '@web/lib/auth'
+import { useAuthed, useAuthedUser } from '@web/lib/auth'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
-import { trpc } from '@web/lib/trpc'
-import {
-  ArrowDownUpIcon,
-  ChevronRightIcon,
-  LogOutIcon,
-  PlusIcon,
-  SettingsIcon,
-  UserRoundIcon,
-} from 'lucide-react'
+import { ArrowDownUpIcon, LogOutIcon, PlusIcon, SettingsIcon, UserRoundIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { match } from 'ts-pattern'
 
 type Props = React.ComponentPropsWithoutRef<typeof DropdownMenu>
@@ -59,8 +49,8 @@ export function AuthDropdownMenu({ children, open = false, onOpenChange, ...prop
         <OrganizationList setOpen={_onOpenChange} />
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <CreateOrganizationDropdownMenuItem setOpen={_onOpenChange} />
-          <ProfileDropdownMenuItem setOpen={_onOpenChange} />
+          <CreateOrganizationDropdownMenuItem />
+          <ProfileDropdownMenuItem />
           <SignOutDropdownMenuItem setOpen={_onOpenChange} />
         </DropdownMenuGroup>
       </DropdownMenuContent>
@@ -146,7 +136,7 @@ function OrganizationListItem(
 
   const isActive = match(props)
     .with({ type: 'organization' }, (props) => auth.orgId === props.organization.id)
-    .with({ type: 'user' }, (props) => !auth.orgId)
+    .with({ type: 'user' }, () => !auth.orgId)
     .exhaustive()
 
   const imageUrl = match(props)
@@ -174,7 +164,7 @@ function OrganizationListItem(
             .setActive({
               organization: match(props)
                 .with({ type: 'organization' }, (props) => props.organization.id)
-                .with({ type: 'user' }, (props) => null)
+                .with({ type: 'user' }, () => null)
                 .exhaustive(),
             })
             .then(() => {
@@ -220,7 +210,7 @@ function OrganizationListItem(
                     props.organization.membersCount === 1 ? 'member' : 'members'
                   }`,
               )
-              .with({ type: 'user' }, (props) => 'Personal Only')
+              .with({ type: 'user' }, () => 'Personal Only')
               .exhaustive()}
           </span>
         </div>
@@ -273,7 +263,7 @@ function SignOutDropdownMenuItem(props: DropdownMenuItemProps) {
   )
 }
 
-function CreateOrganizationDropdownMenuItem(_props: DropdownMenuItemProps) {
+function CreateOrganizationDropdownMenuItem() {
   const clerk = useClerk()
 
   return (
@@ -292,7 +282,7 @@ function CreateOrganizationDropdownMenuItem(_props: DropdownMenuItemProps) {
   )
 }
 
-function ProfileDropdownMenuItem(props: DropdownMenuItemProps) {
+function ProfileDropdownMenuItem() {
   const clerk = useClerk()
 
   return (
