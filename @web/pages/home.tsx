@@ -1,4 +1,3 @@
-import { Header } from '@web/components/navigation/header'
 import { SubscriptionCard } from '@web/components/subscription-card'
 import { Button } from '@web/components/ui/button'
 import { trpc } from '@web/lib/trpc'
@@ -8,14 +7,10 @@ export function Component() {
   return (
     <>
       <Helmet>
-        <title>Home</title>
+        <title>Dinstack</title>
       </Helmet>
 
       <div className="container max-w-5xl">
-        <div className="py-6">
-          <Header />
-        </div>
-
         <section className="mt-6 md:mt-8 xl:mt-12">
           <div className="rounded-2xl border lg:mx-0 ">
             <SubscriptionCard />
@@ -23,6 +18,8 @@ export function Component() {
         </section>
 
         <TestMutation />
+
+        <div className="h-screen"></div>
 
         <TestNotification />
       </div>
