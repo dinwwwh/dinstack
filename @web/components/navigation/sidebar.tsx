@@ -3,7 +3,9 @@ import { NotificationButton } from '../notification-button'
 import { ThemeToggle } from '../theme-toggle'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Skeleton } from '../ui/skeleton'
+import { AuthDropdownMenu } from './auth-dropdown-menu'
 import { LogoDropdownMenu } from './logo-dropdown-menu'
+import { useOrganization, useUser } from '@clerk/clerk-react'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button, buttonVariants } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
@@ -105,39 +107,71 @@ export function Sidebar() {
 }
 
 function OrganizationButton() {
-  return <Skeleton className="h-8 w-full" />
-  // TODO
+  const clerkOrganization = useOrganization()
+  const clerkUser = useUser()
 
-  //   const organization = useAuthedStore().session.organization
+  if (!clerkOrganization.isLoaded || !clerkUser.isLoaded) {
+    return <Skeleton className="h-9 w-full" />
+  }
 
-  //   return (
-  //     <ProfileDropdownMenu>
-  //       <DropdownMenuTrigger asChild>
-  //         <Button
-  //           type="button"
-  //           className="flex-1 justify-between w-full overflow-hidden gap-2 pl-0"
-  //           size={'sm'}
-  //           variant={'ghost'}
-  //         >
-  //           <Avatar className="h-9 w-9 flex-shrink-0">
-  //             <AvatarImage
-  //               alt={organization.name}
-  //               src={constructPublicResourceUrl(organization.logoUrl)}
-  //             />
-  //             <AvatarFallback>{organization.name[0]}</AvatarFallback>
-  //           </Avatar>
-  //           <div className="flex flex-col items-start flex-1 overflow-hidden">
-  //             <span className="truncate w-full text-left font-medium">{organization.name}</span>
-  //             <span className="text-muted-foreground font-normal text-xs">{`${
-  //               organization.members.length
-  //             } ${organization.members.length === 1 ? 'member' : 'members'}`}</span>
-  //           </div>
+  if (!clerkUser.isSignedIn) {
+    throw new Error('This session require user to be authenticated.')
+  }
 
-  //           <div>
-  //             <ChevronsUpDownIcon className="h-4 w-4" />
-  //           </div>
-  //         </Button>
-  //       </DropdownMenuTrigger>
-  //     </ProfileDropdownMenu>
-  //   )
+  return (
+    <AuthDropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          className="flex-1 justify-between w-full overflow-hidden gap-2 pl-0"
+          variant={'ghost'}
+        >
+          {clerkOrganization.organization ? (
+            <>
+              <Avatar className="h-9 w-9 flex-shrink-0 ">
+                <AvatarImage
+                  alt={clerkOrganization.organization.name}
+                  src={constructPublicResourceUrl(clerkOrganization.organization.imageUrl)}
+                />
+                <AvatarFallback>{clerkOrganization.organization.name[0]}</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col items-start flex-1 overflow-hidden">
+                <span className="truncate w-full text-left font-medium">
+                  {clerkOrganization.organization.name}
+                </span>
+                <span className="text-muted-foreground font-normal text-xs">{`${
+                  clerkOrganization.organization.membersCount
+                } ${
+                  clerkOrganization.organization.membersCount === 1 ? 'member' : 'members'
+                }`}</span>
+              </div>
+
+              <div>
+                <ChevronsUpDownIcon className="h-4 w-4" />
+              </div>
+            </>
+          ) : (
+            <>
+              <Avatar className="h-9 w-9 flex-shrink-0">
+                <AvatarImage
+                  alt={clerkUser.user.fullName || ''}
+                  src={constructPublicResourceUrl(clerkUser.user.imageUrl)}
+                />
+                <AvatarFallback>{(clerkUser.user.fullName || '')[0]}</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col items-start flex-1 overflow-hidden">
+                <span className="truncate w-full text-left font-medium">
+                  {clerkUser.user.fullName || ''}
+                </span>
+                <span className="text-muted-foreground font-normal text-xs">Personal Only</span>
+              </div>
+              <div>
+                <ChevronsUpDownIcon className="h-4 w-4" />
+              </div>
+            </>
+          )}
+        </Button>
+      </DropdownMenuTrigger>
+    </AuthDropdownMenu>
+  )
 }

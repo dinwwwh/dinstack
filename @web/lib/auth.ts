@@ -1,3 +1,4 @@
+import type * as _A from '.pnpm/@clerk+types@4.0.0-beta-v5.14/node_modules/@clerk/types'
 import {
   tenantPublicMetadataSchema,
   type Tenant as BaseTenant,
@@ -5,6 +6,14 @@ import {
 } from '@api/lib/tenant'
 import { useAuth, useOrganization, useUser } from '@clerk/clerk-react'
 import { match } from 'ts-pattern'
+
+export function useAuthed() {
+  const auth = useAuth()
+  if (!auth.isLoaded) throw new Error('Something went wrong.')
+  if (!auth.isSignedIn) throw new Error('This session require user to be authenticated.')
+
+  return auth
+}
 
 export function useAuthedUser() {
   const result = useUser()
@@ -24,10 +33,7 @@ export type Tenant = BaseTenant & {
 export function useTenant(): Tenant {
   const { user } = useAuthedUser()
   const { organization } = useOrganization()
-  const auth = useAuth()
-
-  if (!auth.isLoaded) throw new Error('Something went wrong.')
-  if (!auth.userId) throw new Error('This session require user to be authenticated.')
+  const auth = useAuthed()
 
   if (auth.orgId) {
     return {
