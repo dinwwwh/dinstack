@@ -24,7 +24,7 @@ export function SubscriptionCard() {
   const subscription = useLifetimeAccessSubscription()
 
   return (
-    <div>
+    <div className="@container">
       {subscription ? (
         <PaidStatus subscription={subscription} type={tenant.type} />
       ) : (
@@ -46,8 +46,8 @@ function PaidStatus(props: { subscription: Subscription; type: Tenant['type'] })
     .exhaustive()
 
   return (
-    <div className="lg:flex">
-      <div className="p-8 sm:p-10 lg:flex-auto">
+    <div className="@4xl:flex">
+      <div className="p-8 @md:p-10 @4xl:flex-auto">
         <h3 className="text-2xl font-bold tracking-tight">{title}</h3>
         <p className="mt-6 text-base leading-7 text-muted-foreground">
           Enjoying the lifetime Access, which was unlocked on{' '}
@@ -70,7 +70,7 @@ function PaidStatus(props: { subscription: Subscription; type: Tenant['type'] })
         </div>
         <ul
           role="list"
-          className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-muted-foreground sm:grid-cols-2 sm:gap-6"
+          className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-muted-foreground @md:grid-cols-2 @md:gap-6"
         >
           {features.map((feature) => (
             <li key={feature} className="flex gap-x-3">
@@ -96,8 +96,8 @@ function UnpaidStatus(props: { type: Tenant['type'] }) {
     .exhaustive()
 
   return (
-    <div className="lg:flex">
-      <div className="p-8 sm:p-10 lg:flex-auto">
+    <div className="@4xl:flex">
+      <div className="p-8 @md:p-10 @4xl:flex-auto">
         <h3 className="text-2xl font-bold tracking-tight">{title}</h3>
         <p className="mt-6 text-base leading-7 text-muted-foreground">
           Gain exclusive access and receive lifetime support with a{' '}
@@ -118,7 +118,7 @@ function UnpaidStatus(props: { type: Tenant['type'] }) {
         </div>
         <ul
           role="list"
-          className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-muted-foreground sm:grid-cols-2 sm:gap-6"
+          className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-muted-foreground @md:grid-cols-2 @md:gap-6"
         >
           {features.map((feature) => (
             <li key={feature} className="flex gap-x-3">
@@ -128,8 +128,8 @@ function UnpaidStatus(props: { type: Tenant['type'] }) {
           ))}
         </ul>
       </div>
-      <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-        <div className="rounded-xl bg-border/40 py-10 text-center lg:flex lg:flex-col lg:justify-center lg:py-16">
+      <div className="-mt-2 p-2 @4xl:mt-0 @4xl:w-full @4xl:max-w-md @4xl:flex-shrink-0">
+        <div className="rounded-xl bg-border/40 py-10 text-center @4xl:flex @4xl:flex-col @4xl:justify-center @4xl:py-16">
           <div className="mx-auto max-w-xs px-8">
             <p className="text-base font-semibold text-muted-foreground">
               Pay once, own it forever
