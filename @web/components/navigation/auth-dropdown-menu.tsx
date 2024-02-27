@@ -1,4 +1,5 @@
 import { MutationStatusIcon } from '../mutation-status-icon'
+import { Badge } from '../ui/badge'
 import { ViewportBlock } from '../viewport-block'
 import { useClerk, useOrganization, useOrganizationList } from '@clerk/clerk-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@web/components/ui/avatar'
@@ -13,10 +14,17 @@ import {
 import { ScrollArea } from '@web/components/ui/scroll-area'
 import { SheetTrigger } from '@web/components/ui/sheet'
 import { Skeleton } from '@web/components/ui/skeleton'
-import { useAuthed } from '@web/lib/auth'
+import { useAuthed, useAuthedUser, useTenant } from '@web/lib/auth'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { trpc } from '@web/lib/trpc'
-import { ChevronRightIcon, LogOutIcon, PlusIcon, SettingsIcon, UserRoundIcon } from 'lucide-react'
+import {
+  ArrowDownUpIcon,
+  ChevronRightIcon,
+  LogOutIcon,
+  PlusIcon,
+  SettingsIcon,
+  UserRoundIcon,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { match } from 'ts-pattern'
@@ -26,6 +34,7 @@ type OrganizationResource = Exclude<
   ReturnType<typeof useOrganization>['organization'],
   null | undefined
 >
+type UserResource = ReturnType<typeof useAuthedUser>['user']
 
 type DropdownMenuItemProps = {
   setOpen: (open: boolean) => void
@@ -47,11 +56,11 @@ export function AuthDropdownMenu({ children, open = false, onOpenChange, ...prop
     <DropdownMenu open={_open} onOpenChange={_onOpenChange} {...props}>
       {children}
       <DropdownMenuContent className="w-72">
-        <OrganizationList onOpenChange={_onOpenChange} />
+        <OrganizationList setOpen={_onOpenChange} />
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <ProfileDropdownMenuItem setOpen={_onOpenChange} />
           <CreateOrganizationDropdownMenuItem setOpen={_onOpenChange} />
+          <ProfileDropdownMenuItem setOpen={_onOpenChange} />
           <SignOutDropdownMenuItem setOpen={_onOpenChange} />
         </DropdownMenuGroup>
       </DropdownMenuContent>
@@ -59,29 +68,36 @@ export function AuthDropdownMenu({ children, open = false, onOpenChange, ...prop
   )
 }
 
-function OrganizationList({ onOpenChange }: { onOpenChange: (v: boolean) => void }) {
-  const { userMemberships, isLoaded } = useOrganizationList()
-
-  console.log({ userMemberships })
+function OrganizationList(props: DropdownMenuItemProps) {
+  const clerkUser = useAuthedUser()
+  const { userMemberships } = useOrganizationList({
+    userMemberships: {
+      pageSize: 10,
+      infinite: true,
+    },
+  })
 
   return (
     <DropdownMenuGroup>
       <ScrollArea
         style={{
-          height: (userMemberships.count ?? 0) > 4 ? '200px' : 'auto',
+          height: (userMemberships.count ?? 0) > 8 ? '400px' : 'auto',
         }}
       >
         <div className="space-y-2 py-2">
-          {match(isLoaded)
-            .with(false, () => <OrganizationListItemSkeleton />)
-            .with(true, () => {
+          <OrganizationListItem type="user" user={clerkUser.user} {...props} />
+
+          {match(userMemberships)
+            .with({ isLoading: true }, () => <OrganizationListItemSkeleton />)
+            .with({ isLoading: false }, (userMemberships) => {
               return (
                 <>
                   {userMemberships.data?.map((member) => (
                     <OrganizationListItem
                       key={member.organization.id}
+                      type="organization"
                       organization={member.organization}
-                      onSuccess={() => onOpenChange(false)}
+                      {...props}
                     />
                   ))}
 
@@ -102,57 +118,119 @@ function OrganizationList({ onOpenChange }: { onOpenChange: (v: boolean) => void
 function OrganizationListItemSkeleton() {
   return (
     <div className="flex gap-2 pl-2">
-      <Skeleton className="h-9 w-9" />
-      <div className="space-y-1">
+      <Skeleton className="size-9 rounded-full" />
+      <div className="space-y-1.5">
         <Skeleton className="h-4 w-36" />
-        <Skeleton className="h-4 w-16" />
+        <Skeleton className="h-3 w-16" />
       </div>
     </div>
   )
 }
 
-function OrganizationListItem(props: {
-  organization: OrganizationResource
-  onSuccess?: () => void
-  disabled?: boolean
-}) {
+function OrganizationListItem(
+  props: DropdownMenuItemProps &
+    (
+      | {
+          type: 'organization'
+          organization: OrganizationResource
+        }
+      | {
+          type: 'user'
+          user: UserResource
+        }
+    ),
+) {
+  const [activeStatus, setActiveStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const auth = useAuthed()
   const clerk = useClerk()
 
+  const isActive = match(props)
+    .with({ type: 'organization' }, (props) => auth.orgId === props.organization.id)
+    .with({ type: 'user' }, (props) => !auth.orgId)
+    .exhaustive()
+
+  const imageUrl = match(props)
+    .with({ type: 'organization' }, (props) => props.organization.imageUrl)
+    .with({ type: 'user' }, (props) => props.user.imageUrl)
+    .exhaustive()
+
+  const name =
+    match(props)
+      .with({ type: 'organization' }, (props) => props.organization.name)
+      .with({ type: 'user' }, (props) => props.user.fullName)
+      .exhaustive() || ''
+
   return (
-    <div className="flex gap-2 pl-2">
-      <Button
-        type="button"
-        className="flex-1 justify-start gap-2"
-        size={'icon'}
-        variant={'ghost'}
-        onClick={() => {
-          clerk.setActive({
-            organization: props.organization.id,
-          })
-        }}
-      >
-        <div className="h-9 w-9 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
-          <Avatar className="h-9 w-9">
-            <AvatarImage
-              alt={props.organization.name}
-              src={constructPublicResourceUrl(props.organization.imageUrl)}
-            />
-            <AvatarFallback>{props.organization.name[0]}</AvatarFallback>
-          </Avatar>
+    <DropdownMenuItem
+      onClick={(e) => {
+        e.preventDefault()
+
+        if (isActive) {
+          clerk.openOrganizationProfile()
+          props.setOpen(false)
+        } else {
+          setActiveStatus('loading')
+          clerk
+            .setActive({
+              organization: match(props)
+                .with({ type: 'organization' }, (props) => props.organization.id)
+                .with({ type: 'user' }, (props) => null)
+                .exhaustive(),
+            })
+            .then(() => {
+              setActiveStatus('success')
+            })
+            .catch(() => {
+              setActiveStatus('error')
+            })
+            .finally(() => {
+              props.setOpen(false)
+            })
+        }
+      }}
+      className="flex-1 justify-start gap-2 pr-2.5 w-full"
+      disabled={isActive && props.type === 'user'}
+      asChild
+    >
+      <button type="button">
+        <div className="size-9 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+          <MutationStatusIcon status={activeStatus} className="text-muted-foreground">
+            <Avatar className="size-9">
+              <AvatarImage alt={name} src={constructPublicResourceUrl(imageUrl)} />
+              <AvatarFallback>{name[0]}</AvatarFallback>
+            </Avatar>
+          </MutationStatusIcon>
         </div>
 
         <div className="flex flex-col items-start flex-1 overflow-hidden">
-          <span className="truncate w-full text-left font-medium">{props.organization.name}</span>
-          <span className="text-muted-foreground font-normal text-xs">{`${
-            props.organization.membersCount
-          } ${props.organization.membersCount === 1 ? 'member' : 'members'}`}</span>
+          <div className=" w-full flex items-center">
+            <span className="shrink truncate font-medium">{name}</span>
+            {isActive && (
+              <Badge className="ml-2 px-1 py-0 shrink-0" variant={'default'}>
+                Current
+              </Badge>
+            )}
+          </div>
+          <span className="text-muted-foreground font-normal text-xs">
+            {match(props)
+              .with(
+                { type: 'organization' },
+                (props) =>
+                  `${props.organization.membersCount} ${
+                    props.organization.membersCount === 1 ? 'member' : 'members'
+                  }`,
+              )
+              .with({ type: 'user' }, (props) => 'Personal Only')
+              .exhaustive()}
+          </span>
         </div>
-      </Button>
-
-      <Button variant={'ghost'} size={'icon'} className="w-8" onClick={() => props.onSuccess?.()}>
-        <SettingsIcon className="h-4 w-4" />
-      </Button>
-    </div>
+        {isActive ? (
+          props.type === 'organization' && <SettingsIcon className="size-4 text-muted-foreground" />
+        ) : (
+          <ArrowDownUpIcon className="size-4 text-muted-foreground" />
+        )}
+      </button>
+    </DropdownMenuItem>
   )
 }
 
@@ -163,12 +241,10 @@ function SignOutDropdownMenuItem(props: DropdownMenuItemProps) {
   )
 
   return (
-    <Button
-      type="button"
-      variant={'ghost'}
-      size={'default'}
-      className="w-full justify-start font-normal px-2 gap-2"
-      onClick={() => {
+    <DropdownMenuItem
+      onClick={(e) => {
+        e.preventDefault()
+
         setSignOutStatus('loading')
         auth
           .signOut()
@@ -182,32 +258,35 @@ function SignOutDropdownMenuItem(props: DropdownMenuItemProps) {
             props.setOpen(false)
           })
       }}
+      className="gap-2 w-full h-9"
+      asChild
     >
-      <MutationStatusIcon status={logoutStatus}>
-        <LogOutIcon className="h-4 w-4" />
-      </MutationStatusIcon>
-      Sign Out
-    </Button>
+      <button type="button">
+        <MutationStatusIcon status={logoutStatus}>
+          <LogOutIcon className="size-4" />
+        </MutationStatusIcon>
+        Sign Out
+      </button>
+    </DropdownMenuItem>
   )
 }
 
-function CreateOrganizationDropdownMenuItem(props: DropdownMenuItemProps) {
+function CreateOrganizationDropdownMenuItem(_props: DropdownMenuItemProps) {
   const clerk = useClerk()
 
   return (
-    <Button
-      type="button"
-      variant={'ghost'}
-      size={'default'}
-      className="w-full justify-start font-normal px-2"
+    <DropdownMenuItem
       onClick={() => {
         clerk.openCreateOrganization()
-        props.setOpen(false)
       }}
+      className="w-full gap-2 h-9"
+      asChild
     >
-      <PlusIcon className="h-4 w-4 mr-2" />
-      Create Organization
-    </Button>
+      <button type="button">
+        <PlusIcon className="size-4" />
+        Create Organization
+      </button>
+    </DropdownMenuItem>
   )
 }
 
@@ -215,18 +294,17 @@ function ProfileDropdownMenuItem(props: DropdownMenuItemProps) {
   const clerk = useClerk()
 
   return (
-    <Button
-      type="button"
-      variant={'ghost'}
-      size={'default'}
-      className="w-full justify-start font-normal px-2"
+    <DropdownMenuItem
+      className="w-full gap-2 h-9"
       onClick={() => {
         clerk.openUserProfile()
-        props.setOpen(false)
       }}
+      asChild
     >
-      <UserRoundIcon className="h-4 w-4 mr-2" />
-      Profile
-    </Button>
+      <button type="button">
+        <UserRoundIcon className="size-4" />
+        Profile
+      </button>
+    </DropdownMenuItem>
   )
 }

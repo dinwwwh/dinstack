@@ -9,10 +9,10 @@ import { useOrganization, useUser } from '@clerk/clerk-react'
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button, buttonVariants } from '@web/components/ui/button'
 import { ScrollArea } from '@web/components/ui/scroll-area'
+import { useAuthedUser } from '@web/lib/auth'
 import { constructPublicResourceUrl } from '@web/lib/bucket'
 import { env } from '@web/lib/env'
 import { cn } from '@web/lib/utils'
-import { useSystemStore } from '@web/stores/system'
 import {
   ChevronsUpDownIcon,
   LayoutDashboardIcon,
@@ -48,7 +48,6 @@ const menuItems = [
 
 export function Sidebar() {
   const location = useLocation()
-  const systemStore = useSystemStore()
 
   return (
     <div className="flex flex-col h-full @container">
@@ -108,14 +107,10 @@ export function Sidebar() {
 
 function OrganizationButton() {
   const clerkOrganization = useOrganization()
-  const clerkUser = useUser()
+  const clerkUser = useAuthedUser()
 
-  if (!clerkOrganization.isLoaded || !clerkUser.isLoaded) {
+  if (!clerkOrganization.isLoaded) {
     return <Skeleton className="h-9 w-full" />
-  }
-
-  if (!clerkUser.isSignedIn) {
-    throw new Error('This session require user to be authenticated.')
   }
 
   return (
